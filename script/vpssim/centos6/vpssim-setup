@@ -10,7 +10,7 @@ zlibversion=zlib-1.2.11
 pcreVersionInstall=pcre-8.43
 kiemtraemail3="^(([-a-zA-Z0-9\!#\$%\&\'*+/=?^_\`{\|}~])+\.)*[-a-zA-Z0-9\!#\$%\&\'*+/=?^_\`{\|}~]+@\w((-|\w)*\w)*\.(\w((-|\w)*\w)*\.)*\w{2,24}$";
 svip=$(wget http://ipecho.net/plain -O - -q ; echo)
-$phpmacdinh="7.2"
+phpmacdinh="7.2"
 echo "=========================================================================="
 echo "Mac dinh server se duoc cai dat PHP "$phpmacdinh". Neu muon su dung phien ban PHP "
 echo "--------------------------------------------------------------------------"
