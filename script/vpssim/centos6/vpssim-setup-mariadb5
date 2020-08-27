@@ -94,7 +94,7 @@ bash /root/vpssim-setup
 exit
 fi
 prompt="Nhap lua chon cua ban: "
-options=( "MariaDB 10.3" "MariaDB 10.2" "MariaDB 10.1" "MariaDB 10.0" "MariaDB 5.5")
+options=( "MariaDB 10.0 " "MariaDB 5.5")
 echo "=========================================================================="
 echo "Lua Chon Cai Dat Phien Ban MariaDB  "
 echo "=========================================================================="
@@ -102,21 +102,12 @@ PS3="$prompt"
 select opt in "${options[@]}"; do 
 
     case "$REPLY" in
-    1) mariadbversion="10.3"; break;;
-    2) mariadbversion="10.2"; break;;
-    3) mariadbversion="10.1"; break;;
-    4) mariadbversion="10.0"; break;;
-    5) mariadbversion="5.5"; break;;
+    1) mariadbversion="10.0"; break;;
+    2) mariadbversion="5.5"; break;;
     *) echo "Ban nhap sai ! Ban vui long chon so trong danh sach";continue;;
     esac  
 done
-if [ "$mariadbversion" = "10.3" ]; then
-phienbanmariadb=10.3
-elif [ "$mariadbversion" = "10.2" ]; then
-phienbanmariadb=10.2
-elif [ "$mariadbversion" = "10.1" ]; then
-phienbanmariadb=10.1
-elif [ "$mariadbversion" = "10.0" ]; then
+if [ "$mariadbversion" = "10.0" ]; then
 phienbanmariadb=10.0
 else 
 phienbanmariadb=5.5
@@ -286,81 +277,6 @@ cat > "/etc/yum.repos.d/mariadb.repo" <<END
 [mariadb]
 name = MariaDB
 baseurl = http://yum.mariadb.org/10.0/centos6-x86
-gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
-gpgcheck=1
-END
-	fi	
-fi
-
-if [ "$phienbanmariadb" = "10.1" ]; then
-	if [ "$arch" = "x86_64" ]; then
-cat > "/etc/yum.repos.d/mariadb.repo" <<END
-# MariaDB 10.1 CentOS repository list
-# http://downloads.mariadb.org/mariadb/repositories/
-[mariadb]
-name = MariaDB
-baseurl = http://yum.mariadb.org/10.1/centos6-amd64
-gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
-gpgcheck=1
-END
-	fi
-	if [ ! "$arch" = "x86_64" ]; then	
-cat > "/etc/yum.repos.d/mariadb.repo" <<END
-# MariaDB 10.1 CentOS repository list
-# http://downloads.mariadb.org/mariadb/repositories/
-[mariadb]
-name = MariaDB
-baseurl = http://yum.mariadb.org/10.1/centos6-x86
-gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
-gpgcheck=1
-END
-	fi	
-fi
-
-if [ "$phienbanmariadb" = "10.2" ]; then
-	if [ "$arch" = "x86_64" ]; then
-cat > "/etc/yum.repos.d/mariadb.repo" <<END
-# MariaDB 10.2 CentOS repository list
-# http://downloads.mariadb.org/mariadb/repositories/
-[mariadb]
-name = MariaDB
-baseurl = http://yum.mariadb.org/10.2/centos6-amd64
-gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
-gpgcheck=1
-END
-	fi
-	if [ ! "$arch" = "x86_64" ]; then	
-cat > "/etc/yum.repos.d/mariadb.repo" <<END
-# MariaDB 10.2 CentOS repository list
-# http://downloads.mariadb.org/mariadb/repositories/
-[mariadb]
-name = MariaDB
-baseurl = http://yum.mariadb.org/10.2/centos6-x86
-gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
-gpgcheck=1
-END
-	fi	
-fi
-
-if [ "$phienbanmariadb" = "10.3" ]; then
-	if [ "$arch" = "x86_64" ]; then
-cat > "/etc/yum.repos.d/mariadb.repo" <<END
-# MariaDB 10.3 CentOS repository list
-# http://downloads.mariadb.org/mariadb/repositories/
-[mariadb]
-name = MariaDB
-baseurl = http://yum.mariadb.org/10.3/centos6-amd64
-gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
-gpgcheck=1
-END
-	fi
-	if [ ! "$arch" = "x86_64" ]; then	
-cat > "/etc/yum.repos.d/mariadb.repo" <<END
-# MariaDB 10.3 CentOS repository list
-# http://downloads.mariadb.org/mariadb/repositories/
-[mariadb]
-name = MariaDB
-baseurl = http://yum.mariadb.org/10.3/centos6-x86
 gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
 gpgcheck=1
 END
@@ -1332,51 +1248,6 @@ if [ "$phienbanmariadb" = "10.0" ] ; then
 cat >> "/etc/my.cnf.d/server.cnf" <<END
 
 [mariadb-10.0]
-innodb_buffer_pool_dump_at_shutdown=1
-innodb_buffer_pool_load_at_startup=1
-innodb_buffer_pool_populate=0
-performance_schema=OFF
-innodb_stats_on_metadata=OFF
-innodb_sort_buffer_size=1M
-query_cache_strip_comments=0
-log_slow_filter =admin,filesort,filesort_on_disk,full_join,full_scan,query_cache,query_cache_miss,tmp_table,tmp_table_on_disk
-
-END
-fi
-if [ "$phienbanmariadb" = "10.1" ] ; then
-cat >> "/etc/my.cnf.d/server.cnf" <<END
-
-[mariadb-10.1]
-innodb_buffer_pool_dump_at_shutdown=1
-innodb_buffer_pool_load_at_startup=1
-innodb_buffer_pool_populate=0
-performance_schema=OFF
-innodb_stats_on_metadata=OFF
-innodb_sort_buffer_size=1M
-query_cache_strip_comments=0
-log_slow_filter =admin,filesort,filesort_on_disk,full_join,full_scan,query_cache,query_cache_miss,tmp_table,tmp_table_on_disk
-
-END
-fi
-if [ "$phienbanmariadb" = "10.2" ] ; then
-cat >> "/etc/my.cnf.d/server.cnf" <<END
-
-[mariadb-10.2]
-innodb_buffer_pool_dump_at_shutdown=1
-innodb_buffer_pool_load_at_startup=1
-innodb_buffer_pool_populate=0
-performance_schema=OFF
-innodb_stats_on_metadata=OFF
-innodb_sort_buffer_size=1M
-query_cache_strip_comments=0
-log_slow_filter =admin,filesort,filesort_on_disk,full_join,full_scan,query_cache,query_cache_miss,tmp_table,tmp_table_on_disk
-
-END
-fi
-if [ "$phienbanmariadb" = "10.3" ] ; then
-cat >> "/etc/my.cnf.d/server.cnf" <<END
-
-[mariadb-10.3]
 innodb_buffer_pool_dump_at_shutdown=1
 innodb_buffer_pool_load_at_startup=1
 innodb_buffer_pool_populate=0
