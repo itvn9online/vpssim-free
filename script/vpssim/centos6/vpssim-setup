@@ -633,7 +633,7 @@ mv /tmp/nginx.conf /etc/nginx/nginx.conf
 echo "=========================================================================="
 echo "Cai Dat Hoan Tat Nginx "
 echo "=========================================================================="
-exit
+#exit
 
 # End Download init & config file for nginx
 
