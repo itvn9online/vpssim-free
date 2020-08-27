@@ -451,9 +451,8 @@ cd
 echo "=========================================================================="
 echo "Download Nginx Module ... "
 echo "=========================================================================="
-cd /usr/local/vpssim
 
-urlForDownloadNginxModule="https://vpssim.com/script/vpssim/module-nginx/"
+urlForDownloadNginxModule="https://vpssim.echbay.com/script/vpssim/module-nginx/"
 
 sudo yum -y install gcc-c++ pcre-devel zlib-devel
 
@@ -465,8 +464,15 @@ sudo wget -O /etc/yum.repos.d/slc6-devtoolset.repo ${urlForDownloadNginxModule}s
 
 sudo yum -y install devtoolset-2-gcc-c++ devtoolset-2-binutils
 
+if [ ! -d /opt/rh/devtoolset-2/root/usr/bin ]; then
+echo "Khong xac dinh duoc thu muc: /opt/rh/devtoolset-2/root/usr/bin "
+exit
+fi
+
 #
 PS_NGX_EXTRA_FLAGS="--with-cc=/opt/rh/devtoolset-2/root/usr/bin/gcc"
+
+cd /usr/local/vpssim
 
 # /usr/local/vpssim/echo-nginx-module
 rm -rf echo-nginx-module*
