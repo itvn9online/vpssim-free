@@ -1,0 +1,97 @@
+#!/bin/sh
+if [ $(id -u) != "0" ]; then
+    echo "Co loi: Ban phai dang nhap bang user root!"
+    exit
+fi
+if [ -f /var/cpanel/cpanel.config ]; then
+echo "Server cua ban da cai san WHM/Cpanel, neu ban muon dung VPSSIM"
+echo "Hay cai moi lai he dieu hanh, khuyen dung centos6 - 64bit"
+echo "Chao tam biet !"
+exit
+fi
+
+if [ -f /etc/psa/.psa.shadow ]; then
+echo "Server cua ban da cai san Plesk, neu ban muon dung VPSSIM"
+echo "Hay cai moi lai he dieu hanh, khuyen dung centos6 - 64bit"
+echo "Chao tam biet !"
+exit
+fi
+
+if [ -f /etc/init.d/directadmin ]; then
+echo "Server cua ban da cai san DirectAdmin, neu ban muon dung VPSSIM"
+echo "Hay cai moi lai he dieu hanh, khuyen dung centos6 - 64bit"
+echo "Chao tam biet !"
+exit
+fi
+
+if [ -f /etc/init.d/webmin ]; then
+echo "Server cua ban da cai san webmin, neu ban muon dung VPSSIM"
+echo "Hay cai moi lai he dieu hanh, khuyen dung centos6 - 64bit"
+echo "Chao tam biet !"
+exit
+fi
+
+if [ -f /home/vpssim.conf ]; then
+clear
+echo "========================================================================="
+echo "========================================================================="
+echo "Server/VPS cua ban da cai san VPSSIM"
+echo "Hay su dung lenh vpssim de truy cap VPSSIM menu"
+echo "Chao tam biet !"
+echo "========================================================================="
+echo "========================================================================="
+rm -rf install*
+exit
+fi
+
+if [ -f /etc/yum.repos.d/epel.repo ]; then
+sudo sed -i "s/mirrorlist=https/mirrorlist=http/" /etc/yum.repos.d/epel.repo
+fi
+wget -q https://vpssim.echbay.com/script/vpssim/calc -O /bin/calc && chmod +x /bin/calc
+yum -y install psmisc bc gawk gcc
+yum -y -q install virt-what unzip sudo net-tools iproute iproute2 curl deltarpm yum-utils tar
+clear  
+rm -rf /root/vpssim*
+
+prompt="Nhap lua chon cua ban: "
+options=("Tieng Viet" "Tieng Anh" "Huy Bo")
+echo "========================================================================="
+echo "VPSSIM Ho Tro Centos 6 (32 - 64 Bit) & Centos 7"
+echo "-------------------------------------------------------------------------"
+echo "Ban nen su dung Centos 6 - 64 bit de Server co hieu suat tot nhat."
+echo "-------------------------------------------------------------------------"
+echo "VPSSIM ho tro 2 ngon ngu: Tieng Anh va Tieng Viet. "
+echo "-------------------------------------------------------------------------"
+echo "Trong qua trinh su dung, ban co the thay doi ngon ngu ngon ngu bang chuc "
+echo "-------------------------------------------------------------------------"
+echo "nang [ Change VPSSIM Language ] trong [ Update System ]."
+echo "========================================================================="
+echo "                     Chon Ngon Ngu Cho VPSSIM"
+echo "========================================================================="
+  
+PS3="$prompt"
+select opt in "${options[@]}"; do 
+
+    case "$REPLY" in
+    1) yourlanguage="vietnamese"; break;;
+    2) yourlanguage="english"; break;;
+    3) yourlanguage="Cancel"; break;;
+    *) echo "Ban nhap sai, vui long nhap theo so thu tu trong danh sach";continue;;
+    esac  
+done
+
+if [ "$yourlanguage" = "english" ]; then
+echo "----------------------------------------------------------------------------"
+echo "Please wait ..."
+sleep 2
+#wget -q --no-check-certificate https://vpssim.com/script/vpssim/centos$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))/vpssim-setup && chmod +x vpssim-setup && clear && ./vpssim-setup
+wget -q --no-check-certificate https://vpssim.echbay.com/script/vpssim/centos$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))/vpssim-setup && chmod +x vpssim-setup && clear && ./vpssim-setup
+elif [ "$yourlanguage" = "vietnamese" ]; then
+echo "----------------------------------------------------------------------------"
+echo "Please wait ..."
+sleep 2
+wget -q --no-check-certificate https://vpssim.echbay.com/script/vpssim/centos$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))/vpssim-setup && chmod +x vpssim-setup && clear && ./vpssim-setup
+else 
+rm -rf /root/install* && rm -rf /root/vpssim* && clear
+fi
+ 
