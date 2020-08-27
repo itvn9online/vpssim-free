@@ -608,7 +608,8 @@ mv /tmp/nginx.conf /etc/nginx/nginx.conf
 ############################
 yum -y install exim syslog-ng cronie cronie-anacron
 yum -y install MariaDB-client MariaDB-common MariaDB-compat MariaDB-devel MariaDB-server MariaDB-shared perl-DBD-MySQL
-yum-config-manager --enable remi-php56
+#yum-config-manager --enable remi-php56
+yum-config-manager --enable remi-php72
 yum -y install php php-curl php-soap php-cli php-snmp php-pspell redis php-pecl-redis php-gmp php-ldap php-bcmath php-intl php-imap perl-libwww-perl perl-LWP-Protocol-https php-pear-Net-SMTP php-enchant php-common php-fpm php-gd php-devel php-mysql php-pear php-pecl-memcached php-pecl-memcache php-opcache php-pdo php-zlib php-xml php-mbstring php-mcrypt php-xmlrpc php-tidy
 yum -y install memcached 
 yum -y install ImageMagick ImageMagick-devel ImageMagick-c++ ImageMagick-c++-devel
