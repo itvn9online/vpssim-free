@@ -533,37 +533,44 @@ tar -xzxf ngx_http_redis-0.3.8.tar.gz
 rm -rf ngx_http_redis-0.3.8.tar.gz
 # /usr/local/vpssim/redis2-nginx-module
 rm -rf redis2-nginx-module*
-wget --no-check-certificate https://vpssim.echbay.com/script/vpssim/module-nginx/redis2-nginx-module.zip
+#wget --no-check-certificate https://vpssim.echbay.com/script/vpssim/module-nginx/redis2-nginx-module.zip
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/module-nginx/redis2-nginx-module.zip redis2-nginx-module.zip
 unzip -oq redis2-nginx-module.zip
 rm -rf redis2-nginx-module.zip
 # /usr/local/vpssim/set-misc-nginx-module
 rm -rf set-misc-nginx-module*
-wget --no-check-certificate https://vpssim.echbay.com/script/vpssim/module-nginx/set-misc-nginx-module.zip
+#wget --no-check-certificate https://vpssim.echbay.com/script/vpssim/module-nginx/set-misc-nginx-module.zip
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/module-nginx/set-misc-nginx-module.zip set-misc-nginx-module.zip
 unzip -oq set-misc-nginx-module.zip
 rm -rf set-misc-nginx-module.zip
 # /usr/local/vpssim/ngx_devel_kit
 rm -rf ngx_devel_kit*
-wget --no-check-certificate https://vpssim.echbay.com/script/vpssim/module-nginx/ngx_devel_kit.zip
+#wget --no-check-certificate https://vpssim.echbay.com/script/vpssim/module-nginx/ngx_devel_kit.zip
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/module-nginx/ngx_devel_kit.zip ngx_devel_kit.zip
 unzip -oq ngx_devel_kit.zip
 rm -rf ngx_devel_kit.zip
 # /usr/local/vpssim/ngx_http_concat
 rm -rf ngx_http_concat
-wget -q --no-check-certificate https://vpssim.echbay.com/script/vpssim/module-nginx/ngx_http_concat.tar.gz
+#wget -q --no-check-certificate https://vpssim.echbay.com/script/vpssim/module-nginx/ngx_http_concat.tar.gz
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/module-nginx/ngx_http_concat.tar.gz ngx_http_concat.tar.gz
 tar -xzxf ngx_http_concat.tar.gz
 rm -rf ngx_http_concat.tar.gz
 # /usr/local/vpssim/srcache-nginx-module
 rm -rf srcache-nginx-module*
-wget --no-check-certificate https://vpssim.echbay.com/script/vpssim/module-nginx/srcache-nginx-module.zip
+#wget --no-check-certificate https://vpssim.echbay.com/script/vpssim/module-nginx/srcache-nginx-module.zip
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/module-nginx/srcache-nginx-module.zip srcache-nginx-module.zip
 unzip -oq srcache-nginx-module.zip
 rm -rf srcache-nginx-module.zip
 # /usr/local/vpssim/memc-nginx-module
 rm -rf memc-nginx-module*
-wget --no-check-certificate https://vpssim.echbay.com/script/vpssim/module-nginx/memc-nginx-module.zip
+#wget --no-check-certificate https://vpssim.echbay.com/script/vpssim/module-nginx/memc-nginx-module.zip
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/module-nginx/memc-nginx-module.zip memc-nginx-module.zip
 unzip -oq memc-nginx-module.zip
 rm -rf memc-nginx-module.zip
 # /usr/local/vpssim/libatomic_ops-master
 rm -rf libatomic_ops*
-wget --no-check-certificate https://vpssim.echbay.com/script/vpssim/module-nginx/libatomic_ops.zip
+#wget --no-check-certificate https://vpssim.echbay.com/script/vpssim/module-nginx/libatomic_ops.zip
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/module-nginx/libatomic_ops.zip libatomic_ops.zip
 unzip -oq libatomic_ops.zip
 rm -rf libatomic_ops.zip
 # /usr/local/vpssim/nginx-module-vts-master
@@ -633,7 +640,8 @@ make install
 # Download init & config file for nginx
 rm -f /etc/init.d/nginx
 download_initd_nginx () {
-wget --no-check-certificate -q https://vpssim.echbay.com/script/vpssim/nginx -O /etc/init.d/nginx && chmod +x /etc/init.d/nginx
+#wget --no-check-certificate -q https://vpssim.echbay.com/script/vpssim/nginx -O /etc/init.d/nginx && chmod +x /etc/init.d/nginx
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/nginx /etc/init.d/nginx && chmod +x /etc/init.d/nginx
 }
 download_initd_nginx
 checkdownload_initd_nginx=`cat /etc/init.d/nginx`
@@ -700,7 +708,8 @@ service syslog-ng start
 mkdir -p /home/vpssim.demo/public_html
 cd /home/vpssim.demo/public_html
 #wget https://vpssim.echbay.com/script/vpssim/robots.txt
-wget --no-check-certificate -q https://vpssim.echbay.com/script/vpssim/html/install/vietnam/index.html
+#wget --no-check-certificate -q https://vpssim.echbay.com/script/vpssim/html/install/vietnam/index.html
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/html/install/vietnam/index.html index.html
 cd
 mkdir /home/vpssim.demo/private_html
 mkdir /home/vpssim.demo/logs
@@ -1116,7 +1125,8 @@ ldap.max_links = -1
 
 END
 if [ ! -d /home/0-VPSSIM-SHORTCUT ];then
-wget --no-check-certificate -q https://vpssim.echbay.com/script/vpssim/check-imagick.php.zip -O /home/vpssim.demo/private_html/check-imagick.php
+#wget --no-check-certificate -q https://vpssim.echbay.com/script/vpssim/check-imagick.php.zip -O /home/vpssim.demo/private_html/check-imagick.php
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/check-imagick.php.zip /home/vpssim.demo/private_html/check-imagick.php
 mkdir -p /home/0-VPSSIM-SHORTCUT
 mkdir -p /home/vpssim.demo/private_html/backup
 ln -s /home/vpssim.demo/private_html/backup /home/0-VPSSIM-SHORTCUT/Backup\ \(Website\ +\ Database\)
@@ -1476,7 +1486,8 @@ rm -f /var/lib/mysql/ibdata1
 # Download mysql_secure_installation
 rm -f /bin/mysql_secure_installation
 download_mysql_secure_installation () {
-wget --no-check-certificate -q https://vpssim.echbay.com/script/vpssim/mysql_secure_installation -O /bin/mysql_secure_installation && chmod +x /bin/mysql_secure_installation
+#wget --no-check-certificate -q https://vpssim.echbay.com/script/vpssim/mysql_secure_installation -O /bin/mysql_secure_installation && chmod +x /bin/mysql_secure_installation
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/mysql_secure_installation /bin/mysql_secure_installation && chmod +x /bin/mysql_secure_installation
 }
 download_mysql_secure_installation
 checkmysql_secure_installation=`cat /bin/mysql_secure_installation`
@@ -1485,7 +1496,8 @@ download_mysql_secure_installation
 fi
 
 
-wget --no-check-certificate -q https://vpssim.echbay.com/script/vpssim/Softwear/wp-cli.phar
+#wget --no-check-certificate -q https://vpssim.echbay.com/script/vpssim/Softwear/wp-cli.phar
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/Softwear/wp-cli.phar wp-cli.phar
 chmod +x wp-cli.phar
 mv wp-cli.phar /usr/local/bin/wp
 #clear
@@ -1503,8 +1515,10 @@ echo "Cai dat phpMyAdmin... "
 echo "=========================================================================="
 sleep 2
 cd /home/vpssim.demo/private_html/
-wget -q https://gist.github.com/ck-on/4959032/raw/0b871b345fd6cfcd6d2be030c1f33d1ad6a475cb/ocp.php
-wget --no-check-certificate -q https://vpssim.echbay.com/script/vpssim/memcache.php.zip -O /home/vpssim.demo/private_html/memcache.php
+#wget -q https://gist.github.com/ck-on/4959032/raw/0b871b345fd6cfcd6d2be030c1f33d1ad6a475cb/ocp.php
+wget -q https://gist.githubusercontent.com/ck-on/4959032/raw/0b871b345fd6cfcd6d2be030c1f33d1ad6a475cb/ocp.php
+#wget --no-check-certificate -q https://vpssim.echbay.com/script/vpssim/memcache.php.zip -O /home/vpssim.demo/private_html/memcache.php
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/memcache.php.zip /home/vpssim.demo/private_html/memcache.php
 wget -q https://files.phpmyadmin.net/phpMyAdmin/${phpmyadmin_version}/phpMyAdmin-${phpmyadmin_version}-all-languages.zip
 unzip -q phpMyAdmin-*.zip
 yes | cp -rf phpMyAdmin-*/* .
@@ -1520,10 +1534,12 @@ echo "==========================================================================
 echo "Dang Tao VPSSIM Menu...... "
 echo "=========================================================================="
 rm -rf /etc/motd
-wget --no-check-certificate -q https://vpssim.echbay.com/script/vpssim/motd -O /etc/motd
+#wget --no-check-certificate -q https://vpssim.echbay.com/script/vpssim/motd -O /etc/motd
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/motd /etc/motd
 # Download vpssim_main_menu
 download_vpssim_main_menu () {
-wget --no-check-certificate -q https://vpssim.echbay.com/script/vpssim/vpssim -O /bin/vpssim && chmod +x /bin/vpssim
+#wget --no-check-certificate -q https://vpssim.echbay.com/script/vpssim/vpssim -O /bin/vpssim && chmod +x /bin/vpssim
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/vpssim /bin/vpssim && chmod +x /bin/vpssim
 }
 download_vpssim_main_menu
 checkvpssim_main_menu=`cat /bin/vpssim`
@@ -1533,19 +1549,21 @@ fi
 cd /etc/vpssim/
 # Download VPSSIM data
 download_vpssim_data () {
-rm -rf menu.zip
-wget --no-check-certificate -q https://vpssim.echbay.com/script/vpssim/menu.zip
-unzip -q menu.zip
-rm -rf menu.zip
+#rm -rf menu.zip
+#wget --no-check-certificate -q https://vpssim.echbay.com/script/vpssim/menu.zip
+#unzip -q menu.zip
+#rm -rf menu.zip
+yes | cp -rf /opt/echbay_vpssim/unzip/menu/. /etc/vpssim/
 }
 download_vpssim_data
 if [ ! -f /etc/vpssim/menu/vpssim-tien-ich ]; then
 download_vpssim_data
 fi
-wget --no-check-certificate -q https://vpssim.echbay.com/script/vpssim/errorpage_html.zip
-unzip -q errorpage_html.zip
-rm -rf errorpage_html.zip
-cp -r /etc/vpssim/errorpage_html /home/vpssim.demo/
+#wget --no-check-certificate -q https://vpssim.echbay.com/script/vpssim/errorpage_html.zip
+#unzip -q errorpage_html.zip
+#rm -rf errorpage_html.zip
+#cp -r /etc/vpssim/errorpage_html /home/vpssim.demo/
+yes | cp -rf /opt/echbay_vpssim/unzip/errorpage_html/. /home/vpssim.demo/
 cd
 # Chmod 755 Menu
 find /etc/vpssim/menu -type f -exec chmod 755 {} \;
@@ -1562,10 +1580,12 @@ find /etc/vpssim/menu/tienich -type f -exec chmod 755 {} \;
 # Download /etc/nginx/conf
 cd /etc/nginx/
 download_etc_nginx_conf () {
-rm -rf conf.zip
-wget --no-check-certificate -q https://vpssim.echbay.com/script/vpssim/conf.zip
-unzip -q conf.zip
-rm -rf conf.zip
+#rm -rf conf.zip
+#wget --no-check-certificate -q https://vpssim.echbay.com/script/vpssim/conf.zip
+#zip -r conf.zip /opt/echbay_vpssim/unzip/conf/*
+#unzip -q conf.zip
+#rm -rf conf.zip
+yes | cp -rf /opt/echbay_vpssim/unzip/conf/. /etc/nginx/
 }
 download_etc_nginx_conf
 if [ ! -f /etc/nginx/conf/staticfiles.conf ]; then
@@ -1592,7 +1612,8 @@ cat > "/etc/vpssim/pwprotect.default" <<END
 userdefault="$usernamebv"
 passdefault="$matkhaubv"
 END
-wget --no-check-certificate -q https://vpssim.echbay.com/script/vpssim/Softwear/status.zip -O /home/vpssim.demo/public_html/status.php
+#wget --no-check-certificate -q https://vpssim.echbay.com/script/vpssim/Softwear/status.zip -O /home/vpssim.demo/public_html/status.php
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/Softwear/status.zip /home/vpssim.demo/public_html/status.php
 rm -rf /etc/vpssim/defaulpassword.php
 cat > "/etc/vpssim/defaulpassword.php" <<END
 <?php
