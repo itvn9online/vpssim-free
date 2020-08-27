@@ -574,23 +574,21 @@ cd /usr/local/vpssim/nginx-${Nginx_VERSION}
 --with-google_perftools_module \
 --with-debug \
 --with-openssl=$moduledir/${opensslversion} \
---with-openssl-opt="enable-tlsext" \
 --with-zlib=$moduledir/${zlibversion} \
+--with-openssl-opt="enable-tlsext" \
 --with-http_realip_module \
 --with-http_stub_status_module \
---with-cc=/opt/rh/devtoolset-2/root/usr/bin/gcc \
---add-module=$moduledir/ngx_http_concat \
---add-module=$moduledir/ngx_cache_purge-master \
 --add-module=$moduledir/ngx_devel_kit-master \
+--add-module=$moduledir/echo-nginx-module-master \
+--add-module=$moduledir/memc-nginx-module-master \
 --add-module=$moduledir/set-misc-nginx-module-master \
 --add-module=$moduledir/srcache-nginx-module-master \
+--add-module=$moduledir/ngx_http_concat \
 --add-module=$moduledir/ngx_http_substitutions_filter_module-master \
+--add-module=$moduledir/ngx_cache_purge-master \
 --add-module=$moduledir/headers-more-nginx-module-master \
---add-module=$moduledir/ngx_http_redis-0.3.8
-# cac module bi loi khi cai voi nginx
-#--add-module=$moduledir/redis2-nginx-module-master \
-#--add-module=$moduledir/echo-nginx-module-master \
-#--add-module=$moduledir/memc-nginx-module-master \
+--add-module=$moduledir/redis2-nginx-module-master \
+--add-module=$moduledir/ngx_http_redis-0.3.8 
 make
 make install
 ############################
@@ -614,7 +612,7 @@ yum -y install MariaDB-client MariaDB-common MariaDB-compat MariaDB-devel MariaD
 #yum-config-manager --enable remi-php56
 yum-config-manager --enable remi-php72
 yum -y install php php-curl php-soap php-cli php-snmp php-pspell redis php-pecl-redis php-gmp php-ldap php-bcmath php-intl php-imap perl-libwww-perl perl-LWP-Protocol-https php-pear-Net-SMTP php-enchant php-common php-fpm php-gd php-devel php-mysql php-pear php-pecl-memcached php-pecl-memcache php-opcache php-pdo php-zlib php-xml php-mbstring php-mcrypt php-xmlrpc php-tidy
-#yum -y install memcached 
+yum -y install memcached 
 yum -y install ImageMagick ImageMagick-devel ImageMagick-c++ ImageMagick-c++-devel
 yes "" | pecl install imagick
 echo "extension=imagick.so" > /etc/php.d/imagick.ini
@@ -663,6 +661,15 @@ chmod 777 /home/vpssim.demo/logs
 mkdir -p /var/log/nginx
 chown -R nginx:nginx /var/log/nginx
 chown -R nginx:nginx /var/lib/php/session
+
+rm -rf /etc/sysconfig/memcached
+cat > "/etc/sysconfig/memcached" <<END
+PORT="11211"
+USER="memcached"
+MAXCONN="10024"
+CACHESIZE="20"
+OPTIONS=""
+END
 
 rm -rf /etc/nginx/conf.d
 mkdir -p /etc/nginx/conf.d
@@ -1571,13 +1578,13 @@ iptables -I INPUT -p tcp --dport 11211 -j ACCEPT
 service iptables save
 fi
 clear
-#echo "=========================================================================="
-#echo "Setup CSF Firewall ... "
-#echo "=========================================================================="
+echo "=========================================================================="
+echo "Setup CSF Firewall ... "
+echo "=========================================================================="
 sleep 3
-#/etc/vpssim/menu/vpssim-cai-csf-firewall-cai-dat-CSF-FIREWALL
-#chkconfig memcached on
-#service memcached start
+/etc/vpssim/menu/vpssim-cai-csf-firewall-cai-dat-CSF-FIREWALL
+chkconfig memcached on
+service memcached start
 rm -rf /root/install*
 rm -rf /root/vpssim-setup
 cat >> "/home/VPSSIM-manage-info.txt" <<END
