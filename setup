@@ -47,7 +47,8 @@ fi
 if [ -f /etc/yum.repos.d/epel.repo ]; then
 sudo sed -i "s/mirrorlist=https/mirrorlist=http/" /etc/yum.repos.d/epel.repo
 fi
-wget -q https://vpssim.echbay.com/script/vpssim/calc -O /bin/calc && chmod +x /bin/calc
+#wget -q https://vpssim.echbay.com/script/vpssim/calc -O /bin/calc && chmod +x /bin/calc
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/calc /bin/calc && chmod +x /bin/calc
 yum -y install psmisc bc gawk gcc
 yum -y -q install virt-what unzip sudo net-tools iproute iproute2 curl deltarpm yum-utils tar
 clear  
@@ -80,17 +81,22 @@ select opt in "${options[@]}"; do
     esac  
 done
 
+current_os_version=$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))
+#echo $current_os_version
+
 if [ "$yourlanguage" = "english" ]; then
 echo "----------------------------------------------------------------------------"
 echo "Please wait ..."
 sleep 2
-#wget -q --no-check-certificate https://vpssim.com/script/vpssim/centos$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))/vpssim-setup && chmod +x vpssim-setup && clear && ./vpssim-setup
-wget -q --no-check-certificate https://vpssim.echbay.com/script/vpssim/centos$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))/vpssim-setup && chmod +x vpssim-setup && clear && ./vpssim-setup
+#wget -q --no-check-certificate https://vpssim.com/script/vpssim/centos${current_os_version}/vpssim-setup && chmod +x vpssim-setup && clear && ./vpssim-setup
+#wget -q --no-check-certificate https://vpssim.echbay.com/script/vpssim/centos${current_os_version}/vpssim-setup && chmod +x vpssim-setup && clear && ./vpssim-setup
+cd /opt/echbay_vpssim/script/vpssim/centos${current_os_version} ; chmod +x vpssim-setup ; clear ; bash vpssim-setup
 elif [ "$yourlanguage" = "vietnamese" ]; then
 echo "----------------------------------------------------------------------------"
 echo "Please wait ..."
 sleep 2
-wget -q --no-check-certificate https://vpssim.echbay.com/script/vpssim/centos$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))/vpssim-setup && chmod +x vpssim-setup && clear && ./vpssim-setup
+#wget -q --no-check-certificate https://vpssim.echbay.com/script/vpssim/centos${current_os_version}/vpssim-setup && chmod +x vpssim-setup && clear && ./vpssim-setup
+cd /opt/echbay_vpssim/script/vpssim/centos${current_os_version} ; chmod +x vpssim-setup ; clear ; bash vpssim-setup
 else 
 rm -rf /root/install* && rm -rf /root/vpssim* && clear
 fi

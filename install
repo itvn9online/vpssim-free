@@ -7,5 +7,4 @@ fi
 yum -y install git
 git clone https://github.com/itvn9online/vpssim-free /opt/echbay_vpssim
 
-cd /opt/echbay_vpssim
-chmod +x setup ; bash setup
+cd /opt/echbay_vpssim ; chmod +x setup ; bash setup

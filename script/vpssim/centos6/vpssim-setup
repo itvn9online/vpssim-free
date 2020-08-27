@@ -162,7 +162,8 @@ rm -rf vpssim.newversion
 rm -rf 00-all-phpmyadmin-version.txt
 ###########################
 download_version_nginx () {
-wget --no-check-certificate -q https://vpssim.echbay.com/script/vpssim/00-all-nginx-version.txt
+#wget --no-check-certificate -q https://vpssim.echbay.com/script/vpssim/00-all-nginx-version.txt
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/00-all-nginx-version.txt 00-all-nginx-version.txt
 }
 download_version_nginx
 checkdownload_version_nginx=`cat /tmp/00-all-nginx-version.txt`
@@ -171,7 +172,8 @@ download_version_nginx
 fi
 ###########################
 download_version_phpmyadmin () {
-wget --no-check-certificate -q https://vpssim.echbay.com/script/vpssim/00-all-phpmyadmin-version.txt
+#wget --no-check-certificate -q https://vpssim.echbay.com/script/vpssim/00-all-phpmyadmin-version.txt
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/00-all-phpmyadmin-version.txt 00-all-phpmyadmin-version.txt
 }
 download_version_phpmyadmin
 checkdownload_version_phpmyadmin=`cat /tmp/00-all-phpmyadmin-version.txt`
@@ -180,7 +182,8 @@ download_version_phpmyadmin
 fi
 ###########################
 download_version_vpssim () {
-wget -q --no-check-certificate https://vpssim.echbay.com/script/vpssim/vpssim.newversion
+#wget -q --no-check-certificate https://vpssim.echbay.com/script/vpssim/vpssim.newversion
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/vpssim.newversion vpssim.newversion
 }
 download_version_vpssim
 checkdownload_version_vpssim=`cat /tmp/vpssim.newversion`
@@ -240,7 +243,8 @@ rm -rf /root/install && bash /root/vpssim-setup
 exit
 fi
 download_nginx_conf () {
-wget --no-check-certificate -q https://vpssim.echbay.com/script/vpssim/nginx.conf -O /tmp/nginx.conf
+#wget --no-check-certificate -q https://vpssim.echbay.com/script/vpssim/nginx.conf -O /tmp/nginx.conf
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/nginx.conf /tmp/nginx.conf
 }
 download_nginx_conf
 checkdownload_nginx_conf=`cat /tmp/nginx.conf`
@@ -457,10 +461,12 @@ urlForDownloadNginxModule="https://vpssim.echbay.com/script/vpssim/module-nginx/
 sudo yum -y install gcc-c++ pcre-devel zlib-devel
 
 #sudo rpm --import https://linux.web.cern.ch/linux/scientific6/docs/repository/cern/slc6X/i386/RPM-GPG-KEY-cern
-sudo rpm --import ${urlForDownloadNginxModule}RPM-GPG-KEY-cern
+#sudo rpm --import ${urlForDownloadNginxModule}RPM-GPG-KEY-cern
+sudo rpm --import /opt/echbay_vpssim/script/vpssim/module-nginx/RPM-GPG-KEY-cern
 
 #sudo wget -O /etc/yum.repos.d/slc6-devtoolset.repo https://linux.web.cern.ch/linux/scientific6/docs/repository/cern/devtoolset/slc6-devtoolset.repo
-sudo wget -O /etc/yum.repos.d/slc6-devtoolset.repo ${urlForDownloadNginxModule}slc6-devtoolset.repo
+#sudo wget -O /etc/yum.repos.d/slc6-devtoolset.repo ${urlForDownloadNginxModule}slc6-devtoolset.repo
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/module-nginx/slc6-devtoolset.repo /etc/yum.repos.d/slc6-devtoolset.repo
 
 sudo yum -y install devtoolset-2-gcc-c++ devtoolset-2-binutils
 
@@ -476,45 +482,53 @@ cd /usr/local/vpssim
 
 # /usr/local/vpssim/echo-nginx-module
 rm -rf echo-nginx-module*
-wget --no-check-certificate https://vpssim.echbay.com/script/vpssim/module-nginx/echo-nginx-module.zip
+#wget --no-check-certificate https://vpssim.echbay.com/script/vpssim/module-nginx/echo-nginx-module.zip
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/module-nginx/echo-nginx-module.zip echo-nginx-module.zip
 unzip -oq echo-nginx-module.zip
 rm -rf echo-nginx-module.zip
 # /usr/local/vpssim/ngx_http_substitutions_filter_module
 rm -rf ngx_http_substitutions_filter_module*
-wget --no-check-certificate https://vpssim.echbay.com/script/vpssim/module-nginx/ngx_http_substitutions_filter_module.zip
+#wget --no-check-certificate https://vpssim.echbay.com/script/vpssim/module-nginx/ngx_http_substitutions_filter_module.zip
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/module-nginx/ngx_http_substitutions_filter_module.zip ngx_http_substitutions_filter_module.zip
 unzip -oq ngx_http_substitutions_filter_module.zip
 rm -rf ngx_http_substitutions_filter_module.zip
 # /usr/local/vpssim/ngx_cache_purge-master
 rm -rf ngx_cache_purge*
-wget --no-check-certificate https://vpssim.echbay.com/script/vpssim/module-nginx/ngx_cache_purge.zip
+#wget --no-check-certificate https://vpssim.echbay.com/script/vpssim/module-nginx/ngx_cache_purge.zip
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/module-nginx/ngx_cache_purge.zip ngx_cache_purge.zip
 unzip -oq ngx_cache_purge.zip
 
 rm -rf ngx_cache_purge.zip
 # /usr/local/vpssim/headers-more-nginx-module
 rm -rf headers-more-nginx-module*
-wget --no-check-certificate https://vpssim.echbay.com/script/vpssim/module-nginx/headers-more-nginx-module.zip
+#wget --no-check-certificate https://vpssim.echbay.com/script/vpssim/module-nginx/headers-more-nginx-module.zip
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/module-nginx/headers-more-nginx-module.zip headers-more-nginx-module.zip
 unzip -oq headers-more-nginx-module.zip
 rm -rf headers-more-nginx-module.zip
 # /usr/local/vpssim/openssl-1.0.2h
 rm -rf ${opensslversion}
 #wget -q --no-check-certificate https://vpssim.com/script/vpssim/module-nginx/${opensslversion}.tar.gz
-wget -q --no-check-certificate https://www.openssl.org/source/${opensslversion}.tar.gz
+#wget -q --no-check-certificate https://www.openssl.org/source/${opensslversion}.tar.gz
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/module-nginx/${opensslversion}.tar.gz ${opensslversion}.tar.gz
 tar -xzxf ${opensslversion}.tar.gz
 rm -rf ${opensslversion}.tar.gz
 # $moduledir/${zlibversion}
 rm -rf ${zlibversion}
 #wget -q --no-check-certificate https://vpssim.echbay.com/script/vpssim/module-nginx/${zlibversion}.tar.gz
-wget -q --no-check-certificate https://www.zlib.net/${zlibversion}.tar.gz
+#wget -q --no-check-certificate https://www.zlib.net/${zlibversion}.tar.gz
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/module-nginx/${zlibversion}.tar.gz ${zlibversion}.tar.gz
 tar -xzxf ${zlibversion}.tar.gz
 rm -rf ${zlibversion}.tar.gz
 # /usr/local/vpssim/${pcreVersionInstall}
 rm -rf ${pcreVersionInstall}
-wget -q --no-check-certificate https://vpssim.echbay.com/script/vpssim/module-nginx/${pcreVersionInstall}.zip
+#wget -q --no-check-certificate https://vpssim.echbay.com/script/vpssim/module-nginx/${pcreVersionInstall}.zip
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/module-nginx/${pcreVersionInstall}.zip ${pcreVersionInstall}.zip
 unzip -oq ${pcreVersionInstall}.zip
 rm -rf ${pcreVersionInstall}.zip
 # /usr/local/vpssim/ngx_http_redis-0.3.8
 rm -rf ngx_http_redis-0.3.8
-wget -q --no-check-certificate https://vpssim.echbay.com/script/vpssim/module-nginx/ngx_http_redis-0.3.8.tar.gz
+#wget -q --no-check-certificate https://vpssim.echbay.com/script/vpssim/module-nginx/ngx_http_redis-0.3.8.tar.gz
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/module-nginx/ngx_http_redis-0.3.8.tar.gz ngx_http_redis-0.3.8.tar.gz
 tar -xzxf ngx_http_redis-0.3.8.tar.gz
 rm -rf ngx_http_redis-0.3.8.tar.gz
 # /usr/local/vpssim/redis2-nginx-module
