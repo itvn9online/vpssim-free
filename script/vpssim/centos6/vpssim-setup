@@ -452,6 +452,22 @@ echo "==========================================================================
 echo "Download Nginx Module ... "
 echo "=========================================================================="
 cd /usr/local/vpssim
+
+urlForDownloadNginxModule="https://vpssim.com/script/vpssim/module-nginx/"
+
+sudo yum -y install gcc-c++ pcre-devel zlib-devel
+
+#sudo rpm --import https://linux.web.cern.ch/linux/scientific6/docs/repository/cern/slc6X/i386/RPM-GPG-KEY-cern
+sudo rpm --import ${urlForDownloadNginxModule}RPM-GPG-KEY-cern
+
+#sudo wget -O /etc/yum.repos.d/slc6-devtoolset.repo https://linux.web.cern.ch/linux/scientific6/docs/repository/cern/devtoolset/slc6-devtoolset.repo
+sudo wget -O /etc/yum.repos.d/slc6-devtoolset.repo ${urlForDownloadNginxModule}slc6-devtoolset.repo
+
+sudo yum -y install devtoolset-2-gcc-c++ devtoolset-2-binutils
+
+#
+PS_NGX_EXTRA_FLAGS="--with-cc=/opt/rh/devtoolset-2/root/usr/bin/gcc"
+
 # /usr/local/vpssim/echo-nginx-module
 rm -rf echo-nginx-module*
 wget --no-check-certificate https://vpssim.echbay.com/script/vpssim/module-nginx/echo-nginx-module.zip
@@ -607,7 +623,16 @@ fi
 chmod +x /usr/sbin/nginx
 rm -rf /etc/nginx/nginx.conf
 mv /tmp/nginx.conf /etc/nginx/nginx.conf
+
+echo "=========================================================================="
+echo "Cai Dat Hoan Tat Nginx "
+echo "=========================================================================="
+exit
+
 # End Download init & config file for nginx
+
+
+
 ############################
 yum -y install exim syslog-ng cronie cronie-anacron
 yum -y install MariaDB-client MariaDB-common MariaDB-compat MariaDB-devel MariaDB-server MariaDB-shared perl-DBD-MySQL

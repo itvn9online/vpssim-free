@@ -1,0 +1,47 @@
+[slc6-devtoolset]
+name=Scientific Linux CERN 6 (SLC6) - Devtoolset addons
+baseurl=http://linuxsoft.cern.ch/cern/devtoolset/slc6X/$basearch/yum/devtoolset/
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-cern
+gpgcheck=1
+enabled=1
+protect=1
+
+[slc6-devtoolset-source]
+name=Scientific Linux CERN 6 (SLC6) - Devtoolset addons - source RPMs
+baseurl=http://linuxsoft.cern.ch/cern/devtoolset/slc6X/$basearch/yum/devtoolset-source/
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-cern
+gpgcheck=1
+enabled=1
+protect=1
+
+[slc6-devtoolset-debug]
+name=Scientific Linux CERN 6 (SLC6) - Devtoolset addons - debug RPMs
+baseurl=http://linuxsoft.cern.ch/cern/devtoolset/slc6X/$basearch/yum/devtoolset-debug/
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-cern
+gpgcheck=1
+enabled=1
+protect=1
+
+[slc6-devtoolset-testing]
+name=Scientific Linux CERN 6 (SLC6) - Devtoolset addons
+baseurl=http://linuxsoft.cern.ch/cern/devtoolset/slc6X/testing/$basearch/yum/devtoolset-testing/
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-cern
+gpgcheck=1
+enabled=0
+protect=1
+
+[slc6-devtoolset-testing-source]
+name=Scientific Linux CERN 6 (SLC6) - Devtoolset addons - source RPMs
+baseurl=http://linuxsoft.cern.ch/cern/devtoolset/slc6X/testing/$basearch/yum/devtoolset-testing-source/
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-cern
+gpgcheck=1
+enabled=0
+protect=1
+
+[slc6-devtoolset-testing-debug]
+name=Scientific Linux CERN 6 (SLC6) - Devtoolset addons - debug RPMs
+baseurl=http://linuxsoft.cern.ch/cern/devtoolset/slc6X/testing/$basearch/yum/devtoolset-testing-debug/
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-cern
+gpgcheck=1
+enabled=0
+protect=1
