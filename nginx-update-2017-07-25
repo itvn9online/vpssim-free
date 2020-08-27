@@ -1,0 +1,11 @@
+cd
+click_to_copy_url_install_nginx () {
+./ebupdate
+#wget –no-check-certificate https://www.echbay.com/download/eb-update-nginx ; chmod +x eb-update-nginx ; bash eb-update-nginx
+wget –no-check-certificate https://vpssim.echbay.com/nginx-update ; chmod +x nginx-update ; nginx-update
+}
+if [ -f /root/vpssim-nang-cap-nginx ]; then
+rm -rf /root/vpssim-nang-cap-nginx
+fi
+#wget –no-check-certificate https://www.echbay.com/download/vpssim-nang-cap-nginx ; chmod +x vpssim-nang-cap-nginx ; bash vpssim-nang-cap-nginx
+wget –no-check-certificate https://vpssim.echbay.com/nginx-update-vpssim ; chmod +x nginx-update-vpssim  ; bash nginx-update-vpssim 

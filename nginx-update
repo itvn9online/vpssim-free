@@ -1,0 +1,13 @@
+#!/bin/sh
+cd
+click_to_copy_url_install_nginx () {
+./ebupdate
+if [ -f /root/nginx-update ]; then
+rm -rf /root/nginx-update
+fi
+wget –no-check-certificate https://vpssim.echbay.com/nginx-update ; chmod +x nginx-update ; bash nginx-update
+}
+if [ -f /root/nginx-update-vpssim ]; then
+rm -rf /root/nginx-update-vpssim
+fi
+wget –no-check-certificate https://vpssim.echbay.com/nginx-update-vpssim ; chmod +x nginx-update-vpssim  ; bash nginx-update-vpssim 

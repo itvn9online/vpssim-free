@@ -1,0 +1,13 @@
+========================================================================
+* VPS (Server) duoc Cai dat va Cau hinh boi VPSSIM
+========================================================================
+* Lenh goi VPSSIM menu :    vpssim 
+========================================================================
+* Neu khong truy cap duoc phpMyAdmin, download backup files ...
+------------------------------------------------------------------------
+* Chay chuc nang: [Open Phpmyadmin Port] trong [Quan Ly Phpmyadmin].
+------------------------------------------------------------------------
+* Neu Server ho tro tao SWAP, ban nen su dung chuc nang [Quan ly SWAP]
+------------------------------------------------------------------------
+* de tao SWAP, nang cao hieu suat Server.
+========================================================================
