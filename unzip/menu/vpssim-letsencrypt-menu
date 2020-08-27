@@ -1,0 +1,134 @@
+#!/bin/bash
+. /home/vpssim.conf
+
+if [ ! -d /etc/vpssim/Backup.Vhost.SSL ]; then
+mkdir -p /etc/vpssim/Backup.Vhost.SSL
+fi
+
+if [ ! -d /etc/vpssim/.tmp ]; then
+mkdir -p /etc/vpssim/.tmp
+fi
+
+if [ ! -f /root/.acme.sh/acme.sh ]; then
+clear
+echo "========================================================================="
+echo "VPSSIM se cai dat tien ich Acme.Sh truoc khi chay chuc nang nay"
+echo "-------------------------------------------------------------------------"
+echo "Please wait ..."; sleep 5
+wget -O -  https://get.acme.sh | sh
+rm -rf /etc/vpssim/.tmp/check_crontab_acme
+crontab -l > /etc/vpssim/.tmp/check_crontab_acme
+if [ ! "$(grep "/root/.acme.sh" /etc/vpssim/.tmp/check_crontab_acme)" = "" ]; then
+/root/.acme.sh/acme.sh --uninstallcronjob
+fi
+rm -rf /etc/vpssim/.tmp/check_crontab_acme
+sleep 3
+clear
+echo "========================================================================="
+echo "Cai dat acme.sh hoan thanh"
+echo "-------------------------------------------------------------------------"
+echo "Bay gio ban co the su dung chuc nang cai dat SSL cho website cua minh."
+/etc/vpssim/menu/vpssim-letsencrypt-menu
+fi
+version=`/root/.acme.sh/acme.sh --version | awk 'NR==2' | sed 's/v//'`
+show_menu_lets-encrypt () {
+prompt="Lua chon cua ban (8-Thoat):"
+options=("Cai Dat SSL Cho Domain" "Kiem Tra SSL Cua Domain " "Auto Renew SSL" "Renew SSL Cho Domain" "List Domain Cai Dat SSL" "Remove SSL (Back to HTTP)" "Upgrade Acme.sh" "Thoat")
+printf "=========================================================================\n"
+printf "                VPSSIM - Quan Ly VPS/Server by HostingAZ.VN \n"
+printf "=========================================================================\n"
+printf "                        Cai Dat SSL - Let's Encrypt \n"
+echo "========================================================================="
+echo "                    Powered by Acme.Sh | Version: $version"
+printf "=========================================================================\n"
+PS3="$prompt"
+select opt in "${options[@]}" ; do 
+
+    case "$REPLY" in
+
+    1) /etc/vpssim/menu/vpssim-cai-dat-ssl-letsencrypt;;
+    2) /etc/vpssim/menu/vpssim-kiem-tra-ssl-letsencrypt;;
+    3) /etc/vpssim/menu/vpssim-bat-auto-gia-han-letsencrypt;; 
+    4) /etc/vpssim/menu/vpssim-renew-ssl-letsencrypt;;
+    5) /etc/vpssim/menu/vpssim-list-domain-cai-dat-letsencrypt;;
+    6) /etc/vpssim/menu/vpssim-remove-ssl-letsencrypt;;
+    7) /etc/vpssim/menu/vpssim-update-letsencrypt;;
+    8) clear && /bin/vpssim;;
+    
+  *) echo "Ban nhap sai, vui long nhap theo so thu tu tren menu !";continue;;
+
+    esac
+
+done
+}
+
+check_nginx_service () {
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
+	if [ "$(/sbin/service nginx status | awk 'NR==1 {print $5}')" == "running..." ]; then
+show_menu_lets-encrypt 
+	else
+clear
+echo "========================================================================"
+echo "Nginx service is not running"
+echo "------------------------------------------------------------------------"
+echo "VPSSIM trying to start it"
+echo "------------------------------------------------------------------------"
+echo "Please wait ..."
+sleep 5 ; clear
+service nginx start
+clear
+echo "========================================================================"
+echo "Check Nginx service once again !"
+echo "------------------------------------------------------------------------"
+echo "please wait ..."
+sleep 5 ; clear
+		if [ "$(/sbin/service nginx status | awk 'NR==1 {print $5}')" == "running..." ]; then
+show_menu_lets-encrypt 
+		else
+				clear
+echo "========================================================================"
+echo "VPSSIM can not start Nginx Service"
+sleep 4 ;
+	clear
+	echo "========================================================================="
+	echo "Rat tiec, Nginx dang stopped. Hay bat len truoc khi dung chuc nang nay!"
+	vpssim
+		fi
+fi
+fi
+
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+	if [ "`systemctl is-active nginx.service`" == "active" ]; then
+show_menu_lets-encrypt 
+	else
+clear
+echo "========================================================================"
+echo "Nginx service is not running"
+echo "------------------------------------------------------------------------"
+echo "VPSSIM trying to start it"
+echo "------------------------------------------------------------------------"
+echo "Please wait ..."
+sleep 5 ; clear
+systemctl start nginx.service
+clear
+echo "========================================================================"
+echo "Check Nginx service once again !"
+echo "------------------------------------------------------------------------"
+echo "please wait ..."
+sleep 5 ; clear
+	if [ "`systemctl is-active nginx.service`" == "active" ]; then
+show_menu_lets-encrypt 
+		else
+				clear
+echo "========================================================================"
+echo "VPSSIM can not start Nginx Service"
+sleep 4 ;
+	clear
+	echo "========================================================================="
+	echo "Rat tiec, Nginx dang stopped. Hay bat len truoc khi dung chuc nang nay!"
+	vpssim
+		fi
+fi
+fi
+}
+check_nginx_service

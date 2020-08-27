@@ -1,0 +1,35 @@
+#!/bin/bash 
+
+. /home/vpssim.conf
+
+prompt="Lua chon cua ban: "
+options=( "1 Website" "Tat Ca Website" "Huy Bo")
+printf "=========================================================================\n"
+printf "LAY LINK DOWNLOAD BACKUP CUA 1 WEBSITE HOAC TAT CA WEBSITE\n"
+printf "=========================================================================\n"
+PS3="$prompt"
+select opt in "${options[@]}"; do 
+
+    case "$REPLY" in
+    1) laylink="1website"; break;;
+    2) laylink="tatca"; break;;
+    3) laylink="cancle"; break;;
+    *) echo "Ban nhap sai, vui long nhap theo so thu tu tren menu";continue;;
+    esac  
+done
+###################################
+#
+###################################
+if [ "$laylink" = "1website" ]; then
+/etc/vpssim/menu/vpssim-link-tai-sao-luu-1-site
+###################################
+#
+###################################
+elif [ "$laylink" = "tatca" ]; then
+/etc/vpssim/menu/vpssim-link-download-tat-ca-backup-website-sao-luu
+###################################
+#
+###################################
+else 
+clear && /etc/vpssim/menu/vpssim-sao-luu
+fi

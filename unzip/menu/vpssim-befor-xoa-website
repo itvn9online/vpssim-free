@@ -1,0 +1,34 @@
+#!/bin/sh
+. /home/vpssim.conf
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
+	if [ "$(/sbin/service nginx status | awk 'NR==1 {print $5}')" == "running..." ]; then
+/etc/vpssim/menu/vpssim-xoa-website
+	else
+	echo "-------------------------------------------------------------------------"
+service nginx start
+		if [ "$(/sbin/service nginx status | awk 'NR==1 {print $5}')" == "running..." ]; then
+/etc/vpssim/menu/vpssim-xoa-website
+		else
+	clear
+	echo "========================================================================="
+	echo "Rat tiec, Nginx dang stopped. Hay bat len truoc khi dung chuc nang nay!"
+	vpssim
+		fi
+fi
+fi
+
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+	if [ "`systemctl is-active nginx.service`" == "active" ]; then
+/etc/vpssim/menu/vpssim-xoa-website
+	else
+systemctl start nginx.service
+	if [ "`systemctl is-active nginx.service`" == "active" ]; then
+/etc/vpssim/menu/vpssim-xoa-website
+		else
+	clear
+	echo "========================================================================="
+	echo "Rat tiec, Nginx dang stopped. Hay bat len truoc khi dung chuc nang nay!"
+	vpssim
+		fi
+fi
+fi

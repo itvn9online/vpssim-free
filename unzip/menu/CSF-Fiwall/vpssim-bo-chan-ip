@@ -1,0 +1,82 @@
+#!/bin/bash 
+
+. /home/vpssim.conf
+if [ -f /etc/csf/csf.conf ]; then
+if [ "$(cat /etc/csf/csf.deny | awk 'NR==1 {print $1}')" == "" ]; then
+clear
+echo "========================================================================="
+echo "Hien tai CSF Firewall chua block IP nao."
+/etc/vpssim/menu/CSF-Fiwall/vpssim-csf-firewall-menu
+exit
+fi
+fi
+
+if [ -f /etc/csf/csf.conf ]; then
+echo "========================================================================="
+test_csf=$(csf -v | awk 'NR==1 {print $NF}')
+if [ "$test_csf" == "enable" ]; then
+echo "Chuc nang nay se bat CSF Firewall neu ban dang tat no."
+echo "-------------------------------------------------------------------------" 
+fi
+echo -n "Type IP you want to unblock [ENTER]: " 
+read ipbochan
+if [ "$test_csf" == "enable" ]; then
+csf -e
+fi
+
+if [ "$ipbochan" = "" ]; then
+clear
+echo "========================================================================="
+echo "Ban nhap sai, vui long nhap chinh xac"
+/etc/vpssim/menu/CSF-Fiwall/vpssim-csf-firewall-menu
+exit
+fi
+
+
+if [ ! "$(ping -c 1 $ipbochan | tail -n +1 | head -1 | awk 'NR==1 {print $1}')" == "PING" ]; then
+clear
+echo "========================================================================="
+echo "$ipbochan khong phai la dia chi IP ! "
+echo "-------------------------------------------------------------------------"
+echo "Ban vui long lam lai.."
+/etc/vpssim/menu/CSF-Fiwall/vpssim-csf-firewall-menu
+exit
+fi
+
+
+if [ "$(grep "$ipbochan" /etc/csf/csf.deny | awk '{print $4}')" == "" ]; then
+clear
+echo "========================================================================="
+echo "IP: $ipbochan not blocked by CSF Firewall."
+/etc/vpssim/menu/CSF-Fiwall/vpssim-csf-firewall-menu
+exit
+fi
+
+csf -dr "$ipbochan"
+/etc/vpssim/menu/CSF-Fiwall/vpssim-re-start-khoi-dong-lai-csf-lfd
+clear
+echo "========================================================================="
+echo "IP: $ipbochan bay gio co the truy cap VPS/Server!"
+/etc/vpssim/menu/CSF-Fiwall/vpssim-csf-firewall-menu
+else
+echo "========================================================================= "
+echo "Chuc nang nay can CSF Firewall de hoat dong"
+echo "-------------------------------------------------------------------------"
+echo "CSF Firewall chua duoc cai dat tren server! "
+echo "-------------------------------------------------------------------------"
+read -r -p "Ban co muon cai dat CSF Firewall vao server [y/N] " response
+case $response in
+    [yY][eE][sS]|[yY]) 
+/etc/vpssim/menu/CSF-Fiwall/vpssim-cai-dat-csf-csf
+clear
+echo "========================================================================= "
+echo "Cai dat va config thanh cong CSF Firewall"
+/etc/vpssim/menu/CSF-Fiwall/vpssim-csf-firewall-menu
+;;
+esac
+clear
+echo "========================================================================= "
+echo "Ban huy bo cai dat CSF Firewall ! "
+/etc/vpssim/menu/CSF-Fiwall/vpssim-csf-firewall-menu
+exit
+fi

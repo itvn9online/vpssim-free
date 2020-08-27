@@ -1,0 +1,15 @@
+#!/bin/sh
+. /home/vpssim.conf
+if [ ! -f /etc/vpssim/net2ftpsite.info ]; then
+clear
+echo "========================================================================="
+echo "Ban chua cai dat domain Net2FTP cho Server !"
+/etc/vpssim/menu/vpssim-net2ftp-menu
+exit
+fi
+echo "Please wait..."; sleep 1
+net2ftpsite=$(cat /etc/vpssim/net2ftpsite.info)
+clear
+echo "========================================================================="
+echo "Domain Net2FTP: $net2ftpsite"
+/etc/vpssim/menu/vpssim-net2ftp-menu

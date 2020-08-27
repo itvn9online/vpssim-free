@@ -1,0 +1,122 @@
+#!/bin/bash
+. /home/vpssim.conf
+echo "========================================================================="
+echo "Nhap ten website ban muon update wordpress code"
+echo "-------------------------------------------------------------------------"
+echo -n "Nhap ten website: " 
+read website
+if [ "$website" = "" ]; then
+clear
+echo "========================================================================="
+echo "You typed wrong, please type in accurately! "
+/etc/vpssim/menu/vpssim-wordpress-tools-menu
+exit
+fi
+kiemtradomain3="^([[:alnum:]]([[:alnum:]\-]{0,61}[[:alnum:]])?\.)+[[:alpha:]]{2,14}";
+if [[ ! "$website" =~ $kiemtradomain3 ]]; then
+	website=`echo $website | tr '[A-Z]' '[a-z]'`
+clear
+echo "========================================================================="
+echo "$website co le khong phai ten domain !"
+echo "-------------------------------------------------------------------------"
+echo "Ban vui long thu lai !"
+/etc/vpssim/menu/vpssim-wordpress-tools-menu
+exit
+fi
+if [ ! -f /etc/nginx/conf.d/$website.conf ]; then
+clear
+echo "========================================================================="
+echo "Khong tim thay $website tren he thong"
+echo "-------------------------------------------------------------------------"
+echo "Ban vui long thu lai !"
+/etc/vpssim/menu/vpssim-wordpress-tools-menu
+exit
+fi
+
+if [ ! -f /home/$website/public_html/wp-config.php ]; then
+clear
+echo "========================================================================="
+echo "$website co the khong phai wordpress web hoac chua cai dat WP"
+echo "-------------------------------------------------------------------------"
+echo "Vui long cai dat Wordpress code truoc hoac thu domain khac"
+/etc/vpssim/menu/vpssim-wordpress-tools-menu
+exit
+fi
+echo "-------------------------------------------------------------------------"
+echo "Tim thay $website dang su dung wordpress code tren he thong"
+echo "-------------------------------------------------------------------------"
+echo "VPSSIM dang kiem tra Wordpress version"
+echo "-------------------------------------------------------------------------"
+sleep 3
+date |md5sum |cut -c '1-8' > /tmp/abcd
+random=$(cat /tmp/abcd)
+tendatabase=`cat /home/$website/public_html/wp-config.php | grep DB_NAME | cut -d \' -f 4`
+echo "`date '+%d%m'`" > /tmp/datetime
+tenmo=$(cat /tmp/datetime)
+chown -R nginx:nginx /home/$website/public_html
+cd /home/$website/public_html/
+vpssimcheckversion=$(wp core check-update --allow-root | tail -n1 | awk 'NR==1 {print $1}')
+if [ "$vpssimcheckversion" == "Success:" ]; then
+clear
+cd
+echo "========================================================================="
+echo "Website $website dang su dung phien ban wordpress moi nhat"
+/etc/vpssim/menu/vpssim-wordpress-tools-menu
+else
+if [ ! -d /home/$website/public_html/0-VPSSIM ]; then
+mkdir -p /home/$website/public_html/0-VPSSIM
+fi
+clear
+echo "========================================================================="
+echo "Phien ban wordpress hien tai cua $website: $(wp core version --allow-root)"
+echo "-------------------------------------------------------------------------"
+echo "Phien ban wordpress moi nhat: $vpssimcheckversion"
+echo "-------------------------------------------------------------------------"
+echo "VPSSIM se update wordpress code cua $website len $vpssimcheckversion"
+echo "-------------------------------------------------------------------------"
+echo "Truoc khi update, VPSSIM se sao luu database"
+echo "-------------------------------------------------------------------------"
+echo "Link file backup database: "
+echo "-------------------------------------------------------------------------"
+echo "http://$website/0-VPSSIM/$tendatabase-$random-$tenmo.sql.gz"
+echo "-------------------------------------------------------------------------"
+read -p "Nhan [Enter] de tiep tuc ..."
+if [ "$(grep "default_storage_engine = MyISAM" /etc/my.cnf.d/server.cnf | awk 'NR==1 {print $3}')" = "MyISAM" ]; then
+mysqldump -u root -p$mariadbpass $tendatabase --lock-tables=false | gzip -9 > /home/$website/public_html/0-VPSSIM/$tendatabase-$random-$tenmo.sql.gz
+else
+mysqldump -u root -p$mariadbpass $tendatabase --single-transaction | gzip -9 > /home/$website/public_html/0-VPSSIM/$tendatabase-$random-$tenmo.sql.gz
+fi
+/etc/vpssim/menu/vpssim-enable-tat-ca-cac-ham-php-php.ini
+wp core update --allow-root
+wp core update-db --allow-root
+/etc/vpssim/menu/vpssim-re-config-cac-ham-php-disable-php.ini
+cd
+chown -R nginx:nginx /home/$website/public_html
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
+service php-fpm restart
+else
+systemctl restart php-fpm.service
+fi 
+cd /home/$website/public_html
+vpssimcheckversion=$(wp core check-update --allow-root | tail -n1 | awk 'NR==1 {print $1}')
+clear
+echo "========================================================================="
+if [ "$vpssimcheckversion" == "Success:" ]; then
+echo "Update Wordpress code cua $website thanh cong"
+else
+echo "Update wordpress code that bai"
+fi
+cd
+if [ -f /home/$website/public_html/0-VPSSIM/$tendatabase-$random-$tenmo.sql.gz ]; then
+echo "-------------------------------------------------------------------------"
+echo "Backup database $tendatabase thanh cong"
+echo "-------------------------------------------------------------------------"
+echo "Link file backup database:"
+echo "-------------------------------------------------------------------------"
+echo "http://$website/0-VPSSIM/$tendatabase-$random-$tenmo.sql.gz"
+else
+echo "-------------------------------------------------------------------------"
+echo "Backup database that bai"
+fi
+/etc/vpssim/menu/vpssim-wordpress-tools-menu
+fi

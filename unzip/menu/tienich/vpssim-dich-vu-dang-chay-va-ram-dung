@@ -1,0 +1,34 @@
+#!/bin/bash
+. /home/vpssim.conf
+randomcode=`date |md5sum |cut -c '1-12'`
+echo "========================================================================="
+echo "Su dung chuc nang nay de xem cac service dang chay trong he thong "
+echo "-------------------------------------------------------------------------"
+echo "va dung luong Ram cac dich vu nay su dung. "
+echo "-------------------------------------------------------------------------"
+read -r -p "Ban muon xem danh sach nay ?  [y/N] " response
+case $response in
+    [yY][eE][sS]|[yY]) 
+    echo "-------------------------------------------------------------------------"
+    echo "Please wait ...";sleep 1
+rm -rf /home/$mainsite/private_html/ServiceandRamuseage*
+/etc/vpssim/menu/tienich/vpssim-tien-trinh-dang-chay-ram-use > /home/$mainsite/private_html/ServiceandRamuseage-$randomcode.txt 
+sed -i '/vpssim/d' /home/$mainsite/private_html/ServiceandRamuseage-$randomcode.txt
+sed -i '1s/^/====================================================================================================================================\n/' /home/$mainsite/private_html/ServiceandRamuseage-$randomcode.txt
+sed -i '2s/^/List Service Running And Ram Useage  -  Created by VPSSIM\n/' /home/$mainsite/private_html/ServiceandRamuseage-$randomcode.txt
+sed -i '3s/^/====================================================================================================================================\n/' /home/$mainsite/private_html/ServiceandRamuseage-$randomcode.txt
+echo "============================================================The End=================================================================" >> /home/$mainsite/private_html/ServiceandRamuseage-$randomcode.txt
+
+clear
+clear
+echo "========================================================================="
+echo "Link xem Service dang chay & Ram su dung:"
+echo "-------------------------------------------------------------------------"
+echo "http://$serverip:$priport/ServiceandRamuseage-$randomcode.txt"
+/etc/vpssim/menu/vpssim-tien-ich
+        ;;
+    *)
+       clear
+/etc/vpssim/menu/vpssim-tien-ich
+        ;;
+esac

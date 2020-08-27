@@ -1,0 +1,77 @@
+#!/bin/sh
+. /home/vpssim.conf
+if [ "$(grep HostingAZ.VN /bin/vpssim)" != "" ]; then
+clear
+echo "========================================================================= "
+echo "You are using Vietnamese Version"
+echo "-------------------------------------------------------------------------"
+echo "( Ban dang su dung ngon ngu Tieng Viet )"
+/etc/vpssim/menu/vpssim-thay-doi-ngon-ngu-menu
+exit
+fi
+
+echo "========================================================================= "
+echo "Su dung chuc nang nay de thay doi ngon ngu VPSSIM sang tieng Viet"
+echo "-------------------------------------------------------------------------"
+echo "VPSSIM ho tro Tieng Anh & Tieng Viet"
+echo "========================================================================= "
+read -r -p "Ban muon thay doi ngon ngu VPSSIM sang Tieng Viet ? [y/N] " response
+case $response in
+    [yY][eE][sS]|[yY]) 
+    echo "-------------------------------------------------------------------------"
+echo "Please wait ... "
+sleep 1
+echo "-------------------------------------------------------------------------"
+wget -q --no-check-certificate https://hostingaz.vn/script/vpssim/motd -O /etc/motd
+wget -q --no-check-certificate https://hostingaz.vn/script/vpssim/vpssim -O /bin/vpssim && chmod +x /bin/vpssim
+cd /etc/vpssim/
+rm -rf /etc/vpssim/menu.zip
+wget -q --no-check-certificate https://hostingaz.vn/script/vpssim/menu.zip
+
+#Check menu.zip files
+
+rm -rf /tmp/menu
+unzip -q -o menu.zip -d /tmp
+if [ ! -f /tmp/menu/vpssim-tien-ich ]; then
+rm -rf /tmp/menu
+clear
+echo "========================================================================="
+echo "There's an error in changing language process"
+echo "-------------------------------------------------------------------------"
+echo "Please try again !"
+/etc/vpssim/menu/vpssim-update-upgrade-service-menu
+exit
+fi
+## Finish check menu.zip
+rm -rf /tmp/menu
+unzip -q -o menu.zip
+rm -rf /etc/vpssim/menu.zip
+cd
+wget -q --no-check-certificate https://hostingaz.vn/script/vpssim/motd -O /etc/motd
+download_main_menu () {
+wget -q --no-check-certificate https://hostingaz.vn/script/vpssim/vpssim -O /bin/vpssim && chmod +x /bin/vpssim
+}
+download_main_menu
+checkvpssim_mainmenu=`cat /bin/vpssim`
+if [ -z "$checkvpssim_mainmenu" ]; then
+download_main_menu
+fi
+find /etc/vpssim/menu -type f -exec chmod 755 {} \;
+clear 
+echo "========================================================================= "
+echo "Change Language of VPSSIM to Vietnamese Finished"
+echo "-------------------------------------------------------------------------"
+echo "( Thay doi ngon ngu VPSSIM sang tieng Viet thanh cong )"
+/etc/vpssim/menu/vpssim-thay-doi-ngon-ngu-menu
+       ;;
+    *)
+        echo ""
+        ;;
+esac
+clear
+clear
+echo "========================================================================="
+echo "Cancel Change Language for VPSSIM"
+echo "-------------------------------------------------------------------------"
+echo "Huy bo thay doi ngon ngu cho VPSSIM"
+/etc/vpssim/menu/vpssim-thay-doi-ngon-ngu-menu

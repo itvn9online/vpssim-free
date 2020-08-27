@@ -1,0 +1,44 @@
+#!/bin/bash
+prompt="Lua chon cua ban (23-Thoat):"
+options=( "Thay Password Root" "Fix Loi Chmod, Chown" "Find Top Largest Files & Folders" "Service Running & Ram Use" "Kiem Tra IP/Nameserver Website" "File Size Converter " "Kiem Tra Thong Tin Server" "Cai Dat Server Timezone" "Install / Remove Imagick" "Install / Remove Ioncube" "Cai Dat Htop" "Backup Config File & Vhost" "Thay Doi Port SSH Number" "Config SSH Timeout" "Block Exploits, SQL Injections" "Deny Run Script In Upload Folder" "Dat Mat Khau Bao Ve Folder" "BAT/TAT Email Thong Bao Login" "BAT/TAT Auto Run VPSSIM" "Canh Bao Full Disc Tren Menu" "Restart Service" "Go Bo (Remove) VPSSIM " "Thoat" )
+printf "=========================================================================\n"
+printf "                VPSSIM - Quan Ly VPS/Server by HostingAZ.VN \n"
+printf "=========================================================================\n"
+printf "                           Tien Ich - Addons\n"
+printf "=========================================================================\n"
+
+PS3="$prompt"
+select opt in "${options[@]}" ; do 
+
+    case "$REPLY" in
+
+
+    1) /etc/vpssim/menu/vpssim-doi-pass-root-vps;;
+    2) /etc/vpssim/menu/vpssim-sua-loi-chown;;
+    3) /etc/vpssim/menu/tienich/vpssim-xem-danh-sach-max-dung-luong-file-menu;;
+    4) /etc/vpssim/menu/tienich/vpssim-dich-vu-dang-chay-va-ram-dung;;
+    5) /etc/vpssim/menu/tienich/vpssim-tim-ip-nameserver-website;;
+    6) /etc/vpssim/menu/vpssim-chuyen-doi-don-vi-file-size-convert;;
+    7) /etc/vpssim/menu/tienich/vpssim-view-thong-tin-ip-vps;;
+    8) clear && /etc/vpssim/menu/vpssim-thay-doi-thong-tin-thoi-gian;; 
+    9) /etc/vpssim/menu/tienich/vpssim-before-imagick;;
+    10) /etc/vpssim/menu/tienich/vpssim-before-ioncube;;
+    11) /etc/vpssim/menu/tienich/vpssim-cai-dat-htop;;
+    12) /etc/vpssim/menu/vpssim-sao-luu-sys;;
+    13) /etc/vpssim/menu/vpssim-thay-doi-port-ssh;;
+    14) /etc/vpssim/menu/vpssim-bat-tat-ssh-time-out;;
+    15) /etc/vpssim/menu/vpssim-block-exploits-sql-injections-menu;;
+    16) /etc/vpssim/menu/vpssim-chan-run-script-trong-folder-upload-menu;;
+    17) /etc/vpssim/menu/vpssim-dat-mat-khau-bao-ve-folder-website;;
+    18) /etc/vpssim/menu/vpssim-bat-tat-email-thong-bao-dang-nhap-server;;
+	19) /etc/vpssim/menu/vpssim-bat-tat-tu-dong-chay-vpssim;;
+	20) /etc/vpssim/menu/vpssim-config-canh-bao-dung-luong-disc-trong-free-it;;
+    21) clear && /etc/vpssim/menu/tienich/vpssim-restart-service;;
+    22) /etc/vpssim/menu/vpssim-go-bo-scripts;;
+    23) clear && vpssim;;
+
+
+            *) echo "Ban nhap sai, vui long nhap theo so thu tu tren menu !";continue;;
+
+    esac
+done

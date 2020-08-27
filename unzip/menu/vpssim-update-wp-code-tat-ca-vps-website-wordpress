@@ -1,0 +1,153 @@
+#!/bin/bash
+. /home/vpssim.conf
+randomcode=-`date |md5sum |cut -c '1-18'`
+cd /etc/nginx/conf.d
+ls > /tmp/websitelist
+sed -i 's/\.conf//g' /tmp/websitelist
+cd
+rm -rf /tmp/wordpresslist
+file1="/tmp/websitelist"
+while read -r wpsite
+    do
+if [ -f /home/$wpsite/public_html/wp-config.php ]; then
+echo "$wpsite" >> /tmp/wordpresslist
+fi
+ done < "$file1"
+ if [ ! -f /tmp/wordpresslist ]; then
+clear
+echo "========================================================================="
+ echo "VPSSIM khong tim thay website chay Wordpress Code tren Server"
+ /etc/vpssim/menu/vpssim-wordpress-tools-menu
+ exit
+ fi
+sositewp=$(cat /tmp/wordpresslist | wc -l)
+/etc/vpssim/menu/vpssim-enable-tat-ca-cac-ham-php-php.ini
+echo "========================================================================="
+echo "Hien tai co $sositewp website dang su dung code wordpress tren he thong" 
+echo "-------------------------------------------------------------------------"
+echo "VPSSIM se check va update tat ca website co the update."
+echo "========================================================================="
+sleep 1
+file="/tmp/wordpresslist"
+
+rm -rf /tmp/*hostingaz*
+rm -rf /home/$mainsite/private_html/Listbackupwpdata*
+
+echo "=========================================================================" > /home/$mainsite/private_html/Listbackupwpdata$randomcode.txt
+echo "List Backup Files - Created by VPSSIM " >> /home/$mainsite/private_html/Listbackupwpdata$randomcode.txt
+echo "=========================================================================" >> /home/$mainsite/private_html/Listbackupwpdata$randomcode.txt
+echo "" >> /home/$mainsite/private_html/Listbackupwpdata$randomcode.txt
+echo "" >> /home/$mainsite/private_html/Listbackupwpdata$randomcode.txt
+echo "" >> /home/$mainsite/private_html/Listbackupwpdata$randomcode.txt
+
+mkdir -p /tmp/sowebsitecanupdatehostingaz
+mkdir -p /tmp/updatethanhconghostingaz
+mkdir -p /tmp/saoluudatabasethanhconghostingaz
+mkdir -p /tmp/updatethatbaihostingaz
+mkdir -p /tmp/saoluudatathatbaihostingaz
+while read -r wpwebsite
+    do
+if [ -f /home/$wpwebsite/public_html/wp-config.php ]; then
+#echo "$line"
+chown -R nginx:nginx /home/$wpwebsite/public_html
+cd /home/$wpwebsite/public_html
+date |md5sum |cut -c '1-10' > /tmp/abcd
+random=$(cat /tmp/abcd)
+tendatabase=`cat /home/$wpwebsite/public_html/wp-config.php | grep DB_NAME | cut -d \' -f 4`
+echo "`date '+%d%m'`" > /tmp/datetime
+tenmo=$(cat /tmp/datetime)
+cd /home/$wpwebsite/public_html/
+vpssimcheckversion=$(wp core check-update --allow-root | tail -n1 | awk 'NR==1 {print $1}')
+  if [ "$vpssimcheckversion" == "Success:" ]; then
+  echo "Update $wpwebsite Status:"
+  echo "Website $wpwebsite dang chay phien ban wordpress moi nhat "
+  echo "========================================================================="
+ else
+      if [ ! -d /home/$wpwebsite/public_html/0-VPSSIM ]; then
+mkdir -p /home/$wpwebsite/public_html/0-VPSSIM
+      fi
+ echo "Update $wpwebsite Status:"
+echo "VPSSIM se update $wpwebsite tu $(wp core version --allow-root) len $vpssimcheckversion"
+echo "-------------------------------------------------------------------------"
+check1=$(date +"%H%m%s")
+touch /tmp/sowebsitecanupdatehostingaz/$check1
+if [ "$(grep "default_storage_engine = MyISAM" /etc/my.cnf.d/server.cnf | awk 'NR==1 {print $3}')" = "MyISAM" ]; then
+mysqldump -u root -p$mariadbpass $tendatabase --lock-tables=false | gzip -9 > /home/$wpwebsite/public_html/0-VPSSIM/$tendatabase-$random-$tenmo.sql.gz
+else
+mysqldump -u root -p$mariadbpass $tendatabase --single-transaction | gzip -9 > /home/$wpwebsite/public_html/0-VPSSIM/$tendatabase-$random-$tenmo.sql.gz
+fi
+
+wp core update --allow-root > /tmp/abc.txt
+wp core update-db --allow-root > /tmp/abc.txt
+chown -R nginx:nginx /home/$wpwebsite/public_html
+cd /home/$wpwebsite/public_html
+vpssimcheckversion2=$(wp core check-update --allow-root | tail -n1 | awk 'NR==1 {print $1}')
+     if [ "$vpssimcheckversion2" == "Success:" ]; then   
+     echo "Update Wordpress code cho $wpwebsite thanh cong"
+     echo "-------------------------------------------------------------------------"
+check2=$(date +"%H%m%s")
+touch /tmp/updatethanhconghostingaz/$check2  
+		if [ -f /home/$wpwebsite/public_html/0-VPSSIM/$tendatabase-$random-$tenmo.sql.gz ]; then
+echo "Backup database $tendatabase thanh cong. Link Backup:"
+echo "-------------------------------------------------------------------------"
+echo "http://$wpwebsite/0-VPSSIM/$tendatabase-$random-$tenmo.sql.gz"
+echo ""  >> /home/$mainsite/private_html/Listbackupwpdata$randomcode.txt
+echo "=========================================================================" >> /home/$mainsite/private_html/Listbackupwpdata$randomcode.txt
+echo "Backup Database: $tendatabase cua website $wpwebsite" >> /home/$mainsite/private_html/Listbackupwpdata$randomcode.txt
+echo "-------------------------------------------------------------------------" >> /home/$mainsite/private_html/Listbackupwpdata$randomcode.txt
+echo "http://$wpwebsite/0-VPSSIM/$tendatabase-$random-$tenmo.sql.gz" >> /home/$mainsite/private_html/Listbackupwpdata$randomcode.txt
+echo "=========================================================================" >> /home/$mainsite/private_html/Listbackupwpdata$randomcode.txt
+check3=$(date +"%H%m%s")
+touch /tmp/saoluudatabasethanhcong/$check3
+echo "========================================================================="
+		else
+echo "Backup database that bai"
+echo "========================================================================="
+		fi   
+     else
+echo "Update wordpress code that bai"
+  echo "-------------------------------------------------------------------------"
+  echo "abc" > /tmp/updatethatbaihostingaz/$wpwebsite
+  rm -rf /home/$wpwebsite/public_html/0-VPSSIM/$tendatabase-$random-$tenmo.sql.gz
+     fi
+cd
+     
+  fi
+fi
+done < "$file"
+/etc/vpssim/menu/vpssim-re-config-cac-ham-php-disable-php.ini
+if [ "$(ls -1 /tmp/sowebsitecanupdatehostingaz | wc -l)" == "0" ]; then
+clear
+echo "========================================================================="
+echo "Co $sositewp wordpress website trong he thong"
+echo "-------------------------------------------------------------------------"
+echo "Tat ca cac website nay deu su dung wordpress phien ban moi nhat"
+/etc/vpssim/menu/vpssim-wordpress-tools-menu
+else
+     if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
+     service php-fpm restart
+     else
+     systemctl restart php-fpm.service
+     fi 
+     clear
+echo "========================================================================="
+echo "Co $sositewp wordpress website trong he thong"
+echo "-------------------------------------------------------------------------"
+echo "Website can update: $(ls -1 /tmp/sowebsitecanupdatehostingaz | wc -l) | Website update thanh cong: $(ls -1 /tmp/updatethanhconghostingaz | wc -l)"
+echo "-------------------------------------------------------------------------"
+if [ "$(ls -A /tmp/updatethatbaihostingaz)" ]; then
+echo "Website update that bai: "
+echo "-------------------------------------------------------------------------"
+ls /tmp/updatethatbaihostingaz
+echo "-------------------------------------------------------------------------"
+fi
+echo "Database sao luu thanh cong: $(ls -1 /tmp/saoluudatabasethanhconghostingaz | wc -l)"
+if [ ! "$(ls -1 /tmp/saoluudatabasethanhconghostingaz | wc -l)" == "0" ]; then
+echo "-------------------------------------------------------------------------"
+echo "List file backup database: "
+echo "-------------------------------------------------------------------------"
+echo "http://$serverip:$priport/Listbackupwpdata$randomcode.txt "
+fi
+/etc/vpssim/menu/vpssim-wordpress-tools-menu
+rm -rf /tmp/*hostingaz*
+fi

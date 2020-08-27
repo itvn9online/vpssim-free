@@ -1,0 +1,87 @@
+#!/bin/sh
+. /home/vpssim.conf
+
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
+	if [ "$(/sbin/service php-fpm status | awk 'NR==1 {print $5}')" == "running..." ]; then
+clear
+echo "========================================================================"
+service php-fpm restart
+/etc/vpssim/menu/tienich/vpssim-restart-service
+	else
+clear
+echo "========================================================================"
+echo "php-fpm service is not running"
+echo "------------------------------------------------------------------------"
+echo "VPSSIM trying to start it"
+echo "------------------------------------------------------------------------"
+echo "Please wait ..."
+sleep 5 ; clear
+		echo "-------------------------------------------------------------------------"
+service php-fpm start
+clear
+echo "========================================================================"
+echo "Check php-fpm service once again !"
+echo "------------------------------------------------------------------------"
+echo "please wait ..."
+sleep 5 ; clear
+		if [ "$(/sbin/service php-fpm status | awk 'NR==1 {print $5}')" == "running..." ]; then
+clear
+echo "========================================================================"
+service php-fpm restart
+/etc/vpssim/menu/tienich/vpssim-restart-service
+		else
+		clear
+echo "========================================================================"
+echo "VPSSIM can not start php-fpm Service"
+sleep 4 ;
+	clear
+	echo "========================================================================="
+	echo "Rat tiec, VPSSIM khong the khoi dong lai duoc php-fpm service !"
+	#echo "Sorry, VPSSIM can not restart php-fpm service !"
+	/etc/vpssim/menu/tienich/vpssim-restart-service
+		fi
+fi
+fi
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+	if [ "`systemctl is-active php-fpm.service`" == "active" ]; then
+clear
+echo "========================================================================"
+service php-fpm stop
+service php-fpm start
+/etc/vpssim/menu/tienich/vpssim-restart-service
+	else
+clear
+echo "========================================================================"
+echo "php-fpm service is not running"
+echo "------------------------------------------------------------------------"
+echo "VPSSIM trying to start it"
+echo "------------------------------------------------------------------------"
+echo "Please wait ..."
+sleep 5 ; clear
+		echo "-------------------------------------------------------------------------"
+systemctl restart php-fpm.service
+clear
+echo "========================================================================"
+echo "Check php-fpm service once again !"
+echo "------------------------------------------------------------------------"
+echo "please wait ..."
+sleep 5 ; clear
+	if [ "`systemctl is-active php-fpm.service`" == "active" ]; then
+clear
+echo "========================================================================"
+service php-fpm stop
+service php-fpm start
+/etc/vpssim/menu/tienich/vpssim-restart-service
+		else
+				clear
+echo "========================================================================"
+echo "VPSSIM can not start php-fpm Service"
+sleep 4 ;
+	clear
+	echo "========================================================================="
+	echo "Rat tiec, VPSSIM khong the khoi dong lai duoc php-fpm!"
+	#echo "Sorry, VPSSIM can not restart php-fpm service !"
+	/etc/vpssim/menu/tienich/vpssim-restart-service
+		fi
+fi
+fi

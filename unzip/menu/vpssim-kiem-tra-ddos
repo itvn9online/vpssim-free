@@ -1,0 +1,22 @@
+#!/bin/sh
+prompt="Lua chon cua ban (5-Thoat):"
+options=("Ket noi toi cong 80 & 443" "So ket noi dang SYN_RECV" "IP dang ket noi & so ket noi/IP" "Block IP")
+printf "=========================================================================\n"
+printf "                VPSSIM - Manage VPS/Server by HostingAZ.VN             \n"
+printf "=========================================================================\n"
+printf "                   Check DDOS, Flood & Block IP DOS\n"
+printf "=========================================================================\n"
+PS3="$prompt"
+select opt in "${options[@]}" "Thoat"; do 
+
+    case "$REPLY" in
+    1 ) /etc/vpssim/menu/checkddos/vpssim-so-ket-noi;;
+    2 ) /etc/vpssim/menu/checkddos/vpssim-so-rysync;;
+    3 ) netstat -an|grep :80 |awk '{print $5}'|cut -d":" -f1|sort|uniq -c|sort -rn;;
+    4 ) /etc/vpssim/menu/vpssim-chan-ip-ddos;;
+      
+    $(( ${#options[@]}+1 )) ) echo "Tam biet!";  clear && /bin/vpssim;;
+    *) echo "Ban nhap sai, vui long nhap theo so thu tu tren menu !";continue;;
+
+    esac
+done

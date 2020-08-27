@@ -1,0 +1,72 @@
+#!/bin/bash 
+
+. /home/vpssim.conf
+php_version1=$(php -r "echo PHP_MAJOR_VERSION.'.'.PHP_MINOR_VERSION;")
+if [ "$php_version1" == "7.0" ]; then
+clear
+echo "========================================================================="
+echo "Ban dang su dung PHP 7.0"
+echo "-------------------------------------------------------------------------"
+echo "Hien tai Opencart chua ho tro PHP 7.0"
+/etc/vpssim/menu/vpssim-them-website-menu
+exit
+fi
+
+prompt="Lua chon cua ban: "
+options=( "Opencart 2.2.0.0" "Opencart 2.1.0.2" "Opencart 2.1.0.1" "Opencart 2.0.3.1" "Opencart 2.0.2.0" "Opencart 2.0.0.0" "Opencart 1.5.6.4" "Thoat")
+printf "=========================================================================\n"
+printf "LUA CHON PHIEN BAN OPENCART BAN MUON CAI DAT\n"
+printf "=========================================================================\n"
+PS3="$prompt"
+select opt in "${options[@]}"; do 
+
+    case "$REPLY" in
+    1) chooseversionopencart="2200"; break;;
+    2) chooseversionopencart="2102"; break;;
+    3) chooseversionopencart="2101"; break;;
+	4) chooseversionopencart="2031"; break;;
+	5) chooseversionopencart="2020"; break;;
+	6) chooseversionopencart="2000"; break;;
+	7) chooseversionopencart="1564"; break;;
+    8) chooseversionopencart="cancle"; break;;
+    *) echo "You typed wrong, Please type in the ordinal number on the list";continue;;
+    esac  
+done
+###################################
+#2200
+###################################
+if [ "$chooseversionopencart" = "2200" ]; then
+/etc/vpssim/menu/vpssim-them-website-va-opencart-2200
+###################################
+#2102
+###################################
+elif [ "$chooseversionopencart" = "2102" ]; then
+/etc/vpssim/menu/vpssim-them-website-va-opencart-2102
+###################################
+#2101
+###################################
+elif [ "$chooseversionopencart" = "2101" ]; then
+/etc/vpssim/menu/vpssim-them-website-va-opencart-2101
+###################################
+#2031
+###################################
+elif [ "$chooseversionopencart" = "2031" ]; then
+/etc/vpssim/menu/vpssim-them-website-va-opencart-2031
+###################################
+#2020
+###################################
+elif [ "$chooseversionopencart" = "2020" ]; then
+/etc/vpssim/menu/vpssim-them-website-va-opencart-2020
+###################################
+#2000
+###################################
+elif [ "$chooseversionopencart" = "2000" ]; then
+/etc/vpssim/menu/vpssim-them-website-va-opencart-2000
+###################################
+#1654
+###################################
+elif [ "$chooseversionopencart" = "1564" ]; then
+/etc/vpssim/menu/vpssim-them-website-va-opencart-1564
+else 
+clear && /etc/vpssim/menu/vpssim-them-website-menu
+fi

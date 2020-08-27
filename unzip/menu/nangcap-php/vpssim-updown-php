@@ -1,0 +1,82 @@
+#!/bin/sh
+. /home/vpssim.conf
+
+nang_cap_php_fpm_check () {
+php_version=$(php -r "echo PHP_MAJOR_VERSION.'.'.PHP_MINOR_VERSION;")
+if [ "$php_version" == "5.6" ]; then
+/etc/vpssim/menu/nangcap-php/change-php-version-menu
+elif [ "$php_version" == "5.5" ]; then
+/etc/vpssim/menu/nangcap-php/change-php-version-menu
+elif [ "$php_version" == "5.4" ]; then
+/etc/vpssim/menu/nangcap-php/change-php-version-menu
+elif [ "$php_version" == "7.0" ]; then
+/etc/vpssim/menu/nangcap-php/change-php-version-menu
+else
+clear
+echo "========================================================================="
+echo "Sorry, VPSSIM can not check your PHP version"
+/etc/vpssim/menu/vpssim-update-upgrade-service-menu
+exit
+fi
+}
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
+	if [ "$(/sbin/service php-fpm status | awk 'NR==1 {print $5}')" == "running..." ]; then
+nang_cap_php_fpm_check
+	else
+clear
+echo "========================================================================"
+echo "PHP-FPM service is not running"
+echo "------------------------------------------------------------------------"
+echo "VPSSIM trying to start it"
+echo "------------------------------------------------------------------------"
+echo "Please wait ..."
+sleep 5 ; clear
+service php-fpm start
+clear
+echo "========================================================================"
+echo "Check PHP-FPM service once again !"
+echo "------------------------------------------------------------------------"
+echo "please wait ..."
+sleep 5 ; clear
+			if [ "$(/sbin/service php-fpm status | awk 'NR==1 {print $5}')" == "running..." ]; then
+nang_cap_php_fpm_check
+		else
+	clear
+	echo "========================================================================="
+	#echo "Sorry, PHP-FPM stopped. Start it before use this function!"
+	echo "Sorry, PHP-FPM dang stopped. Hay bat len truoc khi dung chuc nang nay!"
+	/etc/vpssim/menu/vpssim-update-upgrade-service-menu
+		fi
+fi
+fi
+
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+	if [ "`systemctl is-active php-fpm.service`" == "active" ]; then
+nang_cap_php_fpm_check
+	else
+clear
+echo "========================================================================"
+echo "PHP-FPM service is not running"
+echo "------------------------------------------------------------------------"
+echo "VPSSIM trying to start it"
+echo "------------------------------------------------------------------------"
+echo "Please wait ..."
+sleep 5 ; clear
+systemctl start php-fpm.service
+clear
+echo "========================================================================"
+echo "Check PHP-FPM service once again !"
+echo "------------------------------------------------------------------------"
+echo "please wait ..."
+sleep 5 ; clear
+	if [ "`systemctl is-active php-fpm.service`" == "active" ]; then
+nang_cap_php_fpm_check
+		else
+	clear
+	echo "========================================================================="
+	#echo "Sorry, PHP-FPM stopped. Start it before use this function!"
+	echo "Sorry, PHP-FPM dang stopped. Hay bat len truoc khi dung chuc nang nay!"
+	/etc/vpssim/menu/vpssim-update-upgrade-service-menu
+		fi
+fi
+fi

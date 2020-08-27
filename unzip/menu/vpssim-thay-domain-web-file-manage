@@ -1,0 +1,183 @@
+#!/bin/bash
+
+. /home/vpssim.conf
+if [ ! -f /etc/vpssim/uploadsite ]; then
+clear
+echo "========================================================================="
+echo "Ban chua cai dat File Manager cho Server !"
+/etc/vpssim/menu/vpssim-web-upload-menu
+exit
+fi
+uploadsite=$(cat /etc/vpssim/uploadsite)
+if [ ! -f /etc/nginx/conf.d/$uploadsite.conf ]; then
+clear
+echo "========================================================================="
+echo "Qua trinh thay Domain File Manager gap loi!"
+echo "-------------------------------------------------------------------------"
+echo "Ban vui long kiem tra lai"
+/etc/vpssim/menu/vpssim-web-upload-menu
+exit
+fi
+echo "========================================================================= "
+echo "Su dung chuc nang nay de thay Domain File Manager sang Domain khac"
+echo "-------------------------------------------------------------------------"
+read -r -p "Ban muon thay $uploadsite bang domain khac? [y/N] " response
+case $response in
+    [yY][eE][sS]|[yY]) 
+echo "-------------------------------------------------------------------------"
+echo -n "Nhap domain moi thay cho $uploadsite [ENTER]: " 
+read website
+website=`echo $website | tr '[A-Z]' '[a-z]'`
+if [ "$website" = "" ]; then
+clear
+echo "========================================================================="
+echo "Ban nhap sai, vui long nhap lai!"
+/etc/vpssim/menu/vpssim-web-upload-menu
+exit
+fi
+
+kiemtradomain3="^([[:alnum:]]([[:alnum:]\-]{0,61}[[:alnum:]])?\.)+[[:alpha:]]{2,12}$";
+if [[ ! "$website" =~ $kiemtradomain3 ]]; then
+	website=`echo $website | tr '[A-Z]' '[a-z]'`
+clear
+echo "========================================================================="
+echo "$website co le khong phai la domain !!"
+echo "-------------------------------------------------------------------------"
+echo "Ban vui long thu lai  !"
+/etc/vpssim/menu/vpssim-web-upload-menu
+exit
+fi
+
+if [ -f /etc/nginx/conf.d/$website.conf ]; then
+clear
+echo "========================================================================="
+echo "Phat hien $website da ton tai tren he thong!"
+echo "-------------------------------------------------------------------------"
+echo "Ban vui long thu lai  !"
+/etc/vpssim/menu/vpssim-web-upload-menu
+exit
+fi
+
+echo "-------------------------------------------------------------------------"
+echo "Please wait ..."; sleep 4
+mv /home/$uploadsite /home/$website
+checkfilemanagedomainconfig=$(grep auth_basic /etc/nginx/conf.d/$uploadsite.conf)
+if [ "$checkfilemanagedomainconfig" == "" ]; then
+
+ cat > "/etc/nginx/conf.d/$website.conf" <<END
+server {
+	    server_name www.$website;
+	    rewrite ^(.*) http://$website\$1 permanent;
+    	}
+server {
+	    listen   80;
+    	access_log off;
+    	error_log off;
+    	# error_log /home/$website/logs/error.log;
+    	root /home/$website/public_html;
+include /etc/nginx/conf/ddos2.conf;
+ 	index index.php index.html index.htm;
+    	server_name $website;
+    	
+
+#///////////////////////////////////////////////////////
+#///////////////////////////////////////////////////////
+include /etc/nginx/conf/supercache.conf;  
+
+#Tang bao mat security, chong sql injection  ....(uncoment neu ban muon su dung). Boi vi mot so code website khong su dung duoc voi rule nay, nen mac dinh VPSSIM de tat.
+#include /etc/nginx/conf/block.conf;
+
+    	location ~ \.php$ {
+		fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        	include /etc/nginx/fastcgi_params;
+        	fastcgi_pass 127.0.0.1:9000;
+        	fastcgi_index index.php;
+		fastcgi_connect_timeout 2000;
+		fastcgi_send_timeout 2000;
+		fastcgi_read_timeout 2000;
+		fastcgi_buffer_size 256k;
+		fastcgi_buffers 4 256k;
+		fastcgi_busy_buffers_size 256k;
+		fastcgi_temp_file_write_size 256k;
+		fastcgi_intercept_errors on;
+        	fastcgi_param SCRIPT_FILENAME /home/$website/public_html\$fastcgi_script_name;
+    	}
+    	
+include /etc/nginx/conf/staticfiles.conf;
+#include /etc/nginx/conf/phpstatus.conf;
+include /etc/nginx/conf/drop.conf;
+#include /etc/nginx/conf/errorpage.conf;
+    }
+END
+else
+
+ cat > "/etc/nginx/conf.d/$website.conf" <<END
+server {
+	    server_name www.$website;
+	    rewrite ^(.*) http://$website\$1 permanent;
+    	}
+server {
+	    listen   80;
+    	access_log off;
+    	error_log off;
+    	# error_log /home/$website/logs/error.log;
+    	root /home/$website/public_html;
+auth_basic "Authorization Required";
+auth_basic_user_file  /etc/nginx/.htpasswd;
+include /etc/nginx/conf/ddos2.conf;
+ 	index index.php index.html index.htm;
+    	server_name $website;
+    	
+
+#///////////////////////////////////////////////////////
+#///////////////////////////////////////////////////////
+include /etc/nginx/conf/supercache.conf;  
+
+#Tang bao mat security, chong sql injection  ....(uncoment neu ban muon su dung). Boi vi mot so code website khong su dung duoc voi rule nay, nen mac dinh VPSSIM de tat.
+#include /etc/nginx/conf/block.conf;
+
+    	location ~ \.php$ {
+		fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        	include /etc/nginx/fastcgi_params;
+        	fastcgi_pass 127.0.0.1:9000;
+        	fastcgi_index index.php;
+		fastcgi_connect_timeout 2000;
+		fastcgi_send_timeout 2000;
+		fastcgi_read_timeout 2000;
+		fastcgi_buffer_size 256k;
+		fastcgi_buffers 4 256k;
+		fastcgi_busy_buffers_size 256k;
+		fastcgi_temp_file_write_size 256k;
+		fastcgi_intercept_errors on;
+        	fastcgi_param SCRIPT_FILENAME /home/$website/public_html\$fastcgi_script_name;
+    	}
+    	
+include /etc/nginx/conf/staticfiles.conf;
+#include /etc/nginx/conf/phpstatus.conf;
+include /etc/nginx/conf/drop.conf;
+#include /etc/nginx/conf/errorpage.conf;
+    }
+END
+fi
+
+rm -rf /etc/nginx/conf.d/$uploadsite.conf
+#########################
+
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
+service nginx reload
+else 
+systemctl reload nginx
+fi
+echo "$website" > /etc/vpssim/uploadsite
+clear
+echo "========================================================================="
+echo "Hay tro domain $(cat /etc/vpssim/uploadsite) toi $serverip"
+echo "-------------------------------------------------------------------------"
+echo "va truy cap domain nay tren trinh duyet de quan ly file tren server."
+/etc/vpssim/menu/vpssim-web-upload-menu
+;;
+esac
+clear
+echo "========================================================================="
+echo "Ban da cancel thay doi domain File Manager"
+/etc/vpssim/menu/vpssim-web-upload-menu

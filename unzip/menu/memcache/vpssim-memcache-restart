@@ -1,0 +1,36 @@
+#!/bin/bash
+. /home/vpssim.conf
+
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
+if [ "$(/sbin/service memcached status | awk 'NR==1 {print $5}')" == "running..." ]; then
+echo "Please wait....";sleep 1
+service memcached restart
+clear
+echo "========================================================================= "
+echo "Restart memcached thanh cong !"
+/etc/vpssim/menu/memcache/vpssim-before-memcache-menu
+else
+clear
+echo "========================================================================= "
+echo "Memcached dang Disable tren server."
+/etc/vpssim/menu/memcache/vpssim-before-memcache-menu
+exit
+fi
+fi
+
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+if [ "`systemctl is-active memcached.service`" == "active" ]; then
+echo "Please wait....";sleep 1
+systemctl restart memcached.service
+clear
+echo "========================================================================= "
+echo "Restart memcached thanh cong !"
+/etc/vpssim/menu/memcache/vpssim-before-memcache-menu
+else
+clear
+echo "========================================================================= "
+echo "Memcached dang Disable tren server."
+/etc/vpssim/menu/memcache/vpssim-before-memcache-menu
+exit
+fi
+fi

@@ -1,0 +1,25 @@
+#!/bin/sh
+. /home/vpssim.conf
+echo "========================================================================="
+echo "Hien tai chuc nang [Auto re-start MySQL Server] dang duoc BAT"
+echo "-------------------------------------------------------------------------"
+read -r -p "Ban muon TAT chuc nang nay ?  [y/N] " response
+case $response in
+    [yY][eE][sS]|[yY]) 
+    echo "-------------------------------------------------------------------------"
+    echo "Please wait...."; sleep 1
+    rm -rf /etc/cron.d/vpssim-auto-start-mysql.cron
+    service crond restart
+    clear
+    echo "========================================================================="
+echo "Disable [Auto re-start MySQL Server] thanh cong !"
+/etc/vpssim/menu/vpssim-them-xoa-database
+        ;;
+    *)
+       clear
+    echo "========================================================================="
+   echo "Ban khong disable [Auto re-start MySQL Server]"
+/etc/vpssim/menu/vpssim-them-xoa-database
+        ;;
+esac
+

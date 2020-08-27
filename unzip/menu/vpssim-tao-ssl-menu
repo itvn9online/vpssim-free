@@ -1,0 +1,26 @@
+#!/bin/bash
+prompt="Lua chon cua ban (4-Thoat):"
+options=( "Tao domain key & Sign SSL certificate" "Tai Domain CSR va Vhost Mau " "Fix Khong the download files" "Thoat")
+printf "=========================================================================\n"
+printf "                VPSSIM - Quan Ly VPS/Server by HostingAZ.VN \n"
+printf "=========================================================================\n"
+printf "                            Setup SSL (https) \n"
+printf "=========================================================================\n"
+printf "  \n"
+
+PS3="$prompt"
+select opt in "${options[@]}" ; do 
+
+    case "$REPLY" in
+    1) /etc/vpssim/menu/vpssim-tao-ssl;;
+    2) /etc/vpssim/menu/vpssim-tao-ssl-link-download-domain-csr;;
+    3) /etc/vpssim/menu/vpssim-khong-the-download-csr-file;;
+    4) clear && /bin/vpssim;;
+        *) echo "Ban nhap sai, vui long nhap theo so thu tu tren menu !";continue;;
+
+    esac
+
+done
+
+
+

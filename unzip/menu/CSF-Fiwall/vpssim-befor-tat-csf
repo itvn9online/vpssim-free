@@ -1,0 +1,34 @@
+#!/bin/bash 
+
+. /home/vpssim.conf
+if [ -f /etc/csf/csf.conf ]; then
+test_csf=$(/sbin/service csf status | awk 'NR==1 {print $3}')
+if [ "$test_csf" == "csf:csf" ]; then
+clear
+echo "========================================================================= "
+echo "CSF dang tat tren server ! "
+/etc/vpssim/menu/CSF-Fiwall/vpssim-csf-firewall-menu
+else
+echo "========================================================================= "
+echo "CSF Firewall nen duoc bat de bao ve VPS/Server!!"
+echo "-------------------------------------------------------------------------"
+read -r -p "Ban muon tat CSF FireWall ? [y/N] " response
+case $response in
+    [yY][eE][sS]|[yY]) 
+csf -x
+clear
+echo "========================================================================= "
+echo "Tat CSF firewall thanh cong ! "
+/etc/vpssim/menu/CSF-Fiwall/vpssim-csf-firewall-menu
+;;
+esac
+clear
+echo "========================================================================= "
+echo "Ban huy bo tat CSF Firewall ! "
+/etc/vpssim/menu/CSF-Fiwall/vpssim-csf-firewall-menu
+exit
+fi
+else
+/etc/vpssim/menu/CSF-Fiwall/vpssim-tat-csf
+exit
+fi

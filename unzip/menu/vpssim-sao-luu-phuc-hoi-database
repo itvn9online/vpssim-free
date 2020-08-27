@@ -1,0 +1,27 @@
+#!/bin/sh
+prompt="Nhap lua chon cua ban (5-Thoat):"
+options=( "Thoat")
+printf "=========================================================================\n"
+printf "               VPSSIM - Manage VPS/Server by HostingAZ.VN \n"
+printf "=========================================================================\n"
+printf "                      Backup & Restore Database\n"
+printf "=========================================================================\n"
+
+PS3="$prompt"
+select opt in "${options[@]}" ; do 
+
+    case "$REPLY" in
+
+    1 ) /etc/vpssim/menu/vpssim-sao-luu-data;;
+    2 ) /etc/vpssim/menu/vpssim-lan-luot-sao-luu-het-tat-ca-database;;
+    3 ) /etc/vpssim/menu/vpssim-phuc-hoi-database-chon-dinh-dang;;
+    4 ) /etc/vpssim/menu/vpssim-lay-link-sao-luu-database-backup-menu;;
+    #5 ) /etc/vpssim/menu/vpssim-list-database-tren-vps;; "Danh Sach Database Tren Server"
+    5 ) clear && /etc/vpssim/menu/vpssim-them-xoa-database;;
+
+    
+    *) echo "Ban nhap sai, vui long nhap theo danh sach";continue;;
+
+    esac
+
+done

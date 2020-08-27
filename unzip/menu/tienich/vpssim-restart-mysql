@@ -1,0 +1,65 @@
+#!/bin/sh
+. /home/vpssim.conf
+
+if [ -f /var/lib/mysql/vpssimCheckDB/db.opt ]; then
+rm -rf /var/lib/mysql/vpssimCheckDB
+fi
+ cat > "/tmp/config.temp" <<END
+CREATE DATABASE vpssimCheckDB COLLATE utf8_general_ci;
+END
+mysql -u root -p$mariadbpass < /tmp/config.temp
+rm -f /tmp/config.temp
+
+if [ ! -f /var/lib/mysql/vpssimCheckDB/db.opt ]; then
+clear
+echo "========================================================================"
+echo "MySQL service is not running"
+echo "------------------------------------------------------------------------"
+echo "VPSSIM trying to start it"
+echo "------------------------------------------------------------------------"
+echo "Please wait ..."
+sleep 5 ; clear
+rm -rf /var/lib/mysql/ib_logfile0
+rm -rf /var/lib/mysql/ib_logfile1
+cat > "/tmp/startmysql" <<END
+systemctl start mariadb.service
+service mysql start
+END
+chmod +x /tmp/startmysql
+/tmp/startmysql
+rm -rf /tmp/startmysql
+clear
+echo "========================================================================"
+echo "Check MySQL service once again !"
+echo "------------------------------------------------------------------------"
+echo "please wait ..."
+sleep 5 ; clear
+cat > "/tmp/config.temp" <<END
+CREATE DATABASE vpssimCheckDB COLLATE utf8_general_ci;
+END
+mysql -u root -p$mariadbpass < /tmp/config.temp
+rm -f /tmp/config.temp
+	if [ ! -f /var/lib/mysql/vpssimCheckDB/db.opt ]; then
+	clear
+echo "========================================================================"
+echo "VPSSIM can not start MySQL Service"
+sleep 4 ;
+	clear
+	echo "========================================================================="
+	echo "Sorry, VPSSIM khong the khoi dong duoc MySQL Service"
+    #echo "Sorry, VPSSIM can not start MySQL service"
+	/etc/vpssim/menu/tienich/vpssim-restart-service
+	else
+	rm -rf /var/lib/mysql/vpssimCheckDB
+	clear
+	echo "========================================================================="
+    service mysql restart
+    /etc/vpssim/menu/tienich/vpssim-restart-service
+	fi
+else
+rm -rf /var/lib/mysql/vpssimCheckDB
+clear
+echo "========================================================================="
+service mysql restart
+/etc/vpssim/menu/tienich/vpssim-restart-service
+fi

@@ -1,0 +1,425 @@
+#!/bin/bash
+. /home/vpssim.conf
+moduledir=/usr/local/vpssim
+opensslversion=openssl-1.0.2h
+zlibversion=zlib-1.2.8
+rm -rf /tmp/checktmp
+echo "Check /tmp by VPSSIM" > /tmp/checktmp
+if [ ! -f /tmp/checktmp ]; then
+clear
+echo "========================================================================="
+echo "Your Server has a problem with /tmp "
+echo "-------------------------------------------------------------------------"
+echo "Please fix it before use this function"
+/etc/vpssim/menu/vpssim-update-upgrade-service-menu
+exit
+fi
+rm -rf /tmp/checktmp
+checkketnoi=$(curl -o /dev/null --silent --head --write-out '%{http_code}' "https://vpssim.com/script/vpssim/00-all-nginx-version.txt" )
+if [[ "$checkketnoi" == "000" ]]; then
+clear
+echo "========================================================================="
+echo "Khong the kiem tra phien ban moi nhat Nginx"
+echo "-------------------------------------------------------------------------"
+echo "Ban vui long thu lai !"
+/etc/vpssim/menu/vpssim-update-upgrade-service-menu
+exit
+fi
+download_module_nginx () {
+echo "========================================================================="
+echo "Download Nginx Module ... "
+echo "========================================================================="
+sleep 3
+cd /usr/local/vpssim
+# /usr/local/vpssim/echo-nginx-module
+rm -rf echo-nginx-module*
+wget --no-check-certificate https://vpssim.com/script/vpssim/module-nginx/echo-nginx-module.zip
+unzip -oq echo-nginx-module.zip
+rm -rf echo-nginx-module.zip
+# /usr/local/vpssim/ngx_http_substitutions_filter_module
+rm -rf ngx_http_substitutions_filter_module*
+wget --no-check-certificate https://vpssim.com/script/vpssim/module-nginx/ngx_http_substitutions_filter_module.zip
+unzip -oq ngx_http_substitutions_filter_module.zip
+rm -rf ngx_http_substitutions_filter_module.zip
+# /usr/local/vpssim/ngx_cache_purge-master
+rm -rf ngx_cache_purge*
+wget --no-check-certificate https://vpssim.com/script/vpssim/module-nginx/ngx_cache_purge.zip
+unzip -oq ngx_cache_purge.zip
+rm -rf ngx_cache_purge.zip
+# /usr/local/vpssim/headers-more-nginx-module
+rm -rf headers-more-nginx-module*
+wget --no-check-certificate https://vpssim.com/script/vpssim/module-nginx/headers-more-nginx-module.zip
+unzip -oq headers-more-nginx-module.zip
+rm -rf headers-more-nginx-module.zip
+# /usr/local/vpssim/openssl-1.0.2h
+rm -rf ${opensslversion}
+wget -q https://www.openssl.org/source/${opensslversion}.tar.gz
+tar -xzxf ${opensslversion}.tar.gz
+rm -rf ${opensslversion}.tar.gz
+# $moduledir/${zlibversion}
+rm -rf ${zlibversion}
+wget -q http://zlib.net/${zlibversion}.tar.gz
+tar -xzxf ${zlibversion}.tar.gz
+rm -rf ${zlibversion}.tar.gz
+# /usr/local/vpssim/pcre-8.39
+rm -rf pcre-8.39
+wget -q https://vpssim.com/script/vpssim/module-nginx/pcre-8.39.zip
+unzip -oq pcre-8.39.zip
+rm -rf pcre-8.39.zip
+# /usr/local/vpssim/ngx_http_redis-0.3.8
+rm -rf ngx_http_redis-0.3.8
+wget -q https://vpssim.com/script/vpssim/module-nginx/ngx_http_redis-0.3.8.tar.gz
+tar -xzxf ngx_http_redis-0.3.8.tar.gz
+rm -rf ngx_http_redis-0.3.8.tar.gz
+# /usr/local/vpssim/redis2-nginx-module
+rm -rf redis2-nginx-module*
+wget --no-check-certificate https://vpssim.com/script/vpssim/module-nginx/redis2-nginx-module.zip
+unzip -oq redis2-nginx-module.zip
+rm -rf redis2-nginx-module.zip
+# /usr/local/vpssim/set-misc-nginx-module
+rm -rf set-misc-nginx-module*
+wget --no-check-certificate https://vpssim.com/script/vpssim/module-nginx/set-misc-nginx-module.zip
+unzip -oq set-misc-nginx-module.zip
+rm -rf set-misc-nginx-module.zip
+# /usr/local/vpssim/ngx_devel_kit
+rm -rf ngx_devel_kit*
+wget --no-check-certificate https://vpssim.com/script/vpssim/module-nginx/ngx_devel_kit.zip
+unzip -oq ngx_devel_kit.zip
+rm -rf ngx_devel_kit.zip
+# /usr/local/vpssim/ngx_http_concat
+rm -rf ngx_http_concat
+wget -q --no-check-certificate https://vpssim.com/script/vpssim/module-nginx/ngx_http_concat.tar.gz
+tar -xzxf ngx_http_concat.tar.gz
+rm -rf ngx_http_concat.tar.gz
+# /usr/local/vpssim/srcache-nginx-module
+rm -rf srcache-nginx-module*
+wget --no-check-certificate https://vpssim.com/script/vpssim/module-nginx/srcache-nginx-module.zip
+unzip -oq srcache-nginx-module.zip
+rm -rf srcache-nginx-module.zip
+# /usr/local/vpssim/memc-nginx-module
+rm -rf memc-nginx-module*
+wget --no-check-certificate https://vpssim.com/script/vpssim/module-nginx/memc-nginx-module.zip
+unzip -oq memc-nginx-module.zip
+rm -rf memc-nginx-module.zip
+# /usr/local/vpssim/libatomic_ops-master
+rm -rf libatomic_ops*
+wget --no-check-certificate https://vpssim.com/script/vpssim/module-nginx/libatomic_ops.zip
+unzip -oq libatomic_ops.zip
+rm -rf libatomic_ops.zip
+# /usr/local/vpssim/nginx-module-vts-master
+#rm -rf nginx_module_vts*
+#wget -q http://vpssim.com/script/vpssim/module-nginx/nginx_module_vts.tar.gz
+#tar -xzxf nginx_module_vts.tar.gz
+#rm -rf nginx_module_vts.tar.gz
+#cd
+}
+
+change_nginx_run_http2_no_pagespeed () {
+cd /usr/local/vpssim
+rm -rf nginx*.tar.gz
+rm -rf /usr/local/vpssim/nginx*
+wget --no-check-certificate http://nginx.org/download/nginx-${Nginx_VERSION}.tar.gz
+tar -xzf nginx-${Nginx_VERSION}.tar.gz
+rm -rf /usr/local/vpssim/nginx-${Nginx_VERSION}.tar.gz
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+#rm -rf /tmp/nginx.conf
+#cp /etc/nginx/nginx.conf /tmp/nginx.conf
+cd /usr/local/vpssim/nginx-${Nginx_VERSION}
+sed -i 's/"Server: nginx"/"Server: Nginx-VPSSIM"/g' /usr/local/vpssim/nginx-${Nginx_VERSION}/src/http/ngx_http_header_filter_module.c
+sed -i 's/"Server: "/"Server: Nginx-VPSSIM"/g' /usr/local/vpssim/nginx-${Nginx_VERSION}/src/http/ngx_http_header_filter_module.c
+./configure --group=nginx --user=nginx \
+--pid-path=/var/run/nginx.pid \
+--prefix=/usr/share/nginx \
+--sbin-path=/usr/sbin/nginx \
+--with-http_v2_module \
+--with-http_ssl_module \
+--with-ipv6 \
+--with-http_flv_module \
+--with-http_mp4_module \
+--with-http_random_index_module \
+--with-http_secure_link_module \
+--with-http_stub_status_module \
+--with-http_sub_module \
+--with-http_xslt_module \
+--with-http_addition_module \
+--with-http_dav_module \
+--with-http_geoip_module \
+--with-http_image_filter_module \
+--with-http_perl_module \
+--with-ld-opt="-Wl,-E" \
+--with-mail \
+--with-mail_ssl_module \
+--with-http_gunzip_module \
+--with-http_gzip_static_module \
+--with-file-aio \
+--with-pcre=$moduledir/pcre-8.39 \
+--with-pcre-jit \
+--with-google_perftools_module \
+--with-debug \
+--with-zlib=$moduledir/${zlibversion} \
+--with-openssl=$moduledir/${opensslversion} \
+--with-openssl-opt="enable-tlsext" \
+--conf-path=/etc/nginx/nginx.conf \
+--with-http_gzip_static_module \
+--with-threads \
+--with-stream \
+--with-stream_ssl_module \
+--with-http_realip_module \
+--add-module=$moduledir/ngx_devel_kit-master \
+--add-module=$moduledir/echo-nginx-module-master \
+--add-module=$moduledir/memc-nginx-module-master \
+--add-module=$moduledir/set-misc-nginx-module-master \
+--add-module=$moduledir/srcache-nginx-module-master \
+--add-module=$moduledir/ngx_http_concat \
+--add-module=$moduledir/ngx_http_substitutions_filter_module-master \
+--add-module=$moduledir/ngx_cache_purge-master \
+--add-module=$moduledir/headers-more-nginx-module-master \
+--add-module=$moduledir/redis2-nginx-module-master \
+--add-module=$moduledir/ngx_http_redis-0.3.8 
+make
+make install
+cd
+##rm -f /etc/init.d/nginx
+#wget -q --no-check-certificate http://hostingaz.vn/script/vpssim/nginx -O /etc/init.d/nginx && chmod +x /etc/init.d/nginx
+#chmod +x /usr/sbin/nginx
+#yes | cp -rf /tmp/nginx.conf /etc/nginx/nginx.conf
+#rm -rf /tmp/nginx.conf
+fi
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
+#rm -rf /tmp/nginx.conf
+#cp /etc/nginx/nginx.conf /tmp/nginx.conf
+cd /usr/local/vpssim/nginx-${Nginx_VERSION}
+    sed -i 's/"Server: nginx"/"Server: Nginx-VPSSIM"/g' /usr/local/vpssim/nginx-${Nginx_VERSION}/src/http/ngx_http_header_filter_module.c
+    sed -i 's/"Server: "/"Server: Nginx-VPSSIM"/g' /usr/local/vpssim/nginx-${Nginx_VERSION}/src/http/ngx_http_header_filter_module.c
+./configure --prefix=/usr/share/nginx \
+--sbin-path=/usr/sbin/nginx \
+--group=nginx --user=nginx \
+--pid-path=/var/run/nginx.pid \
+--conf-path=/etc/nginx/nginx.conf \
+--with-http_v2_module \
+--with-http_ssl_module \
+--with-ipv6 \
+--with-http_flv_module \
+--with-http_mp4_module \
+--with-http_random_index_module \
+--with-http_secure_link_module \
+--with-http_stub_status_module \
+--with-http_sub_module \
+--with-http_xslt_module \
+--with-http_addition_module \
+--with-http_dav_module \
+--with-http_geoip_module \
+--with-http_image_filter_module \
+--with-http_perl_module \
+--with-mail \
+--with-mail_ssl_module \
+--with-http_gunzip_module \
+--with-http_gzip_static_module \
+--with-file-aio \
+--with-pcre=$moduledir/pcre-8.39 \
+--with-pcre-jit \
+--with-google_perftools_module \
+--with-debug \
+--with-openssl=$moduledir/${opensslversion} \
+--with-zlib=$moduledir/${zlibversion} \
+--with-openssl-opt="enable-tlsext" \
+--with-http_realip_module \
+--with-http_stub_status_module \
+--add-module=$moduledir/ngx_devel_kit-master \
+--add-module=$moduledir/echo-nginx-module-master \
+--add-module=$moduledir/memc-nginx-module-master \
+--add-module=$moduledir/set-misc-nginx-module-master \
+--add-module=$moduledir/srcache-nginx-module-master \
+--add-module=$moduledir/ngx_http_concat \
+--add-module=$moduledir/ngx_http_substitutions_filter_module-master \
+--add-module=$moduledir/ngx_cache_purge-master \
+--add-module=$moduledir/headers-more-nginx-module-master \
+--add-module=$moduledir/redis2-nginx-module-master \
+--add-module=$moduledir/ngx_http_redis-0.3.8 
+make
+make install
+cd
+#rm -f /etc/init.d/nginx
+##rm -f /etc/init.d/nginx
+#wget -q --no-check-certificate http://hostingaz.vn/script/vpssim/nginx -O /etc/init.d/nginx && chmod +x /etc/init.d/nginx
+#chmod +x /usr/sbin/nginx
+#yes | cp -rf /tmp/nginx.conf /etc/nginx/nginx.conf
+#rm -rf /tmp/nginx.conf
+fi
+echo "${Nginx_VERSION}" > /etc/vpssim/nginx.version
+}
+
+change_nginx_run_http2_with_pagespeed () {
+NPS_VERSION=1.11.33.0
+cd /usr/local/vpssim
+
+################################################################################################
+wget -q --no-check-certificate https://github.com/pagespeed/ngx_pagespeed/archive/release-${NPS_VERSION}-beta.zip -O /usr/local/vpssim/release-${NPS_VERSION}-beta.zip
+################################################################################################
+unzip -oq release-${NPS_VERSION}-beta.zip
+cd ngx_pagespeed-release-${NPS_VERSION}-beta/
+################################################################################################
+wget -q --no-check-certificate https://dl.google.com/dl/page-speed/psol/${NPS_VERSION}.tar.gz -O /usr/local/vpssim/ngx_pagespeed-release-${NPS_VERSION}-beta/${NPS_VERSION}.tar.gz
+################################################################################################
+tar --overwrite-dir -xzvf ${NPS_VERSION}.tar.gz  # extracts to psol/
+cd
+
+wget -q --no-check-certificate http://nginx.org/download/nginx-${Nginx_VERSION}.tar.gz -O /usr/local/vpssim/nginx-${Nginx_VERSION}.tar.gz
+cd /usr/local/vpssim
+rm -rf nginx-${Nginx_VERSION}.tar.gz
+rm -rf /usr/local/vpssim/nginx-${Nginx_VERSION}
+wget -q --no-check-certificate http://nginx.org/download/nginx-${Nginx_VERSION}.tar.gz
+tar -xzf nginx-${Nginx_VERSION}.tar.gz
+cd
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+#rm -rf /tmp/nginx.conf
+#cp /etc/nginx/nginx.conf /tmp/nginx.conf
+cd /usr/local/vpssim/nginx-${Nginx_VERSION}
+sed -i 's/"Server: nginx"/"Server: Nginx-VPSSIM"/g' /usr/local/vpssim/nginx-${Nginx_VERSION}/src/http/ngx_http_header_filter_module.c
+sed -i 's/"Server: "/"Server: Nginx-VPSSIM"/g' /usr/local/vpssim/nginx-${Nginx_VERSION}/src/http/ngx_http_header_filter_module.c
+./configure --group=nginx --user=nginx --pid-path=/var/run/nginx.pid --prefix=/usr/share/nginx --sbin-path=/usr/sbin/nginx --with-http_v2_module --with-http_ssl_module --with-ipv6 --with-http_flv_module --with-http_mp4_module --with-http_random_index_module --with-http_secure_link_module --with-http_stub_status_module --with-http_sub_module --with-http_xslt_module --with-http_addition_module --with-http_dav_module --with-http_geoip_module --with-http_image_filter_module --with-http_perl_module --with-ld-opt="-Wl,-E" --with-mail --with-mail_ssl_module --with-http_gunzip_module --with-file-aio --with-pcre --with-google_perftools_module --with-debug --with-openssl-opt="enable-tlsext" --conf-path=/etc/nginx/nginx.conf --with-http_gzip_static_module --with-http_realip_module --with-http_stub_status_module --add-module=/usr/local/vpssim/ngx_pagespeed-release-${NPS_VERSION}-beta 
+make
+make install
+cd
+##rm -f /etc/init.d/nginx
+#wget -q --no-check-certificate http://hostingaz.vn/script/vpssim/nginx -O /etc/init.d/nginx && chmod +x /etc/init.d/nginx
+#chmod +x /usr/sbin/nginx
+#yes | cp -rf /tmp/nginx.conf /etc/nginx/nginx.conf
+#rm -rf /tmp/nginx.conf
+fi 
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
+#rm -rf /tmp/nginx.conf
+#cp /etc/nginx/nginx.conf /tmp/nginx.conf
+
+     #if [ ! -f /etc/yum.repos.d/slc6-scl.repo ]; then
+		#cd /etc/yum.repos.d
+		#wget http://linuxsoft.cern.ch/cern/scl/slc6-scl.repo
+		#yum -y --nogpgcheck install devtoolset-3-gcc devtoolset-3-gcc-c++
+		#source scl_source enable devtoolset-3
+		#cd
+     #fi
+#source scl_source enable devtoolset-3
+cd /usr/local/vpssim/nginx-${Nginx_VERSION}
+    sed -i 's/"Server: nginx"/"Server: Nginx-VPSSIM"/g' /usr/local/vpssim/nginx-${Nginx_VERSION}/src/http/ngx_http_header_filter_module.c
+    sed -i 's/"Server: "/"Server: Nginx-VPSSIM"/g' /usr/local/vpssim/nginx-${Nginx_VERSION}/src/http/ngx_http_header_filter_module.c
+if [ "$arch" = "x86_64" ]; then
+./configure --prefix=/usr/share/nginx --sbin-path=/usr/sbin/nginx --group=nginx --user=nginx --pid-path=/var/run/nginx.pid  --conf-path=/etc/nginx/nginx.conf --with-http_v2_module --with-http_ssl_module --with-ipv6 --with-http_flv_module --with-http_mp4_module --with-http_random_index_module --with-http_secure_link_module --with-http_stub_status_module --with-http_sub_module --with-http_xslt_module --with-http_addition_module --with-http_dav_module --with-http_geoip_module --with-http_image_filter_module --with-http_perl_module --with-mail --with-mail_ssl_module --with-http_gunzip_module --with-file-aio --with-pcre --with-google_perftools_module --with-debug --with-openssl-opt="enable-tlsext" --with-http_gzip_static_module --with-http_realip_module --with-http_stub_status_module --add-module=/usr/local/vpssim/ngx_pagespeed-release-${NPS_VERSION}-beta --with-cc=/opt/rh/devtoolset-3/root/usr/bin/gcc
+else
+setarch i686 ./configure --prefix=/usr/share/nginx --sbin-path=/usr/sbin/nginx --group=nginx --user=nginx --pid-path=/var/run/nginx.pid  --conf-path=/etc/nginx/nginx.conf --with-http_v2_module --with-http_ssl_module --with-ipv6 --with-http_flv_module --with-http_mp4_module --with-http_random_index_module --with-http_secure_link_module --with-http_stub_status_module --with-http_sub_module --with-http_xslt_module --with-http_addition_module --with-http_dav_module --with-http_geoip_module --with-http_image_filter_module --with-http_perl_module --with-mail --with-mail_ssl_module --with-http_gunzip_module --with-file-aio --with-pcre --with-google_perftools_module --with-debug --with-openssl-opt="enable-tlsext" --with-http_gzip_static_module --with-http_realip_module --with-http_stub_status_module --add-module=/usr/local/vpssim/ngx_pagespeed-release-${NPS_VERSION}-beta --with-cc-opt=-D_GLIBCXX_USE_CXX11_ABI=0
+fi
+make
+make install
+##rm -f /etc/init.d/nginx
+#wget -q --no-check-certificate http://hostingaz.vn/script/vpssim/nginx -O /etc/init.d/nginx && chmod +x /etc/init.d/nginx
+#chmod +x /usr/sbin/nginx
+#yes | cp -rf /tmp/nginx.conf /etc/nginx/nginx.conf
+#rm -rf /tmp/nginx.conf
+fi
+}
+	
+check_spdy_http2 () {
+	if [ ! "$(grep spdy /etc/nginx/conf.d/*.conf)" == "" ]; then 
+	sed -i 's/spdy/http2/g' /etc/nginx/conf.d/*.conf
+	fi
+}
+
+if [ ! -f /tmp/00-all-nginx-version.txt ]; then
+wget -q https://vpssim.com/script/vpssim/00-all-nginx-version.txt -O /tmp/00-all-nginx-version.txt 
+fi
+fileTime=$(stat --printf "%X" "/tmp/00-all-nginx-version.txt")
+curTime=$(date +%s)
+if [ $(calc $(calc $curTime - $fileTime)/60) -gt 30 ]; then
+rm -rf /tmp/00-all-nginx-version.txt
+wget -q https://vpssim.com/script/vpssim/00-all-nginx-version.txt -O /tmp/00-all-nginx-version.txt
+fi
+Nginx1=`cat /etc/vpssim/nginx.version`
+Nginx3=`cat /tmp/00-all-nginx-version.txt | awk 'NR==2 {print $1}' | sed 's/|//' | sed 's/|//'`
+echo "========================================================================="
+echo "Su dung chuc nang nay de cai dat Nginx phien ban tuy chon cho server."
+echo "-------------------------------------------------------------------------"
+echo "VPSSIM ho tro cai dat Nginx tu phien ban 1.9.9 tro len"
+if [  "$(grep $Nginx1 /tmp/00-all-nginx-version.txt | sed 's/|//' | sed 's/|//')" == "$Nginx1" ]; then
+			if [ ! "$Nginx1" == "$Nginx3" ]; then
+			echo "-------------------------------------------------------------------------"
+			echo "Phien ban dang su dung: $Nginx1 | Phien ban moi nhat: $Nginx3"
+			else
+			echo "-------------------------------------------------------------------------"
+			echo "Nginx version: $Nginx1 | Xem cac phien ban Nginx tai: http://nginx.org"
+			fi
+else
+echo "-------------------------------------------------------------------------"
+echo "Nginx version: $Nginx1 | Xem phien ban Nginx moi nhat tai: http://nginx.org"
+fi
+echo "-------------------------------------------------------------------------"
+echo -n "Nhap phien ban Nginx ban muon su dung [ENTER]: " 
+read Nginx_VERSION
+if [ "$Nginx_VERSION" = "" ]; then
+clear
+echo "========================================================================="
+echo "Ban nhap sai, vui long nhap lai!"
+/etc/vpssim/menu/vpssim-update-upgrade-service-menu
+exit
+fi
+echo "-------------------------------------------------------------------------"
+echo "Check phien ban Nginx ban nhap ..."
+checkurlstt=$(curl -o /dev/null --silent --head --write-out '%{http_code}' "http://nginx.org/download/nginx-${Nginx_VERSION}.tar.gz" )
+if [[ "$checkurlstt" == "404" ]]; then
+clear
+echo "========================================================================="
+echo "Khong tim thay Nginx phien ban $Nginx_VERSION tren nginx.org"
+echo "-------------------------------------------------------------------------"
+echo "Ban vui long nhap lai !"
+/etc/vpssim/menu/vpssim-update-upgrade-service-menu
+exit
+fi
+if [[ "$checkurlstt" == "000" ]]; then
+clear
+echo "========================================================================="
+echo "Khong ket noi duoc nginx.org"
+echo "-------------------------------------------------------------------------"
+echo "Ban vui long kiem tra lai ket noi internet cua server !"
+/etc/vpssim/menu/vpssim-update-upgrade-service-menu
+exit
+fi
+cd /tmp
+rm -rf /tmp/*.tar.gz*
+wget -q --no-check-certificate http://nginx.org/download/nginx-1.9.9.tar.gz
+wget -q --no-check-certificate http://nginx.org/download/nginx-${Nginx_VERSION}.tar.gz
+if [ "nginx-${Nginx_VERSION}.tar.gz" -ot "nginx-1.9.9.tar.gz" ]; then
+rm -rf /tmp/nginx-1.9.9.tar.gz
+rm -rf /tmp/nginx-${Nginx_VERSION}.tar.gz
+cd
+clear
+echo "========================================================================="
+echo "VPSSIM khong ho tro cai dat Nginx phien ban ${Nginx_VERSION} "
+echo "-------------------------------------------------------------------------"
+echo "Ban vui long chon phien ban Nginx moi hon 1.9.9"
+/etc/vpssim/menu/vpssim-update-upgrade-service-menu
+fi
+cd
+rm -rf /tmp/*.tar.gz*
+echo "-------------------------------------------------------------------------"
+echo "Tim thay Nginx phien ban $Nginx_VERSION tren nginx.org"
+echo "-------------------------------------------------------------------------"
+echo "VPSSIM se cai dat phien ban Nginx $Nginx_VERSION cho Server. "
+echo "-------------------------------------------------------------------------"
+echo "Please wait ..."
+sleep 3
+download_module_nginx
+change_nginx_run_http2_no_pagespeed
+check_spdy_http2
+sed -i 's/.*ngx_pagespeed.conf.*/#include \/etc\/nginx\/ngx_pagespeed.conf; (Nginx Pagespeed complete removed from VPSSIM 3.3.0 - Do not uncomment this line )/g' /etc/nginx/conf.d/*.conf
+if [ -f /etc/nginx/ngx_pagespeed.conf ]; then
+rm -rf /etc/nginx/ngx_pagespeed.conf
+fi
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+systemctl restart nginx.service
+else
+service nginx restart
+fi
+clear
+echo "========================================================================="
+echo "Cai dat Nginx phien ban $Nginx_VERSION thanh cong !"
+/etc/vpssim/menu/vpssim-update-upgrade-service-menu
+
+

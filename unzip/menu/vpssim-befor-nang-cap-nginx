@@ -1,0 +1,36 @@
+#!/bin/bash
+. /home/vpssim.conf
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
+	if [ "$(/sbin/service nginx status | awk 'NR==1 {print $5}')" == "running..." ]; then
+/etc/vpssim/menu/vpssim-nang-cap-nginx
+	else
+	echo "-------------------------------------------------------------------------"
+service nginx start
+		if [ "$(/sbin/service nginx status | awk 'NR==1 {print $5}')" == "running..." ]; then
+/etc/vpssim/menu/vpssim-nang-cap-nginx
+		else
+	clear
+	echo "========================================================================="
+	echo "Rat tiec, Nginx dang stopped. Hay bat len truoc khi dung chuc nang nay!"
+	#echo "Sorry, Nginx is stopped. Please start it before use this function !"
+/etc/vpssim/menu/vpssim-update-upgrade-service-menu
+		fi
+fi
+fi
+
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+	if [ "`systemctl is-active nginx.service`" == "active" ]; then
+/etc/vpssim/menu/vpssim-nang-cap-nginx
+	else
+systemctl start nginx.service
+	if [ "`systemctl is-active nginx.service`" == "active" ]; then
+/etc/vpssim/menu/vpssim-nang-cap-nginx
+		else
+	clear
+	echo "========================================================================="
+	echo "Rat tiec, Nginx dang stopped. Hay bat len truoc khi dung chuc nang nay!"
+	#echo "Sorry, Nginx is stopped. Please start it before use this function !"
+/etc/vpssim/menu/vpssim-update-upgrade-service-menu
+		fi
+fi
+fi

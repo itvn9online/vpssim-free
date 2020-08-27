@@ -1,0 +1,49 @@
+#!/bin/bash 
+. /home/vpssim.conf
+if [ ! -d "/etc/vpssim/crontab" ]; then
+mkdir -p /etc/vpssim/crontab
+else
+rm -rf /etc/vpssim/crontab/*
+fi
+echo "========================================================================="
+echo "Xem cach tao lenh crontab tai: http://cronjob.hostingaz.vn"
+echo "-------------------------------------------------------------------------"
+echo -n "Crontab ban muon them [ENTER]: " 
+read cronjob
+if [ "$cronjob" = "" ]; then
+clear
+echo "========================================================================="
+echo "Ban nhap sai, vui long nhap chinh xac!"
+/etc/vpssim/menu/crontab/vpssim-cronjob-menu
+exit
+fi
+if [ "$(grep "$cronjob" /var/spool/cron/root)" == "$cronjob" ]; then
+clear
+echo "========================================================================= "
+echo "Crontab ban vua nhap da ton tai tren he thong!"
+/etc/vpssim/menu/crontab/vpssim-cronjob-menu
+exit
+fi
+crontab -l > /etc/vpssim/crontab/test4.txt
+(crontab -u root -l ; echo "$cronjob") | crontab -u root -
+crontab -l > /etc/vpssim/crontab/test5.txt
+if [ "$(wc -l /etc/vpssim/crontab/test4.txt | awk '{print $1}')" == "$(wc -l /etc/vpssim/crontab/test5.txt | awk '{print $1}')" ]; then
+rm -rf /etc/vpssim/crontab/*
+clear
+echo "========================================================================= "
+echo "Them crontab that bai! Crontab cua ban co the khong chinh xac"
+echo "-------------------------------------------------------------------------"
+echo "Tao lenh crontab tai http://cronjob.hostingaz.vn"
+/etc/vpssim/menu/crontab/vpssim-cronjob-menu
+else
+rm -rf /etc/vpssim/crontab/*
+clear
+echo "========================================================================= "
+echo "Ban da them thanh cong crontab vao he thong."
+echo "-------------------------------------------------------------------------"
+echo "List Crontab hien tai:"
+echo "-------------------------------------------------------------------------"
+crontab -l
+/etc/vpssim/menu/crontab/vpssim-cronjob-menu
+exit
+fi

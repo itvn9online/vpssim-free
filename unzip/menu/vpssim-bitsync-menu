@@ -1,0 +1,45 @@
+#!/bin/sh
+. /home/vpssim.conf
+prompt="Nhap lua chon cua ban (7-Thoat):"
+if [ -f /etc/vpssim/btsync.info ]; then
+options=("Bat/Tat BTsync" "Xem Thong Tin Quan Ly" "Thay Mat Khau Login" "Thay Btsync Port " "Change BTsync Version" "Remove BitTorent Sync      " "Thoat")
+else
+options=("Bat/Tat BTsync" "Xem Thong Tin Quan Ly" "Thay Mat Khau Login" "Thay Btsync Port " "Change BTsync Version" "Cai Dat BitTorent Sync" "Thoat")
+fi
+printf "=========================================================================\n"
+printf "                VPSSIM - Quan Ly VPS/Server by HostingAZ.VN \n"
+printf "=========================================================================\n"
+printf "                           Quan Ly BitTorrent Sync                                 \n"
+printf "=========================================================================\n"
+if [ -f /usr/bin/btsync ]; then
+checksize=$(du -sb /usr/bin/btsync | awk 'NR==1 {print $1}')
+if [ $checksize -gt 9000000 ]; then 
+version=2.0
+else
+version=1.4
+fi
+ver_sionbt=`echo "| Version: $version"`
+echo   "                      Status: Installed $ver_sionbt                           "
+else
+echo   "                             Status: Not Install                           "
+fi
+printf "=========================================================================\n"
+echo ""
+
+PS3="$prompt"
+select opt in "${options[@]}" ; do 
+
+    case "$REPLY" in
+
+    1) /etc/vpssim/menu/vpssim-tat-bat-bitsync;;
+    2) /etc/vpssim/menu/vpssim-hien-mat-khau-bitsync;;
+    3) /etc/vpssim/menu/vpssim-change-mat-khau-bitsync;;
+    4) /etc/vpssim/menu/vpssim-thay-doi-bitsync-port;;
+    5) /etc/vpssim/menu/vpssim-bitsync-thay-doi-phien-ban-bitsync;;
+    6) /etc/vpssim/menu/vpssim-befor-cai-dat-xoa-bitsync;;
+    7) clear && vpssim;;  
+    *) echo "Ban nhap sai, vui long nhap theo so thu tu tren menu";continue;;
+
+    esac
+done
+ 

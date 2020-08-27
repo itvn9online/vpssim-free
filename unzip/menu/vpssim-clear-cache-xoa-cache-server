@@ -1,0 +1,73 @@
+#!/bin/bash 
+
+. /home/vpssim.conf
+prompt="Lua chon cua ban: "
+options=("Zend Opcache" "Memcached" "Redis Cache" "Tat Ca Cache" "Huy Bo")
+echo "========================================================================="
+echo "LUA CHON LOAI CACHE BAN MUON CLEAR"
+echo "========================================================================="
+PS3="$prompt"
+select opt in "${options[@]}"; do 
+
+    case "$REPLY" in
+    1) luachonclearcache="zendcacehe"; break;;
+    2) luachonclearcache="memcaceh"; break;;
+    3) luachonclearcache="redisache"; break;;
+    4) luachonclearcache="allcache"; break;;
+    5) luachonclearcache="cancel"; break;;
+    *) echo "Ban nhap sai, vui long nhap theo so thu tu tren menu";continue;;
+    #    *) echo "You typed wrong, Please type in the ordinal number on the list";continue;;
+    esac  
+done
+
+if [ "$luachonclearcache" = "zendcacehe" ]; then
+if [ ! -f /etc/php.d/opcache.ini ]; then
+clear
+echo "========================================================================="
+echo "Zend Opcache hien dang tat."
+echo "-------------------------------------------------------------------------"
+echo "Ban khong can clear Zend Opcache"
+vpssim
+fi
+echo "-------------------------------------------------------------------------"
+echo "Please wait ..."; sleep 1
+clear
+echo "========================================================================= "
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
+service php-fpm restart
+else
+systemctl restart php-fpm.service
+fi
+vpssim
+elif [ "$luachonclearcache" = "memcaceh" ]; then
+echo "-------------------------------------------------------------------------"
+echo "Please wait ..."; sleep 1
+clear
+echo "========================================================================= "
+echo "flush_all" | nc 127.0.0.1 11211
+vpssim
+elif [ "$luachonclearcache" = "redisache" ]; then
+echo "-------------------------------------------------------------------------"
+echo "Please wait ..."; sleep 1
+clear
+echo "========================================================================= "
+( echo "flushall" ) | redis-cli
+vpssim
+elif [ "$luachonclearcache" = "allcache" ]; then
+echo "-------------------------------------------------------------------------"
+echo "Please wait ..."; sleep 1
+clear
+echo "========================================================================= "
+if [ -f /etc/php.d/opcache.ini ]; then
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
+service php-fpm restart
+else
+systemctl restart php-fpm.service
+fi
+fi
+echo "flush_all" | nc 127.0.0.1 11211
+( echo "flushall" ) | redis-cli
+vpssim
+else 
+clear && vpssim
+fi

@@ -1,0 +1,60 @@
+#!/bin/sh
+. /home/vpssim.conf
+echo "-------------------------------------------------------------------------"
+echo "Please wait ..."
+sleep 1
+rm -rf /tmp/vpssim-databaselist
+ls /var/lib/mysql > /tmp/vpssim-databaselist
+rm -rf /tmp/checkautobackupvpssim
+mkdir -p /tmp/checkautobackupvpssim
+checkautobackup=$(cat /tmp/vpssim-databaselist)
+rm -rf /tmp/chitietbackupauto
+randomcode=`date |md5sum |cut -c '1-12'`
+for databasecheck in $checkautobackup 
+do
+if [ -f /bin/vpssim-backupdb-$databasecheck ]; then
+ if [ -f /etc/cron.d/vpssim.db.cron ]; then
+     if [ ! "$(grep vpssim-backupdb-$databasecheck /etc/cron.d/vpssim.db.cron)" == "" ]; then
+     touch /tmp/checkautobackupvpssim/$databasecheck
+     if [ ! -f /tmp/chitietbackupauto ]; then
+     touch /tmp/chitietbackupauto
+     fi
+	if [ "$(grep VPSSIM /tmp/chitietbackupauto)" == "" ]; then
+	echo "=========================================================================" >> /tmp/chitietbackupauto
+	echo "Link Download Backup for Database Enabled Auto Backup - Created by VPSSIM" >> /tmp/chitietbackupauto
+	echo "=========================================================================" >> /tmp/chitietbackupauto
+	echo "Luu Y:" >> /tmp/chitietbackupauto
+	echo "-------------------------------------------------------------------------" >> /tmp/chitietbackupauto
+	echo "Cac Link Download Backup Cua Database Chi Kha Dung Khi Database Tren " >> /tmp/chitietbackupauto
+	echo "-------------------------------------------------------------------------" >> /tmp/chitietbackupauto
+	echo "Server Duoc Backup Thanh Cong. " >> /tmp/chitietbackupauto
+	fi
+filename=$(grep "$databasecheck" /bin/vpssim-backupdb-$databasecheck | awk 'NR==7 {print $11}')
+echo "=========================================================================" >> /tmp/chitietbackupauto
+echo "Database $databasecheck:" >> /tmp/chitietbackupauto
+echo "-------------------------------------------------------------------------" >> /tmp/chitietbackupauto
+echo "http://$serverip:$priport/backup/$databasecheck/$filename" >> /tmp/chitietbackupauto   
+     fi
+ fi
+fi  
+done
+if [  "$(ls -1 /tmp/checkautobackupvpssim | wc -l)" == "0" ]; then
+clear
+echo "========================================================================="
+echo "Hien tai khong co database nao duoc BAT che do tu dong backup"
+else
+rm -rf /home/$mainsite/private_html/linkAUTOBackupData*
+mv /tmp/chitietbackupauto /home/$mainsite/private_html/linkAUTOBackupData-$randomcode.txt
+clear
+echo "========================================================================="
+echo "Hien tai co $(ls -1 /tmp/checkautobackupvpssim | wc -l) Database duoc BAT che do tu dong backup"
+echo "-------------------------------------------------------------------------"
+ls /tmp/checkautobackupvpssim  | pr -2 -t
+echo "========================================================================="
+echo "List Link Download File Backup:"
+echo "-------------------------------------------------------------------------"
+echo "http://$serverip:$priport/linkAUTOBackupData-$randomcode.txt"
+fi
+rm -rf /tmp/*vpssim*
+rm -rf /tmp/chitietbackupauto
+/etc/vpssim/menu/vpssim-them-xoa-database

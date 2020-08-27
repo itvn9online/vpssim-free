@@ -1,0 +1,114 @@
+#!/bin/bash
+
+. /home/vpssim.conf
+if [ ! -f /etc/vpssim/uploadsite ]; then
+clear
+echo "========================================================================="
+echo "Ban chua cai dat File Manager cho Server !"
+/etc/vpssim/menu/vpssim-web-upload-menu
+exit
+fi
+uploadsite=$(cat /etc/vpssim/uploadsite)
+echo "========================================================================= "
+echo "Su dung chuc nang nay de thay username va mat khau cho tai khoan admin."
+echo "-------------------------------------------------------------------------"
+echo "VPSSIM se tao thong tin dang nhap moi cho File Manager ma khong can biet "
+echo "-------------------------------------------------------------------------"
+echo "username va password cu."
+echo "========================================================================= "
+read -r -p "Ban muon tao thong tin dang nhap moi cho admin ? [y/N] " response
+case $response in
+    [yY][eE][sS]|[yY]) 
+#############
+echo "-------------------------------------------------------------------------"
+echo -n "Nhap tai khoan admin moi [ENTER]: " 
+read adminupload
+if [ "$adminupload" = "" ]; then
+echo "========================================================================="
+echo "Ban phai nhap tai khoan admin."
+/etc/vpssim/menu/vpssim-web-upload-menu
+exit
+fi
+if [[ ! ${#adminupload} -ge 5 ]]; then
+clear
+echo "========================================================================="
+echo "User admin toi thieu phai co 5 ki tu "
+echo "-------------------------------------------------------------------------"
+echo "Ban vui long thu lai !"
+/etc/vpssim/menu/vpssim-web-upload-menu
+exit
+fi 
+checkuseradmin="^[a-zA-Z0-9_][-a-zA-Z0-9_]{0,61}[a-zA-Z0-9_]$";
+if [[ ! "$adminupload" =~ $checkuseradmin ]]; then
+clear
+echo "========================================================================="
+echo "Ban chi duoc su dung chu cai va so cho tai khoan admin"
+echo "-------------------------------------------------------------------------"
+echo "Ban vui long thu lai  !"
+/etc/vpssim/menu/vpssim-web-upload-menu
+exit
+fi 
+
+echo "-------------------------------------------------------------------------"
+echo -n "Nhap mat khau moi [ENTER]: "
+read matkhau
+if [ "$matkhau" = "" ]; then
+clear
+echo "========================================================================="
+echo "Ban chua nhap mat khau"
+/etc/vpssim/menu/vpssim-web-upload-menu
+exit
+fi
+#checkpass="^[a-zA-Z0-9_][-a-zA-Z0-9_]{0,61}[a-zA-Z0-9_]$";
+#if [[ ! "$matkhau" =~ $checkpass ]]; then
+#clear
+#echo "========================================================================="
+#echo "Ban chi duoc dung chu cai va so de dat mat khau."
+#echo "-------------------------------------------------------------------------"
+#echo "Ban vui long thu lai  !"
+#/etc/vpssim/menu/vpssim-web-upload-menu
+#exit
+#fi
+if [[ ! ${#matkhau} -ge 8 ]]; then
+clear
+echo "========================================================================="
+echo "Mat khau toi thieu phai co 8 ky tu "
+echo "-------------------------------------------------------------------------"
+echo "Ban vui long thu lai  !"
+/etc/vpssim/menu/vpssim-web-upload-menu
+exit
+fi 
+#######
+echo "-------------------------------------------------------------------------"
+echo "Thong tin dang nhap moi cho File Manager:"
+echo "-------------------------------------------------------------------------"
+echo "Username: $adminupload | Password: $matkhau"
+echo "-------------------------------------------------------------------------"
+echo "Please wait ..."; sleep 3
+rm -rf /home/$uploadsite/public_html/config/.htusers.php
+cat > "/home/$uploadsite/public_html/config/.htusers.php" <<END
+<?php
+        // ensure this file is being included by a parent file
+        if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
+        \$GLOBALS["users"]=array(
+        array('$adminupload','$(echo -n "$matkhau" | md5sum | awk '{print $1}')','/home','http://localhost','1','','7',1),
+);
+?>
+END
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
+service php-fpm restart
+else 
+systemctl restart php-fpm.service
+fi
+clear
+echo "========================================================================="
+echo "Thay doi thong tin dang nhap File Manager thanh cong."
+echo "-------------------------------------------------------------------------"
+echo "Username: $adminupload | Password: $matkhau"
+/etc/vpssim/menu/vpssim-web-upload-menu
+;;
+esac
+clear
+echo "========================================================================="
+echo "Cancel !"
+/etc/vpssim/menu/vpssim-web-upload-menu

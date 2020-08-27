@@ -1,0 +1,25 @@
+#!/bin/sh
+. /home/vpssim.conf
+if [ ! -f /etc/php.ini ]; then
+clear
+echo "========================================================================="
+echo "VPSSIM khong tim thay php.ini tren server"
+/etc/vpssim/menu/vpssim-config-php.ini-menu
+exit
+fi
+
+if [ "$(cat /etc/php.ini | grep display_errors | awk '{print $3}')" == "" ]; then
+clear
+echo "========================================================================="
+echo "VPSSIM khong the thuc hien chuc nang nay"
+/etc/vpssim/menu/vpssim-config-php.ini-menu
+exit
+fi
+
+if [ "$(cat /etc/php.ini | grep display_errors | awk '{print $3}')" == "Off" ]; then
+/etc/vpssim/menu/vpssim-dang-tat-display_errors
+fi
+if [ "$(cat /etc/php.ini | grep display_errors | awk '{print $3}')" == "On" ]; then
+/etc/vpssim/menu/vpssim-dang-bat-display_errors
+fi
+}

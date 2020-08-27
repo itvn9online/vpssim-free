@@ -1,0 +1,102 @@
+#!/bin/sh
+if [ ! -f /etc/vpssim/btsync.info ]; then
+clear
+echo "========================================================================="
+echo "Ban chua cai dat BTsync"
+/etc/vpssim/menu/vpssim-bitsync-menu
+exit 
+fi
+checksize=$(du -sb /usr/bin/btsync | awk 'NR==1 {print $1}')
+if [ $checksize -gt 9000000 ]; then
+echo "========================================================================="
+echo "Su dung chuc nang nay de thay doi phien ban Bittorent Sync"
+echo "-------------------------------------------------------------------------"
+echo "Hien tai ban dang su dung phien ban 2.0"
+echo "-------------------------------------------------------------------------"
+read -r -p "Ban muon chuyen sang phien ban 1.4 ? [y/N] " response
+case $response in
+    [yY][eE][sS]|[yY])
+    echo "-------------------------------------------------------------------------"
+    echo "Please wait...." && sleep 1
+        checkurlstt=$(curl -o /dev/null --silent --head --write-out '%{http_code}' "https://vpssim.com/script/vpssim/BTsync/1.4/$(uname -m)/btsync" )
+if [[ "$checkurlstt" == "000" ]]; then
+clear
+echo "========================================================================="
+echo "Can not connect to VPSSIM.COM"
+echo "-------------------------------------------------------------------------"
+echo "Please check your server internet connection !"
+/etc/vpssim/menu/vpssim-bitsync-menu
+exit
+fi 
+    rm -rf /etc/btsync-vpssim/.sync/*.pid
+rm -rf /etc/btsync-vpssim/.btsync/*.pid
+killall -q btsync
+pkill btsync
+rm -rf /usr/bin/btsync
+sed -i 's/\.sync/\.btsync/g' /etc/btsync-vpssim/sync.conf
+mkdir -p /etc/btsync-vpssim/.sync
+mkdir -p /etc/btsync-vpssim/.btsync
+wget -q https://vpssim.com/script/vpssim/BTsync/1.4/$(uname -m)/btsync -O /usr/bin/btsync && chmod +x /usr/bin/btsync
+/usr/bin/btsync --config /etc/btsync-vpssim/sync.conf
+	clear
+	echo "========================================================================="
+	echo "Thay doi phien ban Bittorent Sync thanh cong"
+	    #echo "-------------------------------------------------------------------------"
+	   # echo "Bittorent Sync da bi tat. Ban hay bat lai truoc khi su dung"
+	/etc/vpssim/menu/vpssim-bitsync-menu
+        ;;
+    *)
+       clear
+       echo "========================================================================="
+	echo "Huy thay doi phien ban Bittorent Sync"
+        /etc/vpssim/menu/vpssim-bitsync-menu
+        ;;
+esac
+else
+echo "========================================================================="
+echo "Su dung chuc nang nay de thay doi phien ban Bittorent Sync"
+echo "-------------------------------------------------------------------------"
+echo "Hien tai ban dang su dung phien ban 1.4"
+echo "-------------------------------------------------------------------------"
+read -r -p "Ban muon chuyen sang phien ban 2.0 ? [y/N] " response
+case $response in
+    [yY][eE][sS]|[yY]) 
+    echo "-------------------------------------------------------------------------"
+    echo "Please wait...." && sleep 1
+        checkurlstt=$(curl -o /dev/null --silent --head --write-out '%{http_code}' "https://vpssim.com/script/vpssim/BTsync/2.0/$(uname -m)/btsync" )
+if [[ "$checkurlstt" == "000" ]]; then
+clear
+echo "========================================================================="
+echo "Can not connect to VPSSIM.COM"
+echo "-------------------------------------------------------------------------"
+echo "Please check your server internet connection !"
+/etc/vpssim/menu/vpssim-bitsync-menu
+exit
+fi
+    rm -rf /etc/btsync-vpssim/.sync/*.pid
+rm -rf /etc/btsync-vpssim/.btsync/*.pid
+killall -q btsync
+pkill btsync
+rm -rf /usr/bin/btsync
+sed -i 's/\.btsync/.sync/g' /etc/btsync-vpssim/sync.conf
+mkdir -p /etc/btsync-vpssim/.sync
+mkdir -p /etc/btsync-vpssim/.btsync
+wget -q https://vpssim.com/script/vpssim/BTsync/2.0/$(uname -m)/btsync -O /usr/bin/btsync && chmod +x /usr/bin/btsync
+/usr/bin/btsync --config /etc/btsync-vpssim/sync.conf
+	clear
+	echo "========================================================================="
+	echo "Thay doi phien ban Bittorent Sync thanh cong"
+	    #echo "-------------------------------------------------------------------------"
+	   # echo "Bittorent Sync da bi tat. Ban hay bat lai truoc khi su dung"
+	/etc/vpssim/menu/vpssim-bitsync-menu
+        ;;
+    *)
+        	clear
+	echo "========================================================================="
+	echo "Huy thay doi phien ban Bittorent Sync"
+	/etc/vpssim/menu/vpssim-bitsync-menu
+        ;;
+esac  
+exit
+fi
+

@@ -1,0 +1,37 @@
+#!/bin/bash
+. /home/vpssim.conf
+echo "-------------------------------------------------------------------------"
+echo "Please wait ..."
+sleep 1
+rm -rf /tmp/*hostingaz*
+mkdir -p /tmp/sitedangdenyrunscripthostingaz
+ls /etc/nginx/conf.d > /tmp/vpssim-websitelist
+sed -i 's/\.conf//g' /tmp/vpssim-websitelist 
+sowebsitetrenserver=$(cat /tmp/vpssim-websitelist | wc -l)
+sowebsite=$(cat /tmp/vpssim-websitelist)
+for website in $sowebsite 
+do
+if [ -f /etc/nginx/conf.d/$website.conf ]; then
+if [ "$(grep deny-script-writeable-folder.conf /etc/nginx/conf.d/$website.conf)" == "include /etc/nginx/conf/deny-script-writeable-folder.conf;" ]; then
+touch /tmp/sitedangdenyrunscripthostingaz/$website
+fi
+fi
+if [ -f /etc/nginx/conf.d/www.$website.conf ]; then
+if [ "$(grep deny-script-writeable-folder.conf /etc/nginx/conf.d/www.$website.conf)" == "include /etc/nginx/conf/deny-script-writeable-folder.conf;" ]; then
+touch /tmp/sitedangdenyrunscripthostingaz/www.$website
+fi
+fi
+done
+clear
+echo "========================================================================="
+echo "Website tren server: $sowebsitetrenserver"
+echo "-------------------------------------------------------------------------"
+if [ "$(ls -1 /tmp/sitedangdenyrunscripthostingaz | wc -l)" == "0" ]; then
+echo "Website KHONG CHO PHEP chay script trong writeable folder: 0"
+else
+echo "Website KHONG CHO PHEP chay script trong writeable folder: $(ls -1 /tmp/sitedangdenyrunscripthostingaz | wc -l)"
+echo "-------------------------------------------------------------------------"
+ls /tmp/sitedangdenyrunscripthostingaz | pr -3 -t
+rm -rf /tmp/*hostingaz*
+fi
+/etc/vpssim/menu/vpssim-tien-ich

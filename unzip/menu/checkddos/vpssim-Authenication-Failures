@@ -1,0 +1,6 @@
+#!/bin/sh
+echo "Please wait....";sleep 1
+clear
+echo "========================================================================="
+echo "Authenication Failures: $(awk '{print}' /var/log/secure* | grep -i 'authentication failure' | wc -l)"
+/etc/vpssim/menu/vpssim-check-thong-tin-server

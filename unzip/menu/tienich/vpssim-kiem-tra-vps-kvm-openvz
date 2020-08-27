@@ -1,0 +1,9 @@
+#!/bin/bash 
+
+. /home/vpssim.conf
+clear
+echo "========================================================================="
+echo "Your VPS  Virtualization:"
+echo "-------------------------------------------------------------------------"
+virt-what
+/etc/vpssim/menu/vpssim-tien-ich

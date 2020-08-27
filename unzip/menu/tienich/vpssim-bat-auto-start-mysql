@@ -1,0 +1,34 @@
+#!/bin/sh
+. /home/vpssim.conf
+echo "========================================================================="
+echo "Voi VPS it RAM, doi khi Free RAM qua it, MySQL se bi ngung hoat dong"
+echo "-------------------------------------------------------------------------"
+echo "Sau khi ban kich hoat chuc nang [Auto re-start MySQL Server] "
+echo "-------------------------------------------------------------------------"
+echo "VPSSIM se kiem tra trang thai hoat dong cua MySQL service 5 phut 1 lan"
+echo "-------------------------------------------------------------------------"
+echo "Neu MySQL bi stop, sau toi da 5 phut VPSSIM se BAT MySQL tro lai "
+echo "-------------------------------------------------------------------------"
+read -r -p "Ban muon Enable chuc nang [Auto re-start MySQL Server]?  [y/N] " response
+case $response in
+    [yY][eE][sS]|[yY]) 
+ echo "-------------------------------------------------------------------------" 
+    echo "Please wait..."
+sleep 1
+\cp -uf /etc/vpssim/menu/tienich/vpssim-auto-start-mysql /bin/vpssim-auto-start-mysql
+chmod +x /bin/vpssim-auto-start-mysql
+echo "SHELL=/bin/sh" > /etc/cron.d/vpssim-auto-start-mysql.cron
+echo "*/5 * * * * root /bin/vpssim-auto-start-mysql >/dev/null 2>&1" >> /etc/cron.d/vpssim-auto-start-mysql.cron
+service crond restart
+    clear
+    echo "========================================================================="
+echo "Enable chuc nang [Auto re-start MySQL Server] thanh cong !"
+/etc/vpssim/menu/vpssim-them-xoa-database
+        ;;
+    *)
+       clear
+    echo "========================================================================="
+   echo "Ban khong enable chuc nang [Auto re-start MySQL Server] !"
+/etc/vpssim/menu/vpssim-them-xoa-database
+        ;;
+esac

@@ -1,0 +1,7 @@
+#!/bin/bash 
+. /home/vpssim.conf
+if [ ! -f /etc/csf/csf.conf ]; then
+/etc/vpssim/menu/CSF-Fiwall/vpssim-cai-dat-csf-csf
+else
+/etc/vpssim/menu/CSF-Fiwall/vpssim-update-csf-firewall
+fi

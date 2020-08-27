@@ -1,0 +1,25 @@
+#!/bin/sh
+prompt="Lua chon cua ban (4-Thoat):"
+options=("Full Backup Database" "Link download backup file" "Restore Databases" "Thoat" )
+printf "=========================================================================\n"
+printf "               VPSSIM - Quan Ly VPS/Server by HostingAZ.VN \n"
+printf "=========================================================================\n"
+printf "                     Backup & Restore Full Database\n"
+printf "=========================================================================\n"
+
+PS3="$prompt"
+select opt in "${options[@]}" ; do 
+
+    case "$REPLY" in
+
+    1 ) /etc/vpssim/menu/vpssim-befor-sao-luu-tat-ca-database;;
+    2 ) /etc/vpssim/menu/vpssim-link-sao-luu-all-database;;
+    3 ) /etc/vpssim/menu/vpssim-befor-phuc-hoi-tat-ca-database;;
+    4 ) clear && /etc/vpssim/menu/vpssim-them-xoa-database;;
+
+    
+    *) echo "Ban nhap sai, vui long nhap theo so thu tu tren menu !";continue;;
+
+    esac
+
+done

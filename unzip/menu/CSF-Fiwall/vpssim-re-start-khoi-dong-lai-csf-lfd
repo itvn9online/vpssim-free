@@ -1,0 +1,6 @@
+#!/bin/bash 
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
+service lfd restart ; csf -r
+else 
+systemctl restart lfd.service ; csf -r
+fi

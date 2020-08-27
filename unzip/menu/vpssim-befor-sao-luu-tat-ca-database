@@ -1,0 +1,22 @@
+#!/bin/bash 
+
+. /home/vpssim.conf
+echo "========================================================================= "
+echo "Su dung chuc nang nay de backup tat ca database tren server"
+echo "-------------------------------------------------------------------------"
+echo "thanh mot file duy nhat. Ban chi co the phuc hoi tat ca database tu file"
+echo "-------------------------------------------------------------------------"
+echo "backup va khong the phuc hoi tung database rieng le duoc"
+echo "========================================================================= "
+read -r -p "Ban muon backup database full ? [y/N] " response
+case $response in
+    [yY][eE][sS]|[yY]) 
+/etc/vpssim/menu/vpssim-sao-luu-tat-ca-database
+;;
+esac
+clear
+echo "========================================================================= "
+echo "Ban huy bo sau luu tat ca database ! "
+/etc/vpssim/menu/vpssim-sao-luu-phuc-hoi-tat-ca-database-menu
+exit
+fi

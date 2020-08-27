@@ -1,0 +1,194 @@
+
+#!/bin/bash 
+
+. /home/vpssim.conf
+checktruenumber='^[0-9]+$'
+if [ ! -f /etc/vpssim/minfreedisc.info ]; then
+echo "1000" > /etc/vpssim/minfreedisc.info
+fi
+minfreedisc=`cat /etc/vpssim/minfreedisc.info`
+if [[ ! $minfreedisc =~ $checktruenumber ]] ; then
+echo "1000" > /etc/vpssim/minfreedisc.info
+fi 
+
+kiemtraemail3="^(([-a-zA-Z0-9\!#\$%\&\'*+/=?^_\`{\|}~])+\.)*[-a-zA-Z0-9\!#\$%\&\'*+/=?^_\`{\|}~]+@\w((-|\w)*\w)*\.(\w((-|\w)*\w)*\.)*\w{2,24}$";
+if [ ! -f /root/.bash_profile ]; then
+clear
+echo "========================================================================="
+echo "Can not find file /root/.bash_profile"
+echo "-------------------------------------------------------------------------"
+echo "VPSSIM can not run this function on this server"
+echo "-------------------------------------------------------------------------"
+/etc/vpssim/menu/vpssim-tien-ich
+exit
+fi
+
+prompt="Nhap lua chon cua ban: "
+options=( "Bat/Tat Thong Bao Login SSH Vao Server Qua Email" "Thay Doi Email Nhan Thong Bao" "Huy Bo")
+printf "=========================================================================\n"
+PS3="$prompt"
+select opt in "${options[@]}"; do 
+
+    case "$REPLY" in
+    1) cauhinh="battatemail"; break;;
+    2) cauhinh="thaydoiemail"; break;;
+    3) cauhinh="cancel"; break;;
+    *) echo "Ban nhap sai ! Ban vui long chon so trong danh sach";continue;;
+    esac  
+done
+###################################
+
+###################################
+if [ "$cauhinh" = "battatemail" ]; then
+
+if [ "$(grep timeloginvpssimcheck /root/.bash_profile)" == "" ]; then
+echo "========================================================================="
+echo "Su dung chuc nang nay de BAT/TAT chuc nang gui thong bao qua email"
+echo "-------------------------------------------------------------------------"
+echo "moi khi co dang nhap SSH vao Server."
+echo "-------------------------------------------------------------------------"
+echo -n "Nhap dia chi email [ENTER]: " 
+read vpssimemail
+if [ "$vpssimemail" = "" ]; then
+clear
+echo "========================================================================="
+echo "Ban nhap sai, vui long nhap lai!"
+/etc/vpssim/menu/vpssim-tien-ich
+exit
+fi
+
+if [[ ! "$vpssimemail" =~ $kiemtraemail3 ]]; then
+clear
+echo "========================================================================="
+echo "$vpssimemail co le khong dung dinh dang email!"
+echo "-------------------------------------------------------------------------"
+echo "Ban vui long thu lai  !"
+/etc/vpssim/menu/vpssim-tien-ich
+exit
+fi
+echo "-------------------------------------------------------------------------"
+echo "Please wait ..."
+sleep 4
+rm -rf /tmp/checkautorunvpssim
+if [ ! "$(grep "/bin/vpssim" /root/.bash_profile)" == "" ]; then
+echo "1" > /tmp/checkautorunvpssim
+ sed -i '/\/bin\/vpssim/d' /root/.bash_profile
+fi
+    cat >> "/root/.bash_profile" <<END
+IPvpssimcheck="\$(echo \$SSH_CONNECTION | cut -d " " -f 1)"
+timeloginvpssimcheck=\$(date +"%e %b %Y, %a %r")
+echo 'Someone has IP address '\$IPvpssimcheck' login to $serverip on '\$timeloginvpssimcheck'.' | mail -s 'eMail Notifications From VPSSIM On $serverip' ${vpssimemail}
+END
+#echo 'Someone has IP address '\$IPvpssimcheck' login to $serverip on '\$timeloginvpssimcheck'.' | mail -s 'eMail Notifications From VPSSIM On $serverip' ${vpssimemail}
+
+if [ -f /tmp/checkautorunvpssim ]; then
+echo "/bin/vpssim" >> /root/.bash_profile
+rm -rf /tmp/checkautorunvpssim
+fi
+
+clear
+clear
+echo "========================================================================="
+echo "Hoan thanh cau hinh gui email thong bao khi co dang nhap SSH vao Server"
+echo "-------------------------------------------------------------------------"
+echo "eMail nhan thong bao: $vpssimemail"
+echo "-------------------------------------------------------------------------"
+echo "Neu khong thay email trong thu muc Inbox. Ban hay check thu muc SPAM "
+/etc/vpssim/menu/vpssim-tien-ich
+fi
+
+if [ ! "$(grep timeloginvpssimcheck /root/.bash_profile)" == "" ]; then
+echo "========================================================================="
+echo "Su dung chuc nang nay de BAT/TAT chuc nang gui thong bao qua email"
+echo "-------------------------------------------------------------------------"
+echo "moi khi co dang nhap SSH vao Server."
+echo "-------------------------------------------------------------------------"
+echo "Hien tai eMail nhan thong bao: $(grep "mail -s" /root/.bash_profile  | awk 'NR==1 {print $NF}')"
+echo "-------------------------------------------------------------------------"
+read -r -p "Ban muon TAT email thong bao login ? [y/N] " response
+case $response in
+    [yY][eE][sS]|[yY]) 
+    echo "-------------------------------------------------------------------------"
+    echo "Please wait ... "
+    sleep 3
+sed -i '/vpssimcheck/d' /root/.bash_profile
+clear
+echo "========================================================================="
+echo "TAT chuc nang gui email thong bao login thanh cong! "
+ /etc/vpssim/menu/vpssim-tien-ich
+    ;;
+*)
+clear
+echo "========================================================================="
+echo "You choosed NO "
+ /etc/vpssim/menu/vpssim-tien-ich
+  exit
+;;
+esac
+fi
+
+###################################
+
+###################################
+elif [ "$cauhinh" = "thaydoiemail" ]; then
+
+if [ "$(grep timeloginvpssimcheck /root/.bash_profile)" == "" ]; then
+clear
+echo "========================================================================="
+echo "Ban chua cau hinh gui email thong bao khi co dang nhap SSH vao server"
+/etc/vpssim/menu/vpssim-tien-ich
+exit
+fi
+emailhientai=$(grep "mail -s" /root/.bash_profile | awk 'NR==1 {print $NF}')
+echo "========================================================================="
+echo "Su dung chuc nang nay de thay doi email nhan thong bao login ssh"
+echo "-------------------------------------------------------------------------"
+echo "Hien tai eMail nhan thong bao: $emailhientai"
+echo "-------------------------------------------------------------------------"
+echo -n "Nhap dia chi email moi [ENTER]: " 
+read vpssimemailmoi
+if [ "$vpssimemailmoi" = "" ]; then
+clear
+echo "========================================================================="
+echo "Ban nhap sai, vui long nhap lai!"
+/etc/vpssim/menu/vpssim-tien-ich
+exit
+fi
+if [[ ! "$vpssimemailmoi" =~ $kiemtraemail3 ]]; then
+clear
+echo "========================================================================="
+echo "$vpssimemailmoi co le khong dung dinh dang email!"
+echo "-------------------------------------------------------------------------"
+echo "Ban vui long thu lai  !"
+/etc/vpssim/menu/vpssim-tien-ich
+exit
+fi
+echo "-------------------------------------------------------------------------"
+read -r -p "Ban muon thay email nhan thong bao login ? [y/N] " response
+case $response in
+    [yY][eE][sS]|[yY]) 
+    echo "-------------------------------------------------------------------------"
+    echo "Please wait ... "
+    sleep 3
+sed -i "s/${emailhientai}/${vpssimemailmoi}/g" /root/.bash_profile
+clear
+echo "========================================================================="
+echo "Thay dia chi email nhan thong bao login thanh cong! "
+    echo "-------------------------------------------------------------------------"
+    echo "Dia chi eMail moi la: ${vpssimemailmoi}"
+    echo "-------------------------------------------------------------------------"
+echo "Neu khong thay email trong thu muc Inbox. Ban hay check thu muc SPAM "
+ /etc/vpssim/menu/vpssim-tien-ich
+    ;;
+*)
+clear
+echo "========================================================================="
+echo "You choosed NO "
+ /etc/vpssim/menu/vpssim-tien-ich
+  exit
+;;
+esac
+###################################
+else 
+clear && /etc/vpssim/menu/vpssim-tien-ich
+fi

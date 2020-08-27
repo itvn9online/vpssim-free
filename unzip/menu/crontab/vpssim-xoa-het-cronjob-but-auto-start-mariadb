@@ -1,0 +1,25 @@
+#!/bin/bash 
+. /home/vpssim.conf
+echo "========================================================================="
+read -r -p "Ban muon xoa het crontab hien tai? [y/N] " response
+case $response in
+    [yY][eE][sS]|[yY]) 
+echo "Chuan bi xoa ... "
+sleep 3
+crontab -r
+(crontab -u root -l ; echo "*/5 * * * * auto-start-mysql") | crontab -u root -
+clear
+echo "========================================================================= "
+echo "VPSSIM hoan thanh xoa tat ca crontab. "
+echo "-------------------------------------------------------------------------"
+echo "[Auto re-start MySQL Server] duoc kich hoat lai."
+/etc/vpssim/menu/crontab/vpssim-cronjob-menu
+;;
+    *)
+        echo ""
+        ;;
+esac
+clear 
+echo "========================================================================="
+echo "Huy bo yeu cau xoa het cronjob."
+/etc/vpssim/menu/crontab/vpssim-cronjob-menu

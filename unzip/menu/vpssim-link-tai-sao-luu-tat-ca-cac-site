@@ -1,0 +1,24 @@
+#!/bin/bash
+. /home/vpssim.conf
+if [ -f /home/$mainsite/private_html/backup/home/*.zip ]; then
+find /home/$mainsite/private_html/backup/$website/ -name '*.zip' -type f -exec basename {} \;  > /etc/vpssim/linkbackup
+filename=`cat /etc/vpssim/linkbackup`
+echo "-------------------------------------------------------------------------"
+echo "Please wait..."
+sleep 1
+clear
+echo "========================================================================="
+echo "Tim thay file backup cua thu muc Home"
+echo "-------------------------------------------------------------------------"
+echo "Link download backup: "
+echo "-------------------------------------------------------------------------"
+echo "http://$serverip:$priport/backup/home/$filename"
+/etc/vpssim/menu/vpssim-sao-luu
+rm -rf /etc/vpssim/linkbackup
+else
+clear
+echo "========================================================================="
+echo "Ban chua tao file backup code folder Home !"
+/etc/vpssim/menu/vpssim-sao-luu
+exit
+fi

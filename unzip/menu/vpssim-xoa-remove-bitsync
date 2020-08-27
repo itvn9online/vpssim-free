@@ -1,0 +1,29 @@
+#!/bin/sh
+. /home/vpssim.conf
+echo "========================================================================= "
+echo "Su dung chuc nang nay de xoa BitTorent Sync khoi server"
+echo "-------------------------------------------------------------------------"
+read -r -p "Ban muon remove BTsync ? [y/N] " response
+case $response in
+    [yY][eE][sS]|[yY]) 
+    echo "-------------------------------------------------------------------------"
+echo "Chuan bi Remove BTsync ... "
+sleep 1
+killall -q btsync
+iptables -I INPUT -p tcp --dport $(grep btport /etc/vpssim/btsync.info | awk 'NR==1 {print $3}') -j DROP
+rm -rf /usr/bin/btsync
+rm -rf /etc/vpssim/btsync.info
+rm -rf /etc/btsync-vpssim
+sed -i "/\b\(btsync\)\b/d" /etc/rc.d/rc.local
+;;
+    *)
+       clear 
+echo "========================================================================= "
+echo "Huy bo remove BTsync "
+/etc/vpssim/menu/vpssim-bitsync-menu
+        ;;
+esac
+clear 
+echo "========================================================================= "
+echo "VPSSIM hoan thanh remove BTsync "
+/etc/vpssim/menu/vpssim-bitsync-menu

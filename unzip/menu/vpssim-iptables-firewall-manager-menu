@@ -1,0 +1,36 @@
+#!/bin/bash
+prompt="Lua chon cua ban (7-Thoat):"
+options=( "Mo Port (INPUT)" "Close Port (INPUT)" "Kiem Tra Service Dung Port" "Sao Luu IPtables Rules" "Phuc Hoi IPtables Rules" "Xem IPtables Rules Hien Tai" "Thoat" )
+printf "=========================================================================\n"
+printf "                VPSSIM - Quan Ly VPS/Server by HostingAZ.VN \n"
+printf "=========================================================================\n"
+printf "                       Quan Ly IPtables Firewall\n"
+printf "=========================================================================\n"
+
+PS3="$prompt"
+select opt in "${options[@]}" ; do 
+
+    case "$REPLY" in
+
+    1) /etc/vpssim/menu/tienich/vpssim-mo-port-ip-tables;;
+    2) /etc/vpssim/menu/tienich/vpssim-dong-port-ip-tables;;
+    3) /etc/vpssim/menu/tienich/vpssim-check-port-service;;
+    4) /etc/vpssim/menu/tienich/vpssim-sao-luu-iptables;;
+    5) /etc/vpssim/menu/tienich/vpssim-phuc-hoi-iptables;;
+    6) /etc/vpssim/menu/tienich/vpssim-view-iptables-rules;;
+    7) clear && /bin/vpssim;;
+
+            *) echo "Ban nhap sai, vui long nhap theo so thu tu tren menu !";continue;;
+
+    esac
+done
+
+
+
+
+
+
+
+
+
+

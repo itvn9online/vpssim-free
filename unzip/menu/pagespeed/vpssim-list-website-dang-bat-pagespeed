@@ -1,0 +1,32 @@
+#!/bin/bash
+. /home/vpssim.conf
+rm -rf /tmp/*hostingaz*
+mkdir -p /tmp/sitedangbatpagespeedhostingaz
+ls /etc/nginx/conf.d > /tmp/vpssim-websitelist
+sed -i 's/\.conf//g' /tmp/vpssim-websitelist 
+sowebsitetrenserver=$(cat /tmp/vpssim-websitelist | wc -l)
+websitetrenserver=$(cat /tmp/vpssim-websitelist)
+for website in $websitetrenserver 
+do
+if [ "$(grep "ngx_pagespeed.conf" /etc/nginx/conf.d/$website.conf)" == "include /etc/nginx/ngx_pagespeed.conf;" ]; then
+touch /tmp/sitedangbatpagespeedhostingaz/$website
+fi
+done
+echo "-------------------------------------------------------------------------"
+echo "Please wait ..."
+sleep 1
+clear
+echo "========================================================================="
+echo "Website tren server: $sowebsitetrenserver"
+echo "-------------------------------------------------------------------------"
+if [ "$(ls -1 /tmp/sitedangbatpagespeedhostingaz | wc -l)" == "0" ]; then
+echo "Website Enabled Nginx Pagespeed: 0"
+else
+echo "Website dang Bat Nginx Pagespeed: $(ls -1 /tmp/sitedangbatpagespeedhostingaz | wc -l)"
+echo "-------------------------------------------------------------------------"
+ls /tmp/sitedangbatpagespeedhostingaz | pr -3 -t
+fi
+rm -rf /tmp/*hostingaz*
+rm -rf /tmp/*vpssim*
+/etc/vpssim/menu/pagespeed/vpssim-pagespeed-menu
+

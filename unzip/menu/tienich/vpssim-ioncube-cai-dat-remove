@@ -1,0 +1,100 @@
+#!/bin/bash
+
+. /home/vpssim.conf
+
+if [ -f /etc/php.d/ioncube.ini ]; then
+echo "========================================================================="
+echo "Su dung chuc nang nay de Cai Dat / Remove Ioncube cho server"
+echo "-------------------------------------------------------------------------"
+echo "Ioncube Loader da duoc cai dat tren server."
+echo "-------------------------------------------------------------------------"
+read -r -p "Ban muon remove Ioncube ?  [y/N] " response
+case $response in
+    [yY][eE][sS]|[yY]) 
+    echo "-------------------------------------------------------------------------"
+    echo "Please wait ..."
+    sleep 1
+    
+rm -rf /etc/php.d/*.ioncube.*
+rm -rf /etc/php.d/ioncube.*
+rm -rf /usr/local/ioncube
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
+service php-fpm restart
+else
+systemctl restart php-fpm.service
+fi
+clear
+echo "========================================================================="
+
+	echo "Go bo Ioncube Loader thanh cong !"
+/etc/vpssim/menu/vpssim-tien-ich
+        ;;
+    *)
+       clear
+    echo "========================================================================="
+   echo "Ban huy bo remove Ioncube Loader"
+/etc/vpssim/menu/vpssim-tien-ich
+        ;;
+esac
+exit
+fi
+php_version1=$(php -r "echo PHP_MAJOR_VERSION.'.'.PHP_MINOR_VERSION;")
+if [ "$php_version1" == "7.0" ]; then
+clear
+echo "========================================================================="
+echo "Ban dang dung PHP 7.0"
+echo "-------------------------------------------------------------------------"
+echo "Chuc nang nay khong ho tro PHP 7.0"
+/etc/vpssim/menu/vpssim-tien-ich
+exit
+fi
+echo "========================================================================="
+echo "Su dung chuc nang nay de Cai Dat / Remove Ioncube cho server"
+echo "-------------------------------------------------------------------------"
+echo "Ioncube Loader chua duoc cai dat tren server"
+echo "-------------------------------------------------------------------------"
+read -r -p "Ban muon cai dat Ioncube Loader  ? [y/N] " response
+case $response in
+    [yY][eE][sS]|[yY]) 
+    echo "-------------------------------------------------------------------------"
+		echo "Please wait..."
+		sleep 1
+/etc/vpssim/menu/vpssim-enable-tat-ca-cac-ham-php-php.ini
+sleep 1
+	php_version=$(php -r "echo PHP_MAJOR_VERSION.'.'.PHP_MINOR_VERSION;")
+	
+arch=`uname -m`
+if [ "$arch" = "x86_64" ]; then
+wget -q -O - http://downloads3.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz | tar -xzf - -C /usr/local
+rm -rf /root/ioncube_loaders_lin_x86-64.tar.gz
+rm -rf /etc/php.d/*.ioncube.*
+rm -rf /etc/php.d/ioncube.*
+else
+wget -q -O - http://downloads3.ioncube.com/loader_downloads/ioncube_loaders_lin_x86.tar.gz | tar -xzf - -C /usr/local
+rm -rf /root/ioncube_loaders_lin_x86.tar.gz
+rm -rf /etc/php.d/*.ioncube.*
+rm -rf /etc/php.d/ioncube.*
+fi
+cat > "/etc/php.d/ioncube.ini" <<END
+zend_extension=/usr/local/ioncube/ioncube_loader_lin_${php_version}.so
+END
+/etc/vpssim/menu/vpssim-re-config-cac-ham-php-disable-php.ini
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
+service php-fpm restart
+else
+systemctl restart php-fpm.service
+fi
+clear
+echo "========================================================================="
+echo "Cai dat Ioncube Loader vao server thanh cong !"
+/etc/vpssim/menu/vpssim-tien-ich
+       ;;
+    *)
+    clear
+    echo "========================================================================="
+   echo "Ban huy install Ioncube Loader"
+/etc/vpssim/menu/vpssim-tien-ich
+        ;;
+esac
+exit
+fi

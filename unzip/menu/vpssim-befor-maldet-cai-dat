@@ -1,0 +1,7 @@
+#!/bin/bash 
+. /home/vpssim.conf
+if [ ! -f /usr/local/maldetect/conf.maldet ]; then
+/etc/vpssim/menu/vpssim-cai-dat-maldet-with-clamav
+else
+/etc/vpssim/menu/vpssim-remove-maldet-with-clamav
+fi

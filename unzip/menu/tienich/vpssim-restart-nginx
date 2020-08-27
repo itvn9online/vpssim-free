@@ -1,0 +1,87 @@
+#!/bin/sh
+. /home/vpssim.conf
+
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
+	if [ "$(/sbin/service nginx status | awk 'NR==1 {print $5}')" == "running..." ]; then
+clear
+echo "========================================================================"
+service nginx restart
+/etc/vpssim/menu/tienich/vpssim-restart-service
+	else
+clear
+echo "========================================================================"
+echo "Nginx service is not running"
+echo "------------------------------------------------------------------------"
+echo "VPSSIM trying to start it"
+echo "------------------------------------------------------------------------"
+echo "Please wait ..."
+sleep 5 ; clear
+		echo "-------------------------------------------------------------------------"
+service nginx start
+clear
+echo "========================================================================"
+echo "Check Nginx service once again !"
+echo "------------------------------------------------------------------------"
+echo "please wait ..."
+sleep 5 ; clear
+		if [ "$(/sbin/service nginx status | awk 'NR==1 {print $5}')" == "running..." ]; then
+clear
+echo "========================================================================"
+service nginx restart
+/etc/vpssim/menu/tienich/vpssim-restart-service
+		else
+		clear
+echo "========================================================================"
+echo "VPSSIM can not start Nginx Service"
+sleep 4 ;
+	clear
+	echo "========================================================================="
+	echo "Rat tiec, VPSSIM khong the khoi dong lai duoc Nginx!"
+	#echo "Sorry, Nginx is stopped. Please start it before use this function !"
+	/etc/vpssim/menu/tienich/vpssim-restart-service
+		fi
+fi
+fi
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+	if [ "`systemctl is-active nginx.service`" == "active" ]; then
+clear
+echo "========================================================================"
+service nginx stop
+service nginx start
+/etc/vpssim/menu/tienich/vpssim-restart-service
+	else
+clear
+echo "========================================================================"
+echo "Nginx service is not running"
+echo "------------------------------------------------------------------------"
+echo "VPSSIM trying to start it"
+echo "------------------------------------------------------------------------"
+echo "Please wait ..."
+sleep 5 ; clear
+		echo "-------------------------------------------------------------------------"
+systemctl restart nginx.service
+clear
+echo "========================================================================"
+echo "Check Nginx service once again !"
+echo "------------------------------------------------------------------------"
+echo "please wait ..."
+sleep 5 ; clear
+	if [ "`systemctl is-active nginx.service`" == "active" ]; then
+clear
+echo "========================================================================"
+service nginx stop
+service nginx start
+/etc/vpssim/menu/tienich/vpssim-restart-service
+		else
+				clear
+echo "========================================================================"
+echo "VPSSIM can not start Nginx Service"
+sleep 4 ;
+	clear
+	echo "========================================================================="
+	echo "Rat tiec, VPSSIM khong the khoi dong lai duoc Nginx!"
+	#echo "Sorry, VPSSIM can not restart nginx service !"
+	/etc/vpssim/menu/tienich/vpssim-restart-service
+		fi
+fi
+fi

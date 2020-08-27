@@ -1,0 +1,56 @@
+#!/bin/bash 
+. /home/vpssim.conf
+if [ ! "$(redis-cli ping)" = "PONG" ]; then
+clear
+echo "========================================================================="
+echo "Redis dang stop"
+echo "-------------------------------------------------------------------------"
+echo "Ban phai bat Redis len bang lenh [ service redis start ]"
+/etc/vpssim/menu/vpssim-redis-menu
+exit
+fi
+echo "========================================================================="
+echo "Chuc nang nay config luong Ram lon nhat (MAX RAM) Redis co the su dung"
+echo "-------------------------------------------------------------------------"
+echo "Max RAM la so tu nhien nam trong khoang (40 - $(calc $( free -m | awk 'NR==2 {print $2}' )/5))."
+echo "-------------------------------------------------------------------------"
+echo -n "Nhap luong RAM lon nhat cho Redis [ENTER]: " 
+read maxredis
+
+if [ "$maxredis" = "" ]; then
+clear
+echo "========================================================================="
+echo "Ban nhap sai, vui long nhap lai"
+/etc/vpssim/menu/vpssim-redis-menu
+exit
+fi
+
+if ! [[ $maxredis -ge 40 && $maxredis -le $(calc $( free -m | awk 'NR==2 {print $2}' )/5)  ]] ; then  
+clear
+echo "========================================================================="
+echo "$maxredis khong dung!"
+echo "-------------------------------------------------------------------------"
+echo "RAM cho Redis phai la so tu nhien nam trong khoan (40 - $(calc $( free -m | awk 'NR==2 {print $2}' )/5))."
+/etc/vpssim/menu/vpssim-redis-menu
+exit
+fi  
+echo "-------------------------------------------------------------------------"
+echo "Please wait ....."
+sleep 1
+rm -rf /etc/redis/redis.conf
+cat > "/etc/redis/redis.conf" <<END
+maxmemory ${maxredis}mb
+maxmemory-policy allkeys-lru
+END
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
+service redis restart
+else 
+systemctl restart redis.service
+fi
+clear
+echo "========================================================================="
+echo "Cau hinh Max Ram cho Redis thanh cong"
+echo "-------------------------------------------------------------------------"
+echo "Redis co the su dung luong RAM toi da la: $maxredis MB "
+/etc/vpssim/menu/vpssim-redis-menu
+

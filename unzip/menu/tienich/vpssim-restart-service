@@ -1,0 +1,25 @@
+#!/bin/bash
+prompt="Lua chon cua ban:"
+options=( "Restart MySQL" "Restart Nginx" "Restart PHP-FPM" "Restart VPS" "Exit" )
+printf "=========================================================================\n"
+printf "                VPSSIM - Manage VPS/Server by HostingAZ.VN \n"
+printf "=========================================================================\n"
+printf "                            Restart Service\n"
+printf "=========================================================================\n"
+
+PS3="$prompt"
+select opt in "${options[@]}" ; do 
+
+    case "$REPLY" in
+
+
+    1) /etc/vpssim/menu/tienich/vpssim-restart-mysql;;
+    2) /etc/vpssim/menu/tienich/vpssim-restart-nginx;;
+    3) /etc/vpssim/menu/tienich/vpssim-restart-php;;
+    4) /etc/vpssim/menu/tienich/vpssim-reboot-vps;;
+    5) clear && /etc/vpssim/menu/vpssim-tien-ich;;
+
+            *) echo "Ban nhap sai, vui long nhap theo so thu tu tren menu !";continue;;
+
+    esac
+done

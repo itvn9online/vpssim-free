@@ -1,0 +1,8 @@
+#!/bin/sh
+. /home/vpssim.conf
+if [ -f /etc/cron.d/vpssim-auto-start-mysql.cron ]; then
+/etc/vpssim/menu/tienich/vpssim-tat-auto-start-mysql
+else
+/etc/vpssim/menu/tienich/vpssim-bat-auto-start-mysql
+fi
+

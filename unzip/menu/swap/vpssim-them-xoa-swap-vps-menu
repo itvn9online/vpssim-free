@@ -1,0 +1,30 @@
+#!/bin/bash
+
+prompt="Nhap lua chon cua ban (8-Thoat):"
+options=("Swap 512 MB" "Swap 1 GB" "Swap 2 GB" "Swap 3 GB" "Swap 4 GB" "Swap 6 GB" "Xoa Swap" )
+printf "=========================================================================\n"
+printf "                VPSSIM - Quan Ly VPS/Server by HostingAZ.VN \n"
+printf "=========================================================================\n"
+printf "                   Chuc nang nay khong ho tro VPS OpenVZ\n"
+printf "=========================================================================\n"
+printf "                             Tao & Xoa Swap\n"
+printf "=========================================================================\n"
+PS3="$prompt"
+select opt in "${options[@]}" "Thoat"; do 
+
+    case "$REPLY" in
+
+    1 ) /etc/vpssim/menu/swap/vpssim-create-swap-512;;
+    2 ) /etc/vpssim/menu/swap/vpssim-create-swap-1024;;
+    3 ) /etc/vpssim/menu/swap/vpssim-create-swap-2048;;
+    4 ) /etc/vpssim/menu/swap/vpssim-create-swap-3072;;
+    5 ) /etc/vpssim/menu/swap/vpssim-create-swap-4096;;
+    6 ) /etc/vpssim/menu/swap/vpssim-create-swap-6144;;
+    7 ) /etc/vpssim/menu/swap/vpssim-xoa-swap-vps;;
+        
+$(( ${#options[@]}+1 )) ) echo "BYE!";  clear && /bin/vpssim;;
+     *) echo "Ban nhap sai, vui long nhap cac so trong list tren";continue;;
+
+    esac
+
+done

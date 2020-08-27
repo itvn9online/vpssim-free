@@ -1,0 +1,43 @@
+#!/bin/bash
+. /home/vpssim.conf
+prompt="Type in your choice:"
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
+if [ "$(/sbin/service memcached status | awk 'NR==1 {print $5}')" == "running..." ]; then
+options=("Disable" "Restart Memcached" "Config Memcached" )
+fi
+if [ "$(/sbin/service memcached status | awk 'NR==1 {print $3}')" == "stopped" ]; then
+options=("Enable" "Restart" "Config Memcached" )
+fi
+fi
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+if [ "`systemctl is-active memcached.service`" == "active" ]; then
+options=("Disable" "Restart" "Config Memcached" )
+fi
+if [ "$(/bin/systemctl status  memcached.service | awk 'NR==3 {print $2}')" == "inactive" ]; then
+options=("Enable" "Restart" "Config Memcached" )
+fi
+fi
+printf "=========================================================================\n"
+printf "                VPSSIM - Quan Ly VPS/Server by HostingAZ.VN \n"
+printf "=========================================================================\n"
+printf "                           Memcached Manage \n"
+printf "=========================================================================\n"
+printf "Link Memcached Manage: http://$serverip:$priport/memcache.php\n"
+printf "=========================================================================\n"
+
+PS3="$prompt"
+select opt in "${options[@]}" "Thoat"; do 
+
+    case "$REPLY" in
+
+    1 ) /etc/vpssim/menu/memcache/vpssim-before-bat-tat-memcache;;
+    2 ) /etc/vpssim/menu/memcache/vpssim-memcache-restart;;
+    3 ) /etc/vpssim/menu/memcache/vpssim-memcache-change-size;;
+       
+  
+$(( ${#options[@]}+1 )) ) echo "";  clear && /bin/vpssim;;
+     *) echo "Ban nhap sai, vui long nhap theo so thu tu tren menu !";continue;;
+
+    esac
+
+done

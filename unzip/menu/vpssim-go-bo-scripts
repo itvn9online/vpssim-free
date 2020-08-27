@@ -1,0 +1,129 @@
+#!/bin/bash
+echo "========================================================================="
+echo "Su dung chuc nang nay de Remove VPSSIM khoi Server"
+echo "-------------------------------------------------------------------------"
+echo "Trong qua trinh remove, toan bo du lieu website, database ... se bi xoa"
+echo "-------------------------------------------------------------------------"
+echo "Server se quay tro lai trang thai nhu moi."
+echo "========================================================================="
+read -r -p "Ban chac chan muon go bo VPSSIM? [y/N] " response
+case $response in
+    [yY][eE][sS]|[yY]) 
+echo "-------------------------------------------------------------------------"
+echo -n "Nhap [ OK ] de xac nhan: " 
+read xacnhan
+if [ ! "$xacnhan" = "OK" ]; then
+clear
+echo "========================================================================="
+echo "Cancle Remove VPSSIM"
+/etc/vpssim/menu/vpssim-tien-ich
+exit
+fi
+echo "-------------------------------------------------------------------------"
+echo "Chuan bi go bo VPSSIM, vui long doi ...."
+sleep 2
+
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
+sleep 4
+service exim stop
+chkconfig exim off
+service nginx stop
+chkconfig nginx off
+service mysql stop
+chkconfig mysql off
+service syslog-ng stop
+chkconfig syslog-ng off
+service php-fpm stop
+chkconfig php-fpm off
+else
+systemctl disable  exim.service 
+systemctl disable  syslog-ng.service
+systemctl stop  exim.service 
+systemctl stop  syslog-ng.service
+systemctl disable nginx.service 
+systemctl stop nginx.service 
+systemctl disable php-fpm.service 
+systemctl stop php-fpm.service
+systemctl disable mariadb.service
+systemctl stop mariadb.service 
+systemctl disable redis.service
+systemctl stop redis.service
+fi
+
+yum -y remove MariaDB*
+yum -y remove mariadb*
+yum -y remove nginx
+yum -y remove php*
+yum -y remove exim mailx
+yum -y remove httpd*
+yum -y remove syslog-ng
+yum -y remove htop
+yum -y remove pure-ftpd
+yum -y remove gcc gcc-c++ redis* memcache*
+# pcre-dev pcre-devel zlib-devel expect imake lsof autoconf nc libedit-devel make automake cmake perl-libwww-perl perl-Crypt-SSLeay perl-Net-SSLeay tree virt-what openssl-devel libtool libXext-devel cyrus-sasl-devel glib2 glib2-devel openssl libcurl-devel which libevent libevent-devel libxml2-devel libxslt-devel gd gd-devel perl-ExtUtils-Embed patch sysstat libgcj gettext-devel vim-minimal nano libxml2-devel libpng-devel libart_lgpl-devel  GeoIP-devel gperftools-devel libicu libicu-devel aspell aspell-devel libtidy libtidy-devel readline-devel iptables* libedit-devel enchant enchant-devel perl-ExtUtils-MakeMaker perl-Time-HiRes curl curl-devel diffutils libc-client libc-client-devel numactl lsof pkgconfig gdbm-devel tk-devel bluez-libs-devel
+yum -y remove unzip zip rar unrar rsync psmisc syslog-ng-libdbi
+source scl_source disable devtoolset-3
+yum -y remove devtoolset-3-gcc devtoolset-3-gcc-c++
+rm -rf /etc/yum.repos.d/slc6-scl.repo
+rm -rf /home/*
+rm -rf /etc/nginx
+rm -rf /etc/php-fpm.d
+rm -rf /etc/php.d
+rm -rf /etc/php.zts.d
+rm -rf /etc/exim
+rm -rf /var/lib/mysql
+rm -rf /etc/my.cnf.d
+rm -rf /etc/cron.d/*
+rm -rf /etc/httpd
+rm -rf /etc/syslog-ng
+rm -f /etc/yum.repo.d/epel.repo
+rm -f /etc/yum.repo.d/remi.repo
+rm -f /etc/yum.repo.d/nginx*
+rm -f /etc/yum.repo.d/MariaDB*
+rm -f /etc/yum.repo.d/epel-testing.repo
+rm -f /etc/php-fpm.conf
+rm -f /etc/php.ini
+rm -f /etc/my.cnf
+rm -f /etc/rc.d/init.d/exim
+rm -f /etc/rc.d/init.d/httpd
+rm -f /etc/rc.d/init.d/mysql
+rm -f /etc/rc.d/init.d/nginx
+rm -f /etc/rc.d/init.d/php-fpm
+rm -f /etc/rc.d/init.d/syslog-ng
+rm -rf /root/*
+rm -rf /bin/vpssim*
+rm -rf /bin/calc
+rm -rf /etc/vpssim
+rm -rf /etc/cron.d/*
+rm -rf /var/log/nginx
+rm -rf /var/cache/ngx_pagespeed
+rm -rf /etc/pure-ftpd
+rm -rf /etc/motd 
+if [ -f /swapfile ]; then
+swapoff /swapfile
+rm -rf /swapfile
+fi
+if [ -f /etc/csf/csf.conf ]; then
+cd /etc/csf
+sh uninstall.sh
+cd
+fi
+sed -i '/vpssimcheck/d' /root/.bash_profile
+yum clean all
+yum -y update
+clear
+echo "========================================================================="
+echo "Done all...!"
+echo "-------------------------------------------------------------------------"
+echo "Server se khoi dong lai sau 3s de hoan tat...!"
+sleep 3
+reboot
+exit
+        ;;
+    *)
+    clear
+    echo "========================================================================="
+echo "Cancel Remove VPSSIM"
+/etc/vpssim/menu/vpssim-tien-ich
+        ;;
+esac

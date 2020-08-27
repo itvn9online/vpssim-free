@@ -1,0 +1,102 @@
+#!/bin/bash
+
+. /home/vpssim.conf
+
+echo "========================================================================="
+echo "Su dung chuc nang nay de kiem tra SSL status cho website cai dat SSL"
+echo "-------------------------------------------------------------------------"
+echo -n "Nhap ten website [ENTER]: " 
+read website
+website=`echo $website | tr '[A-Z]' '[a-z]'`
+websiteTO=`echo $website | tr '[a-z]' '[A-Z]'`
+if [ "$website" = "" ]; then
+clear
+echo "========================================================================="
+echo "Ban chua nhap ten website"
+/etc/vpssim/menu/vpssim-letsencrypt-menu
+exit
+fi
+
+if [ ! -f /etc/nginx/conf.d/$website.conf ]; then
+clear
+echo "========================================================================="
+echo "Khong tim thay $website tren server "
+/etc/vpssim/menu/vpssim-letsencrypt-menu
+exit
+fi  
+
+if [ ! -d /home/$website/public_html ]; then
+clear
+echo "========================================================================="
+echo "Khong tim thay folder public_html cua $website"
+echo "-------------------------------------------------------------------------"
+echo "VPSSIM khong the thuc hien thuc nang nay."
+/etc/vpssim/menu/vpssim-letsencrypt-menu
+exit
+fi
+##############
+
+if [ ! -f /root/.acme.sh/$website/$website.conf ]; then
+clear
+echo "========================================================================="
+echo "$website chua duoc cai dat SSL Let's Encrypt."
+/etc/vpssim/menu/vpssim-letsencrypt-menu
+exit
+fi
+
+if [ -f /root/.acme.sh/$website/$website.conf ]; then
+
+echo "Check $website when Setup SSL" > /home/$website/public_html/vpssim.check
+checkurlsttSSL=$(curl -o /dev/null --silent --head --write-out '%{http_code}' "https://$website/vpssim.check")
+checkurlstt=$(curl -o /dev/null --silent --head --write-out '%{http_code}' "http://$website/vpssim.check")
+rm -rf /home/$website/public_html/vpssim.check
+
+if [[  "$checkurlsttSSL" == "200" ]]; then
+echo "-------------------------------------------------------------------------"
+echo "Please wait ..." 
+sleep 2
+nextgiahan=`cat /root/.acme.sh/$website/$website.conf | grep NextRenewTimeStr | cut -d \" -f 2 `
+curTime=$(date +%s)
+thoigiangiahangiay=`cat /root/.acme.sh/$website/$website.conf | grep Le_NextRenewTime= | cut -d \" -f 2`
+hieuthoigianconlai=$(calc $thoigiangiahangiay-$curTime)
+thoigiannengiahanlai=$(calc $hieuthoigianconlai/60/60/24)
+thoigianconlai=$(calc $thoigiannengiahanlai+10)
+clear
+echo "========================================================================="
+echo "$websiteTO da cai dat thanh cong SSL Let's Encrypt."
+echo "-------------------------------------------------------------------------"
+echo "Chung chi SSL het han sau: $thoigianconlai ngay."
+if [ -f /etc/vpssim/Renew.SSL.Letencrypt ] && [ -f /etc/cron.d/vpssim.autorenew.ssl.cron ]; then
+echo "-------------------------------------------------------------------------"
+echo "VPSSIM se tu dong gia han chung chi sau: $thoigiannengiahanlai ngay."
+else
+echo "-------------------------------------------------------------------------"
+echo "BAN CHUA BAT TINH NANG TU DONG GIA HAN SSL."
+fi
+/etc/vpssim/menu/vpssim-letsencrypt-menu
+exit
+fi
+
+if [[ "$checkurlstt" == "200" ]]; then
+
+yes | cp -rf  /etc/vpssim/Backup.Vhost.SSL/$website/$website.conf /home/$website/$website.conf_HTTP
+yes | cp -rf  /etc/vpssim/Backup.Vhost.SSL/$website/$website.conf_HTTPS /home/$website/$website.conf_HTTPS
+echo "-------------------------------------------------------------------------"
+echo "Please wait ..." 
+sleep 2
+clear
+echo "========================================================================="
+echo "Ban da tao chung chi SSL cho $websiteTO nhung chua cai dat thanh cong"
+echo "-------------------------------------------------------------------------"
+echo "Ban phai tu edit Vhost cua $websiteTO theo thong tin duoi:"
+echo "-------------------------------------------------------------------------"
+echo "File Vhost: /etc/nginx/conf.d/$website.conf"
+echo "-------------------------------------------------------------------------"
+echo "Backup Vhost: /home/$website/$website.conf_HTTP"
+echo "-------------------------------------------------------------------------"
+echo "SSL Vhost: /home/$website/$website.conf_HTTPS"
+/etc/vpssim/menu/vpssim-letsencrypt-menu
+exit
+fi
+fi
+

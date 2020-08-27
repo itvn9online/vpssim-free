@@ -1,0 +1,69 @@
+#!/bin/bash
+. /home/vpssim.conf 
+if [ -f /etc/vsftpd/vsftpd.conf ]; then
+clear
+echo "========================================================================= "
+echo "Phat hien VSFTPD duoc cai dat tren server. "
+echo "-------------------------------------------------------------------------"
+echo "De su dung day du chuc nang Quan Ly FTP Server"
+echo "-------------------------------------------------------------------------"
+echo "VPSSIM se Remove VSFTPD tren Server truoc"
+sleep 8
+clear
+echo "-------------------------------------------------------------------------"
+echo "Please wait .............."
+sleep 3
+yum -y remove vsftpd
+clear
+fi
+if [ -f /etc/proftpd.conf ]; then
+clear
+echo "====================================== =================================== "
+echo "Phat hien ProFTPD duoc cai dat tren server. "
+echo "-------------------------------------------------------------------------"
+echo "De su dung day du chuc nang Quan Ly FTP Server"
+echo "-------------------------------------------------------------------------"
+echo "VPSSIM se Remove ProFTPD tren Server truoc"
+sleep 8
+clear
+echo "-------------------------------------------------------------------------"
+echo "Please wait .............."
+sleep 3
+yum -y remove proftpd
+clear
+fi
+if [ ! -f /etc/vpssim/menu/vpssim-ftpserver-read ]; then
+clear
+printf "=========================================================================\n"
+printf "                VPSSIM - Quan Ly VPS/Server by HostingAZ.VN \n"
+printf "=========================================================================\n"
+printf "                            Quan Ly FTP Server \n"
+printf "=========================================================================\n"
+echo ""
+
+echo "========================================================================="
+echo "Su dung chuc nang nay de cai dat FTP Server cho Server"
+echo "-------------------------------------------------------------------------"
+echo "Sau khi cai dat FTP Server xong, ban co the tao tai khoan FTP cho tung"
+echo "-------------------------------------------------------------------------"
+echo "Website tren server. Mac dinh, ban khong the ket noi FTP vao Server bang "
+echo "-------------------------------------------------------------------------"
+echo "tai khoan root. Neu muon dang nhap tai khoan root, ban phai su dung sFTP"
+echo "-------------------------------------------------------------------------"
+echo "Ban dang nhap SFTP bang tai khoan root theo thong tin:"
+echo "-------------------------------------------------------------------------"
+echo "Host: sftp://$serverip"
+echo "-------------------------------------------------------------------------"
+echo "User: root | Password: Your_password "
+echo "-------------------------------------------------------------------------"
+echo "Port: Port SSH (mac dinh 22 - hoac Port SSH ban da thay)"
+echo "-------------------------------------------------------------------------"
+touch /etc/vpssim/menu/vpssim-ftpserver-read
+read -p "Nhan [Enter] de tiep tuc ..."
+clear
+fi
+if [ ! -f /etc/pure-ftpd/pure-ftpd.conf ]; then
+/etc/vpssim/menu/vpssim-ftpserver-menu-khong
+else
+/etc/vpssim/menu/vpssim-ftpserver-menu-co
+fi

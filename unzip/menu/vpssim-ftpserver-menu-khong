@@ -1,0 +1,24 @@
+#!/bin/bash
+prompt="Lua chon cua ban (6-Thoat):"
+options=("Tao Tai Khoan FTP Cho Website" "Vo Hieu Hoa Tai Khoan FTP" "Thay Mat Khau Tai Khoan FTP" "Xem Thong Tin FTP Cua Website" "Setup FTP Server Over TLS" )
+printf "=========================================================================\n"
+printf "                VPSSIM - Quan Ly VPS/Server by HostingAZ.VN \n"
+printf "=========================================================================\n"
+printf "                           Quan Ly FTP Server \n"
+printf "=========================================================================\n"
+echo ""
+PS3="$prompt"
+select opt in "${options[@]}" "Thoat"; do 
+
+    case "$REPLY" in
+    1) /etc/vpssim/menu/vpssim-tao-ftp-user-cho-domain;;
+    2) /etc/vpssim/menu/vpssim-xoa-ftp-user;;
+    3) /etc/vpssim/menu/vpssim-thay-mat-khau-user-ftp;;
+    4) /etc/vpssim/menu/vpssim-view-userftp-password;;
+    5) /etc/vpssim/menu/vpssim-cai-dat-ftp-server;;
+$(( ${#options[@]}+1 )) ) echo "";  clear && vpssim;;
+     *) echo "Ban nhap sai, vui long nhap theo so thu tu tren menu !";continue;;
+
+    esac
+
+done

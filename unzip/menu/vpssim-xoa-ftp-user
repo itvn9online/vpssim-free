@@ -1,0 +1,86 @@
+#!/bin/bash
+. /home/vpssim.conf
+if [ ! -f /etc/pure-ftpd/pure-ftpd.conf ]; then
+clear
+echo "========================================================================= "
+echo "FTP server chua duoc cai dat tren server. "
+echo "-------------------------------------------------------------------------"
+echo "Ban phai cai dat chuc nang Setup FTP server truoc"
+/etc/vpssim/menu/vpssim-ftpserver-menu
+exit
+fi
+
+echo "========================================================================="
+echo "Su dung chuc nang nay de vo hieu tai khoan FTP cua website"
+echo "-------------------------------------------------------------------------"
+echo -n "Nhap ten website [ENTER]: " 
+read website
+
+if [ "$website" = "" ]; then
+clear
+echo "========================================================================="
+echo "Ban nhap sai, vui long nhap lai!"
+/etc/vpssim/menu/vpssim-ftpserver-menu
+exit
+fi
+kiemtradomain3="^([[:alnum:]]([[:alnum:]\-]{0,61}[[:alnum:]])?\.)+[[:alpha:]]{2,14}$";
+if [[ ! "$website" =~ $kiemtradomain3 ]]; then
+	website=`echo $website | tr '[A-Z]' '[a-z]'`
+clear
+echo "========================================================================="
+echo "$website co le khong phai la domain !!"
+echo "-------------------------------------------------------------------------"
+echo "Ban vui long nhap lai  !"
+/etc/vpssim/menu/vpssim-ftpserver-menu
+exit
+fi
+if [ ! -f /etc/nginx/conf.d/$website.conf ]; then
+clear
+echo "========================================================================="
+echo "Website $website khong ton tai tren he thong!"
+echo "-------------------------------------------------------------------------"
+echo "Ban hay nhap lai !"
+/etc/vpssim/menu/vpssim-ftpserver-menu
+exit
+fi
+if [ "$(pure-pw list | grep "/home/$website/")" == "" ]; then
+clear
+echo "========================================================================="
+echo "Website $website chua tao tai khoan FTP!"
+/etc/vpssim/menu/vpssim-ftpserver-menu
+fi
+ftpuser=$(grep "/home/$website/" /etc/vpssim/FTP-Account.info | awk 'NR==1 {print $7}')
+echo "-------------------------------------------------------------------------"
+echo "Phat hien tai khoan FTP $ftpuser cua $website"
+echo "-------------------------------------------------------------------------"
+read -r -p "Ban chac chan muon xoa tai khoan nay ? [y/N] " response
+case $response in
+    [yY][eE][sS]|[yY]) 
+#sudo userdel $ftpuser  ##Xoa User Centos
+echo "-------------------------------------------------------------------------"
+echo "Please wait ..."
+sleep 1
+pure-pw userdel $ftpuser
+pure-pw mkdb
+cat > "/tmp/xoaftpuser" <<END	
+sed -i '/\/home\/$website/d' /etc/vpssim/FTP-Account.info
+END
+chmod +x /tmp/xoaftpuser
+/tmp/xoaftpuser
+rm -rf /tmp/xoaftpuser
+clear
+echo "========================================================================="
+echo "Remove tai khoan FTP $ftpuser cua $website thanh cong !"
+/etc/vpssim/menu/vpssim-ftpserver-menu
+exit
+ ;;
+    *)
+        echo ""
+        ;;
+esac
+clear
+echo "=========================================================================" 
+echo "Ban da huy remove tai khoan FTP cho $website "
+/etc/vpssim/menu/vpssim-ftpserver-menu
+fi
+

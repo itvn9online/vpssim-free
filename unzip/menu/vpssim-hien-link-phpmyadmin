@@ -1,0 +1,10 @@
+#!/bin/sh
+. /home/vpssim.conf
+echo "-------------------------------------------------------------------------"
+echo "Please wait..."; sleep 1
+clear
+echo "========================================================================="
+echo "Ban Co The Truy Cap Vao Phpmyadmin Bang Link Duoi:"
+echo "-------------------------------------------------------------------------"
+echo "http://$serverip:$priport"
+/etc/vpssim/menu/vpssim-phpmyadmin-menu

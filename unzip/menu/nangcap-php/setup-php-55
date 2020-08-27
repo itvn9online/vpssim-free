@@ -1,0 +1,141 @@
+#!/bin/bash
+. /home/vpssim.conf
+phphientai=$(php -r "echo PHP_MAJOR_VERSION.''.PHP_MINOR_VERSION;")
+php_version1=$(php -r "echo PHP_MAJOR_VERSION.'.'.PHP_MINOR_VERSION;")
+if [ "$php_version1" == "5.5" ]; then
+clear
+echo "========================================================================="
+echo "Phien ban PHP hien tai: $(php -i | grep 'PHP Version' | awk 'NR==1 {print $4}') "
+/etc/vpssim/menu/nangcap-php/change-php-version-menu
+exit
+fi
+echo "========================================================================="
+read -r -p "Ban muon su dung PHP phien ban 5.5 ? [y/N] " response
+case $response in
+    [yY][eE][sS]|[yY]) 
+    echo "-------------------------------------------------------------------------"
+echo "Ok ! please wait ...."
+sleep 1
+/etc/vpssim/menu/vpssim-enable-tat-ca-cac-ham-php-php.ini
+if [ -f /etc/php.d/ioncube.ini ]; then
+ioncubestatus=1
+rm -rf /etc/php.d/*.ioncube.*
+rm -rf /etc/php.d/ioncube.*
+rm -rf /usr/local/ioncube
+fi
+mkdir -p /root/updown
+yes | cp -rf /etc/php-fpm.conf /root/updown/
+if [ -f /etc/php.d/opcache.bak ]; then
+yes | cp -rf /etc/php.d/opcache.bak /root/updown/
+fi
+if [ -f /etc/php.d/opcache.ini ]; then
+yes | cp -rf /etc/php.d/opcache.ini /root/updown/
+fi
+yes | cp -rf /etc/php.ini /root/updown/
+yes | cp -rf /etc/php-fpm.d/www.conf /root/updown
+if [ -f /etc/php.d/imagick.ini ]; then
+rm -rf /etc/php.d/imagick.ini 
+pecl uninstall imagick
+fi
+#### uninstall php zip module
+if [ "$phphientai" = "70" ]; then
+pecl uninstall zip
+fi
+sed -i '/extension=zip.so/d' /etc/php.ini
+########
+yum -y remove php\*
+yum-config-manager --disable remi-php$phphientai 
+
+
+#yyyyyyyyyyyyyyyyyyyyyy
+yum-config-manager --enable remi-php55 
+yum -y install php php-curl php-soap php-pecl-redis php-cli php-snmp php-pspell php-ldap php-pecl-redis php-gmp php-bcmath php-intl php-imap php-pear-Net-SMTP php-enchant php-common php-fpm php-gd php-devel php-mysql php-pear php-pecl-memcached php-pecl-memcache php-opcache php-pdo php-zlib php-xml php-mbstring php-mcrypt php-xmlrpc php-tidy
+clear
+#edit php.ini va Zend opcache
+rm -rf /etc/php.ini  
+rm -rf /etc/php-zts.d/*opcache*
+rm -rf /etc/php.d/*opcache*
+rm -rf /etc/php-fpm.conf
+yes | cp -rf /root/updown/php-fpm.conf /etc/
+yes | cp -rf /root/updown/php.ini /etc/
+yes | cp -rf /root/updown/www.conf /etc/php-fpm.d/
+#copy opcache config
+
+yes | cp -rf /root/updown/opcache.* /etc/php.d/
+php_version=$(php -r "echo PHP_MAJOR_VERSION.'.'.PHP_MINOR_VERSION;")
+sed --in-place '/zend_extension/d' /etc/php.d/opcache.*
+yes "" | pecl install imagick
+wget --no-check-certificate -q https://vpssim.com/script/vpssim/check-imagick.php.zip -O /home/$mainsite/private_html/check-imagick.php
+if [ "$php_version" == "5.4" ]; then
+  if [ "$(find / -name 'opcache.so')" == "0" ]; then
+ pecl install channel://pecl.php.net/ZendOpcache-7.0.5
+  fi
+duongdanopcache=$(find / -name 'opcache.so' | grep php/modules/opcache.so)
+echo "zend_extension=$duongdanopcache" >> /etc/php.d/opcache.*
+duongdanimagick=$(find / -name 'imagick.so' | grep php/modules/imagick.so)
+echo "extension=$duongdanimagick" >> /etc/php.d/imagick.ini
+else
+echo "zend_extension=opcache.so" >> /etc/php.d/opcache.*
+echo "extension=imagick.so" > /etc/php.d/imagick.ini
+fi
+if [ "$ioncubestatus" = "1" ]; then
+	arch=`uname -m`
+if [ "$arch" = "x86_64" ]; then
+wget -q -O - http://downloads3.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz | tar -xzf - -C /usr/local
+rm -r -f /root/ioncube_loaders_lin_x86-64.tar.gz
+rm -r -f /etc/php.d/*.ioncube.*
+rm -r -f /etc/php.d/ioncube.*
+else
+wget -q -O - http://downloads3.ioncube.com/loader_downloads/ioncube_loaders_lin_x86.tar.gz | tar -xzf - -C /usr/local
+rm -r -f /root/ioncube_loaders_lin_x86.tar.gz
+rm -r -f /etc/php.d/*.ioncube.*
+rm -r -f /etc/php.d/ioncube.*
+fi
+cat > "/etc/php.d/ioncube.ini" <<END
+zend_extension=/usr/local/ioncube/ioncube_loader_lin_${php_version}.so
+END
+fi
+sed -i '/extension=zip.so/d' /etc/php.ini
+/etc/vpssim/menu/vpssim-re-config-cac-ham-php-disable-php.ini
+rm -rf /root/updown/
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
+chkconfig --add php-fpm
+chkconfig --levels 235 php-fpm on
+service php-fpm restart
+else
+systemctl enable php-fpm.service 
+systemctl start php-fpm.service
+systemctl restart php-fpm.service
+systemctl restart redis.service
+fi
+chmod 777 /var/lib/php/session/
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
+	if [ ! "$(/sbin/service php-fpm status | awk 'NR==1 {print $5}')" == "running..." ]; then
+	clear
+	echo "========================================================================="
+	echo "Sorry, There's an error on changing PHP version."
+	
+/etc/vpssim/menu/vpssim-update-upgrade-service-menu
+fi
+fi
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+	if [ ! "`systemctl is-active php-fpm.service`" == "active" ]; then
+	clear
+	echo "========================================================================="
+	echo "Sorry, There's an error on changing PHP version."
+/etc/vpssim/menu/vpssim-update-upgrade-service-menu
+fi
+fi
+clear
+echo "========================================================================="
+echo "Hoan thanh thay doi PHP version. "
+echo "-------------------------------------------------------------------------"
+echo "Phien ban PHP hien tai: $(php -i | grep 'PHP Version' | awk 'NR==1 {print $4}')                          "
+/etc/vpssim/menu/nangcap-php/change-php-version-menu
+        ;;
+esac
+clear
+echo "========================================================================="
+  printf "Ban huy thay doi phien ban PHP.                         \n"
+/etc/vpssim/menu/nangcap-php/change-php-version-menu
+

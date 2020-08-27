@@ -1,0 +1,67 @@
+#!/bin/sh
+. /home/vpssim.conf
+prompt="Nhap lua chon cua ban (14-Thoat):"
+if [ -f /etc/csf/csf.conf ]; then
+options=("Block IP" "Unblock IP" "Unblock Tat Ca IP" "Them IP Vao CSF.Allow" "Remove IP Khoi CSF.Allow" "Block Countries By CSF" "Unblock All Countries" "Restart (Enable) CSF Firewall" "Disable CSF Firewall" "Remove CSF Firewall" "View IP Blocked List" "Update CSF Firewall" "Tat/Bat Canh Bao Tren Menu" "Thoat")
+else
+options=("Block IP" "Unblock IP" "Unblock Tat Ca IP" "Them IP Vao CSF.Allow" "Remove IP Khoi CSF.Allow" "Block Countries By CSF" "Unblock All Countries"  "Restart (Enable) CSF Firewall" "Disable CSF Firewall" "Remove CSF Firewall" "View IP Blocked List" "Cai dat CSF Firewall" "Tat/Bat Canh Bao Tren Menu" "Thoat")
+fi
+printf "=========================================================================\n"
+printf "                VPSSIM - Quan Ly VPS/Server by HostingAZ.VN \n"
+printf "=========================================================================\n"
+printf "                            Quan Ly CSF Firewall                                \n"
+printf "=========================================================================\n"
+
+
+if [ ! -f "/etc/csf/csf.conf" ]; then
+echo "                          CSF Firewall: Not install"
+else
+csf -v > /tmp/vpssimcheckcscfstatus
+if [ "$(grep disabled /tmp/vpssimcheckcscfstatus)" = "" ]; then
+echo "             CSF Firewall: installed | Running | Version: $(csf -v | awk 'NR==1 {print $2}' | sed 's/v//') "
+else
+echo "                    CSF Firewall: Installed but Disable" 
+fi
+fi
+
+if [ -f "/etc/csf/csf.conf" ]; then
+if [ ! -f /etc/csf/csf.deny ]; then
+cat > "/etc/csf/csf.deny" <<END
+END
+fi
+fi
+
+if [ -f /etc/csf/csf.deny ]; then
+if [ "$(cat /etc/csf/csf.deny | awk 'NR==2 {print $2}')" == "Copyright" ]; then
+rm -rf /etc/csf/csf.deny
+cat > "/etc/csf/csf.deny" <<END
+END
+fi
+fi
+
+printf "=========================================================================\n"
+
+PS3="$prompt"
+select opt in "${options[@]}" ; do 
+
+    case "$REPLY" in
+
+    1) /etc/vpssim/menu/CSF-Fiwall/vpssim-chan-ip-ddos;;
+    2) /etc/vpssim/menu/CSF-Fiwall/vpssim-bo-chan-ip;;
+    3) /etc/vpssim/menu/CSF-Fiwall/vpssim-bo-chan-tat-ca-ip;;
+    4) /etc/vpssim/menu/CSF-Fiwall/vpssim-csf-allow;;
+    5) /etc/vpssim/menu/CSF-Fiwall/vpssim-remove-ip-khoi-csf-allow;;
+    6) /etc/vpssim/menu/CSF-Fiwall/vpssim-csf-firewall-block-country;;
+    7) /etc/vpssim/menu/CSF-Fiwall/vpssim-csf-firewall-un-block-country;;
+    8) /etc/vpssim/menu/CSF-Fiwall/vpssim-restart-csf;;
+    9) /etc/vpssim/menu/CSF-Fiwall/vpssim-befor-tat-csf;;
+    10) /etc/vpssim/menu/CSF-Fiwall/vpssim-xoa-csf;;
+    11) /etc/vpssim/menu/CSF-Fiwall/vpssim-download-csf-denny;;
+    12) /etc/vpssim/menu/CSF-Fiwall/vpssim-cai-dat-csf-csf-before;;
+    13) /etc/vpssim/menu/CSF-Fiwall/vpssim-tat-bat-canh-bao-cai-dat-csf;;
+    14) clear && vpssim;;  
+    *) echo "Ban nhap sai, vui long nhap theo so thu tu tren menu";continue;;
+
+    esac
+done
+ 

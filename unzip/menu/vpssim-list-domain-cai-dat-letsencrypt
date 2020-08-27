@@ -1,0 +1,49 @@
+#!/bin/bash
+
+. /home/vpssim.conf
+echo "========================================================================="
+echo "Please wait ..."; sleep 3
+/root/.acme.sh/acme.sh --list | awk '{print $1}' FPAT='"[^"]+"'  | sed 's/Main_Domain//' > /etc/vpssim/.tmp/list_domain_SSL
+domainlist=$(cat /etc/vpssim/.tmp/list_domain_SSL)
+rm -rf /etc/vpssim/.tmp/thanh_cong_SSL
+curTime=$(date +%s)
+for domain in $domainlist; do
+if [ -f /root/.acme.sh/$domain/$domain.conf ] && [ -f /etc/nginx/auth-acme/$domain/$domain.crt ]; then
+echo "Check SSL by VPSSIM" > /home/$domain/public_html/vpssim.check
+checkurlsttSSL=$(curl -o /dev/null --silent --head --write-out '%{http_code}' "https://$domain/vpssim.check")
+rm -rf /home/$domain/public_html/vpssim.check
+if [[  "$checkurlsttSSL" == "200" ]]; then
+thoigiangiahangiay=`cat /root/.acme.sh/$domain/$domain.conf | grep Le_NextRenewTime= | cut -d \" -f 2`
+hieuthoigianconlai=$(calc $thoigiangiahangiay-$curTime)
+thoigiannengiahan=$(calc $hieuthoigianconlai/60/60/24)
+thoigianconlai=$(calc $thoigiannengiahan+10)
+echo "$domain [$thoigianconlai]" >> /etc/vpssim/.tmp/thanh_cong_SSL
+else
+echo "$domain" >> /etc/vpssim/.tmp/that_bai_SSL
+fi
+fi
+done;
+
+if [ ! -f /etc/vpssim/.tmp/thanh_cong_SSL ]; then
+clear
+echo "========================================================================="
+echo "Hien tai khong co website nao cai dat SSL Let's Encrypt."
+/etc/vpssim/menu/vpssim-letsencrypt-menu
+fi
+
+if [ -n /etc/vpssim/.tmp/thanh_cong_SSL ]; then
+clear
+echo "========================================================================="
+echo "Danh sach website cai dat thanh cong SSL Let's Encrypt:"
+echo "-------------------------------------------------------------------------"
+cat /etc/vpssim/.tmp/thanh_cong_SSL | pr -2 -t
+rm -rf /etc/vpssim/.tmp/thanh_cong_SSL
+rm -rf /etc/vpssim/.tmp/that_bai_SSL
+else
+clear
+echo "========================================================================="
+echo "Hien tai khong co website nao cai dat SSL Let's Encrypt."
+rm -rf /etc/vpssim/.tmp/thanh_cong_SSL
+rm -rf /etc/vpssim/.tmp/that_bai_SSL
+fi
+/etc/vpssim/menu/vpssim-letsencrypt-menu

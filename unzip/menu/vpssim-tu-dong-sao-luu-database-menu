@@ -1,0 +1,50 @@
+#!/bin/bash
+. /home/vpssim.conf
+rm -rf /tmp/*hostingaz*
+code=`date |md5sum |cut -c '1-12'`
+ls -l /var/lib/mysql | grep "^d" | awk -F" " '{print $9}' | grep -Ev "(Database|information_schema|mysql|performance_schema|vpssimCheckDB)" > /tmp/listdabasehostingaz
+checksize=$(du -sb /tmp/listdabasehostingaz | awk 'NR==1 {print $1}')
+   if [ "$checksize" == "0" ]; then
+   clear
+   echo "========================================================================="
+   echo "Khong phat hien thay database dang duoc su dung tren server"
+   /etc/vpssim/menu/vpssim-them-xoa-database
+   exit
+   fi
+sodatabasetrenserver=$(cat /tmp/listdabasehostingaz | wc -l)
+listdatabasetrenserver=$(cat /tmp/listdabasehostingaz)
+mkdir -p /tmp/saoluudatabasethanhconghostingaz
+mkdir -p /tmp/saoluudatabasethatbaihostingaz
+rm -rf /tmp/*check*
+for database in $listdatabasetrenserver 
+do
+if [ ! "$(ls -1 /var/lib/mysql/$database | wc -l)" == "1" ]; then
+echo "$database" >> /tmp/checkdatabase-list
+fi
+ done
+
+if [ ! -f /tmp/checkdatabase-list ]; then
+rm -rf /tmp/*hostingaz*
+rm -rf /tmp/*list*
+clear
+echo "========================================================================="
+echo "Khong tim thay database co du lieu tren server"
+/etc/vpssim/menu/vpssim-them-xoa-database
+exit
+fi
+ 
+
+prompt="Nhap lua chon cua ban:"
+options=("BAT/TAT Tu Dong Backup Database" "List Database BAT Tu Dong Backup")
+printf "=========================================================================\n"
+PS3="$prompt"
+select opt in "${options[@]}" "Thoat"; do 
+
+    case "$REPLY" in
+    1 ) /etc/vpssim/menu/vpssim-befor-chon-tat-bat-tu-dong-sao-luu-database;;
+    2 ) /etc/vpssim/menu/vpssim-danh-sach-data-tu-dong-sao-luu-database;;
+    $(( ${#options[@]}+1 )) ) echo "";  clear && /etc/vpssim/menu/vpssim-them-xoa-database;;
+    *) echo "Ban nhap sai ! Ban vui long chon so trong danh sach.";continue;;
+
+    esac
+done

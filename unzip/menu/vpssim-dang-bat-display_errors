@@ -1,0 +1,36 @@
+#!/bin/sh
+. /home/vpssim.conf
+echo "========================================================================="
+echo "Voi mot so code loi, Neu dat [display_errors = Off] trong php.ini se lam"
+echo "-------------------------------------------------------------------------"
+echo "website hien thi duy nhat trang trang. Fix by set [display_errors = On]"
+echo "-------------------------------------------------------------------------"
+echo "Neu website khong co loi, VPSSIM khuyen nghi dat [display_errors = Off]"
+echo "========================================================================="
+echo "Hien tai: DISPLAY ERRORS = ON "
+echo "========================================================================="
+read -r -p "Ban muon dat [display_errors = Off] trong php.ini ?  [y/N] " response
+case $response in
+    [yY][eE][sS]|[yY]) 
+    
+sed -i.bak "s,display_errors = On,display_errors = Off,g" /etc/php.ini
+    echo "Cho xiu..."
+sleep 1
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
+service php-fpm restart
+fi
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+systemctl restart php-fpm.service
+fi
+    clear
+    echo "========================================================================="
+echo "Thiet lap [display_errors = Off] trong php.ini thanh cong"
+/etc/vpssim/menu/vpssim-config-php.ini-menu
+        ;;
+    *)
+       clear
+    echo "========================================================================="
+   echo "Ban huy thay doi gia tri [display_errors]  !"
+/etc/vpssim/menu/vpssim-config-php.ini-menu
+        ;;
+esac

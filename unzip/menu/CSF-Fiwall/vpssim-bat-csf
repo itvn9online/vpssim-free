@@ -1,0 +1,28 @@
+#!/bin/bash 
+
+. /home/vpssim.conf
+if [ -f /etc/csf/csf.conf ]; then
+csf -e
+clear
+echo "========================================================================= "
+echo "Bat CSF Firewall thanh cong "
+/etc/vpssim/menu/CSF-Fiwall/vpssim-csf-firewall-menu
+else
+clear
+echo "========================================================================= "
+echo "Chuc nang nay can CSF Firewall de hoat dong"
+echo "-------------------------------------------------------------------------"
+echo "CSF Firewall chua duoc cai dat tren server! "
+echo "-------------------------------------------------------------------------"
+read -r -p "Ban co muon cai dat CSF Firewall vao server [y/N] " response
+case $response in
+    [yY][eE][sS]|[yY]) 
+/etc/vpssim/menu/CSF-Fiwall/vpssim-cai-dat-csf-csf
+;;
+esac
+clear
+echo "========================================================================= "
+echo "Ban huy bo cai dat CSF Firewall ! "
+/etc/vpssim/menu/CSF-Fiwall/vpssim-csf-firewall-menu
+exit
+fi

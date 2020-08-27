@@ -1,0 +1,225 @@
+#!/bin/sh
+. /home/vpssim.conf
+if [ ! -f /etc/vpssim/pwprotect.default ]; then
+echo "" > /etc/vpssim/pwprotect.default
+fi
+if [ ! -f /usr/local/bin/htpasswd.py ]; then
+cp -r /etc/vpssim/menu/vpssim-tao-mat-khau-bao-ve-folder.py /usr/local/bin/htpasswd.py
+chmod 755 /usr/local/bin/htpasswd.py
+fi
+if [ -f /etc/vpssim/netdatasite.info ]; then
+netdatasite=$(cat /etc/vpssim/netdatasite.info)
+ if [ ! -f /etc/nginx/conf.d/$netdatasite.conf ]; then
+rm -rf /etc/vpssim/netdatasite.info
+ fi
+ if [ ! -d /etc/netdata ]; then
+rm -rf /etc/vpssim/netdatasite.info
+ fi
+fi
+
+if [ ! -f /etc/vpssim/netdata.version ]; then
+echo "1.2" > /etc/vpssim/netdata.version
+fi
+show_menu_netdata () {
+	
+prompt="Lua chon cua ban (6-Thoat):"
+options=("Setup NetData" "Tat / Bat NetData" "Thay Domain NetData" "Bao Ve Domain NetData      " "Nang Cap NetData" "Thoat")
+printf "=========================================================================\n"
+printf "                VPSSIM - Quan Ly VPS/Server by HostingAZ.VN \n"
+printf "=========================================================================\n"
+printf "                            Quan Ly NetData \n"
+printf "=========================================================================\n"
+if [ ! -f /etc/vpssim/netdatasite.info ]; then
+printf "                      NetData status: Not Install \n"
+else
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
+	if [ "$(/sbin/service netdata status | awk 'NR==1 {print $5}')" == "running..." ]; then
+printf "               Status: Installed and Enable | Version: $(cat /etc/vpssim/netdata.version)\n"
+	else
+printf "               Status: Installed but Disable | Version: $(cat /etc/vpssim/netdata.version)\n"
+	fi
+fi
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then
+	if [ "`systemctl is-active netdata.service`" == "active" ]; then
+printf "               Status: Installed and Enable | Version: $(cat /etc/vpssim/netdata.version)\n"
+	else
+printf "               Status: Installed but Disable | Version: $(cat /etc/vpssim/netdata.version)\n"
+	fi
+fi
+fi
+printf "=========================================================================\n"
+if [ -f /etc/vpssim/netdatasite.info ]; then
+netdatasite=$(cat /etc/vpssim/netdatasite.info)
+checknetdataconfig=$(grep auth_basic /etc/nginx/conf.d/$netdatasite.conf)
+if [ "$checknetdataconfig" == "" ]; then
+Protection=Disable
+else
+Protection=Enable
+fi
+
+
+printf "Link: http://$netdatasite | Protection: $Protection \n"
+printf "=========================================================================\n"
+fi
+PS3="$prompt"
+select opt in "${options[@]}" ; do 
+
+    case "$REPLY" in
+
+    1) /etc/vpssim/menu/vpssim-cai-dat-netdata;;
+    2) /etc/vpssim/menu/vpssim-tat-bat-netdata;;
+    3) /etc/vpssim/menu/vpssim-thay-domain-netdata;;
+    4) /etc/vpssim/menu/vpssim-mat-khau-bao-ve-netdata;;
+    5) /etc/vpssim/menu/vpssim-nang-cap-netdata;;
+    6) clear && /bin/vpssim;;
+    
+  *) echo "Ban nhap sai, vui long nhap theo so thu tu tren menu !";continue;;
+
+    esac
+
+done
+
+}
+
+
+
+check_nginx_service () {
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
+	if [ "$(/sbin/service nginx status | awk 'NR==1 {print $5}')" == "running..." ]; then
+show_menu_netdata 
+	else
+clear
+echo "========================================================================"
+echo "Nginx service is not running"
+echo "------------------------------------------------------------------------"
+echo "VPSSIM trying to start it"
+echo "------------------------------------------------------------------------"
+echo "Please wait ..."
+sleep 5 ; clear
+service nginx start
+clear
+echo "========================================================================"
+echo "Check Nginx service once again !"
+echo "------------------------------------------------------------------------"
+echo "please wait ..."
+sleep 5 ; clear
+		if [ "$(/sbin/service nginx status | awk 'NR==1 {print $5}')" == "running..." ]; then
+show_menu_netdata 
+		else
+				clear
+echo "========================================================================"
+echo "VPSSIM can not start Nginx Service"
+sleep 4 ;
+	clear
+	echo "========================================================================="
+	echo "Rat tiec, Nginx dang stopped. Hay bat len truoc khi dung chuc nang nay!"
+	vpssim
+		fi
+fi
+fi
+
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+	if [ "`systemctl is-active nginx.service`" == "active" ]; then
+show_menu_netdata 
+	else
+clear
+echo "========================================================================"
+echo "Nginx service is not running"
+echo "------------------------------------------------------------------------"
+echo "VPSSIM trying to start it"
+echo "------------------------------------------------------------------------"
+echo "Please wait ..."
+sleep 5 ; clear
+systemctl start nginx.service
+clear
+echo "========================================================================"
+echo "Check Nginx service once again !"
+echo "------------------------------------------------------------------------"
+echo "please wait ..."
+sleep 5 ; clear
+	if [ "`systemctl is-active nginx.service`" == "active" ]; then
+show_menu_netdata 
+		else
+				clear
+echo "========================================================================"
+echo "VPSSIM can not start Nginx Service"
+sleep 4 ;
+	clear
+	echo "========================================================================="
+	echo "Rat tiec, Nginx dang stopped. Hay bat len truoc khi dung chuc nang nay!"
+	vpssim
+		fi
+fi
+fi
+}
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
+	if [ "$(/sbin/service php-fpm status | awk 'NR==1 {print $5}')" == "running..." ]; then
+check_nginx_service
+	else
+clear
+echo "========================================================================"
+echo "PHP-FPM service is not running"
+echo "------------------------------------------------------------------------"
+echo "VPSSIM trying to start it"
+echo "------------------------------------------------------------------------"
+echo "Please wait ..."
+sleep 5 ; clear
+	echo "-------------------------------------------------------------------------"
+service php-fpm start
+clear
+echo "========================================================================"
+echo "Check PHP-FPM service once again !"
+echo "------------------------------------------------------------------------"
+echo "please wait ..."
+sleep 5 ; clear
+			if [ "$(/sbin/service php-fpm status | awk 'NR==1 {print $5}')" == "running..." ]; then
+check_nginx_service
+		else
+		clear
+echo "========================================================================"
+echo "VPSSIM can not start PHP-FPM Service"
+sleep 4 ;
+	clear
+	echo "========================================================================="
+	#echo "Sorry, PHP-FPM stopped. Start it before use this function!"
+	echo "Sorry, PHP-FPM dang stopped. Hay bat len truoc khi dung chuc nang nay!"
+	vpssim
+		fi
+fi
+fi
+
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+if [ "`systemctl is-active php-fpm.service`" == "active" ]; then
+check_nginx_service
+	else
+clear
+echo "========================================================================"
+echo "PHP-FPM service is not running"
+echo "------------------------------------------------------------------------"
+echo "VPSSIM trying to start it"
+echo "------------------------------------------------------------------------"
+echo "Please wait ..."
+sleep 5 ; clear
+	echo "-------------------------------------------------------------------------"
+systemctl start php-fpm.service
+clear
+echo "========================================================================"
+echo "Check PHP-FPM service once again !"
+echo "------------------------------------------------------------------------"
+echo "please wait ..."
+sleep 5 ; clear
+if [ "`systemctl is-active php-fpm.service`" == "active" ]; then
+check_nginx_service
+		else
+		clear
+echo "========================================================================"
+echo "VPSSIM can not start PHP-FPM Service"
+sleep 4 ;
+	clear
+	echo "========================================================================="
+	#echo "Sorry, PHP-FPM stopped. Start it before use this function!"
+	echo "Sorry, PHP-FPM dang stopped. Hay bat len truoc khi dung chuc nang nay!"
+	vpssim
+		fi
+fi
+fi

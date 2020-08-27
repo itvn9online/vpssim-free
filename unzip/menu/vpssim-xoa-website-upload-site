@@ -1,0 +1,143 @@
+#!/bin/bash
+
+. /home/vpssim.conf
+
+if [ ! -f /etc/vpssim/uploadsite ]; then
+clear
+echo "========================================================================="
+echo "Ban chua cai dat File Manager cho Server !"
+/etc/vpssim/menu/vpssim-web-upload-menu
+exit
+fi
+uploadsite=$(cat /etc/vpssim/uploadsite)
+check_folder_protect_config()
+{
+if [ -d /etc/nginx/pwprotect/$website ]; then
+cd /etc/nginx/pwprotect/$website
+rm -rf * .??*
+cd
+rm -rf /etc/nginx/pwprotect/$website
+fi
+}
+check_ftp_account()
+{
+if [ ! -f /etc/vpssim/FTP-Account.info ]; then
+echo "=========================================================================" > /etc/vpssim/FTP-Account.info
+echo "Please Do Not Delete This File " >> /etc/vpssim/FTP-Account.info
+echo "-------------------------------------------------------------------------" >> /etc/vpssim/FTP-Account.info
+echo "If you delete this file, VPSSIM will not run !" >> /etc/vpssim/FTP-Account.info
+echo "-------------------------------------------------------------------------" >> /etc/vpssim/FTP-Account.info
+echo "All FTP User for all domain on VPS list below:" >> /etc/vpssim/FTP-Account.info
+echo "=========================================================================" >> /etc/vpssim/FTP-Account.info
+echo "" >> /etc/vpssim/FTP-Account.info
+fi
+if [ -f /etc/pure-ftpd/pureftpd.passwd ]; then
+if [ ! "$(grep /home/$uploadsite/ /etc/pure-ftpd/pureftpd.passwd)" == "" ];then  
+rm -rf /tmp/abcd
+cat > "/tmp/abcd" <<END	
+sed -i '/\/home\/$uploadsite/d' /etc/pure-ftpd/pureftpd.passwd
+END
+chmod +x /tmp/abcd
+/tmp/abcd
+rm -rf /tmp/abcd
+pure-pw mkdb
+fi
+fi
+if [ ! "$(grep /home/$uploadsite/ /etc/vpssim/FTP-Account.info)" == "" ];then 
+echo "========================================================================="
+echo "Phat hien tai khoan FTP: $(grep /home/$uploadsite/ /etc/vpssim/FTP-Account.info | awk 'NR==1 {print $7}') cua $uploadsite  "
+echo "-------------------------------------------------------------------------"
+echo "VPSSIM se remove tai khoan FTP: $(grep /home/$uploadsite/ /etc/vpssim/FTP-Account.info | awk 'NR==1 {print $7}')"
+echo "-------------------------------------------------------------------------"
+echo "Please wait ...."
+echo "-------------------------------------------------------------------------"
+sleep 6
+rm -rf /tmp/abcde
+cat > "/tmp/abcde" <<END	
+sed -i '/\/home\/$uploadsite/d' /etc/vpssim/FTP-Account.info
+END
+chmod +x /tmp/abcde
+/tmp/abcde
+rm -rf /tmp/abcde
+fi
+}
+echo "========================================================================="
+read -r -p "Ban chac chan muon xoa File Manager ? [y/N] " response
+case $response in
+    [yY][eE][sS]|[yY]) 
+    echo "-------------------------------------------------------------------------"
+    echo "Please wait....";sleep 1
+rm -rf /home/$uploadsite
+rm -f /etc/nginx/conf.d/$uploadsite.conf 
+if [ ! -f /etc/vpssim/opcache.blacklist ]; then
+cat > "/etc/vpssim/opcache.blacklist" <<END
+END
+fi
+if [ ! "$(grep /home/$uploadsite /etc/vpssim/opcache.blacklist)" == "" ]; then
+echo "-------------------------------------------------------------------------"
+echo "Phat hien $uploadsite trong Zend Opcache Blacklist"
+echo "-------------------------------------------------------------------------"
+echo "VPSSIM se xoa $uploadsite trong blacklist nay"
+echo "-------------------------------------------------------------------------"
+echo "Please wait ...."
+sleep 6
+rm -rf /tmp/zendcacheblacklist
+cat > "/tmp/zendcacheblacklist" <<END
+sed --in-place '\/home\/$uploadsite/d' /etc/vpssim/opcache.blacklist
+END
+chmod +x /tmp/zendcacheblacklist
+/tmp/zendcacheblacklist
+rm -rf /tmp/zendcacheblacklist
+fi
+check_ftp_account
+check_and_delete_auto_backup_website()
+{
+	if [  -f /bin/vpssim-backupcode-$uploadsite ]; then
+	if [ ! "$(grep vpssim-backupcode-$uploadsite /etc/cron.d/vpssim.code.cron)" == "" ]; then
+echo "========================================================================="
+echo "Phat hien $uploadsite dang bat auto backup code"
+echo "-------------------------------------------------------------------------"
+echo "VPSSIM se tat che do auto backup code khi remove khoi server"
+echo "-------------------------------------------------------------------------"
+echo "Please wait ...."
+sleep 5
+	rm -rf /bin/vpssim-backupcode-$uploadsite
+	cat > "/tmp/removebackupcode" <<END
+sed -i '/vpssim-backupcode-$uploadsite/d' /etc/cron.d/vpssim.code.cron
+END
+chmod +x /tmp/removebackupcode
+/tmp/removebackupcode 
+rm -rf /tmp/removebackupcode
+service crond restart
+	fi
+	fi
+}
+check_and_delete_auto_backup_website
+check_folder_protect_config
+rm -rf /etc/vpssim/uploadsite
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
+service nginx reload
+service php-fpm restart
+else 
+systemctl reload nginx
+systemctl restart php-fpm.service
+fi 
+clear
+echo "========================================================================= "
+echo "Remove Domain File Manager thanh cong ! "
+/etc/vpssim/menu/vpssim-web-upload-menu
+;;
+    *)
+       clear 
+echo "========================================================================= "
+echo "Ban huy remove Domain File Manager."
+/etc/vpssim/menu/vpssim-web-upload-menu
+        ;;
+esac
+clear 
+echo "========================================================================= "
+echo "Ban huy remove Domain File Manager"
+/etc/vpssim/menu/vpssim-web-upload-menu
+
+
+

@@ -1,0 +1,45 @@
+#!/bin/bash
+
+. /home/vpssim.conf
+
+if [ -f /etc/vpssim/Renew.SSL.Letencrypt ] && [ -f /etc/cron.d/vpssim.autorenew.ssl.cron ]; then
+clear
+echo "========================================================================="
+echo "Chuc nang tu dong gia han chung chi SSL Let's Encrypt da duoc BAT."
+echo "-------------------------------------------------------------------------"
+echo "VPSSIM se auto renew SSL 10 ngay truoc khi SSL het han."
+/etc/vpssim/menu/vpssim-letsencrypt-menu
+fi
+echo "========================================================================="
+echo "Su dung chuc nang nay BAT chuc nang tu dong gia han chung chi SSL cho"
+echo "-------------------------------------------------------------------------"
+echo "tat ca website dang su dung SSL Let's Encrypt."
+echo "========================================================================="
+  read -r -p "Ban muon BAT chuc nang tu dong gia han SSL ? [y/N] " response
+case $response in
+    [yY][eE][sS]|[yY]) 
+    echo "-------------------------------------------------------------------------"
+echo "Please wait ..."; sleep 3
+
+cat > "/etc/vpssim/Renew.SSL.Letencrypt" <<END
+#!/bin/sh
+/root/.acme.sh/acme.sh --renewAll
+END
+chmod +x /etc/vpssim/Renew.SSL.Letencrypt
+echo "SHELL=/bin/sh" > /etc/cron.d/vpssim.autorenew.ssl.cron
+echo "0 23 * * * root /etc/vpssim/Renew.SSL.Letencrypt >/dev/null 2>&1" >> /etc/cron.d/vpssim.autorenew.ssl.cron
+service crond restart
+clear
+echo "========================================================================="
+echo "Hoan thanh cai dat tu dong gia han chung chi SSL Let's Encrypt."
+echo "-------------------------------------------------------------------------"
+echo "VPSSIM se auto renew SSL 10 ngay truoc khi SSL het han."
+/etc/vpssim/menu/vpssim-letsencrypt-menu
+;;
+    *)
+clear 
+echo "========================================================================= "
+echo "Cancel !"
+/etc/vpssim/menu/vpssim-letsencrypt-menu
+        ;;
+esac

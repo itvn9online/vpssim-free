@@ -1,0 +1,128 @@
+#!/bin/bash
+
+. /home/vpssim.conf
+if [ ! -f /etc/vpssim/uploadsite ]; then
+clear
+echo "========================================================================="
+echo "Ban chua cai dat File Manager tren server !"
+/etc/vpssim/menu/vpssim-web-upload-menu
+exit
+fi
+echo "========================================================================="
+echo "Su dung chuc nang nay de thay doi gia tri lon nhat dung luong file upload"
+echo "-------------------------------------------------------------------------"
+echo "cho File Manager. Upload_max_filesize cua server cung se thay doi theo. "
+echo "-------------------------------------------------------------------------"
+echo "Upload_max_filesize hien tai: `grep "upload_max_filesize =" /etc/php.ini | awk 'NR==1 {print $3}' | grep -o '[0-9]*'` MB"
+echo "========================================================================="
+echo "Lua Chon Gia Tri Moi upload_max_filesize"
+echo "========================================================================="
+prompt="Nhap lua chon cua ban: "
+options=( "50 MB" "100 MB" "150 MB" "200 MB" "300 MB" "400 MB" "500 MB" "1000 MB" "2000 MB" "Huy Bo")
+PS3="$prompt"
+select opt in "${options[@]}"; do 
+
+    case "$REPLY" in
+    1) tuychon="50"; break;;
+    2) tuychon="100"; break;;
+    3) tuychon="150"; break;;
+    4) tuychon="200"; break;;
+    5) tuychon="300"; break;;
+    6) tuychon="400"; break;; 
+    7) tuychon="500"; break;;
+    8) tuychon="1000"; break;;
+    9) tuychon="2000"; break;;
+    10) tuychon="cancel"; break;;
+    *) echo "Ban nhap sai ! Ban vui long chon so trong danh sach";continue;;
+    esac  
+done
+
+###################################
+if [ "$tuychon" = "50" ]; then
+maxfilezize=50
+echo "-------------------------------------------------------------------------"
+echo "Please wait ..." ; sleep 2
+sed -i "s/.*post_max_size =.*/post_max_size = 50M/g" /etc/php.ini
+sed -i "s/.*upload_max_filesize =.*/upload_max_filesize = 50M/g" /etc/php.ini
+sed -i "s/.*client_max_body_size.*/client_max_body_size 50m;/g" /etc/nginx/nginx.conf 
+###################################
+elif [ "$tuychon" = "100" ]; then
+maxfilezize=100
+echo "-------------------------------------------------------------------------"
+echo "Please wait ..." ; sleep 2
+sed -i "s/.*post_max_size =.*/post_max_size = 100M/g" /etc/php.ini
+sed -i "s/.*upload_max_filesize =.*/upload_max_filesize = 100M/g" /etc/php.ini
+sed -i "s/.*client_max_body_size.*/client_max_body_size 100m;/g" /etc/nginx/nginx.conf 
+###################################
+elif [ "$tuychon" = "150" ]; then
+echo "-------------------------------------------------------------------------"
+echo "Please wait ..." ; sleep 2
+maxfilezize=150
+sed -i "s/.*post_max_size =.*/post_max_size = 150M/g" /etc/php.ini
+sed -i "s/.*upload_max_filesize =.*/upload_max_filesize = 150M/g" /etc/php.ini
+sed -i "s/.*client_max_body_size.*/client_max_body_size 150m;/g" /etc/nginx/nginx.conf 
+###################################
+elif [ "$tuychon" = "200" ]; then
+maxfilezize=200
+echo "-------------------------------------------------------------------------"
+echo "Please wait ..." ; sleep 2
+sed -i "s/.*post_max_size =.*/post_max_size = 200M/g" /etc/php.ini
+sed -i "s/.*upload_max_filesize =.*/upload_max_filesize = 200M/g" /etc/php.ini
+sed -i "s/.*client_max_body_size.*/client_max_body_size 200m;/g" /etc/nginx/nginx.conf 
+###################################
+elif [ "$tuychon" = "300" ]; then
+maxfilezize=300
+echo "-------------------------------------------------------------------------"
+echo "Please wait ..." ; sleep 2
+sed -i "s/.*post_max_size =.*/post_max_size = 300M/g" /etc/php.ini
+sed -i "s/.*upload_max_filesize =.*/upload_max_filesize = 300M/g" /etc/php.ini
+sed -i "s/.*client_max_body_size.*/client_max_body_size 300m;/g" /etc/nginx/nginx.conf 
+###################################
+elif [ "$tuychon" = "400" ]; then
+maxfilezize=400
+echo "-------------------------------------------------------------------------"
+echo "Please wait ..." ; sleep 2
+sed -i "s/.*post_max_size =.*/post_max_size = 400M/g" /etc/php.ini
+sed -i "s/.*upload_max_filesize =.*/upload_max_filesize = 400M/g" /etc/php.ini
+sed -i "s/.*client_max_body_size.*/client_max_body_size 400m;/g" /etc/nginx/nginx.conf 
+###################################
+elif [ "$tuychon" = "500" ]; then
+maxfilezize=500
+echo "-------------------------------------------------------------------------"
+echo "Please wait ..." ; sleep 2
+sed -i "s/.*post_max_size =.*/post_max_size = 500M/g" /etc/php.ini
+sed -i "s/.*upload_max_filesize =.*/upload_max_filesize = 500M/g" /etc/php.ini
+sed -i "s/.*client_max_body_size.*/client_max_body_size 500m;/g" /etc/nginx/nginx.conf 
+###################################
+elif [ "$tuychon" = "1000" ]; then
+maxfilezize=1000
+echo "-------------------------------------------------------------------------"
+echo "Please wait ..." ; sleep 2
+sed -i "s/.*post_max_size =.*/post_max_size = 1000M/g" /etc/php.ini
+sed -i "s/.*upload_max_filesize =.*/upload_max_filesize = 1000M/g" /etc/php.ini
+sed -i "s/.*client_max_body_size.*/client_max_body_size 1000m;/g" /etc/nginx/nginx.conf 
+###################################
+elif [ "$tuychon" = "2000" ]; then
+maxfilezize=2000
+echo "-------------------------------------------------------------------------"
+echo "Please wait ..." ; sleep 2
+sed -i "s/.*post_max_size =.*/post_max_size = 2000M/g" /etc/php.ini
+sed -i "s/.*upload_max_filesize =.*/upload_max_filesize = 2000M/g" /etc/php.ini
+sed -i "s/.*client_max_body_size.*/client_max_body_size 2000m;/g" /etc/nginx/nginx.conf 
+###################################
+else 
+clear && /etc/vpssim/menu/vpssim-web-upload-menu
+fi
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
+service nginx reload
+service php-fpm restart
+else 
+systemctl reload nginx
+systemctl restart php-fpm.service
+fi
+clear
+echo "========================================================================="
+echo "Thay doi gia tri Upload Max filesize thanh cong"
+echo "-------------------------------------------------------------------------"
+echo "upload_max_filesize = $maxfilezize MB"
+/etc/vpssim/menu/vpssim-web-upload-menu

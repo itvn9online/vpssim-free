@@ -1,0 +1,68 @@
+#!/bin/bash 
+
+. /home/vpssim.conf
+Show_menu () {
+prompt="Nhap lua chon cua ban: "
+options=( "Allow/Deny Chay Script Trong Writable Folder" "List Websites KHONG CHO Chay Script Trong Writeable Folder" "Exit" )
+echo "========================================================================="
+PS3="$prompt"
+select opt in "${options[@]}"; do 
+
+    case "$REPLY" in
+    1) luachon="tatbat"; break;;
+    2) luachon="danhsach"; break;;
+    3) luachon="cancle"; break;;
+    *) echo "Ban nhap sai, vui long nhap so thu tu trong danh sach";continue;;
+    esac  
+done
+###################################
+#
+###################################
+if [ "$luachon" = "tatbat" ]; then
+/etc/vpssim/menu/vpssim-tat-bat-chan-run-script-trong-folder-upload-cho-website
+###################################
+#
+###################################
+elif [ "$luachon" = "danhsach" ]; then
+/etc/vpssim/menu/vpssim-list-website-dang-chan-run-script-trong-folder-upload
+###################################
+#
+###################################
+else 
+clear && /etc/vpssim/menu/vpssim-tien-ich
+fi
+}
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
+	if [ "$(/sbin/service nginx status | awk 'NR==1 {print $5}')" == "running..." ]; then
+Show_menu
+	else
+	echo "-------------------------------------------------------------------------"
+service nginx start
+		if [ "$(/sbin/service nginx status | awk 'NR==1 {print $5}')" == "running..." ]; then
+Show_menu
+		else
+	clear
+	echo "========================================================================="
+	echo "Rat tiec, Nginx dang stopped. Hay bat len truoc khi dung chuc nang nay!"
+	#echo "Sorry, Nginx is stopped. Please start it before use this function !"
+/etc/vpssim/menu/vpssim-tien-ich
+		fi
+fi
+fi
+
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+	if [ "`systemctl is-active nginx.service`" == "active" ]; then
+Show_menu
+	else
+systemctl start nginx.service
+	if [ "`systemctl is-active nginx.service`" == "active" ]; then
+Show_menu
+		else
+	clear
+	echo "========================================================================="
+	echo "Rat tiec, Nginx dang stopped. Hay bat len truoc khi dung chuc nang nay!"
+	#echo "Sorry, Nginx is stopped. Please start it before use this function !"
+/etc/vpssim/menu/vpssim-tien-ich
+		fi
+fi
+fi

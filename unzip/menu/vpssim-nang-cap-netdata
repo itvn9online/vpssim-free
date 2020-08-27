@@ -1,0 +1,134 @@
+#!/bin/bash
+. /home/vpssim.conf
+
+rm -rf /tmp/checktmp
+echo "Check /tmp by VPSSIM" > /tmp/checktmp
+if [ ! -f /tmp/checktmp ]; then
+clear
+echo "========================================================================="
+echo "Your Server has a problem with /tmp "
+echo "-------------------------------------------------------------------------"
+echo "Please fix it before use this function"
+/etc/vpssim/menu/vpssim-netdata-menu
+exit
+fi
+rm -rf /tmp/checktmp
+echo "-------------------------------------------------------------------------"
+echo "VPSSIM dang kiem tra. Please wait ..."
+checkketnoi=$(curl -o /dev/null --silent --head --write-out '%{http_code}' "https://vpssim.com/script/vpssim/Softwear/00-all-netdata-version.txt" )
+if [[ "$checkketnoi" == "000" ]]; then
+clear
+echo "========================================================================="
+echo "Khong the kiem tra phien ban update NetData"
+echo "-------------------------------------------------------------------------"
+echo "Ban vui long thu lai"
+#echo "Can not check NetData version"
+#echo "-------------------------------------------------------------------------"
+#echo "Please try again !"
+/etc/vpssim/menu/vpssim-netdata-menu
+exit
+fi
+rm -rf /tmp/00-all-netdata*
+cd /tmp
+download_version_netdata () {
+wget --no-check-certificate -q https://vpssim.com/script/vpssim/Softwear/00-all-netdata-version.txt
+}
+download_version_netdata
+checkdownload_version_netdata=`cat /tmp/00-all-netdata-version.txt`
+if [ -z "$checkdownload_version_netdata" ]; then
+download_version_netdata
+fi
+cd
+if [ ! -f /etc/vpssim/netdata.version ]; then
+clear
+printf "=========================================================================\n"
+echo "Khong the kiem tra phien ban update NetData"
+echo "-------------------------------------------------------------------------"
+echo "Ban vui long thu lai"
+/etc/vpssim/menu/vpssim-netdata-menu
+else
+LOCALVER=`cat /etc/vpssim/netdata.version`
+REMOVER=`cat /tmp/00-all-netdata-version.txt | awk 'NR==2 {print $1}' | sed 's/|//' | sed 's/|//'`
+fi
+if [ "$LOCALVER" == "$REMOVER" ]; then
+clear
+rm -f /tmp/00-all-netdata-version.txt
+echo "========================================================================="
+echo "Ban dang su dung phien ban moi nhat NetData ma VPSSIM ho tro ."
+/etc/vpssim/menu/vpssim-netdata-menu
+exit
+fi
+
+printf "=========================================================================\n"
+printf "Da phat hien update cho NetData\n"
+echo "-------------------------------------------------------------------------"
+printf "Phien ban ban dang su dung: $LOCALVER\n"
+echo "-------------------------------------------------------------------------"
+printf "Phien ban ban moi nhat VPSSIM support: $REMOVER\n"
+printf "=========================================================================\n"
+read -r -p "Ban chac chan muon update NetData ? [y/N] " response
+case $response in
+    [yY][eE][sS]|[yY]) 
+    echo "-------------------------------------------------------------------------"
+echo "Chuan bi update NetData..... "
+sleep 1
+killall netdata
+cd /usr/local/vpssim
+rm -rf netdata
+wget --no-check-certificate -q https://vpssim.com/script/vpssim/Softwear/netdata_$REMOVER.zip
+unzip -o -q netdata_$REMOVER.zip
+rm -rf /usr/local/vpssim/netdata_$REMOVER.zip
+cd /usr/local/vpssim/netdata
+yes "" | ./netdata-installer.sh
+cd
+sed -i "s/.*# bind to =.*/    bind to = 127.0.0.1/g" /etc/netdata/netdata.conf
+sed -i "s/.*access log =.*/    access log = none/g" /etc/netdata/netdata.conf
+
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
+# stop netdata
+killall netdata
+# copy netdata to init.d
+yes | cp -rf /usr/local/vpssim/netdata/system/netdata-init-d /etc/init.d/netdata && chmod +x /etc/init.d/netdata
+# enable netdata at boot
+chkconfig --add netdata
+chkconfig --levels 235 netdata on
+# start netdata
+service netdata start
+service netdata restart
+# reload nginx
+service nginx reload
+else 
+# stop netdata
+killall netdata
+# copy netdata.service to systemd
+yes | cp -rf /usr/local/vpssim/netdata/system/netdata.service /etc/systemd/system/ && chmod +x /etc/systemd/system/netdata.service
+# let systemd know there is a new service
+systemctl daemon-reload
+# enable netdata at boot
+systemctl enable netdata
+# start netdata
+systemctl start netdata
+service netdata start
+service netdata restart
+# reload nginx
+systemctl reload nginx
+fi
+echo "$REMOVER" > /etc/vpssim/netdata.version
+rm -rf /tmp/00-all-netdata-version.txt
+clear
+printf "=========================================================================\n"
+printf "Nang cap NetData len phien ban $REMOVER thanh cong\n"
+/etc/vpssim/menu/vpssim-netdata-menu
+exit
+ ;;
+    *)
+        clear
+printf "=========================================================================\n"
+echo "Ban da huy bo update NetData"
+/etc/vpssim/menu/vpssim-netdata-menu
+        ;;
+esac
+clear && /etc/vpssim/menu/vpssim-netdata-menu
+
+
+

@@ -1,0 +1,30 @@
+#!/bin/bash 
+. /home/vpssim.conf
+prompt="Nhap lua chon cua ban: "
+options=( "PhpBB" "SMF" "MyBB" "Thoat")
+printf "=========================================================================\n"
+printf "LUA CHON FORUM CODE BAN MUON CAI DAT\n"
+printf "=========================================================================\n"
+PS3="$prompt"
+select opt in "${options[@]}"; do 
+
+    case "$REPLY" in
+    1) vhostconfig="phpbb"; break;;
+    2) vhostconfig="smf"; break;;
+    3) vhostconfig="mybb"; break;;
+    4) vhostconfig="cancle"; break;;
+    *) echo "Ban nhap sai, vui long nhap theo so thu tu tren menu !";continue;;
+    esac  
+done
+###################################
+if [ "$vhostconfig" = "phpbb" ]; then
+/etc/vpssim/menu/vpssim-them-website-va-forum-phpbb
+###################################
+elif [ "$vhostconfig" = "smf" ]; then
+/etc/vpssim/menu/vpssim-them-website-va-forum-smf
+###################################
+elif [ "$vhostconfig" = "mybb" ]; then
+/etc/vpssim/menu/vpssim-them-website-va-forum-mybb
+else 
+clear && /etc/vpssim/menu/vpssim-befor-them-website-menu
+fi

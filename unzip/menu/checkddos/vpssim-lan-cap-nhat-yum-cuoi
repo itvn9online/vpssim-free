@@ -1,0 +1,6 @@
+#!/bin/sh
+echo "Please wait....";sleep 1
+clear
+echo "========================================================================="
+echo "Last YUM update: $(sed -n '/Updated:/h;${;g;p;}' < /var/log/yum.log | awk '{print $1,$2,$3}')"
+/etc/vpssim/menu/vpssim-check-thong-tin-server

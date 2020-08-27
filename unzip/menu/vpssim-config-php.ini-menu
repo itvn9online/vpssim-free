@@ -1,0 +1,775 @@
+#!/bin/bash 
+
+. /home/vpssim.conf
+time=$(date +"%m-%d-%Y-%H-%M")
+svram=$( free -m | awk 'NR==2 {print $2}' )
+memlimitmax=$(calc $svram/3)
+ramformariadb=$(calc $svram/10*6)
+ramforphpnginx=$(calc $svram-$ramformariadb)
+memorylimitmacdinh=$(calc $ramforphpnginx/5*3)
+grep "disable_functions =" /etc/php.ini | awk 'NR==1 {print $3}' > /tmp/vpssimdishamdisable
+checksize=$(du -sb /tmp/vpssimdishamdisable | awk 'NR==1 {print $1}')
+max_execution_time=$(grep "max_execution_time\ =" /etc/php.ini | grep -o '[0-9]*')
+max_input_time=$(grep "max_input_time\ =" /etc/php.ini | grep -o '[0-9]*')
+memory_limit=$(grep "memory_limit\ =" /etc/php.ini | grep -o '[0-9]*')
+upload_max_filesize=$(grep "upload_max_filesize\ =" /etc/php.ini | grep -o '[0-9]*')
+display_errors=$(grep "display_errors\ =" /etc/php.ini | awk 'NR==1 {print $3}')
+file_uploads=$(grep "file_uploads\ =" /etc/php.ini | awk 'NR==1 {print $3}')
+allow_url_fopen=$(grep "allow_url_fopen\ =" /etc/php.ini | awk 'NR==1 {print $3}')
+allow_url_include=$(grep "allow_url_include\ =" /etc/php.ini | awk 'NR==1 {print $3}')
+
+max_input_vars=$(grep "max_input_vars\ =" /etc/php.ini | grep -o '[0-9]*')
+if [ ! -f /home/$mainsite/private_html/php-info.php ]; then
+echo "<?php  phpinfo(); ?>" > /home/$mainsite/private_html/php-info.php 
+fi
+prompt="Lua chon cua ban: "
+options=("Max Execution Time" "Max Input Time" "On/Off Allow Url Fopen" "On/Off Display Errors" "Memory Limit" "On/Off Allow Url Include" "On/Off File Upload" "Upload Max Filesize" "Max Input Vars" "Enable/Disable PHP Function" "Config Mac Dinh" "Thoat")
+PS3="$prompt"
+echo "========================================================================="
+echo "                VPSSIM - Quan Ly VPS/Server by HostingAZ.VN"
+echo "========================================================================="
+echo "                         Change PHP Settings                                "
+echo "========================================================================="
+echo "PHP Info Page: http://$serverip:$priport/php-info.php"
+echo "========================================================================="
+echo "Max Execution Time: $max_execution_time | Max Input Time: $max_input_time | Allow url fopen: $allow_url_fopen"
+echo "========================================================================="
+echo "Display Errors: $display_errors | Allow url include = $allow_url_include | Memory Limit: ${memory_limit}M"
+echo "========================================================================="
+echo "File Uploads = $file_uploads | Upload Max Filesize: ${upload_max_filesize}M | Max Input Vars: $max_input_vars"
+echo "========================================================================="
+echo "Disabled Functions:"
+echo "-------------------------------------------------------------------------"
+if [ $checksize -gt 2 ]; then
+cat /tmp/vpssimdishamdisable  | awk -F, '{for (i=1;i<=NF;i++)print $i}' | pr -4 -t
+else
+echo "All PHP functions are being enabled"
+fi
+echo "========================================================================="
+echo ""
+select opt in "${options[@]}"; do 
+
+    case "$REPLY" in
+    1) luachon="MaxExecutionTime"; break;;
+    2) luachon="MaxInputTime"; break;;
+    3) luachon="allowurlfopen"; break;;
+    4) luachon="OnOffDisplayErrors"; break;;
+    5) luachon="MemoryLimit"; break;;
+    6) luachon="allowurlinclude"; break;;
+    7) luachon="fileuploads"; break;; 
+    8) luachon="UploadMaxFilesize"; break;;  
+    9) luachon="max_input_vars"; break;; 
+    10) luachon="enabledisablephpfunction"; break;; 
+    11) luachon="phpinimacdinh"; break;;
+    12) luachon="cancel"; break;;
+    *) echo "Ban nhap sai, vui long nhap theo so thu tu tren menu";continue;;
+    esac  
+done
+###################################
+#enabledisablephpfunction
+###################################
+if [ "$luachon" = "enabledisablephpfunction" ]; then
+/etc/vpssim/menu/vpssim-config-enable-disaable-php-funtion-php.ini
+###################################
+#OnOffDisplayErrors
+###################################
+elif [ "$luachon" = "OnOffDisplayErrors" ]; then
+/etc/vpssim/menu/vpssim-befor-bat-tat-display-eroor
+
+
+elif [ "$luachon" = "fileuploads" ]; then
+
+if [ "$(grep "file_uploads\ =" /etc/php.ini | awk 'NR==1 {print $3}')" == "On" ]; then
+echo "========================================================================="
+echo "Su dung chuc nang nay cau hinh On/Off gia tri: File Upload"
+echo "-------------------------------------------------------------------------"
+echo "Mac dinh: file_uploads = On"
+echo "-------------------------------------------------------------------------"
+echo "Hien tai: file_uploads = On"
+echo "-------------------------------------------------------------------------"
+echo "Neu file_uploads = Off, ban khong the upload file to server = php code."
+echo "-------------------------------------------------------------------------"
+read -r -p "Ban muon dat [file_uploads = Off] ?  [y/N] " response
+case $response in
+    [yY][eE][sS]|[yY]) 
+sed -i.bak "s,file_uploads = On,file_uploads = Off,g" /etc/php.ini
+echo "-------------------------------------------------------------------------"
+    echo "cho xiu..."
+sleep 1
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
+service php-fpm restart
+else
+systemctl restart php-fpm.service
+fi
+    clear
+   echo "========================================================================="
+echo "Thiet lap [file_uploads = Off] thanh cong !"
+/etc/vpssim/menu/vpssim-config-php.ini-menu
+        ;;
+    *)
+       clear
+    echo "========================================================================="
+echo "Ban huy thay doi gia tri [file_uploads] !"
+/etc/vpssim/menu/vpssim-config-php.ini-menu
+        ;;
+esac
+fi
+
+if [ "$(grep "file_uploads\ =" /etc/php.ini | awk 'NR==1 {print $3}')" == "Off" ]; then
+echo "========================================================================="
+echo "Su dung chuc nang nay cau hinh On/Off gia tri: File Upload"
+echo "-------------------------------------------------------------------------"
+echo "Mac dinh: file_uploads = On"
+echo "-------------------------------------------------------------------------"
+echo "Hien tai: file_uploads = Off"
+echo "-------------------------------------------------------------------------"
+read -r -p "Ban muon dat [file_uploads = On] ?  [y/N] " response
+case $response in
+    [yY][eE][sS]|[yY]) 
+sed -i.bak "s,file_uploads = Off,file_uploads = On,g" /etc/php.ini
+echo "-------------------------------------------------------------------------"
+    echo "cho xiu..."
+sleep 1
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
+service php-fpm restart
+else
+systemctl restart php-fpm.service
+fi
+    clear
+   echo "========================================================================="
+echo "Thiet lap [file_uploads = Off] thanh cong !"
+/etc/vpssim/menu/vpssim-config-php.ini-menu
+        ;;
+    *)
+       clear
+    echo "========================================================================="
+echo "Ban huy thay doi gia tri [file_uploads] !"
+/etc/vpssim/menu/vpssim-config-php.ini-menu
+        ;;
+esac
+fi
+
+elif [ "$luachon" = "allowurlfopen" ]; then
+if [ "$(grep "allow_url_fopen\ =" /etc/php.ini | awk 'NR==1 {print $3}')" == "On" ]; then
+echo "========================================================================="
+echo "Su dung chuc nang nay cau hinh On/Off gia tri: Allow url fopen"
+echo "-------------------------------------------------------------------------"
+echo "Mac dinh: allow_url_fopen = On"
+echo "-------------------------------------------------------------------------"
+echo "Hien tai: allow_url_fopen = On"
+echo "-------------------------------------------------------------------------"
+read -r -p "Ban muon dat [allow_url_fopen = Off] ?  [y/N] " response
+case $response in
+    [yY][eE][sS]|[yY]) 
+sed -i.bak "s,allow_url_fopen = On,allow_url_fopen = Off,g" /etc/php.ini
+echo "-------------------------------------------------------------------------"
+    echo "cho xiu..."
+sleep 1
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
+service php-fpm restart
+else
+systemctl restart php-fpm.service
+fi
+    clear
+   echo "========================================================================="
+echo "Thiet lap [allow_url_fopen = Off] thanh cong !"
+/etc/vpssim/menu/vpssim-config-php.ini-menu
+        ;;
+    *)
+       clear
+    echo "========================================================================="
+echo "Ban huy thay doi gia tri [allow_url_fopen] !"
+/etc/vpssim/menu/vpssim-config-php.ini-menu
+        ;;
+esac
+fi
+
+if [ "$(grep "allow_url_fopen\ =" /etc/php.ini | awk 'NR==1 {print $3}')" == "Off" ]; then
+echo "========================================================================="
+echo "Su dung chuc nang nay cau hinh On/Off gia tri: Allow url fopen"
+echo "-------------------------------------------------------------------------"
+echo "Mac dinh: allow_url_fopen = On"
+echo "-------------------------------------------------------------------------"
+echo "Hien tai: allow_url_fopen = Off"
+echo "-------------------------------------------------------------------------"
+read -r -p "Ban muon dat [allow_url_fopen = On] ?  [y/N] " response
+case $response in
+    [yY][eE][sS]|[yY]) 
+sed -i.bak "s,allow_url_fopen = Off,allow_url_fopen = On,g" /etc/php.ini
+echo "-------------------------------------------------------------------------"
+    echo "cho xiu..."
+sleep 1
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
+service php-fpm restart
+else
+systemctl restart php-fpm.service
+fi
+    clear
+   echo "========================================================================="
+echo "Thiet lap [allow_url_fopen = Off] thanh cong !"
+/etc/vpssim/menu/vpssim-config-php.ini-menu
+        ;;
+    *)
+       clear
+    echo "========================================================================="
+echo "Ban huy thay doi gia tri [allow_url_fopen] !"
+/etc/vpssim/menu/vpssim-config-php.ini-menu
+        ;;
+esac
+fi
+
+elif [ "$luachon" = "allowurlinclude" ]; then
+if [ "$(grep "allow_url_include\ =" /etc/php.ini | awk 'NR==1 {print $3}')" == "On" ]; then
+echo "========================================================================="
+echo "Su dung chuc nang nay cau hinh On/Off gia tri: Allow Url Include"
+echo "-------------------------------------------------------------------------"
+echo "Mac dinh: allow_url_include = Off"
+echo "-------------------------------------------------------------------------"
+echo "Hien tai: allow_url_include = On"
+echo "-------------------------------------------------------------------------"
+read -r -p "Ban muon dat [allow_url_include = Off] ?  [y/N] " response
+case $response in
+    [yY][eE][sS]|[yY]) 
+sed -i.bak "s,allow_url_include = On,allow_url_include = Off,g" /etc/php.ini
+echo "-------------------------------------------------------------------------"
+    echo "cho xiu..."
+sleep 1
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
+service php-fpm restart
+else
+systemctl restart php-fpm.service
+fi
+    clear
+   echo "========================================================================="
+echo "Thiet lap [allow_url_include = Off] thanh cong !"
+/etc/vpssim/menu/vpssim-config-php.ini-menu
+        ;;
+    *)
+       clear
+    echo "========================================================================="
+echo "Ban huy thay doi gia tri [allow_url_include] !"
+/etc/vpssim/menu/vpssim-config-php.ini-menu
+        ;;
+esac
+fi
+
+if [ "$(grep "allow_url_include\ =" /etc/php.ini | awk 'NR==1 {print $3}')" == "Off" ]; then
+echo "========================================================================="
+echo "Su dung chuc nang nay cau hinh On/Off gia tri: Allow Url Include"
+echo "-------------------------------------------------------------------------"
+echo "Mac dinh: allow_url_include = Off"
+echo "-------------------------------------------------------------------------"
+echo "Hien tai: allow_url_include = Off"
+echo "-------------------------------------------------------------------------"
+read -r -p "Ban muon dat [allow_url_include = On] ?  [y/N] " response
+case $response in
+    [yY][eE][sS]|[yY]) 
+sed -i.bak "s,allow_url_include = Off,allow_url_include = On,g" /etc/php.ini
+echo "-------------------------------------------------------------------------"
+    echo "cho xiu..."
+sleep 1
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
+service php-fpm restart
+else
+systemctl restart php-fpm.service
+fi
+    clear
+   echo "========================================================================="
+echo "Thiet lap [allow_url_include = Off] thanh cong !"
+/etc/vpssim/menu/vpssim-config-php.ini-menu
+        ;;
+    *)
+       clear
+    echo "========================================================================="
+echo "Ban huy thay doi gia tri [allow_url_include] !"
+/etc/vpssim/menu/vpssim-config-php.ini-menu
+        ;;
+esac
+fi
+
+###################################
+#MaxExecutionTime
+###################################
+elif [ "$luachon" = "MaxExecutionTime" ]; then
+echo "========================================================================="
+echo "Su dung chuc nang nay de cau hinh Max Execution Time"
+echo "-------------------------------------------------------------------------"
+echo "Max Execution Time mac dinh: 120"
+echo "-------------------------------------------------------------------------"
+echo "Max Execution Time hien tai: $max_execution_time"
+echo "========================================================================="
+echo -n "Nhap gia tri Max Execution Time [Enter]: "
+read maxexecutiontime
+
+if [ "$maxexecutiontime" = "" ]; then
+clear
+echo "========================================================================="
+echo "Ban nhap sai, hay nhap chinh xac."
+/etc/vpssim/menu/vpssim-config-php.ini-menu
+exit
+fi
+
+if ! [[ $maxexecutiontime -ge 20 && $maxexecutiontime -le 5000  ]] ; then  
+clear
+echo "========================================================================="
+echo "$maxexecutiontime khong dung!"
+echo "-------------------------------------------------------------------------"
+echo "Max Execution Time phai la so tu nhien nho nhat 20"
+echo "-------------------------------------------------------------------------"
+echo "Ban hay lam lai !"
+/etc/vpssim/menu/vpssim-config-php.ini-menu
+exit
+fi 
+echo "-------------------------------------------------------------------------"
+echo "Please wait ..."; sleep 2
+sed -i "s/.*max_execution_time\ =.*/max_execution_time = ${maxexecutiontime}/g" /etc/php.ini
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+systemctl restart php-fpm.service
+else
+service php-fpm restart
+fi
+clear
+echo "========================================================================="
+echo "Cau hinh Max Execution Time thanh cong"
+echo "-------------------------------------------------------------------------"
+echo "Max Execution Time: $maxexecutiontime"
+/etc/vpssim/menu/vpssim-config-php.ini-menu
+
+
+###################################
+#MaxInputTime
+###################################
+elif [ "$luachon" = "MaxInputTime" ]; then
+echo "========================================================================="
+echo "Su dung chuc nang nay de cau hinh Max Execution Time"
+echo "-------------------------------------------------------------------------"
+echo "Max Input Time mac dinh: 120"
+echo "-------------------------------------------------------------------------"
+echo "Max Input Time hien tai: $max_input_time"
+echo "========================================================================="
+echo -n "Nhap gia tri Max Input Time [Enter]: "
+read maxinputtime
+
+if [ "$maxinputtime" = "" ]; then
+clear
+echo "========================================================================="
+echo "Ban nhap sai, hay nhap chinh xac."
+/etc/vpssim/menu/vpssim-config-php.ini-menu
+exit
+fi
+
+if ! [[ $maxinputtime -ge 20 && $maxinputtime -le 5000  ]] ; then  
+clear
+echo "========================================================================="
+echo "$maxinputtime khong dung!"
+echo "-------------------------------------------------------------------------"
+echo "Max Input Time phai la so tu nhien nho nhat 20"
+echo "-------------------------------------------------------------------------"
+echo "Ban hay lam lai !"
+/etc/vpssim/menu/vpssim-config-php.ini-menu
+exit
+fi 
+echo "-------------------------------------------------------------------------"
+echo "Please wait ..."; sleep 2
+sed -i "s/.*max_input_time\ =.*/max_input_time = ${maxinputtime}/g" /etc/php.ini
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+systemctl restart php-fpm.service
+else
+service php-fpm restart
+fi
+clear
+echo "========================================================================="
+echo "Cau hinh Max Input Time thanh cong"
+echo "-------------------------------------------------------------------------"
+echo "Max Input Time: $maxinputtime"
+/etc/vpssim/menu/vpssim-config-php.ini-menu
+
+###################################
+#MemoryLimit
+###################################
+elif [ "$luachon" = "MemoryLimit" ]; then
+echo "========================================================================="
+echo "Su dung chuc nang nay de cau hinh Memory Limit"
+echo "-------------------------------------------------------------------------"
+echo "Memory Limit mac dinh: $memorylimitmacdinh"
+echo "-------------------------------------------------------------------------"
+echo "Memory Limit hien tai: $memory_limit"
+echo "========================================================================="
+echo -n "Nhap gia tri Memory Limit [Enter]: "
+read memorylimit
+
+if [ "$memorylimit" = "" ]; then
+clear
+echo "========================================================================="
+echo "Ban nhap sai, hay nhap chinh xac."
+/etc/vpssim/menu/vpssim-config-php.ini-menu
+exit
+fi
+
+if ! [[ $memorylimit -ge 20 && $memorylimit -le $memlimitmax  ]] ; then  
+clear
+echo "========================================================================="
+echo "$memorylimit khong dung!"
+echo "-------------------------------------------------------------------------"
+echo "Memory Limit phai la so tu nhien nam trong khoang (20 - $memlimitmax)"
+echo "-------------------------------------------------------------------------"
+echo "Ban hay lam lai !"
+/etc/vpssim/menu/vpssim-config-php.ini-menu
+exit
+fi 
+echo "-------------------------------------------------------------------------"
+echo "Please wait ..."; sleep 2
+sed -i "s/.*memory_limit\ =.*/memory_limit = ${memorylimit}M/g" /etc/php.ini
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+systemctl restart php-fpm.service
+else
+service php-fpm restart
+fi
+clear
+echo "========================================================================="
+echo "Cau hinh Memory Limit thanh cong"
+echo "-------------------------------------------------------------------------"
+echo "Memory Limit: $memorylimit"
+/etc/vpssim/menu/vpssim-config-php.ini-menu
+###################################
+#UploadMaxFilesize
+###################################
+elif [ "$luachon" = "UploadMaxFilesize" ]; then
+echo "========================================================================="
+echo "Su dung chuc nang nay de cau hinh Upload Max Filesize & Post Max Size"
+echo "-------------------------------------------------------------------------"
+echo "Mac dinh Upload Max Filesize = Post Max Size: 120"
+echo "-------------------------------------------------------------------------"
+echo "Upload Max Filesize hien tai: $upload_max_filesize"
+echo "========================================================================="
+echo -n "Nhap gia tri Upload Max Filesize [Enter]: "
+read uploadmaxfilesize
+
+if [ "$uploadmaxfilesize" = "" ]; then
+clear
+echo "========================================================================="
+echo "Ban nhap sai, hay nhap chinh xac."
+/etc/vpssim/menu/vpssim-config-php.ini-menu
+exit
+fi
+
+if ! [[ $uploadmaxfilesize -ge 20 && $uploadmaxfilesize -le 10000  ]] ; then  
+clear
+echo "========================================================================="
+echo "$uploadmaxfilesize khong dung!"
+echo "-------------------------------------------------------------------------"
+echo "Upload Max Filesize phai la so tu nhien nam trong khoang (20 - 10000)"
+echo "-------------------------------------------------------------------------"
+echo "Ban hay lam lai !"
+/etc/vpssim/menu/vpssim-config-php.ini-menu
+exit
+fi 
+echo "-------------------------------------------------------------------------"
+echo "Gia tri client_max_body_size cua Nginx cung duoc config bang $uploadmaxfilesize MB"
+echo "-------------------------------------------------------------------------"
+echo "Please wait ..."; sleep 5
+sed -i "s/.*upload_max_filesize\ =.*/upload_max_filesize = ${uploadmaxfilesize}M/g" /etc/php.ini
+sed -i "s/.*post_max_size\ =.*/post_max_size = ${uploadmaxfilesize}M/g" /etc/php.ini
+sed -i "s/.*client_max_body_size.*/client_max_body_size ${uploadmaxfilesize}m;/g" /etc/nginx/nginx.conf 
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+systemctl restart php-fpm.service
+systemctl reload nginx
+else
+service php-fpm restart
+service nginx reload
+fi
+clear
+echo "========================================================================="
+echo "Cau hinh Upload Max Filesize thanh cong"
+echo "-------------------------------------------------------------------------"
+echo "Upload Max Filesize: $uploadmaxfilesize MB"
+/etc/vpssim/menu/vpssim-config-php.ini-menu
+###################################
+#max_input_vars
+elif [ "$luachon" = "max_input_vars" ]; then
+echo "========================================================================="
+echo "Su dung chuc nang nay de cau hinh Max Input Vars"
+echo "-------------------------------------------------------------------------"
+echo "Max Input Vars mac dinh: 6000"
+echo "-------------------------------------------------------------------------"
+echo "Max Input Vars hien tai: $max_input_vars"
+echo "========================================================================="
+echo -n "Nhap gia tri Max Input Vars [Enter]: "
+read maxinputvars
+
+if [ "$maxinputvars" = "" ]; then
+clear
+echo "========================================================================="
+echo "Ban nhap sai, hay nhap chinh xac."
+/etc/vpssim/menu/vpssim-config-php.ini-menu
+exit
+fi
+
+if ! [[ $maxinputvars -ge 20 && $maxinputvars -le 10000  ]] ; then  
+clear
+echo "========================================================================="
+echo "$maxinputvars khong dung!"
+echo "-------------------------------------------------------------------------"
+echo "Max Input Vars phai la so tu nhien nam trong khoang (20 - 10000)"
+echo "-------------------------------------------------------------------------"
+echo "Ban hay lam lai !"
+/etc/vpssim/menu/vpssim-config-php.ini-menu
+exit
+fi 
+echo "-------------------------------------------------------------------------"
+echo "Please wait ..."; sleep 2
+sed -i "s/.*max_input_vars\ =.*/max_input_vars = ${maxinputvars}/g" /etc/php.ini
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+systemctl restart php-fpm.service
+else
+service php-fpm restart
+fi
+clear
+echo "========================================================================="
+echo "Cau hinh Max Input Vars thanh cong"
+echo "-------------------------------------------------------------------------"
+echo "Max Input Vars: $maxinputvars"
+/etc/vpssim/menu/vpssim-config-php.ini-menu
+###################################
+#phpinimacdinh
+elif [ "$luachon" = "phpinimacdinh" ]; then
+echo "========================================================================="
+echo "Sau khi su dung chuc nang nay, tat ca config cua ban se bi mat."
+echo "-------------------------------------------------------------------------"
+     read -r -p "Ban muon config PHP theo cau hinh mac dinh cua VPSSIM ? [y/N] " response
+case $response in
+    [yY][eE][sS]|[yY]) 
+    echo "-------------------------------------------------------------------------"
+    echo "Please wait ...";sleep 1
+mv /etc/php.ini /etc/php.ini_bak_$time
+   cat > "/etc/php.ini" <<END
+[PHP]
+engine = On
+short_open_tag = On
+asp_tags = Off
+precision = 14
+output_buffering = 4096
+zlib.output_compression = Off
+implicit_flush = Off
+unserialize_callback_func =
+serialize_precision = 17
+disable_functions = escapeshellarg,escapeshellcmd,exec,ini_alter,passthru,pcntl_exec,popen,proc_close,proc_get_status,proc_nice,proc_open,proc_terminate,show_source,shell_exec,symlink,system
+disable_classes =
+zend.enable_gc = On
+expose_php = Off
+max_execution_time = 120
+max_input_time = 120
+memory_limit = ${memorylimitmacdinh}M
+max_input_vars = 6000
+realpath_cache_size = 4096k
+realpath_cache_ttl = 360
+error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT
+display_errors = Off
+display_startup_errors = Off
+log_errors = On
+log_errors_max_len = 1024
+ignore_repeated_errors = Off
+ignore_repeated_source = Off
+report_memleaks = On
+track_errors = Off
+html_errors = On
+variables_order = "GPCS"
+request_order = "GP"
+register_argc_argv = Off
+auto_globals_jit = On
+post_max_size = 120M
+auto_prepend_file =
+auto_append_file =
+default_mimetype = "text/html"
+default_charset = "UTF-8"
+doc_root =
+user_dir =
+enable_dl = Off
+cgi.fix_pathinfo=0
+file_uploads = On
+upload_max_filesize = 120M
+max_file_uploads = 20
+allow_url_fopen = On
+allow_url_include = Off
+default_socket_timeout = 60
+cli_server.color = On
+
+[Date]
+date.timezone = Asia/Bangkok
+
+[filter]
+
+[iconv]
+
+[intl]
+
+[sqlite]
+
+[sqlite3]
+
+[Pcre]
+
+[Pdo]
+
+[Pdo_mysql]
+pdo_mysql.cache_size = 2000
+pdo_mysql.default_socket=
+
+[Phar]
+
+[mail function]
+SMTP = localhost
+smtp_port = 25
+sendmail_path = /usr/sbin/sendmail -t -i
+mail.add_x_header = On
+
+[SQL]
+sql.safe_mode = Off
+
+[ODBC]
+odbc.allow_persistent = On
+odbc.check_persistent = On
+odbc.max_persistent = -1
+odbc.max_links = -1
+odbc.defaultlrl = 4096
+odbc.defaultbinmode = 1
+
+[Interbase]
+ibase.allow_persistent = 1
+ibase.max_persistent = -1
+ibase.max_links = -1
+ibase.timestampformat = "%Y-%m-%d %H:%M:%S"
+ibase.dateformat = "%Y-%m-%d"
+ibase.timeformat = "%H:%M:%S"
+
+[MySQL]
+mysql.allow_local_infile = On
+mysql.allow_persistent = On
+mysql.cache_size = 2000
+mysql.max_persistent = -1
+mysql.max_links = -1
+mysql.default_port =
+mysql.default_socket =
+mysql.default_host =
+mysql.default_user =
+mysql.default_password =
+mysql.connect_timeout = 60
+mysql.trace_mode = Off
+
+[MySQLi]
+mysqli.max_persistent = -1
+mysqli.allow_persistent = On
+mysqli.max_links = -1
+mysqli.cache_size = 2000
+mysqli.default_port = 3306
+mysqli.default_socket =
+mysqli.default_host =
+mysqli.default_user =
+mysqli.default_pw =
+mysqli.reconnect = Off
+
+[mysqlnd]
+mysqlnd.collect_statistics = On
+mysqlnd.collect_memory_statistics = Off
+
+[OCI8]
+
+[PostgreSQL]
+pgsql.allow_persistent = On
+pgsql.auto_reset_persistent = Off
+pgsql.max_persistent = -1
+pgsql.max_links = -1
+pgsql.ignore_notice = 0
+pgsql.log_notice = 0
+
+[Sybase-CT]
+sybct.allow_persistent = On
+sybct.max_persistent = -1
+sybct.max_links = -1
+sybct.min_server_severity = 10
+sybct.min_client_severity = 10
+
+[bcmath]
+bcmath.scale = 0
+
+[browscap]
+
+[Session]
+session.save_handler = files
+session.use_cookies = 1
+session.use_only_cookies = 1
+session.name = PHPSESSID
+session.auto_start = 0
+session.cookie_lifetime = 0
+session.cookie_path = /
+session.cookie_domain =
+session.cookie_httponly =
+session.serialize_handler = php
+session.gc_probability = 1
+session.gc_divisor = 1000
+session.gc_maxlifetime = 1440
+session.bug_compat_42 = Off
+session.bug_compat_warn = Off
+session.referer_check =
+session.cache_limiter = nocache
+session.cache_expire = 180
+session.use_trans_sid = 0
+session.hash_function = 0
+session.hash_bits_per_character = 5
+url_rewriter.tags = "a=href,area=href,frame=src,input=src,form=fakeentry"
+
+[MSSQL]
+mssql.allow_persistent = On
+mssql.max_persistent = -1
+mssql.max_links = -1
+mssql.min_error_severity = 10
+mssql.min_message_severity = 10
+mssql.compatability_mode = Off
+
+[Assertion]
+
+[mbstring]
+
+[gd]
+
+[exif]
+
+[Tidy]
+tidy.clean_output = Off
+
+[soap]
+soap.wsdl_cache_enabled=1
+soap.wsdl_cache_dir="/tmp"
+soap.wsdl_cache_ttl=86400
+soap.wsdl_cache_limit = 5
+
+[sysvshm]
+
+[ldap]
+ldap.max_links = -1
+
+[mcrypt]
+
+[dba]
+
+END
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+systemctl restart php-fpm.service
+else
+service php-fpm restart
+fi
+clear
+echo "========================================================================="
+echo "Cau hinh PHP theo mac dinh cua VPSSIM thanh cong"
+/etc/vpssim/menu/vpssim-config-php.ini-menu
+;;
+    *)
+clear 
+echo "========================================================================="
+echo "Huy bo thay doi cau hinh PHP theo mac dinh cua VPSSIM."
+/etc/vpssim/menu/vpssim-config-php.ini-menu
+        ;;
+esac
+else 
+clear && vpssim
+fi

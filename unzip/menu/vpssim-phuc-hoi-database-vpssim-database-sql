@@ -1,0 +1,35 @@
+#!/bin/sh
+. /home/vpssim.conf
+website=$(cat /tmp/vpssim-tensitephuchoi)
+dataname=$(cat /tmp/vpssim-tendatabasephuchoi)
+randomcode=`date |md5sum |cut -c '1-18'` 
+echo "========================================================================="   
+	echo "Tim thay file backup VPSSIM-DATABASE.sql"
+	echo "-------------------------------------------------------------------------"
+	echo "Chuan bi phuc hoi .... "
+	sleep 2
+	mysql -u root -p$mariadbpass $dataname < /home/$website/public_html/VPSSIM-DATABASE.sql
+	#gunzip < /home/$website/public_html/VPSSIM-DATABASE.gz | mysql -u root -p$mariadbpass $dataname
+	date -r /var/lib/mysql/$dataname +%H%M%S> /tmp/vpssim2
+	check1=`cat /tmp/vpssim1`
+	check2=`cat /tmp/vpssim2`
+		if [ "$check1" == "$check2" ]; then
+		rm -rf /tmp/*vpssim*
+		sleep 8
+		clear
+		echo "========================================================================="
+		echo "Phuc hoi database $dataname that bai "
+		echo "-------------------------------------------------------------------------"
+		echo "Vui long kiem tra file backup va thu lai !"
+		/etc/vpssim/menu/vpssim-them-xoa-database
+		else	
+        rm -rf /tmp/*vpssim*
+		mv /home/$website/public_html/VPSSIM-DATABASE.sql /home/$website/public_html/VPSSIM-DATABASE.sql.$randomcode
+		clear
+		echo "========================================================================="
+		echo "Phuc hoi database $dataname thanh cong !"
+		echo "-------------------------------------------------------------------------"
+		echo "File backup duoc doi ten thanh VPSSIM-DATABASE.sql.$randomcode"
+		/etc/vpssim/menu/vpssim-them-xoa-database
+		exit
+		fi

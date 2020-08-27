@@ -1,0 +1,22 @@
+#!/bin/bash 
+echo "========================================================================= "
+echo "Su sung chuc nang nay de thay mat khau user root cho server"
+echo "-------------------------------------------------------------------------"
+read -r -p "Ban muon thay mat khau cho user root? [y/N] " response
+case $response in
+    [yY][eE][sS]|[yY]) 
+sleep 1
+echo "-------------------------------------------------------------------------"
+passwd
+clear
+clear
+echo "========================================================================= "
+
+echo "Ban da thay mat khau cho user root thanh cong."
+/etc/vpssim/menu/vpssim-tien-ich
+;;
+esac
+clear
+echo "========================================================================="
+echo "Ban da cancle thay doi mat khau user root!"
+/etc/vpssim/menu/vpssim-tien-ich

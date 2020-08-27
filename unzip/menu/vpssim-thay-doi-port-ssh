@@ -1,0 +1,116 @@
+#!/bin/bash
+. /home/vpssim.conf
+sshPortdefault=$((grep "Port" /etc/ssh/sshd_config) | head -n 1)
+portcu=$(cat /etc/ssh/sshd_config | grep Port | awk 'END {print $2}')
+if [ ! "$sshPortdefault" == "#Port 22" ]; then
+clear
+echo "Ban da thay doi port SSH ma khong su dung VPSSIM"
+echo "-------------------------------------------------------------------------"
+echo "Chuc nang nay khong the hoat dong duoc !"
+/etc/vpssim/menu/vpssim-tien-ich
+exit
+fi
+if [[ ${portcu} =~ ^[0-9]+$ ]] ;then
+echo "========================================================================="
+echo "Port SSH hien tai la: $portcu"
+fi
+#read -r -p "Would you like to change the ssh port? [Y/N] " response
+echo "========================================================================="
+if [[ ! ${portcu} =~ ^[0-9]+$ ]] ;then
+echo "Mac dinh khi ket noi toi server tren SSH ta su dung port 22"
+echo "-------------------------------------------------------------------------"
+fi
+echo "Su dung chuc nang nay de thay doi port SSH ta dang su dung"
+echo "-------------------------------------------------------------------------"
+read -r -p "Ban muon thay doi SSH port? [Y/N] " response
+case $response in
+    [yY][eE][sS]|[yY]) 
+echo "-------------------------------------------------------------------------"
+echo "Port SSH moi phai khac $priport va nam giua (30000 - 50000)"
+echo "-------------------------------------------------------------------------"
+echo -n "Nhap port SSH moi ban muon su dung [ENTER]: " 
+read sshport
+if [[ ! ${sshport} =~ ^[0-9]+$ ]] ;then 
+clear
+echo "========================================================================="
+echo "Port ban nhap: ${sshport} khong phai la so tu nhien."
+echo "-------------------------------------------------------------------------"
+echo "Ban hay lam lai !" 
+/etc/vpssim/menu/vpssim-tien-ich
+exit
+fi
+if ! [[ $sshport -ge 30000 && $sshport -le 50000  ]] ; then 
+clear
+echo "========================================================================="
+echo "Port ban nhap: ${sshport} khong hop le."
+echo "-------------------------------------------------------------------------"
+echo "PortSSH phai khac $priport va nam trong khoang (30000 - 50000) !" 
+/etc/vpssim/menu/vpssim-tien-ich
+exit
+fi
+if [ "$priport" = "$sshport" ]; then
+clear
+echo "========================================================================="
+echo "Port SSH ban muon thay trung voi port phpmyadmin !"
+echo "-------------------------------------------------------------------------"
+echo "Ban hay lam lai"
+/etc/vpssim/menu/vpssim-tien-ich
+exit
+fi 
+if [ "$portcu" = "$sshport" ]; then
+clear
+echo "========================================================================="
+echo "Port SSH ban nhap trung voi port hien tai !"
+echo "-------------------------------------------------------------------------"
+echo "Ban hay lam lai"
+/etc/vpssim/menu/vpssim-tien-ich
+exit
+fi 
+if [[ ! ${portcu} =~ ^[0-9]+$ ]] ;then
+ echo "Port $sshport" >> /etc/ssh/sshd_config
+echo "-------------------------------------------------------------------------"
+echo "please wait..."; sleep 1
+/etc/vpssim/menu/vpssim-cai-dat-remove-csf-ssh-port
+service sshd restart
+clear
+echo "========================================================================="
+echo "Thay port SSH thanh cong ! Port SSH moi la $sshport"
+echo "-------------------------------------------------------------------------"
+echo "Neu login bang command, ban can su dung lenh sau:"
+echo "-------------------------------------------------------------------------"
+echo "ssh root@$serverip -p $sshport"
+echo "-------------------------------------------------------------------------"
+echo "Upload qua SFTP:"
+echo "-------------------------------------------------------------------------"
+echo "Host: sftp://$serverip, User & Pass: Root's info , Port: $sshport" 
+/etc/vpssim/menu/vpssim-tien-ich
+exit
+fi 
+cat > "/tmp/changeportssh" <<END
+sed -i 's/Port $portcu/Port $sshport/g' /etc/ssh/sshd_config
+END
+chmod +x /tmp/changeportssh
+/tmp/changeportssh
+rm -rf /tmp/changeportssh
+echo "-------------------------------------------------------------------------"
+echo "please wait..."; sleep 1
+/etc/vpssim/menu/vpssim-cai-dat-remove-csf-ssh-port
+service sshd restart
+clear
+echo "========================================================================="
+echo "Thay port SSH thanh cong ! Port SSH moi la $sshport"
+echo "-------------------------------------------------------------------------"
+echo "Neu login bang command, ban can su dung lenh sau:"
+echo "-------------------------------------------------------------------------"
+echo "ssh root@$serverip -p $sshport"
+echo "-------------------------------------------------------------------------"
+echo "Upload qua SFTP:"
+echo "-------------------------------------------------------------------------"
+echo "Host: sftp://$serverip, User & Pass: Root's info, Port: $sshport" 
+/etc/vpssim/menu/vpssim-tien-ich
+esac
+clear
+echo "========================================================================="
+echo "Ban da cancle thay doi SSH Port !"
+/etc/vpssim/menu/vpssim-tien-ich
+

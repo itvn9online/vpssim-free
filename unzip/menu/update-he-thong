@@ -1,0 +1,48 @@
+#!/bin/bash
+
+. /home/vpssim.conf
+echo "========================================================================="
+echo "Chuc nang nay se update Centos system, MariaDB va PHP-FPM."
+echo "-------------------------------------------------------------------------"
+read -r -p "Ban chac chan muon update? [y/N] " response
+case $response in
+    [yY][eE][sS]|[yY]) 
+    echo "-------------------------------------------------------------------------"
+echo "chuan bi update ..... "
+sleep 1
+yum -y update
+yum -y upgrade
+rm -rf /tmp/*opcache*
+if [ -f /etc/php.d/opcache.bak ]; then
+yes | cp -rf /etc/php.d/opcache.bak /tmp
+fi
+if [ -f /etc/php.d/opcache.ini ]; then
+yes | cp -rf /etc/php.d/opcache.ini /tmp
+fi
+rm -rf /etc/php-zts.d/*opcache*
+rm -rf /etc/php.d/*opcache*
+yum -y upgrade php\*
+rm -rf /tmp/abc.txt
+rm -rf /etc/php-zts.d/*opcache*
+rm -rf /etc/php.d/*opcache*
+if [ -f /tmp/opcache.bak ]; then
+yes | cp -rf /tmp/opcache.bak /etc/php.d
+fi
+if [ -f /tmp/opcache.ini ]; then
+yes | cp -rf /tmp/opcache.ini /etc/php.d
+fi
+rm -rf /tmp/*opcache*
+chmod 777 /var/lib/php/session/
+clear
+echo "========================================================================="
+echo "Da cap nhat thanh cong server"
+/etc/vpssim/menu/vpssim-update-upgrade-service-menu
+;;
+esac
+rm -rf /tmp/abc.txt
+clear
+echo "========================================================================="
+echo "Ban da huy bo update "
+/etc/vpssim/menu/vpssim-update-upgrade-service-menu
+exit
+fi

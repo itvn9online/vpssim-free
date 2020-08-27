@@ -1,0 +1,24 @@
+#!/bin/bash
+if [ -f /etc/csf/csf.conf ]; then
+clear
+echo "========================================================================= "
+echo "CSF Firewall da duoc cai dat va config tren server!"
+/etc/vpssim/menu/CSF-Fiwall/vpssim-csf-firewall-menu
+else
+echo "-------------------------------------------------------------------------"
+echo "Install CSF Firewall...."
+sleep 2
+/etc/vpssim/menu/vpssim-cai-csf-firewall-cai-dat-CSF-FIREWALL
+clear
+if [ -f /etc/csf/csf.conf ]; then
+clear
+echo "========================================================================= "
+echo "Cai dat va config thanh cong CSF Firewall tren server"
+/etc/vpssim/menu/CSF-Fiwall/vpssim-csf-firewall-menu
+else
+clear
+echo "========================================================================= "
+echo "Cai dat CSF Firewall that bai ! Ban vui long thu cai dat lai !"
+/etc/vpssim/menu/CSF-Fiwall/vpssim-csf-firewall-menu
+fi
+fi

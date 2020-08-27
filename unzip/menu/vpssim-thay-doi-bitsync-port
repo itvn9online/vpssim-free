@@ -1,0 +1,111 @@
+#!/bin/sh
+. /home/vpssim.conf
+if [ ! -f /etc/vpssim/btsync.info ]; then
+clear
+echo "========================================================================="
+echo "Ban chua cai dat BTsync"
+/etc/vpssim/menu/vpssim-bitsync-menu
+exit 
+fi
+echo "========================================================================="
+echo "Su dung chuc nang nay de thay doi Port cho BitTorrent Sync. BTSync Port"
+echo "-------------------------------------------------------------------------"
+echo "khong duoc trung voi SSH port, Phpmyadmin Port. Va phai la so tu nhien "
+echo "-------------------------------------------------------------------------"
+echo "nam trong khoang (30000 - 50000)."
+echo "-------------------------------------------------------------------------"
+echo -n "Nhap vao port moi cho BitTorrent Sync [ENTER]: " 
+read btsyncport
+if [ "$btsyncport" = "" ]; then
+clear
+echo "========================================================================="
+echo "Ban nhap sai, vui long nhap lai"
+/etc/vpssim/menu/vpssim-bitsync-menu
+exit
+fi
+if [ "$priport" = "$btsyncport" ]; then
+clear
+echo "========================================================================="
+echo "Port ban nhap giong phpmyadmin port!"
+echo "-------------------------------------------------------------------------"
+echo "Ban hay nhap lai"
+/etc/vpssim/menu/vpssim-bitsync-menu
+exit
+fi
+if [[ ! ${btsyncport} =~ ^[0-9]+$ ]] ;then 
+clear
+echo "========================================================================="
+echo "Port ban nhap: ${btsyncport} khong phai la so tu nhien."
+echo "-------------------------------------------------------------------------"
+echo "Ban hay lam lai !" 
+/etc/vpssim/menu/vpssim-bitsync-menu
+exit
+fi
+if ! [[ $btsyncport -ge 30000 && $btsyncport -le 50000  ]] ; then  
+clear
+echo "========================================================================="
+echo "$btsyncport khong dung!"
+echo "-------------------------------------------------------------------------"
+echo "Port cho BTsync phai la so tu nhien nam trong khoang (30000 - 50000)."
+echo "-------------------------------------------------------------------------"
+echo "Ban hay lam lai !"
+/etc/vpssim/menu/vpssim-bitsync-menu
+exit
+fi  
+  echo "-------------------------------------------------------------------------"
+    echo "Please wait...." && sleep 1 
+killall -q btsync
+rm -rf /etc/btsync-vpssim/.sync/sync.pid
+yes | cp -rf /etc/vpssim/btsync.info /tmp/btsync.info
+ cat > "/etc/vpssim/btsync.info" <<END
+username = $(grep username /tmp/btsync.info | awk 'NR==1 {print $3}')
+password = $(grep password /tmp/btsync.info | awk 'NR==1 {print $3}')
+btport = $btsyncport
+END
+cat > "/etc/btsync-vpssim/sync.conf" <<END
+{ 
+  "device_name": "vpssim",
+  "listening_port" : 0,
+  "storage_path" : "/etc/btsync-vpssim/.sync",
+  "check_for_updates" : false, 
+  "use_upnp" : true,
+  "download_limit" : 0,                       
+  "upload_limit" : 0, 
+  "webui" :
+  {
+    "listen" : "0.0.0.0:$btsyncport",
+    "login" : "$(grep username /tmp/btsync.info | awk 'NR==1 {print $3}')",
+    "password" : "$(grep password /tmp/btsync.info | awk 'NR==1 {print $3}')"
+  }
+}
+END
+checksize=$(du -sb /usr/bin/btsync | awk 'NR==1 {print $1}')
+if [ $checksize -gt 9000000 ]; then
+sed -i 's/\.sync/\.btsync/g' /etc/btsync-vpssim/sync.conf
+fi
+echo "========================================================================= "
+echo "Close old Port : $(grep btport /tmp/btsync.info | awk 'NR==1 {print $3}') and Open new port: $(grep btport /etc/vpssim/btsync.info | awk 'NR==1 {print $3}')"
+sleep 3
+iptables -I INPUT -p tcp --dport $(grep btport /tmp/btsync.info | awk 'NR==1 {print $3}') -j DROP
+iptables -I INPUT -p tcp --dport $(grep btport /etc/vpssim/btsync.info | awk 'NR==1 {print $3}') -j ACCEPT
+service iptables save
+rm -rf /tmp/btsync.info
+/usr/bin/btsync --config /etc/btsync-vpssim/sync.conf
+clear 
+echo "========================================================================= "
+echo "VPSSIM hoan thanh thay port BitTorrent sync "
+echo "-------------------------------------------------------------------------"
+echo "Thong tin quan ly:"
+echo "-------------------------------------------------------------------------"
+echo "Link truy cap: http://$serverip:$(grep btport /etc/vpssim/btsync.info | awk 'NR==1 {print $3}')"
+echo "-------------------------------------------------------------------------"
+echo "User: $(grep username /etc/vpssim/btsync.info | awk 'NR==1 {print $3}') | Password: $(grep password /etc/vpssim/btsync.info | awk 'NR==1 {print $3}')"
+/etc/vpssim/menu/vpssim-bitsync-menu
+esac
+ clear 
+echo "========================================================================= "
+echo "Huy bo thay Port BTsync "
+/etc/vpssim/menu/vpssim-bitsync-menu
+
+
+

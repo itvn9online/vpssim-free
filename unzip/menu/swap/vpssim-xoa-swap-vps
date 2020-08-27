@@ -1,0 +1,41 @@
+#!/bin/bash
+if [ -f /swapfile ]; then
+echo "========================================================================="
+echo "Chuc nang nay chi ho tro xoa Swap do VPSSIM tao ra truoc do"
+echo "-------------------------------------------------------------------------"
+echo "Voi Swap co san tren he thong, VPSSIM khong the can thiep duoc"
+echo "========================================================================="
+read -r -p "Ban muon xoa swap tren server? [y/N] " response
+case $response in
+    [yY][eE][sS]|[yY]) 
+echo "-------------------------------------------------------------------------"
+echo "Please wait ..."
+sleep 1
+swapoff /swapfile
+rm -rf /swapfile
+clear
+echo "========================================================================= "
+echo "Ban xoa swap thanh cong.  "
+echo "-------------------------------------------------------------------------"
+echo "Bay gio ban co the tao swap moi! "
+/etc/vpssim/menu/swap/vpssim-them-xoa-swap-vps-menu
+
+;;
+    *)
+       clear
+echo "========================================================================= "
+echo "Ban huy bo xoa SWAP."
+/etc/vpssim/menu/swap/vpssim-them-xoa-swap-vps-menu
+        ;;
+esac
+clear
+/etc/vpssim/menu/swap/vpssim-them-xoa-swap-vps-menu
+else
+clear
+echo "========================================================================= "
+echo "Ban chua tao swap tren VPS !"
+echo "-------------------------------------------------------------------------"
+echo "Hoac VPS khong ho tro ban tao them SWAP."
+/etc/vpssim/menu/swap/vpssim-them-xoa-swap-vps-menu
+exit
+fi

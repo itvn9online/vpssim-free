@@ -1,0 +1,69 @@
+#!/bin/sh
+. /home/vpssim.conf
+if [ "$(grep VPSSIM.COM /bin/vpssim)" != "" ]; then
+clear
+echo "========================================================================= "
+echo "You are using English Version"
+/etc/vpssim/menu/vpssim-thay-doi-ngon-ngu-menu
+exit
+fi
+echo "========================================================================= "
+echo "Use this function to change language for VPSSIM"
+echo "-------------------------------------------------------------------------"
+echo "VPSSIM support EngLish & Vietnamese"
+echo "========================================================================= "
+read -r -p "You want to change VPSSIM language to English ? [y/N] " response
+case $response in
+    [yY][eE][sS]|[yY]) 
+    echo "-------------------------------------------------------------------------"
+echo "Please wait ... "
+sleep 1
+echo "-------------------------------------------------------------------------"
+
+cd /etc/vpssim/
+rm -rf /etc/vpssim/menu.zip
+wget -q --no-check-certificate https://vpssim.com/script/vpssim/menu.zip
+
+#Check menu.zip files
+
+rm -rf /tmp/menu
+unzip -q -o menu.zip -d /tmp
+if [ ! -f /tmp/menu/vpssim-tien-ich ]; then
+rm -rf /tmp/menu
+clear
+echo "========================================================================="
+echo "There's an error in changing language process"
+echo "-------------------------------------------------------------------------"
+echo "Please try again !"
+/etc/vpssim/menu/vpssim-update-upgrade-service-menu
+exit
+fi
+## Finish check menu.zip
+rm -rf /tmp/menu
+unzip -q -o menu.zip
+rm -rf /etc/vpssim/menu.zip
+cd
+download_main_menu () {
+wget -q --no-check-certificate https://vpssim.com/script/vpssim/vpssim -O /bin/vpssim && chmod +x /bin/vpssim
+}
+download_main_menu
+checkvpssim_mainmenu=`cat /bin/vpssim`
+if [ -z "$checkvpssim_mainmenu" ]; then
+download_main_menu
+fi
+wget -q --no-check-certificate https://vpssim.com/script/vpssim/motd -O /etc/motd
+find /etc/vpssim/menu -type f -exec chmod 755 {} \;
+clear 
+echo "========================================================================= "
+echo "Change Language of VPSSIM to English Finished"
+/etc/vpssim/menu/vpssim-thay-doi-ngon-ngu-menu
+       ;;
+    *)
+        echo ""
+        ;;
+esac
+clear
+clear
+echo "========================================================================="
+echo "Cancel Change Language for VPSSIM"
+/etc/vpssim/menu/vpssim-thay-doi-ngon-ngu-menu

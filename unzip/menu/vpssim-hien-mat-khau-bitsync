@@ -1,0 +1,20 @@
+#!/bin/sh
+. /home/vpssim.conf
+if [ ! -f /etc/vpssim/btsync.info ]; then
+clear
+echo "========================================================================= "
+echo "Ban chua cai dat BTsync"
+/etc/vpssim/menu/vpssim-bitsync-menu
+else
+echo "Please wait..."; sleep 1
+clear
+echo "========================================================================="
+echo "Thong tin quan ly BTsync:"
+echo "-------------------------------------------------------------------------"
+echo "Link truy cap: http://$serverip:$(grep btport /etc/vpssim/btsync.info | awk 'NR==1 {print $3}')"
+echo "-------------------------------------------------------------------------"
+echo "User: $(grep username /etc/vpssim/btsync.info | awk 'NR==1 {print $3}') | Password: $(grep password /etc/vpssim/btsync.info | awk 'NR==1 {print $3}')"
+echo "-------------------------------------------------------------------------"
+echo "BTsync phai duoc bat truoc khi truy cap ! "
+/etc/vpssim/menu/vpssim-bitsync-menu
+fi

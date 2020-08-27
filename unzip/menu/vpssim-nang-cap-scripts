@@ -1,0 +1,87 @@
+#!/bin/bash
+
+. /home/vpssim.conf
+if [ ! -f /etc/vpssim/vpssim.version ]; then
+clear
+echo "========================================================================="
+echo "Xin loi, chung toi khong the biet phien ban hien tai cua ban"
+echo "-------------------------------------------------------------------------"
+echo "Hay chac rang ban chay script offical tu website HostingAZ.VN"
+vpssim
+exit
+fi
+
+maximumsize=10
+rm -rf /etc/vpssim/vpssim.newversion
+cd /etc/vpssim
+timeout 3 wget -q http://hostingaz.vn/script/vpssim/vpssim.newversion
+cd
+if [ -f /etc/vpssim/vpssim.newversion ]; then
+checksizeversion=$(du -sb /etc/vpssim/vpssim.newversion | awk 'NR==1 {print $1}')
+   if [ "$checksizeversion" == "0" ];then
+   rm -rf /etc/vpssim/vpssim.newversion
+   fi
+   if [ $checksizeversion -gt $maximumsize ]; then
+   rm -rf /etc/vpssim/vpssim.newversion
+   fi
+fi
+
+if [ ! -f /etc/vpssim/vpssim.newversion ]; then
+clear
+printf "=========================================================================\n"
+echo "Khong the kiem tra phien ban update VPSSIM"
+echo "-------------------------------------------------------------------------"
+echo "Ban vui long thu lai"
+/etc/vpssim/menu/vpssim-update-upgrade-service-menu
+else
+LOCALVER=`cat /etc/vpssim/vpssim.version`
+REMOVER=`cat /etc/vpssim/vpssim.newversion`
+fi
+
+if [ "$LOCALVER" == "$REMOVER" ]; then
+clear
+rm -f /etc/vpssim/vpssim.newversion
+echo "========================================================================="
+echo "Ban dang su dung phien ban moi nhat cua VPSSIM - Phien ban: $LOCALVER"
+echo "-------------------------------------------------------------------------"
+echo "Xem VPSSIM update Log tai: http://hostingaz.vn/news"
+/etc/vpssim/menu/vpssim-update-upgrade-service-menu
+exit
+fi
+
+printf "=========================================================================\n"
+printf "Xem VPSSIM update Log tai: http://hostingaz.vn/news\n"
+printf "=========================================================================\n"
+printf "Da phat hien update cho VPSSIM\n"
+echo "-------------------------------------------------------------------------"
+printf "Phien ban ban dang su dung: $LOCALVER\n"
+echo "-------------------------------------------------------------------------"
+printf "Phien ban ban moi nhat tai thoi diem hien tai: $REMOVER\n"
+printf "=========================================================================\n"
+read -r -p "Ban chac chan muon update VPSSIM ? [y/N] " response
+case $response in
+    [yY][eE][sS]|[yY])
+    echo "-------------------------------------------------------------------------" 
+echo "Chuan bi update VPSSIM..... "
+sleep 1
+rm -f /etc/vpssim/vpssim-update
+wget -q http://hostingaz.vn/script/vpssim/vpssim-update -O /etc/vpssim/vpssim-update && chmod +x /etc/vpssim/vpssim-update
+/etc/vpssim/vpssim-update
+
+exit
+
+ ;;
+    *)
+        clear
+printf "=========================================================================\n"
+echo "Ban da huy bo update VPSSIM"
+/etc/vpssim/menu/vpssim-update-upgrade-service-menu
+        ;;
+esac
+clear && /etc/vpssim/menu/vpssim-update-upgrade-service-menu
+
+
+
+
+
+

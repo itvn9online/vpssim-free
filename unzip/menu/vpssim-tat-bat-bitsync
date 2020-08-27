@@ -1,0 +1,84 @@
+#!/bin/sh
+if [ ! -f /etc/vpssim/btsync.info ]; then
+clear
+echo "========================================================================="
+echo "Ban chua cai dat BTsync"
+/etc/vpssim/menu/vpssim-bitsync-menu
+exit 
+fi
+bitsyncstt=`pgrep -fu root /usr/bin/btsync`
+    if [ ! -z "$bitsyncstt" ]; then
+echo "========================================================================="
+echo "Su dung chuc nang nay de BAT/TAT BitTorrent Sync tren server"
+echo "-------------------------------------------------------------------------"
+echo "Hien tai BTsync dang BAT"
+echo "-------------------------------------------------------------------------"
+read -r -p "Ban muon TAT BitTorent Sync ? [y/N] " response
+case $response in
+    [yY][eE][sS]|[yY])
+    echo "-------------------------------------------------------------------------"
+    echo "Please wait...." && sleep 1 
+killall -q btsync
+pkill btsync
+rm -rf /etc/btsync-vpssim/.sync/*.pid
+rm -rf /etc/btsync-vpssim/.btsync/*.pid
+	clear
+	echo "========================================================================="
+	echo "BTsync da duoc TAT thanh cong !"
+	/etc/vpssim/menu/vpssim-bitsync-menu
+        ;;
+    *)
+       clear
+       echo "========================================================================="
+        echo "Huy bo TAT BTsync....!"
+        /etc/vpssim/menu/vpssim-bitsync-menu
+        ;;
+esac
+else
+echo "========================================================================="
+echo "Su dung chuc nang nay de BAT/TAT BitTorrent Sync tren server"
+echo "-------------------------------------------------------------------------"
+echo "Hien tai BTsync dang TAT"
+echo "-------------------------------------------------------------------------"
+read -r -p "Ban muon BAT BitTorent Sync ? [y/N] " response
+case $response in
+    [yY][eE][sS]|[yY]) 
+    echo "-------------------------------------------------------------------------"
+    echo "Please wait...." && sleep 1
+/usr/bin/btsync --config /etc/btsync-vpssim/sync.conf
+checksize=$(du -sb /usr/bin/btsync | awk 'NR==1 {print $1}')
+if [ $checksize -gt 9000000 ]; then   
+	if [ -f /etc/btsync-vpssim/.sync/*.pid ]; then
+	clear
+	echo "========================================================================="
+	echo "BAT BTsync thanh cong!"
+	/etc/vpssim/menu/vpssim-bitsync-menu
+	else
+	clear
+	echo "========================================================================="
+	echo "Khong the BAT BTsync !!!!"
+	/etc/vpssim/menu/vpssim-bitsync-menu
+	fi
+else  
+	if [ -f /etc/btsync-vpssim/.btsync/*.pid ]; then
+	clear
+	echo "========================================================================="
+	echo "BAT BTsync thanh cong!"
+	/etc/vpssim/menu/vpssim-bitsync-menu
+	else
+	clear
+	echo "========================================================================="
+	echo "Khong the BAT BTsync !"
+	/etc/vpssim/menu/vpssim-bitsync-menu
+	fi
+fi
+        ;;
+    *)
+        	clear
+	echo "========================================================================="
+	echo "Huy BAT Bittorent Sync"
+	/etc/vpssim/menu/vpssim-bitsync-menu
+        ;;
+esac  
+exit
+fi

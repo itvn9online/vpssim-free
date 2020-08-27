@@ -1,0 +1,160 @@
+#!/bin/bash
+
+. /home/vpssim.conf
+if [ ! -f /usr/local/bin/htpasswd.py ]; then
+cp -r /etc/vpssim/menu/vpssim-tao-mat-khau-bao-ve-folder.py /usr/local/bin/htpasswd.py
+chmod 755 /usr/local/bin/htpasswd.py
+fi
+php_version1=$(php -r "echo PHP_MAJOR_VERSION.'.'.PHP_MINOR_VERSION;")
+if [ "$php_version1" == "7.0" ]; then
+clear
+echo "========================================================================="
+echo "Net2FTP chi tuong thich voi php 5.4, 5.5 va 5.6"
+/etc/vpssim/menu/vpssim-net2ftp-menu
+exit
+fi
+if [ ! -f /etc/vpssim/net2ftpsite.info ]; then
+clear
+echo "========================================================================="
+echo "Ban chua cai dat domain Net2FTP cho Server !"
+/etc/vpssim/menu/vpssim-net2ftp-menu
+exit
+fi
+net2ftpsite=$(cat /etc/vpssim/net2ftpsite.info)
+if [ ! -f /etc/nginx/conf.d/$net2ftpsite.conf ]; then
+clear
+echo "========================================================================="
+echo "Qua trinh thay Domain Net2FTP gap loi!"
+echo "-------------------------------------------------------------------------"
+echo "Ban vui long kiem tra lai"
+/etc/vpssim/menu/vpssim-net2ftp-menu
+exit
+fi
+echo "========================================================================= "
+echo "Su dung chuc nang nay de thay Domain Net2FTP sang Domain Khac"
+echo "-------------------------------------------------------------------------"
+read -r -p "Ban muon thay $net2ftpsite bang domain khac? [y/N] " response
+case $response in
+    [yY][eE][sS]|[yY]) 
+sleep 1
+echo "-------------------------------------------------------------------------"
+echo -n "Nhap domain Net2FTP moi [ENTER]: " 
+read website
+website=`echo $website | tr '[A-Z]' '[a-z]'`
+if [ "$website" = "" ]; then
+clear
+echo "========================================================================="
+echo "Ban nhap sai, vui long nhap lai!"
+/etc/vpssim/menu/vpssim-net2ftp-menu
+exit
+fi
+
+kiemtradomain3="^([[:alnum:]]([[:alnum:]\-]{0,61}[[:alnum:]])?\.)+[[:alpha:]]{2,12}$";
+if [[ ! "$website" =~ $kiemtradomain3 ]]; then
+	website=`echo $website | tr '[A-Z]' '[a-z]'`
+clear
+echo "========================================================================="
+echo "$website co le khong phai la domain !!"
+echo "-------------------------------------------------------------------------"
+echo "Ban vui long thu lai  !"
+/etc/vpssim/menu/vpssim-net2ftp-menu
+exit
+fi
+
+if [ "$net2ftpsite" = "$website" ]; then
+clear
+echo "========================================================================="
+echo "Please type in the other domain"
+/etc/vpssim/menu/vpssim-net2ftp-menu
+exit
+fi
+
+if [ -f /etc/nginx/conf.d/$website.conf ]; then
+clear
+echo "========================================================================="
+echo "Phat hien $website da ton tai tren he thong!"
+echo "-------------------------------------------------------------------------"
+echo "Ban vui long thu lai  !"
+/etc/vpssim/menu/vpssim-net2ftp-menu
+exit
+fi
+echo "-------------------------------------------------------------------------"
+echo "Please wait ..."; sleep 4
+
+rm -rf /etc/nginx/conf.d/$net2ftpsite.conf
+mv /home/$net2ftpsite /home/$website
+
+    cat > "/etc/nginx/conf.d/$website.conf" <<END
+server {
+	    server_name www.$website;
+	    rewrite ^(.*) http://$website\$1 permanent;
+    	}
+server {
+	    listen   80;
+    	access_log off;
+    	error_log off;
+    	# error_log /home/$website/logs/error.log;
+    	root /home/$website/public_html;
+include /etc/nginx/conf/ddos2.conf;
+ 	index index.php index.html index.htm;
+    	server_name $website;
+    	
+
+#///////////////////////////////////////////////////////
+#///////////////////////////////////////////////////////
+include /etc/nginx/conf/all.conf;  
+
+#Tang bao mat security, chong sql injection  ....(uncoment neu ban muon su dung). Boi vi mot so code website khong su dung duoc voi rule nay, nen mac dinh VPSSIM de tat.
+include /etc/nginx/conf/block.conf;
+
+#Deny scripts inside writable-directories
+include /etc/nginx/conf/deny-script-writeable-folder.conf;
+
+location /temp {
+		auth_basic "Authorization Required";
+		auth_basic_user_file  /home/$website/.htpasswd_temp;
+	}
+    	location ~ \.php$ {
+		fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        	include /etc/nginx/fastcgi_params;
+        	fastcgi_pass 127.0.0.1:9000;
+        	fastcgi_index index.php;
+		fastcgi_connect_timeout 2000;
+		fastcgi_send_timeout 2000;
+		fastcgi_read_timeout 2000;
+		fastcgi_buffer_size 256k;
+		fastcgi_buffers 4 256k;
+		fastcgi_busy_buffers_size 256k;
+		fastcgi_temp_file_write_size 256k;
+		fastcgi_intercept_errors on;
+        	fastcgi_param SCRIPT_FILENAME /home/$website/public_html\$fastcgi_script_name;
+    	}
+    	
+include /etc/nginx/conf/staticfiles.conf;
+#include /etc/nginx/conf/phpstatus.conf;
+include /etc/nginx/conf/drop.conf;
+#include /etc/nginx/conf/errorpage.conf;
+    }
+END
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
+service nginx reload
+service php-fpm restart
+else 
+systemctl reload nginx
+systemctl restart php-fpm.service
+fi
+echo "$website" > /etc/vpssim/net2ftpsite.info
+clear
+echo "========================================================================="
+echo "Thay Domain moi cho Net2FTP thanh cong !"
+echo "-------------------------------------------------------------------------"
+echo "Hay tro $website toi $serverip"
+echo "-------------------------------------------------------------------------"
+echo "va truy cap domain nay tren trinh duyet de su dung net2FTP"
+/etc/vpssim/menu/vpssim-net2ftp-menu
+;;
+esac
+clear
+echo "========================================================================="
+echo "Ban da cancel thay doi domain Net2FTP."
+/etc/vpssim/menu/vpssim-net2ftp-menu

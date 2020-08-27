@@ -1,0 +1,85 @@
+#!/bin/bash
+
+. /home/vpssim.conf
+
+if [ -f /home/$mainsite/private_html/index.php ]; then 
+echo "========================================================================="
+echo "Su dung chuc nang nay de BAT / TAT Phpmyadmin. "
+echo "-------------------------------------------------------------------------"
+echo "Phpmyadmin hien dang BAT, ai biet port $priport deu co the truy cap"
+echo "========================================================================="
+read -r -p "Ban co muon TAT no khong ? [y/N] " response
+case $response in
+    [yY][eE][sS]|[yY]) 
+    echo "-------------------------------------------------------------------------"
+    echo "Please wait....";sleep 1
+	mv /home/$mainsite/private_html/index.php /home/$mainsite/private_html/index.bak
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
+service php-fpm restart
+fi
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+systemctl restart php-fpm.service
+fi
+	rm -f /home/$mainsite/private_html/index.html
+    cat > "/home/$mainsite/private_html/index.html" <<END
+<!DOCTYPE html>
+<html id="VPSSIM" lang="en-US" dir="LTR" class="Public Cute Pig" xmlns:fb="http://www.facebook.com/2008/fbml">
+<head>
+<meta charset="utf-8"/>
+<title>Cute Pig !!!</title>
+</head>
+<body>
+<center><img src="https://hostingaz.vn/script/vpssim/pig.jpg"></center><br><br>
+<center>What do you want?</center>
+</body>
+</html>
+END
+clear
+echo "========================================================================="
+echo "Phpmyadmin link da duoc TAT thanh cong !"
+/etc/vpssim/menu/vpssim-phpmyadmin-menu
+        ;;
+    *)
+clear
+ echo "========================================================================="
+echo "Ban lua chon NO  !"
+/etc/vpssim/menu/vpssim-phpmyadmin-menu
+        ;;
+esac
+exit
+fi
+echo "========================================================================="
+echo "Su dung chuc nang nay de BAT / TAT Phpmyadmin. "
+echo "========================================================================="
+echo "Phpmyadmin link hien dang TAT !"
+echo "-------------------------------------------------------------------------"
+read -r -p "Ban co muon BAT no len khong ? [y/N] " response
+case $response in
+    [yY][eE][sS]|[yY]) 
+    echo "-------------------------------------------------------------------------"
+    echo "Please wait....";sleep 1
+	mv /home/$mainsite/private_html/index.bak /home/$mainsite/private_html/index.php
+	rm -f /home/$mainsite/private_html/index.html
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
+service php-fpm restart
+fi
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+systemctl restart php-fpm.service
+fi
+clear
+        echo "========================================================================="
+        echo "Phpmyadmin link da duoc BAT thanh cong !"
+echo "-------------------------------------------------------------------------"
+               echo "Truy cap phpmyadmin qua: $mainsite:$priport  hoac $serverip:$priport"
+/etc/vpssim/menu/vpssim-phpmyadmin-menu
+        ;;
+    *)
+               clear
+ echo "========================================================================="
+echo "Ban lua chon NO!"
+/etc/vpssim/menu/vpssim-phpmyadmin-menu
+
+        ;;
+esac
+exit
+fi

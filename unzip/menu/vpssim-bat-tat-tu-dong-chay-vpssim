@@ -1,0 +1,68 @@
+
+#!/bin/bash 
+
+. /home/vpssim.conf
+if [ ! -f /root/.bash_profile ]; then
+clear
+echo "========================================================================="
+echo "Can not find file /root/.bash_profile"
+echo "-------------------------------------------------------------------------"
+echo "VPSSIM can not run this function on this server"
+echo "-------------------------------------------------------------------------"
+/etc/vpssim/menu/vpssim-tien-ich
+exit
+fi
+
+if [ "$(grep "/bin/vpssim" /root/.bash_profile)" == "" ]; then
+echo "========================================================================="
+echo "Su dung chuc nang nay de BAT/TAT chuc nang tu dong chay VPSSIM khi login"
+echo "-------------------------------------------------------------------------"
+echo "SSH vao Server. Hien tai chuc nang nay dang TAT."
+echo "========================================================================="
+read -r -p "Ban muon BAT chuc nang nay ? [y/N] " response
+case $response in
+    [yY][eE][sS]|[yY]) 
+    echo "-------------------------------------------------------------------------"
+    echo "Please wait ... "
+    sleep 1
+echo "/bin/vpssim" >> /root/.bash_profile
+clear
+echo "========================================================================="
+echo "BAT chuc nang Auto Run VPSSIM thanh cong ! "
+ /etc/vpssim/menu/vpssim-tien-ich
+    ;;
+*)
+clear
+echo "========================================================================="
+echo "You choosed NO "
+ /etc/vpssim/menu/vpssim-tien-ich
+  exit
+;;
+esac
+else
+echo "========================================================================="
+echo "Su dung chuc nang nay de BAT/TAT chuc nang tu dong chay VPSSIM khi login"
+echo "-------------------------------------------------------------------------"
+echo "SSH vao Server. Hien tai chuc nang nay dang BAT."
+echo "========================================================================="
+read -r -p "Ban muon TAT chuc nang nay ? [y/N] " response
+case $response in
+    [yY][eE][sS]|[yY]) 
+    echo "-------------------------------------------------------------------------"
+    echo "Please wait ... "
+    sleep 1
+    sed -i '/\/bin\/vpssim/d' /root/.bash_profile
+clear
+echo "========================================================================="
+echo "TAT chuc nang Auto Run VPSSIM thanh cong ! "
+ /etc/vpssim/menu/vpssim-tien-ich
+    ;;
+*)
+clear
+echo "========================================================================="
+echo "You choosed NO "
+ /etc/vpssim/menu/vpssim-tien-ich
+  exit
+;;
+esac
+fi

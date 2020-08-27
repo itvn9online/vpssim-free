@@ -1,0 +1,187 @@
+#!/bin/bash 
+. /home/vpssim.conf
+echo "========================================================================="
+echo "Su dung chuc nang nay de ALLOW/DENY chay script trong writable folder"
+echo "-------------------------------------------------------------------------"
+echo "Folder:uploads,images,cache,media,logs,tmp - Script: PHP,PL,PY,JSP,SH,CGI "  
+echo "-------------------------------------------------------------------------"
+echo "Edit rules tai: /etc/nginx/conf/deny-script-writeable-folder.conf"
+echo "========================================================================="
+nhapwebsite() {
+echo -n "Nhap ten website: "  
+read website
+website=`echo $website | tr '[A-Z]' '[a-z]'`
+
+if [ -f /etc/vpssim/net2ftpsite.info ]; then
+net2ftpsite=$(cat /etc/vpssim/net2ftpsite.info)
+if [ "$website" = "$net2ftpsite" ]; then
+clear
+echo "========================================================================="
+echo "$website la domain Net2FTP"
+echo "-------------------------------------------------------------------------"
+echo "Ban khong the su dung chuc nang nay."
+/etc/vpssim/menu/vpssim-tien-ich
+fi
+fi
+
+if [ "$website" = "" ]; then
+echo "-------------------------------------------------------------------------"
+echo "Ban chua nhap ten website"
+echo "-------------------------------------------------------------------------"
+nhapwebsite
+fi
+kiemtradomain3="^([[:alnum:]]([[:alnum:]\-]{0,61}[[:alnum:]])?\.)+[[:alpha:]]{2,14}";
+if [[ ! "$website" =~ $kiemtradomain3 ]]; then
+	website=`echo $website | tr '[A-Z]' '[a-z]'`
+echo "-------------------------------------------------------------------------"
+echo "$website co le khong phai domain !"
+echo "-------------------------------------------------------------------------"
+nhapwebsite
+fi
+if [ ! -f /etc/nginx/conf.d/$website.conf ]; then
+if [ ! -f /etc/nginx/conf.d/www.$website.conf ]; then
+echo "-------------------------------------------------------------------------"
+echo "Khong tim thay $website tren server "
+echo "-------------------------------------------------------------------------"
+nhapwebsite
+fi
+fi
+if [ -f /etc/nginx/conf.d/www.$website.conf ]; then
+if [ "$(grep block.conf /etc/nginx/conf.d/www.$website.conf)" == "" ]; then
+clear
+echo "========================================================================="
+echo "Ban da thay doi config Vhost mac dinh cua $website"
+echo "-------------------------------------------------------------------------"
+echo "VPSSIM khong the thuc hien yeu cau cua ban"
+/etc/vpssim/menu/vpssim-block-exploits-sql-injections-menu
+exit
+fi
+fi
+if [ -f /etc/nginx/conf.d/$website.conf ]; then
+if [ "$(grep block.conf /etc/nginx/conf.d/$website.conf)" == "" ]; then
+clear
+echo "========================================================================="
+echo "Ban da thay doi config Vhost mac dinh cua $website"
+echo "-------------------------------------------------------------------------"
+echo "VPSSIM khong the thuc hien yeu cau cua ban"
+/etc/vpssim/menu/vpssim-block-exploits-sql-injections-menu
+exit
+fi
+fi
+if [ -f /etc/nginx/conf.d/wwww.$website.conf ]; then
+	if [ "$(grep deny-script-writeable-folder.conf /etc/nginx/conf.d/www.$website.conf)" == "" ]; then
+	check=bat
+	elif [ ! "$(grep deny-script-writeable-folder.conf /etc/nginx/conf.d/www.$website.conf)" == "" ]; then
+		if [ ! "$(grep "#include /etc/nginx/conf/deny-script-writeable-folder.conf;" /etc/nginx/conf.d/www.$website.conf)" == "" ]; then
+	check=bat
+		fi
+	fi
+fi
+
+if [ -f /etc/nginx/conf.d/$website.conf ]; then
+	if [ "$(grep deny-script-writeable-folder.conf /etc/nginx/conf.d/$website.conf)" == "" ]; then
+	check=bat
+	elif [ ! "$(grep deny-script-writeable-folder.conf /etc/nginx/conf.d/$website.conf)" == "" ]; then
+		if [ ! "$(grep "#include /etc/nginx/conf/deny-script-writeable-folder.conf;" /etc/nginx/conf.d/$website.conf)" == "" ]; then
+		check=bat
+		fi
+	fi
+fi
+if [ ! "$check" == "bat" ]; then
+echo "========================================================================="
+echo "$website hien tai KHONG CHO PHEP chay Script trong writable folder "
+echo "-------------------------------------------------------------------------"
+read -r -p "CHO PHEP chay Script trong writable folder ?  [y/N] " response
+case $response in
+    [yY][eE][sS]|[yY]) 
+    echo "-------------------------------------------------------------------------"
+    echo "Please wait..."   		
+    sleep 1  
+         cat > "/tmp/chanrunscriptuploadfolder.sh" <<END
+#!/bin/sh
+if [ -f /etc/nginx/conf.d/$website.conf ]; then
+sed -i '/writable-directories/d' /etc/nginx/conf.d/$website.conf 
+sed -i '/deny-script-writeable-folder/d' /etc/nginx/conf.d/$website.conf 
+fi
+if [ -f /etc/nginx/conf.d/www.$website.conf ]; then
+sed -i '/writable-directories/d' /etc/nginx/conf.d/www.$website.conf 
+sed -i '/deny-script-writeable-folder/d' /etc/nginx/conf.d/www.$website.conf 
+fi
+END
+chmod +x /tmp/chanrunscriptuploadfolder.sh
+/tmp/chanrunscriptuploadfolder.sh
+rm -f /tmp/chanrunscriptuploadfolder.sh
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
+service nginx reload
+else
+systemctl reload nginx
+fi
+clear
+echo "========================================================================="
+echo "Config CHO PHEP chay Script trong writable folder cho $website thanh cong!"
+/etc/vpssim/menu/vpssim-tien-ich
+        ;;
+    *)
+       clear
+    echo "========================================================================="
+   echo "Huy thay doi config Vhost cho $website"
+/etc/vpssim/menu/vpssim-tien-ich
+        ;;
+esac
+exit
+fi
+echo "========================================================================="
+echo "$website hien tai CHO PHEP chay Script trong writable folder "
+echo "-------------------------------------------------------------------------"
+read -r -p "KHONG CHO PHEP chay Script trong writable folder ?  [y/N] " response
+case $response in
+    [yY][eE][sS]|[yY]) 
+echo "-------------------------------------------------------------------------"
+		echo "Please wait..."
+		sleep 1
+		rm -rf /tmp/chanrunscriptuploadfolder.sh
+  cat > "/tmp/chanrunscriptuploadfolder.sh" <<END
+#!/bin/sh
+if [ -f /etc/nginx/conf.d/$website.conf ]; then
+	if [ "\$(grep deny-script-writeable-folder.conf /etc/nginx/conf.d/$website.conf)" == "" ]; then
+	sed -i "/.*block.conf*./a#Deny\ scripts\ inside\ writable-directories" /etc/nginx/conf.d/$website.conf
+	#sed -i "s/.*writable-directories*./\n&/" /etc/nginx/conf.d/$website.conf
+	sed -i "/.*writable-directories*./ainclude \/etc\/nginx\/conf\/deny-script-writeable-folder.conf;" /etc/nginx/conf.d/$website.conf
+	fi
+	if [ ! "\$(grep deny-script-writeable-folder.conf /etc/nginx/conf.d/$website.conf)" == "" ]; then
+	sed -i 's/.*deny-script-writeable-folder.conf.*/include \/etc\/nginx\/conf\/deny-script-writeable-folder.conf;/g' /etc/nginx/conf.d/$website.conf
+	fi
+fi
+if [ -f /etc/nginx/conf.d/www.$website.conf ]; then
+	if [ "\$(grep deny-script-writeable-folder.conf /etc/nginx/conf.d/www.$website.conf)" == "" ]; then
+	sed -i "/.*block.conf*./a#Deny\ scripts\ inside\ writable-directories" /etc/nginx/conf.d/www.$website.conf
+	sed -i "/.*writable-directories*./ainclude \/etc\/nginx\/conf\/deny-script-writeable-folder.conf;" /etc/nginx/conf.d/www.$website.conf
+	fi
+	if [ ! "\$(grep deny-script-writeable-folder.conf /etc/nginx/conf.d/www.$website.conf)" == "" ]; then
+	sed -i 's/.*deny-script-writeable-folder.conf.*/include \/etc\/nginx\/conf\/deny-script-writeable-folder.conf;/g' /etc/nginx/conf.d/www.$website.conf
+	fi
+fi
+END
+chmod +x /tmp/chanrunscriptuploadfolder.sh
+/tmp/chanrunscriptuploadfolder.sh
+rm -f /tmp/chanrunscriptuploadfolder.sh
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
+service nginx reload
+else
+systemctl reload nginx
+fi
+clear
+echo "========================================================================="
+echo "Config KHONG chay script trong writable folder cho $website thanh cong"
+/etc/vpssim/menu/vpssim-tien-ich
+       ;;
+    *)
+    clear
+    echo "========================================================================="
+   echo "Huy thay doi config Vhost cho $website"
+/etc/vpssim/menu/vpssim-tien-ich
+        ;;
+esac
+exit
+}
+nhapwebsite

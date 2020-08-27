@@ -1,0 +1,103 @@
+#!/bin/sh
+. /home/vpssim.conf
+. /etc/vpssim/pwprotect.default
+if [ ! -d /etc/nginx/pwprotect ]; then
+mkdir -p /etc/nginx/pwprotect
+fi
+
+if [ ! -f /etc/vpssim/net2ftpsite.info ]; then
+clear
+echo "========================================================================="
+echo "Ban chua cai dat Net2FTP cho Server !"
+/etc/vpssim/menu/vpssim-net2ftp-menu
+exit
+fi
+net2ftpsite=$(cat /etc/vpssim/net2ftpsite.info)
+if [ ! -f /etc/nginx/.htpasswd ]; then
+clear
+echo "========================================================================="
+echo "Ban phai tao User va Mat khau mac dinh truoc khi chay chuc nang nay. Tao "
+echo "-------------------------------------------------------------------------"
+echo "User va Mat Khau mac dinh: VPSSIM Menu => User & Password Mac Dinh."
+/etc/vpssim/menu/vpssim-net2ftp-menu
+exit
+fi
+
+if [ "$(grep auth_basic_user_file /etc/nginx/conf.d/$net2ftpsite.conf)" == "" ] ; then 
+echo "========================================================================="
+echo "Su dung chuc nang nay de BAT bao ve domain Net2FTP. "
+echo "-------------------------------------------------------------------------"
+echo "Thong tin truy cap: "
+echo "-------------------------------------------------------------------------"
+echo "Username: $userdefault | Password: $passdefault"
+echo "-------------------------------------------------------------------------"
+read -r -p "Ban muon BAT bao ve domain Net2FTP ? [y/N] " response
+case $response in
+    [yY][eE][sS]|[yY]) 
+    echo "-------------------------------------------------------------------------"
+echo "Please wait ... "
+sleep 1
+rm -rf /tmp/baovedomainfilemanage
+   cat >> "/tmp/baovedomainfilemanage" <<END
+sed -i "/server_name\ $net2ftpsite;/aauth_basic \"Authorization Required\";" /etc/nginx/conf.d/$net2ftpsite.conf
+sed -i "/.*Authorization\ Required.*/aauth_basic_user_file  /etc/nginx/.htpasswd;" /etc/nginx/conf.d/$net2ftpsite.conf
+END
+chmod +x /tmp/baovedomainfilemanage
+/tmp/baovedomainfilemanage
+rm -rf /tmp/baovedomainfilemanage
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
+service nginx reload
+else 
+systemctl reload nginx
+fi
+;;
+    *)
+       clear 
+echo "========================================================================= "
+echo "Huy bo dat mat khau bao ve domain Net2FTP. "
+/etc/vpssim/menu/vpssim-net2ftp-menu
+        ;;
+esac
+clear 
+echo "========================================================================= "
+echo "Hoan thanh BAT bao ve domain Net2FTP."
+echo "-------------------------------------------------------------------------"
+echo "Thong tin truy cap: "
+echo "-------------------------------------------------------------------------"
+echo "Username: $userdefault | Password: $passdefault"
+/etc/vpssim/menu/vpssim-net2ftp-menu
+
+else
+
+echo "========================================================================="
+echo "Chuc nang bao ve domain Net2FTP dang duoc BAT."
+echo "-------------------------------------------------------------------------"
+echo "Thong tin truy cap: "
+echo "-------------------------------------------------------------------------"
+echo "Username: $userdefault | Password: $passdefault"
+echo "-------------------------------------------------------------------------"
+read -r -p "Ban muon TAT chuc nang nay ? [y/N] " response
+case $response in
+    [yY][eE][sS]|[yY]) 
+    echo "-------------------------------------------------------------------------"
+echo "Please wait ... "
+sleep 1
+sed -i '/auth_basic/d' /etc/nginx/conf.d/$net2ftpsite.conf
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
+service nginx reload
+else 
+systemctl reload nginx
+fi
+;;
+    *)
+       clear 
+echo "========================================================================= "
+echo "Huy bo TAT bao ve domain Net2FTP."
+/etc/vpssim/menu/vpssim-net2ftp-menu
+        ;;
+esac
+clear 
+echo "========================================================================= "
+echo "Hoan thanh TAT mat khau bao ve domain Net2FTP. "
+/etc/vpssim/menu/vpssim-net2ftp-menu
+fi

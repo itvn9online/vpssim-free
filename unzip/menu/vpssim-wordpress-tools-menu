@@ -1,0 +1,299 @@
+#!/bin/sh
+. /home/vpssim.conf
+if [ ! -f /usr/local/bin/htpasswd.py ]; then
+cp -r /etc/vpssim/menu/vpssim-tao-mat-khau-bao-ve-folder.py /usr/local/bin/htpasswd.py
+chmod 755 /usr/local/bin/htpasswd.py
+fi
+if [ ! -f /etc/vpssim/pwprotect.default ]; then
+echo "" > /etc/vpssim/pwprotect.default
+fi
+if [ -f /var/lib/mysql/vpssimCheckDB/db.opt ]; then
+rm -rf /var/lib/mysql/vpssimCheckDB
+fi
+
+menu_wordpress_blog_tools () {
+
+prompt="Lua chon cua ban (18-Thoat):"
+options=("Update Wordpress An Toan" "Update Themes & Plugins" "Tat/Bat Auto Update WP Code" "Tat/Bat WP-Cron.php" "Xem Themes & Plugins Status" "Enable Redis Cache" "Disable Redis Cache" "Sao Luu Database" "Phuc Hoi Database" "Cai Dat Wordpress Multisite" "Tao Vhost Cho WP MultiSite" "Cau Hinh Vhost Cho PLugin Cache" "Xem Thong Tin Database" "Toi Uu - Sua Loi Database" "Password Bao Ve wp-login.php" "Fix Loi Missed Schedule" "Fix Loi Permission"  ) 
+printf "=========================================================================\n"
+printf "                VPSSIM - Quan Ly VPS/Server by HostingAZ.VN \n"
+printf "=========================================================================\n"
+printf "                           Wordpress Blog Tools\n"
+printf "=========================================================================\n"
+
+PS3="$prompt"
+select opt in "${options[@]}" "Thoat"; do 
+
+    case "$REPLY" in
+    1 ) /etc/vpssim/menu/vpssim-update-code-wordpress-menu-wordpress;;
+    2) /etc/vpssim/menu/vpssim-update-themes-plugins-wordpress-menu-wordpress;;
+    3)  /etc/vpssim/menu/vpssim-enable-disable-tu-dong-update-wordpress;;
+    4) /etc/vpssim/menu/vpssim-enable-disable-wp-cron.php-wordpress;;
+    5) /etc/vpssim/menu/vpssim-xem-danh-sach-plugins-website-wordpress;;
+    6) /etc/vpssim/menu/vpssim-enable-redis-cho-wordpress-website;;
+    7) /etc/vpssim/menu/vpssim-disable-redis-cho-wordpress-website;;
+    8) /etc/vpssim/menu/vpssim-sao-luu-database-wordpress;;
+    9) /etc/vpssim/menu/vpssim-phuc-hoi-database-chon-dinh-dang-wordpress;;
+    10) /etc/vpssim/menu/vpssim-cai-dat-multisite-menu-wordpress;;
+    11) /etc/vpssim/menu/vpssim-kich-hoat-sub-multisite-wordpress;;
+    12) /etc/vpssim/menu/vpssim-re-config-vhost-cho-website-wordpress;;
+    13) /etc/vpssim/menu/vpssim-xem-thong-tin-database-wordpress;;
+    14)  /etc/vpssim/menu/vpssim-toi-uu-repair-database-wordpress;;
+    15) /etc/vpssim/menu/vpssim-dat-mat-khau-bao-ve-wp-login;;
+    16) /etc/vpssim/menu/vpssim-fix-loi-missed-schedule-wordpress;;
+    17) /etc/vpssim/menu/vpssim-sua-loi-permision-chmod-chown-wordpress;;
+    
+    
+    $(( ${#options[@]}+1 )) ) echo "";  clear && /bin/vpssim;;
+    *) echo "Ban nhap sai, vui long nhap theo so thu tu tren menu";continue;;
+
+    esac
+done
+
+}
+
+check_wpcli_version () {
+if [ ! -f /usr/local/bin/wp ]; then
+echo "========================================================================="
+echo "Installing  WP-CLI" ; sleep 2
+wget -q --no-check-certificate https://vpssim.com/script/vpssim/Softwear/wp-cli.phar
+chmod +x wp-cli.phar
+mv wp-cli.phar /usr/local/bin/wp
+wp --version --allow-root > /etc/vpssim/wpcli.version 
+fi
+
+if [ ! -f /etc/vpssim/wpcli.version ]; then
+touch -a -m -t 201601180130.09 /etc/vpssim/wpcli.version
+fi
+
+fileTime3=$(date -r /etc/vpssim/wpcli.version +%d)
+curTime3=$(date +%d)
+if [ ! "$fileTime3" == "$curTime3" ]; then
+wp --version --allow-root > /etc/vpssim/wpcli.version 
+wp_cli_update=`wp cli check-update --allow-root | awk 'NR==1 {print $1}'`
+if [ ! "$wp_cli_update" = "Success:" ]; then
+echo "========================================================================="
+echo "Update for WP-CLI Found ! Updating WP-CLI ..." ; 
+echo "-------------------------------------------------------------------------"
+echo "Please wait ..."
+sleep 4
+/etc/vpssim/menu/vpssim-enable-tat-ca-cac-ham-php-php.ini
+echo y | wp cli update --allow-root
+wp --version --allow-root > /etc/vpssim/wpcli.version 
+/etc/vpssim/menu/vpssim-re-config-cac-ham-php-disable-php.ini
+menu_wordpress_blog_tools
+else
+menu_wordpress_blog_tools
+fi
+else
+menu_wordpress_blog_tools
+fi
+}
+
+
+check_mariaDB_service () {
+if [ -f /var/lib/mysql/vpssimCheckDB/db.opt ]; then
+rm -rf /var/lib/mysql/vpssimCheckDB
+fi
+ cat > "/tmp/config.temp" <<END
+CREATE DATABASE vpssimCheckDB COLLATE utf8_general_ci;
+END
+mysql -u root -p$mariadbpass < /tmp/config.temp
+rm -f /tmp/config.temp
+
+if [ ! -f /var/lib/mysql/vpssimCheckDB/db.opt ]; then
+clear
+echo "========================================================================"
+echo "MySQL service is not running"
+echo "------------------------------------------------------------------------"
+echo "VPSSIM trying to start it"
+echo "------------------------------------------------------------------------"
+echo "Please wait ..."
+sleep 5 ; clear
+rm -rf /var/lib/mysql/ib_logfile0
+rm -rf /var/lib/mysql/ib_logfile1
+cat > "/tmp/startmysql" <<END
+systemctl start mariadb.service
+service mysql start
+END
+chmod +x /tmp/startmysql
+/tmp/startmysql
+rm -rf /tmp/startmysql
+clear
+echo "========================================================================"
+echo "Check MySQL service once again !"
+echo "------------------------------------------------------------------------"
+echo "please wait ..."
+sleep 5 ; clear
+cat > "/tmp/config.temp" <<END
+CREATE DATABASE vpssimCheckDB COLLATE utf8_general_ci;
+END
+mysql -u root -p$mariadbpass < /tmp/config.temp
+rm -f /tmp/config.temp
+	if [ ! -f /var/lib/mysql/vpssimCheckDB/db.opt ]; then
+clear
+echo "========================================================================"
+echo "VPSSIM can not start MySQL Service"
+sleep 4 ;
+	clear
+	echo "========================================================================="
+	echo "Sorry, MariaDB dang stopped. Hay bat len truoc khi dung chuc nang nay!"
+		#echo "Sorry, MySQL stopped. Start it before use this function!"
+	vpssim
+	else
+	rm -rf /var/lib/mysql/vpssimCheckDB
+check_wpcli_version 
+	fi
+else
+rm -rf /var/lib/mysql/vpssimCheckDB
+check_wpcli_version 
+fi
+}
+
+check_php_fpm_service () {
+
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
+	if [ "$(/sbin/service php-fpm status | awk 'NR==1 {print $5}')" == "running..." ]; then
+check_mariaDB_service
+	else
+clear
+echo "========================================================================"
+echo "PHP-FPM service is not running"
+echo "------------------------------------------------------------------------"
+echo "VPSSIM trying to start it"
+echo "------------------------------------------------------------------------"
+echo "Please wait ..."
+sleep 5 ; clear
+	echo "-------------------------------------------------------------------------"
+service php-fpm start
+clear
+echo "========================================================================"
+echo "Check PHP-FPM service once again !"
+echo "------------------------------------------------------------------------"
+echo "please wait ..."
+sleep 5 ; clear
+			if [ "$(/sbin/service php-fpm status | awk 'NR==1 {print $5}')" == "running..." ]; then
+check_mariaDB_service
+		else
+		clear
+echo "========================================================================"
+echo "VPSSIM can not start PHP-FPM Service"
+sleep 4 ;
+	clear
+	echo "========================================================================="
+	#echo "Sorry, PHP-FPM stopped. Start it before use this function!"
+	echo "Sorry, PHP-FPM dang stopped. Hay bat len truoc khi dung chuc nang nay!"
+	vpssim
+		fi
+fi
+fi
+
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+if [ "`systemctl is-active php-fpm.service`" == "active" ]; then
+check_mariaDB_service
+	else
+clear
+echo "========================================================================"
+echo "PHP-FPM service is not running"
+echo "------------------------------------------------------------------------"
+echo "VPSSIM trying to start it"
+echo "------------------------------------------------------------------------"
+echo "Please wait ..."
+sleep 5 ; clear
+	echo "-------------------------------------------------------------------------"
+systemctl start php-fpm.service
+clear
+echo "========================================================================"
+echo "Check PHP-FPM service once again !"
+echo "------------------------------------------------------------------------"
+echo "please wait ..."
+sleep 5 ; clear
+if [ "`systemctl is-active php-fpm.service`" == "active" ]; then
+check_mariaDB_service
+		else
+		clear
+echo "========================================================================"
+echo "VPSSIM can not start PHP-FPM Service"
+sleep 4 ;
+	clear
+	echo "========================================================================="
+	#echo "Sorry, PHP-FPM stopped. Start it before use this function!"
+	echo "Sorry, PHP-FPM dang stopped. Hay bat len truoc khi dung chuc nang nay!"
+	vpssim
+		fi
+fi
+fi
+}
+
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
+	if [ "$(/sbin/service nginx status | awk 'NR==1 {print $5}')" == "running..." ]; then
+check_php_fpm_service
+	else
+clear
+echo "========================================================================"
+echo "Nginx service is not running"
+echo "------------------------------------------------------------------------"
+echo "VPSSIM trying to start it"
+echo "------------------------------------------------------------------------"
+echo "Please wait ..."
+sleep 5 ; clear
+		echo "-------------------------------------------------------------------------"
+service nginx start
+clear
+echo "========================================================================"
+echo "Check Nginx service once again !"
+echo "------------------------------------------------------------------------"
+echo "please wait ..."
+sleep 5 ; clear
+		if [ "$(/sbin/service nginx status | awk 'NR==1 {print $5}')" == "running..." ]; then
+check_php_fpm_service
+		else
+		clear
+echo "========================================================================"
+echo "VPSSIM can not start Nginx Service"
+sleep 4 ;
+	clear
+	echo "========================================================================="
+	echo "Rat tiec, Nginx dang stopped. Hay bat len truoc khi dung chuc nang nay!"
+	#echo "Sorry, Nginx is stopped. Please start it before use this function !"
+	vpssim
+		fi
+fi
+fi
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+	if [ "`systemctl is-active nginx.service`" == "active" ]; then
+check_php_fpm_service
+	else
+clear
+echo "========================================================================"
+echo "Nginx service is not running"
+echo "------------------------------------------------------------------------"
+echo "VPSSIM trying to start it"
+echo "------------------------------------------------------------------------"
+echo "Please wait ..."
+sleep 5 ; clear
+		echo "-------------------------------------------------------------------------"
+systemctl start nginx.service
+clear
+echo "========================================================================"
+echo "Check Nginx service once again !"
+echo "------------------------------------------------------------------------"
+echo "please wait ..."
+sleep 5 ; clear
+	if [ "`systemctl is-active nginx.service`" == "active" ]; then
+check_php_fpm_service
+		else
+		clear
+echo "========================================================================"
+echo "VPSSIM can not start Nginx Service"
+sleep 4 ;
+	clear
+	echo "========================================================================="
+	echo "Rat tiec, Nginx dang stopped. Hay bat len truoc khi dung chuc nang nay!"
+	#echo "Sorry, Nginx is stopped. Please start it before use this function !"
+	vpssim
+		fi
+fi
+fi
+
+

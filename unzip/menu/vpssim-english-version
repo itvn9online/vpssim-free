@@ -1,0 +1,7 @@
+#!/bin/bash
+
+. /home/vpssim.conf
+clear
+echo "========================================================================="
+echo "Cai dat VPSSIM phien ban tieng ANH tai VPSSIM.COM"
+vpssim

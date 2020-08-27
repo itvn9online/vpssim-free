@@ -1,0 +1,19 @@
+#!/bin/bash
+. /home/vpssim.conf
+
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
+echo "-------------------------------------------------------------------------"
+echo "Please wait....";sleep 1
+chkconfig memcached on
+service memcached start
+fi
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+echo "-------------------------------------------------------------------------"
+echo "Please wait....";sleep 1
+systemctl start memcached.service
+systemctl enable memcached.service 
+fi
+clear
+echo "========================================================================= "
+echo "Bat Memcached thanh cong."
+/etc/vpssim/menu/memcache/vpssim-before-memcache-menu

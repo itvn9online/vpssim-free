@@ -1,0 +1,24 @@
+#!/bin/sh
+prompt="Nhap lua chon cua ban (5-Thoat):"
+options=("Enable Nginx Pagespeed" "Disable Nginx Pagespeed" "Clear Nginx Pagespeed Cache" "List Website BAT Nginx Pagespeed")
+
+printf "=========================================================================\n"
+printf "                VPSSIM - Quan Ly VPS/Server by HostingAZ.VN \n"
+printf "=========================================================================\n"
+printf "                         Quan Ly Nginx Pagespeed                                \n"
+printf "=========================================================================\n"
+
+PS3="$prompt"
+select opt in "${options[@]}" "Thoat"; do 
+
+    case "$REPLY" in
+    1 ) /etc/vpssim/menu/pagespeed/vpssim-bat-pagespeed;;
+    2 ) /etc/vpssim/menu/pagespeed/vpssim-tat-pagespeed;;
+    3 ) /etc/vpssim/menu/pagespeed/vpssim-clear-pagespeed;;
+    4 ) /etc/vpssim/menu/pagespeed/vpssim-list-website-dang-bat-pagespeed;;
+    
+    $(( ${#options[@]}+1 )) ) echo "bye!";  clear && /bin/vpssim;;
+    *) echo "Ban nhap sai, vui long nhap theo so thu tu tren menu !";continue;;
+
+    esac
+done

@@ -1,0 +1,32 @@
+#!/bin/sh
+. /home/vpssim.conf
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
+if [ "$(/sbin/service memcached status | awk 'NR==1 {print $5}')" == "running..." ]; then
+/etc/vpssim/menu/memcache/vpssim-tat-memcache
+exit
+fi
+if [ "$(/sbin/service memcached status | awk 'NR==1 {print $3}')" == "stopped" ]; then
+/etc/vpssim/menu/memcache/vpssim-bat-memcache
+clear
+exit
+fi
+fi
+
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+if [ "`systemctl is-active memcached.service`" == "active" ]; then
+clear
+/etc/vpssim/menu/memcache/vpssim-tat-memcache
+exit
+fi
+if [ ! "`systemctl is-active memcached.service`" == "active" ]; then
+clear
+/etc/vpssim/menu/memcache/vpssim-bat-memcache
+exit
+fi
+fi
+clear
+echo "========================================================================="
+echo "Sorry, VPSSIM khong phat hien Memcached tren he thong !"
+vpssim
+exit
+fi

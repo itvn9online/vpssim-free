@@ -1,0 +1,35 @@
+#!/bin/bash
+if [ ! -f /etc/cron.d/vpssim.code.cron ]; then
+touch /etc/cron.d/vpssim.code.cron
+fi
+prompt="Lua chon cua ban (10-Thoat):"
+options=( "Them Website" "Them Park & Redirect Domain" "Them website + Wordpress (Auto Setup)" "Them website + Forum Code (Auto Setup)" "Them Website + Opencart (Auto Setup)" "Them website + Wordpress (Download Code)" "Them Website + Joomla (Download Code)" "Them Website + Drupal (Download Code)" "List Website Tren Server" "Thoat")
+printf "=========================================================================\n"
+printf "                VPSSIM - Quan Ly VPS/Server by HostingAZ.VN \n"
+printf "=========================================================================\n"
+printf "                          Them Website Vao Server\n"
+printf "=========================================================================\n"
+
+PS3="$prompt"
+select opt in "${options[@]}" ; do 
+
+    case "$REPLY" in
+
+    1) /etc/vpssim/menu/vpssim-them-website;;
+    2) /etc/vpssim/menu/vpssim-them-redirect-park-domain-menu;;
+    3) /etc/vpssim/menu/vpssim-them-website-auto-setup-wordpress-menu;;
+	4) /etc/vpssim/menu/vpssim-them-website-forum-code-menu;;
+    5) /etc/vpssim/menu/vpssim-them-website-auto-setup-opencart-menu;;
+    6) /etc/vpssim/menu/vpssim-them-website-wp;;
+    7) /etc/vpssim/menu/vpssim-them-website-joomla;;
+    8) /etc/vpssim/menu/vpssim-them-website-drupal;;
+    9) /etc/vpssim/menu/vpssim-list-website-tren-vps;; 
+    10) clear && vpssim;;
+        *) echo "Ban nhap sai, vui long nhap theo so thu tu tren menu !";continue;;
+
+    esac
+
+done
+
+
+

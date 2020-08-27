@@ -1,0 +1,11 @@
+#!/bin/sh
+. /home/vpssim.conf
+echo "Please wait..."; sleep 1
+clear
+echo "========================================================================="
+echo "Thong tin user Root cua MySQL:"
+echo "-------------------------------------------------------------------------"
+echo "User: root"
+echo "-------------------------------------------------------------------------"
+echo "Password: $mariadbpass"
+/etc/vpssim/menu/vpssim-them-xoa-database

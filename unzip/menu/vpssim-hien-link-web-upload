@@ -1,0 +1,17 @@
+#!/bin/sh
+. /home/vpssim.conf
+if [ ! -f /etc/vpssim/uploadsite ]; then
+clear
+echo "========================================================================="
+echo "Ban chua cai dat File Manager cho Server !"
+/etc/vpssim/menu/vpssim-web-upload-menu
+exit
+fi
+echo "Please wait..."; sleep 1
+uploadsite=$(cat /etc/vpssim/uploadsite)
+clear
+echo "========================================================================="
+echo "Domain cai dat File Manager cho Server: "
+echo "-------------------------------------------------------------------------"
+echo "http://$uploadsite "
+/etc/vpssim/menu/vpssim-web-upload-menu

@@ -1,0 +1,112 @@
+#!/bin/bash
+
+. /home/vpssim.conf
+
+echo "========================================================================="
+echo "Mac dinh, che do tu dong cap nhat code luon  BAT tren Wordpress Website"
+echo "-------------------------------------------------------------------------"
+echo "Su dung chuc nang nay de TAT - BAT tinh nang auto update nay."
+echo "========================================================================="
+echo -n "Nhap ten website [ENTER]: " 
+read website
+website=`echo $website | tr '[A-Z]' '[a-z]'`
+if [ "$website" = "" ]; then
+clear
+echo "========================================================================="
+echo "Ban nhap sai, vui long nhap chinh xac."
+/etc/vpssim/menu/vpssim-wordpress-tools-menu
+exit
+fi
+kiemtradomain3="^([[:alnum:]]([[:alnum:]\-]{0,61}[[:alnum:]])?\.)+[[:alpha:]]{2,14}$";
+if [[ ! "$website" =~ $kiemtradomain3 ]]; then
+	website=`echo $website | tr '[A-Z]' '[a-z]'`
+clear
+echo "========================================================================="
+echo "$website co the khong dung dinh dang domain"
+echo "-------------------------------------------------------------------------"
+echo "Ban vui long thu lai !"
+/etc/vpssim/menu/vpssim-wordpress-tools-menu
+exit
+fi
+if [ ! -f /etc/nginx/conf.d/$website.conf ]; then
+clear
+echo "========================================================================="
+echo "$website khong ton tai tren he thong"
+echo "-------------------------------------------------------------------------"
+echo "Ban vui long thu lai !"
+/etc/vpssim/menu/vpssim-wordpress-tools-menu
+exit
+fi
+if [ ! -f /home/$website/public_html/wp-config.php ]; then
+clear
+echo "========================================================================="
+echo "$website khong su dung wordpress code hoac chua cai dat!"
+echo "-------------------------------------------------------------------------"
+echo "Vui long cai dat wordpress code truoc hoac nhap domain khac"
+/etc/vpssim/menu/vpssim-wordpress-tools-menu
+exit
+fi
+
+if [ ! "$(grep "WP_AUTO_UPDATE_CORE" /home/$website/public_html/wp-config.php)" == "" ]; then
+echo "========================================================================="
+echo "$website hien tai dang TAT Tu dong Nang cap !"
+echo "-------------------------------------------------------------------------"
+read -r -p "Ban muon BAT auto update ?  [y/N] " response
+case $response in
+    [yY][eE][sS]|[yY]) 
+    echo "-------------------------------------------------------------------------"
+    echo "Please wait..."
+    		
+    sleep 1
+ 
+sed -i '/WP_AUTO_UPDATE_CORE/d' /home/$website/public_html/wp-config.php  
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
+service php-fpm restart
+else
+systemctl restart php-fpm.service
+fi
+clear
+echo "========================================================================="
+	echo "BAT Auto Update cho $website thanh cong !"
+/etc/vpssim/menu/vpssim-wordpress-tools-menu
+        ;;
+    *)
+       clear
+    echo "========================================================================="
+   echo "Ban huy thay doi cai dat auto update cho $website"
+/etc/vpssim/menu/vpssim-wordpress-tools-menu
+        ;;
+esac
+exit
+fi
+
+echo "========================================================================="
+echo "$website hien tai dang BAT Tu dong Nang cap !"
+echo "-------------------------------------------------------------------------"
+read -r -p "Ban muon TAT auto update ? [y/N] " response
+case $response in
+    [yY][eE][sS]|[yY]) 
+    		echo "-------------------------------------------------------------------------"
+		echo "Please wait..."
+
+		sleep 1
+sed -i "/.*require_once(ABSPATH.*/adefine( 'WP_AUTO_UPDATE_CORE', false );" /home/$website/public_html/wp-config.php
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
+service php-fpm restart
+else
+systemctl restart php-fpm.service
+fi
+clear
+echo "========================================================================="
+	echo "TAT Auto Update cho $website thanh cong !"
+/etc/vpssim/menu/vpssim-wordpress-tools-menu
+       ;;
+    *)
+    clear
+    echo "========================================================================="
+   echo "Ban huy thay doi cai dat auto update cho $website"
+/etc/vpssim/menu/vpssim-wordpress-tools-menu
+        ;;
+esac
+exit
+fi

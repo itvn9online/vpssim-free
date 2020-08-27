@@ -1,0 +1,336 @@
+#!/bin/bash
+. /home/vpssim.conf
+cd
+website=`cat /tmp/removewebsite.txt`
+tendatabase=`cat /home/$website/public_html/config.php | grep dbname | cut -d \' -f 2`
+websiteto=`echo $website | tr '[a-z]' '[A-Z]'`
+check_folder_protect_config()
+{
+if [ -d /etc/nginx/pwprotect/$website ]; then
+cd /etc/nginx/pwprotect/$website
+rm -rf * .??*
+cd
+rm -rf /etc/nginx/pwprotect/$website
+fi
+}
+
+deletedatabases () {
+	cat > "/tmp/config.temp" <<END
+drop database $tendatabase;
+END
+mysql -u root -p$mariadbpass < /tmp/config.temp
+rm -f /tmp/config.temp
+}
+check_and_delete_auto_backup_website()
+{
+	if [  -f /bin/vpssim-backupcode-$website ]; then
+	if [ ! "$(grep vpssim-backupcode-$website /etc/cron.d/vpssim.code.cron)" == "" ]; then
+echo "========================================================================="
+echo "Phat hien $website dang bat auto backup code"
+echo "-------------------------------------------------------------------------"
+echo "VPSSIM se tat che do auto backup code khi remove khoi server"
+echo "-------------------------------------------------------------------------"
+echo "Please wait ...."
+sleep 5
+	rm -rf /bin/vpssim-backupcode-$website
+	cat > "/tmp/removebackupcode" <<END
+sed -i '/vpssim-backupcode-$website/d' /etc/cron.d/vpssim.code.cron
+END
+chmod +x /tmp/removebackupcode
+/tmp/removebackupcode 
+rm -rf /tmp/removebackupcode
+service crond restart
+	fi
+	fi
+}
+check_ftp_account()
+{
+if [ ! -f /etc/vpssim/FTP-Account.info ]; then
+echo "=========================================================================" > /etc/vpssim/FTP-Account.info
+echo "Please Do Not Delete This File " >> /etc/vpssim/FTP-Account.info
+echo "-------------------------------------------------------------------------" >> /etc/vpssim/FTP-Account.info
+echo "If you delete this file, VPSSIM will not run !" >> /etc/vpssim/FTP-Account.info
+echo "-------------------------------------------------------------------------" >> /etc/vpssim/FTP-Account.info
+echo "All FTP User for all domain on VPS list below:" >> /etc/vpssim/FTP-Account.info
+echo "=========================================================================" >> /etc/vpssim/FTP-Account.info
+echo "" >> /etc/vpssim/FTP-Account.info
+fi
+if [ -f /etc/pure-ftpd/pureftpd.passwd ]; then
+if [ ! "$(grep /home/$website/ /etc/pure-ftpd/pureftpd.passwd)" == "" ];then  
+rm -rf /tmp/abcd
+cat > "/tmp/abcd" <<END	
+sed -i '/\/home\/$website/d' /etc/pure-ftpd/pureftpd.passwd
+END
+chmod +x /tmp/abcd
+/tmp/abcd
+rm -rf /tmp/abcd
+pure-pw mkdb
+fi
+fi
+if [ ! "$(grep /home/$website/ /etc/vpssim/FTP-Account.info)" == "" ];then 
+echo "========================================================================="
+echo "Tim thay tai khoan FTP: $(grep /home/$website/ /etc/vpssim/FTP-Account.info | awk 'NR==1 {print $7}') cua $website  "
+echo "-------------------------------------------------------------------------"
+echo "VPSSIM se remove tai khoan FTP: $(grep /home/$website/ /etc/vpssim/FTP-Account.info | awk 'NR==1 {print $7}')"
+echo "-------------------------------------------------------------------------"
+echo "Please wait ...."
+echo "-------------------------------------------------------------------------"
+sleep 6
+rm -rf /tmp/abcde
+cat > "/tmp/abcde" <<END	
+sed -i '/\/home\/$website/d' /etc/vpssim/FTP-Account.info
+END
+chmod +x /tmp/abcde
+/tmp/abcde
+rm -rf /tmp/abcde
+fi
+}
+printf "=========================================================================\n"
+echo "$website su dung code PHPBB Forum "
+echo "-------------------------------------------------------------------------"
+echo "Database dang duoc su dung: $tendatabase "
+prompt="Nhap lua chon cua ban: "
+options=( "Xoa Ca Website + Database" "Chi Xoa Website, Giu Lai Database" "Sao Luu Website + Database Truoc Khi Xoa" "Huy Bo")
+printf "=========================================================================\n"
+echo "LUA CHON CACH XOA $websiteto"
+printf "=========================================================================\n"
+PS3="$prompt"
+select opt in "${options[@]}"; do 
+
+    case "$REPLY" in
+    1) cachxoa="xoacahai"; break;;
+    2) cachxoa="xoawebsite"; break;;
+    3) cachxoa="xoaantoan"; break;;
+    4) cachxoa="huybo"; break;;  
+    *) echo "Ban nhap sai ! Ban vui long chon so trong danh sach";continue;;
+    esac  
+done
+###################################
+#Xoacahai
+###################################
+if [ "$cachxoa" = "xoacahai" ]; then
+echo "Please wait ...."
+cd /home/$website/public_html
+deletedatabases
+cd
+rm -rf /home/$website
+rm -rf /etc/nginx/conf.d/$website.conf
+
+rm -R /etc/nginx/pwprotect/$website
+### Remove website from Zend Opcache BlackList
+if [ ! -f /etc/vpssim/opcache.blacklist ]; then
+cat > "/etc/vpssim/opcache.blacklist" <<END
+END
+fi
+if [ ! "$(grep /home/$website /etc/vpssim/opcache.blacklist)" == "" ]; then
+echo "-------------------------------------------------------------------------"
+echo "Tim thay $website trong Zend Opcache Blacklist"
+echo "-------------------------------------------------------------------------"
+echo "VPSSIM se xoa $website trong blacklist nay"
+echo "-------------------------------------------------------------------------"
+echo "Please wait .... "
+sleep 6
+rm -rf /tmp/zendcacheblacklist
+cat > "/tmp/zendcacheblacklist" <<END
+sed --in-place '\/home\/$website/d' /etc/vpssim/opcache.blacklist
+END
+chmod +x /tmp/zendcacheblacklist
+/tmp/zendcacheblacklist
+rm -rf /tmp/zendcacheblacklist
+fi
+check_ftp_account  ### Check FTP account
+check_and_delete_auto_backup_website ## Check auto backup code
+check_folder_protect_config ### Check Config Protect Folder & Files
+############
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
+service nginx reload
+service php-fpm restart
+else
+systemctl reload nginx
+systemctl restart php-fpm.service
+fi 
+
+if [ -f /bin/vpssim-backupdb-$tendatabase ]; then
+echo "-------------------------------------------------------------------------"
+echo "Phat hien $tendatabase trong danh sach tu dong sao luu"
+echo "-------------------------------------------------------------------------"
+echo "VPSSIM se remove $tendatabase khoi danh sach tu dong sao luu"
+echo "-------------------------------------------------------------------------"
+echo "Please wait ..."
+sleep 3
+rm -rf /bin/vpssim-backupdb-$tendatabase
+cat > "/tmp/removebackupdb" <<END
+sed --in-place '/vpssim-backupdb-$tendatabase/d' /etc/cron.d/vpssim.db.cron
+END
+chmod +x /tmp/removebackupdb
+/tmp/removebackupdb 
+rm -rf /tmp/removebackupdb
+service crond restart
+fi
+
+  
+clear
+echo "========================================================================="
+echo "Xoa $website va database thanh cong."
+vpssim
+###################################
+#xoawebsite
+###################################
+elif [ "$cachxoa" = "xoawebsite" ]; then
+cd
+echo "Please wait ...."
+sleep 1
+rm -rf /home/$website
+rm -rf /etc/nginx/conf.d/$website.conf
+rm -R /etc/nginx/pwprotect/$website
+### Remove website from Zend Opcache BlackList
+if [ ! -f /etc/vpssim/opcache.blacklist ]; then
+cat > "/etc/vpssim/opcache.blacklist" <<END
+END
+fi
+if [ ! "$(grep /home/$website /etc/vpssim/opcache.blacklist)" == "" ]; then
+echo "-------------------------------------------------------------------------"
+echo "Tim thay $website trong Zend Opcache Blacklist"
+echo "-------------------------------------------------------------------------"
+echo "VPSSIM se xoa $website trong blacklist nay"
+echo "-------------------------------------------------------------------------"
+echo "Please wait .... "
+sleep 6
+rm -rf /tmp/zendcacheblacklist
+cat > "/tmp/zendcacheblacklist" <<END
+sed --in-place '\/home\/$website/d' /etc/vpssim/opcache.blacklist
+END
+chmod +x /tmp/zendcacheblacklist
+/tmp/zendcacheblacklist
+rm -rf /tmp/zendcacheblacklist
+fi
+############
+check_ftp_account  ### Check FTP account
+check_and_delete_auto_backup_website ## Check auto backup code
+check_folder_protect_config ### Check Config Protect Folder & Files
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
+service nginx reload
+service php-fpm restart
+else
+systemctl reload nginx
+systemctl restart php-fpm.service
+fi   
+cd
+
+clear
+echo "========================================================================="
+echo "Xoa $website thanh cong"
+echo "-------------------------------------------------------------------------"
+echo "Database $tendatabase  van con tren server"
+vpssim
+
+#################################
+#Xoa an toan"
+################################
+elif [ "$cachxoa" = "xoaantoan" ]; then
+random123=`date |md5sum |cut -c '1-10'`
+echo "========================================================================="
+echo "Please wait ...."
+sleep 1
+if [ -d /home/$mainsite/private_html/backup/$tendatabase ]; then
+rm -rf /home/$mainsite/private_html/backup/$tendatabase
+fi
+mkdir -p /home/$mainsite/private_html/backup/$tendatabase
+cd /home/$mainsite/private_html/backup/$tendatabase
+if [ "$(grep "default_storage_engine = MyISAM" /etc/my.cnf.d/server.cnf | awk 'NR==1 {print $3}')" = "MyISAM" ]; then
+mysqldump -u root -p$mariadbpass $tendatabase --lock-tables=false | gzip -9 > $tendatabase_$random123.sql.gz
+else
+mysqldump -u root -p$mariadbpass $tendatabase --single-transaction | gzip -9 > $tendatabase_$random123.sql.gz
+fi
+if [ -d /home/$mainsite/private_html/backup/$website ]; then
+rm -rf /home/$mainsite/private_html/backup/$website
+fi
+cd /home/$website/public_html/
+deletedatabases
+zip -r $website.zip *
+mkdir -p /home/$mainsite/private_html/backup/$website/
+mv $website.zip /home/$mainsite/private_html/backup/$website/$website_$random123.zip
+rm -rf /home/$website
+rm -rf /etc/nginx/conf.d/$website.conf
+cd
+### Remove website from Zend Opcache BlackList
+if [ ! -f /etc/vpssim/opcache.blacklist ]; then
+cat > "/etc/vpssim/opcache.blacklist" <<END
+END
+fi
+if [ ! "$(grep /home/$website /etc/vpssim/opcache.blacklist)" == "" ]; then
+echo "-------------------------------------------------------------------------"
+echo "Tim thay $website trong Zend Opcache Blacklist"
+echo "-------------------------------------------------------------------------"
+echo "VPSSIM se xoa $website trong blacklist nay"
+echo "-------------------------------------------------------------------------"
+echo "Please wait .... "
+sleep 6
+sleep 2
+rm -rf /tmp/zendcacheblacklist
+cat > "/tmp/zendcacheblacklist" <<END
+sed --in-place '\/home\/$website/d' /etc/vpssim/opcache.blacklist
+END
+chmod +x /tmp/zendcacheblacklist
+/tmp/zendcacheblacklist
+rm -rf /tmp/zendcacheblacklist
+fi
+############
+check_ftp_account  ### Check FTP account
+check_and_delete_auto_backup_website ## Check auto backup code
+check_folder_protect_config ### Check Config Protect Folder & Files
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
+service nginx reload
+service php-fpm restart
+else
+systemctl reload nginx
+systemctl restart php-fpm.service
+fi   
+
+if [ -f /bin/vpssim-backupdb-$tendatabase ]; then
+echo "-------------------------------------------------------------------------"
+echo "Phat hien $tendatabase trong danh sach tu dong sao luu"
+echo "-------------------------------------------------------------------------"
+echo "VPSSIM se remove $tendatabase khoi danh sach tu dong sao luu"
+echo "-------------------------------------------------------------------------"
+echo "Please wait ..."
+sleep 3
+rm -rf /bin/vpssim-backupdb-$tendatabase
+cat > "/tmp/removebackupdb" <<END
+sed --in-place '/vpssim-backupdb-$tendatabase/d' /etc/cron.d/vpssim.db.cron
+END
+chmod +x /tmp/removebackupdb
+/tmp/removebackupdb 
+rm -rf /tmp/removebackupdb
+service crond restart
+fi
+
+clear
+echo "========================================================================="
+echo "Xoa $website va database thanh cong."
+echo "-------------------------------------------------------------------------"
+echo "Link file backup database $tendatabase : "
+echo "-------------------------------------------------------------------------"
+echo "http://$serverip:$priport/backup/$tendatabase/$tendatabase_$random123.sql.gz"
+echo "-------------------------------------------------------------------------"
+echo "Link file backup code:"
+echo "-------------------------------------------------------------------------"
+echo "http://$serverip:$priport/backup/$website/$website_$random123.zip"
+vpssim
+###################################
+#Huy bo
+###################################
+else 
+cd
+clear
+echo "========================================================================="
+echo "Cancle remove $website "
+vpssim
+fi
+
+
+
+
+
+
+

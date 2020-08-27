@@ -1,0 +1,110 @@
+#!/bin/bash
+. /home/vpssim.conf
+rm -rf /tmp/*hostingaz*
+mkdir -p /tmp/danhsachwebsitebackuphostingaz
+ls /etc/nginx/conf.d > /tmp/vpssim-websitelist
+sed -i 's/\.conf//g' /tmp/vpssim-websitelist
+ cat > "/tmp/vpssim-replace" <<END
+sed -i '/$mainsite/d' /tmp/vpssim-websitelist
+END
+chmod +x /tmp/vpssim-replace
+/tmp/vpssim-replace
+rm -rf /tmp/vpssim-replace
+rm -rf /tmp/checksite-list
+acction1="/tmp/vpssim-websitelist"
+while read -r checksite
+    do
+if [ -f /home/$mainsite/private_html/backup/$checksite/*.zip ]; then
+echo "$checksite" >> /tmp/checksite-list
+fi
+ done < "$acction1"
+if [ ! -f /tmp/checksite-list ]; then
+clear
+echo "========================================================================="
+echo "VPSSIM khong tim thay cac ban backup tren server"
+/etc/vpssim/menu/vpssim-sao-luu
+fi
+sowebsitecobackup=$(cat /tmp/checksite-list | wc -l)
+code=-`date |md5sum |cut -c '1-15'`
+listwebsitebackup=$(cat /tmp/checksite-list)
+
+getlink ()
+{
+find /home/$mainsite/private_html/backup/$website/ -name '*.zip' -type f -exec basename {} \;  > /tmp/linkbackup
+filename=`cat /tmp/linkbackup`
+find /home/$mainsite/private_html/backup/$website/ -type f -exec basename {} \;  > /tmp/linkbackupall
+backupall=$(cat /tmp/linkbackupall)
+if [ "$(cat /tmp/linkbackupall | wc -l)" -gt 1 ]; then
+showinfo=`echo "File backup gan nhat (Thoi gian backup $(date -r /home/$mainsite/private_html/backup/$website/$filename +%H:%M/%F)):"`
+else
+showinfo=`echo "File backup (Thoi gian backup $(date -r /home/$mainsite/private_html/backup/$website/$filename +%H:%M/%F)): "`
+fi
+echo "========================================================================="
+echo "Link Download Backup Cua $website: "
+echo "-------------------------------------------------------------------------"
+sleep 2
+echo "http://$serverip:$priport/backup/$website/$filename"
+echo "" >> /home/$mainsite/private_html/listbackup-AW$code.txt
+echo "========================================================================================================================" >> /home/$mainsite/private_html/listbackup-AW$code.txt
+echo "Link Download Backup Cua $website: " >> /home/$mainsite/private_html/listbackup-AW$code.txt
+
+echo "------------------------------------------------------------------------------------------------------------------------" >> /home/$mainsite/private_html/listbackup-AW$code.txt
+echo "$showinfo" >> /home/$mainsite/private_html/listbackup-AW$code.txt
+echo "------------------------------------------------------------------------------------------------------------------------" >> /home/$mainsite/private_html//listbackup-AW$code.txt
+echo "http://$serverip:$priport/backup/$website/$filename" >> /home/$mainsite/private_html/listbackup-AW$code.txt
+#####################
+if [ "$(cat /tmp/linkbackupall | wc -l)" -gt 1 ]; then
+echo "------------------------------------------------------------------------------------------------------------------------"  >> /home/$mainsite/private_html/listbackup-AW$code.txt
+echo "Tat Ca Cac File Back Up :" >> /home/$mainsite/private_html/listbackup-AW$code.txt
+echo "------------------------------------------------------------------------------------------------------------------------" >> /home/$mainsite/private_html/listbackup-AW$code.txt
+for backupfile in $backupall
+do
+echo "http://$serverip:$priport/backup/$website/$backupfile" >> /home/$mainsite/private_html/listbackup-AW$code.txt
+done
+fi
+#########################
+rm -rf /tmp/linkbackupall
+rm -rf /tmp/linkbackup
+touch /tmp/danhsachwebsitebackuphostingaz/$website
+}
+
+echo "========================================================================="
+echo "Su dung chuc nang nay de lay link download cac file backup website"
+echo "=========================================================================" 
+read -r -p "Ban muon lay cac link download ? [y/N] " response
+case $response in
+    [yY][eE][sS]|[yY]) 
+echo "========================================================================="
+rm -rf /home/$mainsite/private_html/listbackup*
+echo "========================================================================================================================" > /home/$mainsite/private_html/listbackup-AW$code.txt
+echo "         Link Download All Backup Files - Created by VPSSIM" >> /home/$mainsite/private_html/listbackup-AW$code.txt
+echo "========================================================================================================================" >> /home/$mainsite/private_html/listbackup-AW$code.txt
+echo "" >> /home/$mainsite/private_html/listbackup-AW$code.txt
+
+for website in $listwebsitebackup 
+do
+getlink
+done
+clear
+echo "========================================================================="
+echo "Danh Sach Cac Website Co Backup:"
+echo "-------------------------------------------------------------------------"
+ls /tmp/danhsachwebsitebackuphostingaz | pr -2 -t
+echo "-------------------------------------------------------------------------"
+echo "Link download Tat Ca Cac File Backup:"
+echo "-------------------------------------------------------------------------"
+echo "http://$serverip:$priport/listbackup-AW$code.txt"
+echo "" >> /home/$mainsite/private_html/listbackup-AW$code.txt
+echo "===================================================The End==============================================================" >> /home/$mainsite/private_html/listbackup-AW$code.txt
+rm -rf /tmp/*hostingaz*
+/etc/vpssim/menu/vpssim-sao-luu
+   ;;
+    *)
+    clear
+        echo "========================================================================= "
+        echo "Huy bo lay link download cac file backup"
+        /etc/vpssim/menu/vpssim-sao-luu
+        rm -rf /tmp/*hostingaz*
+        ;;
+esac
+

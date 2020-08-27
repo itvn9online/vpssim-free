@@ -1,0 +1,40 @@
+#!/bin/bash 
+. /home/vpssim.conf
+
+if [ "$(iptables -L -n | grep :$priport | awk 'NR==1 {print $1}')" == "DROP" ]; then
+clear
+echo "========================================================================="
+echo "Phpmyadmin port ($priport) dang CLOSE."
+echo "-------------------------------------------------------------------------"
+echo "Ban khong can re-close port nay! " 
+/etc/vpssim/menu/vpssim-phpmyadmin-menu
+exit
+fi
+
+echo "========================================================================="
+echo "Neu ban close Phpmyadmin port (port: $priport), Ban se khong the truy cap"
+echo "-------------------------------------------------------------------------"
+echo "Phpmyadmin, xem status va khong the download bat ky file nao qua port nay"
+echo "-------------------------------------------------------------------------"
+echo "Nhu: Backup files, Log files..."
+echo "-------------------------------------------------------------------------"
+read -r -p "Ban muon CLOSE port $priport?  [y/N] " response
+case $response in
+    [yY][eE][sS]|[yY]) 
+    echo "Please wait....";sleep 1
+clear
+echo "========================================================================="
+	echo "Close phpmyadmin port ($priport) thanh cong !"
+	echo "-------------------------------------------------------------------------"
+	iptables -I INPUT -p tcp --dport $priport -j DROP
+	service iptables save
+/etc/vpssim/menu/vpssim-phpmyadmin-menu
+        ;;
+    *)
+        clear
+echo "========================================================================="
+echo "Ban huy CLOSE Phpmyadmin port (Port $priport)"
+/etc/vpssim/menu/vpssim-phpmyadmin-menu
+        ;;
+esac
+

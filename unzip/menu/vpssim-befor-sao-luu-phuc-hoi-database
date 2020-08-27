@@ -1,0 +1,19 @@
+#!/bin/sh
+. /home/vpssim.conf
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
+if [ "$(/sbin/service mysql status | awk 'NR==1 {print $3}')" == "running" ]; then
+clear
+/etc/vpssim/menu/vpssim-sao-luu-phuc-hoi-database
+else
+clear
+echo "========================================================================="
+echo "Sorry, MariaDB dang stopped. Hay bat len truoc khi dung chuc nang nay!"
+echo "-------------------------------------------------------------------------"
+echo "Ban co the thu khoi dong MariaDB bang lenh [ service mysql start ]"
+vpssim
+exit
+fi
+fi
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+/etc/vpssim/menu/vpssim-sao-luu-phuc-hoi-database
+fi

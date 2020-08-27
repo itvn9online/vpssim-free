@@ -1,0 +1,175 @@
+#!/bin/sh
+. /etc/vpssim/pwprotect.default
+if [ ! -d /etc/nginx/pwprotect ]; then
+mkdir -p /etc/nginx/pwprotect
+fi
+if [ -f /etc/nginx/.htpasswd ]; then
+echo "========================================================================="
+echo "Su dung User & Password mac dinh de bao ve: phpMyAdmin, NetData, Net2FTP"
+echo "-------------------------------------------------------------------------"
+echo "Backup Files, Folder, WP-Login.php, status.php, File Manager ..."
+echo "-------------------------------------------------------------------------" 
+echo "Thong tin Username va Mat khau hien tai:"
+echo "-------------------------------------------------------------------------"
+echo "Username: $userdefault | Password: $passdefault"
+echo "========================================================================="
+prompt="Nhap lua chon cua ban: "
+options=("Thay Thong Tin Dang Nhap Mac Dinh" "Giu Nguyen Thong Tin Hien Tai (Thoat)")
+PS3="$prompt"
+select opt in "${options[@]}"; do 
+    case "$REPLY" in
+    1) chooseacction="thaythongtindangnhapmacdinh"; break;;
+    2) chooseacction="thoat"; break;;
+    *) echo "Ban nhap sai ! Ban vui long chon so trong danh sach";continue;;
+    esac  
+done
+###################################
+#Thay Thong Tin Dang Nhap
+###################################
+if [ "$chooseacction" = "thaythongtindangnhapmacdinh" ]; then
+echo "========================================================================="
+echo "Su dung chuc nang nay de THAY thong tin username va mat khau mac dinh"
+echo "-------------------------------------------------------------------------"
+echo -n "Nhap username [ENTER]: " 
+read username
+if [ "$username" = "" ]; then
+clear
+echo "========================================================================="
+echo "Ban chua nhap username"
+vpssim
+exit
+fi
+checkpass="^[a-zA-Z0-9_][-a-zA-Z0-9_]{0,61}[a-zA-Z0-9_]$";
+if [[ ! "$username" =~ $checkpass ]]; then
+clear
+echo "========================================================================="
+echo "Ban chi duoc dung chu cai va so de dat Username."
+vpssim
+exit
+fi
+echo "-------------------------------------------------------------------------"
+echo -n "Nhap mat khau: "
+read matkhau
+if [ "$matkhau" = "" ]; then
+clear
+echo "========================================================================="
+echo "Ban chua nhap mat khau"
+vpssim
+exit
+fi
+
+checkpass="^[a-zA-Z0-9_][-a-zA-Z0-9_]{0,61}[a-zA-Z0-9_]$";
+if [[ ! "$matkhau" =~ $checkpass ]]; then
+clear
+echo "========================================================================="
+echo "Ban chi duoc dung chu cai va so de dat mat khau."
+vpssim
+exit
+fi
+echo "-------------------------------------------------------------------------"
+echo "Thong tin ban nhap: "
+echo "-------------------------------------------------------------------------"
+echo "Username: $username | Password: $matkhau"
+echo "-------------------------------------------------------------------------"
+echo "VPSSIM se config dang nhap mac dinh moi theo thong tin nay "
+echo "-------------------------------------------------------------------------"
+echo "please wait ...."; sleep 3
+rm -rf /etc/nginx/.htpasswd
+htpasswd.py -c -b /etc/nginx/.htpasswd $username $matkhau
+chmod -R 644 /etc/nginx/.htpasswd
+cat > "/etc/vpssim/pwprotect.default" <<END
+userdefault="$username"
+passdefault="$matkhau"
+END
+cat > "/etc/vpssim/defaulpassword.php" <<END
+<?php
+define('ADMIN_USERNAME','$username');   // Admin Username
+define('ADMIN_PASSWORD','$matkhau');    // Admin Password
+?>
+END
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
+service nginx reload
+else
+systemctl reload nginx
+fi
+clear
+echo "========================================================================="
+echo "Thay thong tin dang nhap mac dinh thanh cong."
+echo "-------------------------------------------------------------------------"
+echo "Username: $username | Password: $matkhau"
+vpssim
+exit
+else 
+clear && vpssim
+fi
+fi
+
+echo "========================================================================="
+echo "Su dung chuc nang nay de tao thong tin User va Mat Khau mac dinh, su dung"
+echo "-------------------------------------------------------------------------"
+echo "de bao ve folder, phpMyAdmin, Backup files, NetData, Wp-login.php ..."
+echo "-------------------------------------------------------------------------"
+echo -n "Nhap username [ENTER]: " 
+read username
+if [ "$username" = "" ]; then
+clear
+echo "========================================================================="
+echo "Ban chua nhap username"
+vpssim
+exit
+fi
+checkpass="^[a-zA-Z0-9_][-a-zA-Z0-9_]{0,61}[a-zA-Z0-9_]$";
+if [[ ! "$username" =~ $checkpass ]]; then
+clear
+echo "========================================================================="
+echo "Ban chi duoc dung chu cai va so de dat Username."
+vpssim
+exit
+fi
+echo "-------------------------------------------------------------------------"
+echo -n "Nhap mat khau: "
+read matkhau
+if [ "$matkhau" = "" ]; then
+clear
+echo "========================================================================="
+echo "Ban chua nhap mat khau"
+vpssim
+exit
+fi
+checkpass="^[a-zA-Z0-9_][-a-zA-Z0-9_]{0,61}[a-zA-Z0-9_]$";
+if [[ ! "$matkhau" =~ $checkpass ]]; then
+clear
+echo "========================================================================="
+echo "Ban chi duoc dung chu cai va so de dat mat khau."
+vpssim
+exit
+fi
+
+echo "-------------------------------------------------------------------------"
+echo "Thong tin ban nhap: "
+echo "-------------------------------------------------------------------------"
+echo "Username: $username | Password: $matkhau"
+echo "-------------------------------------------------------------------------"
+echo "VPSSIM se config  dang nhap mac dinh theo thong tin nay "
+echo "-------------------------------------------------------------------------"
+echo "please wait ...."; sleep 3
+cat > "/etc/vpssim/pwprotect.default" <<END
+userdefault="$username"
+passdefault="$matkhau"
+END
+cat > "/etc/vpssim/defaulpassword.php" <<END
+<?php
+define('ADMIN_USERNAME','$username');   // Admin Username
+define('ADMIN_PASSWORD','$matkhau');    // Admin Password
+?>
+END
+rm -rf /etc/nginx/.htpasswd
+htpasswd.py -c -b /etc/nginx/.htpasswd $username $matkhau
+chmod -R 644 /etc/nginx/.htpasswd
+clear
+echo "========================================================================="
+echo "Tao thong tin dang nhap mac dinh thanh cong."
+echo "-------------------------------------------------------------------------"
+echo "Username: $username | Password: $matkhau"
+vpssim
+exit

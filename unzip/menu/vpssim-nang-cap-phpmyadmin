@@ -1,0 +1,121 @@
+#!/bin/bash
+. /home/vpssim.conf
+php_version1=$(php -r "echo PHP_MAJOR_VERSION.'.'.PHP_MINOR_VERSION;")
+rm -rf /tmp/checktmp
+echo "Check /tmp by VPSSIM" > /tmp/checktmp
+if [ ! -f /tmp/checktmp ]; then
+clear
+echo "========================================================================="
+echo "Your Server has a problem with /tmp "
+echo "-------------------------------------------------------------------------"
+echo "Please fix it before use this function"
+/etc/vpssim/menu/vpssim-update-upgrade-service-menu
+exit
+fi
+rm -rf /tmp/checktmp
+change_phpmyadmin_run () {
+cd  /home/$mainsite/private_html/
+wget https://files.phpmyadmin.net/phpMyAdmin/${phpmyadmin_version}/phpMyAdmin-${phpmyadmin_version}-all-languages.zip
+unzip phpMyAdmin-*.zip
+yes | cp -rf phpMyAdmin-*/* .
+rm -rf phpMyAdmin-*
+rm -rf /home/$mainsite/private_html/config.inc.php
+randomblow=`date |md5sum |cut -c '1-32'`;
+sed -e "s|cfg\['blowfish_secret'\] = ''|cfg['blowfish_secret'] = '$randomblow'|" config.sample.inc.php > config.inc.php
+cd
+chown -R nginx:nginx /home/$mainsite/private_html
+echo "${phpmyadmin_version}" > /etc/vpssim/phpmyadmin.version
+}
+echo "========================================================================="
+echo "Su dung chuc nang nay de cai dat phpMyAdmin phien ban tuy chon"
+echo "-------------------------------------------------------------------------"
+echo "Xem list cac phien ban phpMyAdmin tai: http://phpmyadmin.net/files/"
+echo "-------------------------------------------------------------------------"
+echo -n "Nhap phien ban phpMyAdmin ban muon su dung [ENTER]: " 
+read phpmyadmin_version
+if [ "$phpmyadmin_version" = "" ]; then
+clear
+echo "========================================================================="
+echo "Ban nhap sai, vui long nhap lai!"
+/etc/vpssim/menu/vpssim-update-upgrade-service-menu
+exit
+fi
+
+if  [ "$php_version1" == "5.4" ]; then
+echo "$phpmyadmin_version" > /tmp/vpssim_phpmyadminforphp54
+ if [ "$(grep 4.4.15 /tmp/vpssim_phpmyadminforphp54)" == "" ]; then
+rm -rf /tmp/vpssim_phpmyadminforphp54
+clear 
+echo "========================================================================="
+echo "Ban dang su dung PHP 5.4, ban chi co the su dung phpMyAdmin 4.4.15.X"
+echo "-------------------------------------------------------------------------"
+echo "Vui long chon lai phien ban phpMyAdmin"
+/etc/vpssim/menu/vpssim-update-upgrade-service-menu
+exit 
+fi
+fi
+if [ "$phpmyadmin_version" = "1.1.0" ] || [ "$phpmyadmin_version" = "1.3.0" ] || [ "$phpmyadmin_version" = "2.0.5" ] || [ "$phpmyadmin_version" = "2.1.0" ] || [ "$phpmyadmin_version" = "2.11.10.1" ] || [ "$phpmyadmin_version" = "2.11.11" ] || [ "$phpmyadmin_version" = "2.11.11.2" ] || [ "$phpmyadmin_version" = "2.11.11.3" ] || [ "$phpmyadmin_version" = "3.3.5.1" ] || [ "$phpmyadmin_version" = "3.3.6" ] || [ "$phpmyadmin_version" = "3.3.7" ] || [ "$phpmyadmin_version" = "3.3.8" ] || [ "$phpmyadmin_version" = "3.3.8.1" ] || [ "$phpmyadmin_version" = "3.3.9" ] || [ "$phpmyadmin_version" = "3.3.9.1" ] || [ "$phpmyadmin_version" = "3.3.9.2" ] || [ "$phpmyadmin_version" = "3.3.10" ] || [ "$phpmyadmin_version" = "3.3.10.1" ] || [ "$phpmyadmin_version" = "3.3.10.2" ] || [ "$phpmyadmin_version" = "3.3.10.3" ] || [ "$phpmyadmin_version" = "3.3.10.4" ] || [ "$phpmyadmin_version" = "3.3.10.5" ] || [ "$phpmyadmin_version" = "3.4.0" ] || [ "$phpmyadmin_version" = "3.4.1" ] || [ "$phpmyadmin_version" = "3.4.2" ] || [ "$phpmyadmin_version" = "3.4.3" ] || [ "$phpmyadmin_version" = "3.4.3.1" ] || [ "$phpmyadmin_version" = "3.4.3.2" ] || [ "$phpmyadmin_version" = "3.4.4" ] || [ "$phpmyadmin_version" = "3.4.5" ] || [ "$phpmyadmin_version" = "3.4.6" ] || [ "$phpmyadmin_version" = "3.4.7" ] || [ "$phpmyadmin_version" = "3.4.7.1" ] || [ "$phpmyadmin_version" = "3.4.8" ] || [ "$phpmyadmin_version" = "3.4.9" ] || [ "$phpmyadmin_version" = "3.4.10" ] || [ "$phpmyadmin_version" = "3.4.10.1" ] || [ "$phpmyadmin_version" = "3.4.10.2" ] || [ "$phpmyadmin_version" = "3.4.11" ] || [ "$phpmyadmin_version" = "3.5.0" ] || [ "$phpmyadmin_version" = "3.5.2" ] || [ "$phpmyadmin_version" = "3.5.3" ] || [ "$phpmyadmin_version" = "3.5.4" ] || [ "$phpmyadmin_version" = "3.5.5" ] || [ "$phpmyadmin_version" = "3.5.6" ] || [ "$phpmyadmin_version" = "3.5.7" ] || [ "$phpmyadmin_version" = "3.5.8" ] || [ "$phpmyadmin_version" = "3.5.8.1" ]; then
+clear
+echo "========================================================================="
+echo "Phien ban phpMyAdmin ban nhap qua cu"
+echo "-------------------------------------------------------------------------"
+echo "Ban vui long chon phien ban phpMyAmin tu 4.0 tro len."
+/etc/vpssim/menu/vpssim-update-upgrade-service-menu
+exit
+fi
+if [ -f /etc/vpssim/phpmyadmin.version ]; then
+phpmyadinhientai=`cat /etc/vpssim/phpmyadmin.version`
+else
+phpmyadinhientai=Unknown
+fi
+if [[ "$phpmyadinhientai" == "$phpmyadmin_version" ]]; then
+clear
+echo "========================================================================="
+echo "Ban dang su dung phpMyAdmin phien ban $phpmyadmin_version "
+/etc/vpssim/menu/vpssim-update-upgrade-service-menu
+exit
+fi
+echo "-------------------------------------------------------------------------"
+echo "Check phien ban phpMyAdmin ban nhap ..."
+checkurlstt=$(curl -o /dev/null --silent --head --write-out '%{http_code}' "https://files.phpmyadmin.net/phpMyAdmin/${phpmyadmin_version}/phpMyAdmin-${phpmyadmin_version}-all-languages.zip" )
+if [[ "$checkurlstt" == "404" ]]; then
+clear
+echo "========================================================================="
+echo "Khong tim thay phpMyAdmin phien ban $phpmyadmin_version tren phpmyadmin.net"
+echo "-------------------------------------------------------------------------"
+echo "Ban vui long nhap lai !"
+/etc/vpssim/menu/vpssim-update-upgrade-service-menu
+exit
+fi
+if [[ "$checkurlstt" == "000" ]]; then
+clear
+echo "========================================================================="
+echo "Khong ket noi duoc phpmyadmin.net"
+echo "-------------------------------------------------------------------------"
+echo "Ban vui long kiem tra lai ket noi internet cua server !"
+/etc/vpssim/menu/vpssim-update-upgrade-service-menu
+exit
+fi
+echo "-------------------------------------------------------------------------"
+echo "Tim thay phpMyAdmin phien ban $phpmyadmin_version tren phpmyadmin.net"
+echo "-------------------------------------------------------------------------"
+echo "Phien ban phpMyAdmin ban dang su dung: $phpmyadinhientai"
+echo "-------------------------------------------------------------------------"
+echo "VPSSIM se thay the phien ban $phpmyadinhientai bang phien ban $phpmyadmin_version"
+echo "-------------------------------------------------------------------------"
+echo "Please wait ..."
+sleep 3
+change_phpmyadmin_run
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+systemctl restart php-fpm.service
+systemctl restart nginx.service
+else
+service nginx restart
+service php-fpm restart
+fi
+clear
+echo "========================================================================="
+echo "Cai dat phpMyAdmin phien ban $phpmyadmin_version thanh cong !"
+/etc/vpssim/menu/vpssim-update-upgrade-service-menu
+exit
+

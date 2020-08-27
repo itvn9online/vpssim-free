@@ -1,0 +1,32 @@
+#!/bin/sh
+. /home/vpssim.conf
+if [ "$(redis-cli ping)" = "PONG" ]; then
+redistatus=Working
+else
+redistatus=Stopped
+fi
+prompt="Nhap lua chon cua ban: "
+options=("Clear Redis Cache" "Cau hinh Redis" "Kiem tra Redis Status" "Thoat")
+printf "=========================================================================\n"
+printf "                VPSSIM - Quan Ly VPS/Server by HostingAZ.VN \n"
+printf "=========================================================================\n"
+printf "                           Quan Ly Redis Cache                                \n"
+printf "=========================================================================\n"
+printf "          Redis: $redistatus - Ram Max: $(grep maxmemory /etc/redis/redis.conf | awk 'NR==1 {print $2}' | sed 's/mb//') M  - Ram Using: $(redis-cli INFO | grep used_memory_human | sed 's/used_memory_human://') \n"
+printf "=========================================================================\n"
+
+
+PS3="$prompt"
+select opt in "${options[@]}" ; do 
+
+    case "$REPLY" in
+
+    1) /etc/vpssim/menu/vpssim-clear-redis;;
+    2) /etc/vpssim/menu/vpssim-redis-change-size;;
+    3) /etc/vpssim/menu/vpssim-check-redis-status;;
+    4) clear && vpssim;; 
+    *) echo "Ban nhap sai, vui long nhap theo so thu tu tren menu ";continue;;
+
+    esac
+done
+ 

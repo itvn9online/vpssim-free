@@ -1,0 +1,56 @@
+#!/bin/bash 
+
+. /home/vpssim.conf
+prompt="Nhap lua chon cua ban: "
+php_version=$(php -r "echo PHP_MAJOR_VERSION.'.'.PHP_MINOR_VERSION;")
+
+if [ "$php_version" == "5.6" ]; then
+options=( "PHP 7.0" "PHP 5.6 (Current)" "PHP 5.5" "PHP 5.4" "Thoat")
+elif [ "$php_version" == "5.5" ]; then
+options=( "PHP 7.0" "PHP 5.6" "PHP 5.5 (Current)" "PHP 5.4" "Thoat")
+elif [ "$php_version" == "5.4" ]; then
+options=( "PHP 7.0" "PHP 5.6" "PHP 5.5" "PHP 5.4 (Current)" "Thoat")
+else
+options=( "PHP 7.0 (Current)" "PHP 5.6" "PHP 5.5" "PHP 5.4" "Thoat")
+fi
+printf "=========================================================================\n"
+printf "                VPSSIM - Quan Ly VPS/Server by HostingAZ.VN \n"
+printf "=========================================================================\n"
+printf "                       Chon PHP Version Cho Server\n"
+printf "=========================================================================\n"
+PS3="$prompt"
+select opt in "${options[@]}"; do 
+
+    case "$REPLY" in
+    1) chonphpversion="70"; break;;
+    2) chonphpversion="56"; break;;
+    3) chonphpversion="55"; break;;
+    4) chonphpversion="54"; break;;
+    5) chonphpversion="cancle"; break;;
+    *) echo "Ban nhap sai, vui long nhap theo so thu tu trong danh sach";continue;;
+  
+    esac  
+done
+###################################
+#7.0
+###################################
+if [ "$chonphpversion" = "70" ]; then
+/etc/vpssim/menu/nangcap-php/setup-php-70
+###################################
+#5.6
+###################################
+elif [ "$chonphpversion" = "56" ]; then
+/etc/vpssim/menu/nangcap-php/setup-php-56
+###################################
+#5.5
+###################################
+elif [ "$chonphpversion" = "55" ]; then
+/etc/vpssim/menu/nangcap-php/setup-php-55
+###################################
+#5.4
+###################################
+elif [ "$chonphpversion" = "54" ]; then
+/etc/vpssim/menu/nangcap-php/setup-php-54
+else 
+clear && /etc/vpssim/menu/vpssim-update-upgrade-service-menu
+fi

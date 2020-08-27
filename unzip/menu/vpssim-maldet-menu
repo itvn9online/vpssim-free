@@ -1,0 +1,39 @@
+#!/bin/bash
+prompt="Nhap lua chon cua ban (5-Thoat):"
+if [ ! -f /usr/local/maldetect/conf.maldet ]; then
+options=( "Scan 1 website" "Scan All websites" "View Last Scan Report" "Cai Dat Linux Malware Detect" "Thoat")
+else
+options=( "Scan 1 website" "Scan All websites" "View Last Scan Report" "Remove Linux Malware Detect" "Thoat")
+fi
+printf "=========================================================================\n"
+printf "               VPSSIM - Quan Ly VPS/Server by HostingAZ.VN \n"
+printf "=========================================================================\n"
+if [ ! -f /usr/local/maldetect/conf.maldet ]; then
+printf "                Linux Malware Detect (LMD) - Not Install\n"
+else
+printf "                 Linux Malware Detect (LMD) - Installed \n"
+fi
+printf "=========================================================================\n"
+printf "\n"
+PS3="$prompt"
+select opt in "${options[@]}" ; do 
+
+    case "$REPLY" in
+
+
+    
+    1) /etc/vpssim/menu/vpssim-scan-website-maldet;;
+    2) /etc/vpssim/menu/vpssim-scan-home-maldet;;
+    3) /etc/vpssim/menu/vpssim-view-last-scan-report;;
+    4) /etc/vpssim/menu/vpssim-befor-maldet-cai-dat;;
+    5) clear && vpssim;;
+        *) echo "Ban nhap sai, vui long nhap theo so thu tu tren menu !";continue;;
+
+    esac
+
+done
+
+
+
+
+

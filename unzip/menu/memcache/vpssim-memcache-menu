@@ -1,0 +1,61 @@
+#!/bin/bash
+. /home/vpssim.conf
+. /etc/sysconfig/memcached
+prompt="Nhap lua chon cua ban:"
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
+if [ "$(/sbin/service memcached status | awk 'NR==1 {print $5}')" == "running..." ]; then
+options=("Disable Memcached" "Restart Memcached" "Config Memcached" "Clear Memcached")
+fi
+if [ "$(/sbin/service memcached status | awk 'NR==1 {print $3}')" == "stopped" ]; then
+options=("Enable Memcached" "Restart Memcached" "Config Memcached" "Clear Memcached" )
+fi
+fi
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+if [ "`systemctl is-active memcached.service`" == "active" ]; then
+options=("Disable Memcached" "Restart Memcached" "Config Memcached" "Clear Memcached" )
+else
+options=("Enable Memcached" "Restart Memcached" "Config Memcached" "Clear Memcached")
+fi
+fi
+printf "=========================================================================\n"
+printf "                VPSSIM - Quan Ly VPS/Server by HostingAZ.VN \n"
+printf "=========================================================================\n"
+printf "                            Quan Ly Memcached \n"
+printf "=========================================================================\n"
+
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
+if [ "$(/sbin/service memcached status | awk 'NR==1 {print $5}')" == "running..." ]; then
+echo "        Memcached Status: Running - Configured RAM Usage: $CACHESIZE MB"
+fi
+if [ "$(/sbin/service memcached status | awk 'NR==1 {print $3}')" == "stopped" ]; then
+echo "                      Memcached Status: Stopped"
+fi
+fi
+
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+if [ "`systemctl is-active memcached.service`" == "active" ]; then
+echo "        Memcached Status: Running - Configured RAM Usage: $(/bin/systemctl status  memcached.service | awk 'NR==6 {print $8}') MB"
+else
+echo "                      Memcached Status: Stopped"
+fi
+fi
+printf "=========================================================================\n"
+printf "Link Memcached Manage: http://$serverip:$priport/memcache.php\n"
+printf "=========================================================================\n"
+
+PS3="$prompt"
+select opt in "${options[@]}" "Thoat"; do 
+
+    case "$REPLY" in
+
+    1 ) /etc/vpssim/menu/memcache/vpssim-before-bat-tat-memcache;;
+    2 ) /etc/vpssim/menu/memcache/vpssim-memcache-restart;;
+    3 ) /etc/vpssim/menu/memcache/vpssim-memcache-change-size;;
+    4 ) /etc/vpssim/menu/memcache/vpssim-clear-memcache;; 
+  
+$(( ${#options[@]}+1 )) ) echo "";  clear && /bin/vpssim;;
+     *) echo "Ban nhap sai, vui long nhap theo so thu tu tren menu !";continue;;
+
+    esac
+
+done

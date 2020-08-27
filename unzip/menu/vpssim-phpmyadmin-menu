@@ -1,0 +1,64 @@
+#!/bin/sh
+. /home/vpssim.conf
+if [ ! -f /usr/local/bin/htpasswd.py ]; then
+cp -r /etc/vpssim/menu/vpssim-tao-mat-khau-bao-ve-folder.py /usr/local/bin/htpasswd.py
+chmod 755 /usr/local/bin/htpasswd.py
+fi
+if [ ! -f /etc/vpssim/pwprotect.default ]; then
+echo "" > /etc/vpssim/pwprotect.default
+fi
+chmod 777 /var/lib/php/session/
+prompt="Lua chon cua ban (6-Thoat):"
+if [ -f /home/$mainsite/private_html/index.php ]; then 
+options=("TAT phpMyAdmin" "Open phpMyAdmin Port" "Close phpMyAdmin Port" "Thay Doi phpMyAdmin Port" "BAT/TAT Bao Ve phpMyAdmin" "Thoat")
+else
+options=("BAT phpMyAdmin" "Open phpMyAdmin Port" "Close phpMyAdmin Port" "Thay Doi phpMyAdmin Port" "BAT/TAT Bao Ve phpMyAdmin" "Thoat")
+fi
+if [ -f /etc/vpssim/phpmyadmin.version ]; then
+phpmyadminversion=`cat /etc/vpssim/phpmyadmin.version`
+versionshow=`echo "| Version: $phpmyadminversion"`
+else
+versionshow=`echo "| Version: Unknown"`
+fi
+
+printf "=========================================================================\n"
+printf "                VPSSIM - Quan Ly VPS/Server by HostingAZ.VN \n"
+printf "=========================================================================\n"
+printf "                            Quan Ly phpMyAdmin \n"
+printf "=========================================================================\n"
+if [ -f /home/$mainsite/private_html/index.php ]; then 
+printf "                phpMyAdmin Status: Enable $versionshow\n"
+else
+printf "                phpMyAdmin Status: Disable $versionshow\n"
+fi
+printf "=========================================================================\n"
+printf "Link phpMyAdmin: http://$serverip:$priport\n"
+printf "=========================================================================\n"
+if [ "$(grep auth_basic_user_file /etc/nginx/conf.d/$mainsite.conf)" == "" ] ; then 
+echo "Ban chua BAT tinh nang bao ve phpMyAdmin va cac file backup, ocp.php ..."
+echo "-------------------------------------------------------------------------"
+echo "Dung chuc nang [ BAT/TAT Bao Ve phpMyAdmin ] de bat tinh nang nay."
+echo "-------------------------------------------------------------------------"
+echo "Thong bao nay se tu dong TAT sau khi ban hoan thanh cau hinh bao mat !"
+echo "========================================================================="
+echo""
+fi
+PS3="$prompt"
+select opt in "${options[@]}" ; do 
+
+    case "$REPLY" in
+
+    1) /etc/vpssim/menu/vpssim-phpmyadmin;;
+    2) /etc/vpssim/menu/tienich/vpssim-mo-phpmyadmin-port;;
+    3) /etc/vpssim/menu/tienich/vpssim-dong-phpmyadmin-port;;
+    4) /etc/vpssim/menu/tienich/vpssim-change-port-bi-mat;;
+    #5) /etc/vpssim/menu/vpssim-hien-link-phpmyadmin;;
+    5) /etc/vpssim/menu/vpssim-dat-mat-khau-bao-ve-phpmyadmin-backup-files;;
+    6) clear && /bin/vpssim;;
+    
+  *) echo "Ban nhap sai, vui long nhap theo so thu tu tren menu !";continue;;
+
+    esac
+
+done
+

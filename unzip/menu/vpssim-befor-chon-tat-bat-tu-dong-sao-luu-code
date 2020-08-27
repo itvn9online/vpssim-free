@@ -1,0 +1,47 @@
+#!/bin/sh
+printf "=========================================================================\n"
+echo "Dung chuc nang nay de BAT hoac TAT che do tu dong sao luu cho website"
+echo "-------------------------------------------------------------------------"
+echo -n "Nhap ten website [ENTER]: " 
+read website
+website=`echo $website | tr '[A-Z]' '[a-z]'`
+if [ "$website" = "" ]; then
+clear
+echo "========================================================================="
+echo "Ban nhap sai, vui long nhap lai !"
+/etc/vpssim/menu/vpssim-sao-luu
+exit
+fi
+kiemtradomain3="^([[:alnum:]]([[:alnum:]\-]{0,61}[[:alnum:]])?\.)+[[:alpha:]]{2,12}$";
+if [[ ! "$website" =~ $kiemtradomain3 ]]; then
+	website=`echo $website | tr '[A-Z]' '[a-z]'`
+	clear
+echo "========================================================================="
+echo "$website co le khong phai la domain !!"
+/etc/vpssim/menu/vpssim-sao-luu
+exit
+fi
+if [ ! -f /etc/nginx/conf.d/$website.conf ]; then
+clear
+echo "========================================================================="
+echo "Website khong ton tai tren he thong"
+/etc/vpssim/menu/vpssim-sao-luu
+exit
+fi
+if [ ! -f /home/$website/public_html/index.php ]; then
+clear
+echo "========================================================================="
+echo "$website khong co du lieu. Hay chon website khac."
+/etc/vpssim/menu/vpssim-sao-luu
+exit
+fi
+rm -rf /tmp/websiteautobackup
+echo "$website" > /tmp/websiteautobackup
+if [ -f /bin/vpssim-backupcode-$website ]; then
+ if [ -f /etc/cron.d/vpssim.code.cron ]; then
+     if [ ! "$(grep vpssim-backupcode-$website /etc/cron.d/vpssim.code.cron)" == "" ]; then
+     /etc/vpssim/menu/vpssim-TAT-tu-dong-sao-luu-code
+     fi
+ fi
+fi 
+ /etc/vpssim/menu/vpssim-BAT-tu-dong-sao-luu-code

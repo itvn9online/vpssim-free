@@ -1,0 +1,24 @@
+#!/bin/bash 
+
+. /home/vpssim.conf
+
+prompt="Lua chon cua ban : "
+options=( "Them Redirect Domain" "Them Park Domain" "Thoat")
+printf "=========================================================================\n"
+PS3="$prompt"
+select opt in "${options[@]}"; do 
+
+    case "$REPLY" in
+    1) choose="redirect"; break;;
+    2) choose="park"; break;;
+    3) choose="cancle"; break;;
+    *) echo "Ban nhap sai, vui long nhap theo so thu tu tren menu";continue;;
+    esac  
+done
+if [ "$choose" = "redirect" ]; then
+/etc/vpssim/menu/vpssim-redirect-domain
+elif [ "$choose" = "park" ]; then
+/etc/vpssim/menu/vpssim-park-domain
+else 
+clear && /etc/vpssim/menu/vpssim-them-website-menu
+fi

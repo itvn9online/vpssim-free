@@ -1,0 +1,62 @@
+#!/bin/bash 
+. /home/vpssim.conf
+if [ -f /usr/local/bin/htop ]; then
+clear
+echo "========================================================================= "
+echo "HTOP da cai dat tren server  "
+echo "-------------------------------------------------------------------------"
+echo "Chay HTOP bang command: htop "
+/etc/vpssim/menu/vpssim-tien-ich
+exit
+fi
+if [ -f /usr/bin/htop ]; then
+clear
+echo "========================================================================= "
+echo "HTOP da cai dat tren server  "
+echo "-------------------------------------------------------------------------"
+echo "Chay HTOP bang command: htop "
+/etc/vpssim/menu/vpssim-tien-ich
+exit
+fi
+echo "========================================================================="
+echo "Htop la PM xem server status tuong tu nhu [ top -c ] nhung chi tiet hon"
+echo "-------------------------------------------------------------------------"
+echo "Su dung chuc nang nay de cai dat htop cho server. "
+echo "-------------------------------------------------------------------------"
+read -r -p "Ban muon cai dat htop ?  [y/N] " response
+case $response in
+    [yY][eE][sS]|[yY]) 
+    echo "-------------------------------------------------------------------------"
+    echo "Please wait ...";sleep 1
+yum -y install ncurses ncurses-devel
+cd /tmp
+wget -q --no-check-certificate https://vpssim.com/script/vpssim/Softwear/htop-2.0.0.tar.gz
+tar xvfvz htop-2.0.0.tar.gz
+cd /tmp/htop-2.0.0
+./configure
+make
+make install
+cd
+if [ -f /usr/local/bin/htop ]; then
+clear
+echo "========================================================================="
+echo "Cai dat HTOP thanh cong "
+echo "-------------------------------------------------------------------------"
+echo "Chay HTOP bang command: htop "
+else
+clear
+echo "========================================================================="
+echo "Cai dat htop that bai"
+echo "-------------------------------------------------------------------------"
+echo "Ban vui long thu lai."
+fi
+/etc/vpssim/menu/vpssim-tien-ich
+
+        ;;
+    *)
+       clear
+/etc/vpssim/menu/vpssim-tien-ich
+        ;;
+esac
+
+find / -name 'htop'

@@ -1,0 +1,44 @@
+#!/bin/bash
+. /home/vpssim.conf
+echo "========================================================================="
+echo -n "Nhap domain [ENTER]: " 
+read domainlaycsr
+if [ "$domainlaycsr" = "" ]; then
+clear
+echo "========================================================================="
+echo "Ban nhap sai, vui long nhap lai !"
+/etc/vpssim/menu/vpssim-tao-ssl-menu
+exit
+fi
+kiemtradomain3="^([[:alnum:]]([[:alnum:]\-]{0,61}[[:alnum:]])?\.)+[[:alpha:]]{2,12}$";
+if [[ ! "$domainlaycsr" =~ $kiemtradomain3 ]]; then
+	domainlaycsr=`echo $domainlaycsr | tr '[A-Z]' '[a-z]'`
+clear
+echo "========================================================================="
+echo "$domainlaycsr co le khong phai la domain !!"
+echo "-------------------------------------------------------------------------"
+echo "Ban vui long thu lai  !"
+/etc/vpssim/menu/vpssim-tao-ssl-menu
+exit
+fi 
+
+if [ -f /etc/nginx/ssl/$domainlaycsr/$domainlaycsr.csr ]; then
+\cp -uf /etc/nginx/ssl/$domainlaycsr/$domainlaycsr.csr /home/$mainsite/private_html/
+clear
+echo "========================================================================= "
+echo "Link download $domainlaycsr.csr:"
+echo "-------------------------------------------------------------------------"
+echo "http://$serverip:$priport/$domainlaycsr.csr"
+echo "-------------------------------------------------------------------------"
+echo "Link xem $domainlaycsr.conf mau: "
+echo "-------------------------------------------------------------------------"
+echo "http://$serverip:$priport/$domainlaycsr.conf.txt"
+/etc/vpssim/menu/vpssim-tao-ssl-menu
+exit
+fi
+clear
+echo "========================================================================= "
+echo "Ban chua tao $domainlaycsr.csr tren VPS !"
+/etc/vpssim/menu/vpssim-tao-ssl-menu
+exit
+fi

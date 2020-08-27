@@ -1,0 +1,28 @@
+#!/bin/bash 
+. /home/vpssim.conf
+if [ ! "$(redis-cli ping)" = "PONG" ]; then
+clear
+echo "========================================================================="
+echo "Redis dang stop"
+echo "-------------------------------------------------------------------------"
+echo "Ban phai bat Redis len bang lenh [ service redis start ]"
+/etc/vpssim/menu/vpssim-redis-menu
+exit
+fi
+echo "========================================================================="
+echo "Chuc nang nay se check Redis status trong 30 giay" 
+echo "-------------------------------------------------------------------------"
+echo "Sau do se tu dong quay tro lai Quan Ly Redis Cache Menu"
+echo "-------------------------------------------------------------------------"
+echo "Sau khi nhan [ Enter ], ban truy cap website da bat Redis"
+echo "-------------------------------------------------------------------------"
+echo "Va nhin Redis Status duoi dong nay "
+echo "========================================================================="
+read -p "Nhan [Enter] de bat dau check ..."
+timeout 30 redis-cli monitor
+clear
+echo "========================================================================="
+echo "Check Redis hoan thanh !"
+echo "-------------------------------------------------------------------------"
+echo "Redis is Working"
+/etc/vpssim/menu/vpssim-redis-menu

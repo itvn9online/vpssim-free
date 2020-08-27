@@ -1,0 +1,38 @@
+#!/bin/sh
+. /home/vpssim.conf
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
+	if [ "$(/sbin/service php-fpm status | awk 'NR==1 {print $5}')" == "running..." ]; then
+/etc/vpssim/menu/tienich/vpssim-ioncube-cai-dat-remove
+	else
+	echo "-------------------------------------------------------------------------"
+service php-fpm start
+			if [ "$(/sbin/service php-fpm status | awk 'NR==1 {print $5}')" == "running..." ]; then
+/etc/vpssim/menu/tienich/vpssim-ioncube-cai-dat-remove
+		else
+clear
+echo "========================================================================="
+echo "PHP-FPM Khong the khoi dong"
+echo "-------------------------------------------------------------------------"
+echo "Ban khong the cai dat hay Remove Ioncube Loader."
+/etc/vpssim/menu/vpssim-tien-ich
+		fi
+fi
+fi
+
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+	if [ "`systemctl is-active php-fpm.service`" == "active" ]; then
+/etc/vpssim/menu/tienich/vpssim-ioncube-cai-dat-remove
+	else
+systemctl start php-fpm.service
+	if [ "`systemctl is-active php-fpm.service`" == "active" ]; then
+/etc/vpssim/menu/tienich/vpssim-ioncube-cai-dat-remove
+		else
+clear
+echo "========================================================================="
+echo "PHP-FPM Khong the khoi dong"
+echo "-------------------------------------------------------------------------"
+echo "Ban khong the cai dat hay Remove Ioncube Loader."
+/etc/vpssim/menu/vpssim-tien-ich
+		fi
+fi
+fi

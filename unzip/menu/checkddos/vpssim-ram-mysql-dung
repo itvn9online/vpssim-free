@@ -1,0 +1,31 @@
+#!/bin/sh
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
+if [ "$(/sbin/service mysql status | awk 'NR==1 {print $3}')" == "running" ]; then
+echo "Please wait....";sleep 1
+clear
+echo "========================================================================="
+echo "RAM MySQL su dung: $(ps aux | grep mysql | grep -v "grep" | awk '{ s += $6 } END { print s/1024, "Mb"}')"
+/etc/vpssim/menu/vpssim-check-thong-tin-server
+else
+clear
+echo "========================================================================="
+echo "MariaDB status: Stopped"
+/etc/vpssim/menu/vpssim-check-thong-tin-server
+exit
+fi
+fi
+
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+if [ "$(/bin/systemctl status  mariadb.service | awk 'NR==3 {print $2}')" == "active" ]; then
+echo "Please wait....";sleep 1
+clear
+echo "========================================================================="
+echo "RAM MySQL su dung: $(ps aux | grep mysql | grep -v "grep" | awk '{ s += $6 } END { print s/1024, "Mb"}')"
+/etc/vpssim/menu/vpssim-check-thong-tin-server
+else
+clear
+echo "========================================================================="
+echo "MariaDB status: Stopped"
+/etc/vpssim/menu/vpssim-check-thong-tin-server
+fi
+fi

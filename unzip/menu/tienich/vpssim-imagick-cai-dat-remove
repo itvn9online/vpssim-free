@@ -1,0 +1,90 @@
+#!/bin/bash
+
+. /home/vpssim.conf
+
+if [ -f /etc/php.d/imagick.ini ]; then
+echo "========================================================================="
+echo "Su dung chuc nang nay de Cai dat / Remove Imagick cho server"
+echo "-------------------------------------------------------------------------"
+echo "Server da cai dat Imagick"
+echo "-------------------------------------------------------------------------"
+read -r -p "Ban muon remove Imagick ?  [y/N] " response
+case $response in
+    [yY][eE][sS]|[yY]) 
+    echo "-------------------------------------------------------------------------"
+    echo "Please wait....";sleep 1
+/etc/vpssim/menu/vpssim-enable-tat-ca-cac-ham-php-php.ini
+rm -rf /etc/php.d/imagick.ini 
+pecl uninstall imagick
+/etc/vpssim/menu/vpssim-re-config-cac-ham-php-disable-php.ini
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
+service php-fpm restart
+echo "-------------------------------------------------------------------------"
+fi
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+systemctl restart php-fpm.service
+fi
+clear
+echo "========================================================================="
+
+	echo "Uninstall Imagick thanh cong !"
+/etc/vpssim/menu/vpssim-tien-ich
+        ;;
+    *)
+       clear
+    echo "========================================================================="
+   echo "You huy remove IMAGICK"
+/etc/vpssim/menu/vpssim-tien-ich
+        ;;
+esac
+exit
+fi
+echo "========================================================================="
+echo "Su dung chuc nang nay de Cai dat / Remove Imagick cho server"
+echo "-------------------------------------------------------------------------"
+echo "Server hien chua cai dat Imagick"
+echo "-------------------------------------------------------------------------"
+read -r -p "Ban muon cai dat Imagick ? [y/N] " response
+case $response in
+    [yY][eE][sS]|[yY]) 
+    echo "-------------------------------------------------------------------------"
+    echo "Please wait....";sleep 1
+/etc/vpssim/menu/vpssim-enable-tat-ca-cac-ham-php-php.ini
+rm -r -f /etc/php.d/imagick.ini 
+pecl uninstall imagick
+################################################
+yes "" | pecl install imagick
+php_version=$(php -r "echo PHP_MAJOR_VERSION.'.'.PHP_MINOR_VERSION;")
+if [ "$php_version" == "5.4" ]; then
+duongdanimagick=$(find / -name 'imagick.so' | grep php/modules/imagick.so)
+echo "extension=$duongdanimagick" >> /etc/php.d/imagick.ini
+else
+echo "extension=imagick.so" > /etc/php.d/imagick.ini
+fi
+wget --no-check-certificate -q https://vpssim.com/script/vpssim/check-imagick.php.zip -O /home/$mainsite/private_html/check-imagick.php
+/etc/vpssim/menu/vpssim-re-config-cac-ham-php-disable-php.ini
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
+service php-fpm restart
+else
+systemctl restart php-fpm.service
+fi
+clear
+echo "========================================================================="
+echo "Cai dat IMAGICK thanh cong !"
+echo "-------------------------------------------------------------------------"
+echo "Kiem tra ket qua cai dat Imagick:"
+echo "-------------------------------------------------------------------------"
+echo "http://$serverip:$priport/check-imagick.php"
+echo "-------------------------------------------------------------------------"
+echo "Neu Imagick cai thanh cong, trang nay se hien anh thong bao cua VPSSIM"
+/etc/vpssim/menu/vpssim-tien-ich
+       ;;
+    *)
+    clear
+    echo "========================================================================="
+   echo "Ban huy install IMAGICK"
+/etc/vpssim/menu/vpssim-tien-ich
+        ;;
+esac
+exit
+fi

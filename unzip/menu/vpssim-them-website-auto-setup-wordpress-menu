@@ -1,0 +1,71 @@
+#!/bin/bash 
+
+. /home/vpssim.conf
+
+if [ ! -f /usr/local/bin/wp ]; then
+echo "========================================================================="
+echo "Installing  WP-CLI" ; sleep 2
+wget -q --no-check-certificate https://vpssim.com/script/vpssim/Softwear/wp-cli.phar
+chmod +x wp-cli.phar
+mv wp-cli.phar /usr/local/bin/wp
+wp --version --allow-root > /etc/vpssim/wpcli.version 
+fi
+
+if [ ! -f /etc/vpssim/wpcli.version ]; then
+touch -a -m -t 201601180130.09 /etc/vpssim/wpcli.version 
+fi
+
+fileTime3=$(date -r /etc/vpssim/wpcli.version +%d)
+curTime3=$(date +%d)
+if [ ! "$fileTime3" == "$curTime3" ]; then
+wp_cli_update=`wp cli check-update --allow-root | awk 'NR==1 {print $1}'`
+wp --version --allow-root > /etc/vpssim/wpcli.version 
+if [ ! "$wp_cli_update" = "Success:" ]; then
+echo "========================================================================="
+echo "Update for WP-CLI Found ! Updating WP-CLI ..." ; 
+echo "-------------------------------------------------------------------------"
+echo "Please wait ..."
+sleep 4
+/etc/vpssim/menu/vpssim-enable-tat-ca-cac-ham-php-php.ini
+echo y | wp cli update --allow-root
+/etc/vpssim/menu/vpssim-re-config-cac-ham-php-disable-php.ini
+wp --version --allow-root > /etc/vpssim/wpcli.version 
+clear
+/etc/vpssim/menu/vpssim-them-website-menu
+fi
+fi
+
+prompt="Nhap lua chon cua ban: "
+options=( "Redis Cache" "WP Super cache" "W3 Total Cache" "Huy bo")
+printf "=========================================================================\n"
+printf "Tuy thuoc vao loai cache ban su dung ma VPSSIM config Vhost cho phu hop  \n"
+printf "=========================================================================\n"
+PS3="$prompt"
+select opt in "${options[@]}"; do 
+
+    case "$REPLY" in
+    1) vhostconfig="redis"; break;;
+    2) vhostconfig="supercache"; break;;
+    3) vhostconfig="w3total"; break;;
+    4) vhostconfig="cancle"; break;;
+    *) echo "Ban nhap sai ! Ban vui long chon so trong danh sach";continue;;
+    esac  
+done
+###################################
+#Redis Cache
+###################################
+if [ "$vhostconfig" = "redis" ]; then
+/etc/vpssim/menu/vpssim-them-website-wp-auto-install-redis-cache
+###################################
+#Super Cache
+###################################
+elif [ "$vhostconfig" = "supercache" ]; then
+/etc/vpssim/menu/vpssim-them-website-wp-auto-install-super-cache
+###################################
+#W3 Total Cache
+###################################
+elif [ "$vhostconfig" = "w3total" ]; then
+/etc/vpssim/menu/vpssim-them-website-wp-auto-install-w3-total-cache
+else 
+clear && /etc/vpssim/menu/vpssim-them-website-menu
+fi

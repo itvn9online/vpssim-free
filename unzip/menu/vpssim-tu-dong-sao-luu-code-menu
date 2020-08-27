@@ -1,0 +1,46 @@
+#!/bin/sh
+. /home/vpssim.conf
+rm -rf /tmp/*hostingaz*
+mkdir -p /tmp/saoluuwebsitethanhconghostingaz
+mkdir -p /tmp/saoluuwebsitethatbaihostingaz
+ls /etc/nginx/conf.d > /tmp/vpssim-websitelist
+sed -i 's/\.conf//g' /tmp/vpssim-websitelist 
+ cat > "/tmp/vpssim-replace" <<END
+sed -i '/$mainsite/d' /tmp/vpssim-websitelist
+END
+chmod +x /tmp/vpssim-replace
+/tmp/vpssim-replace
+rm -rf /tmp/vpssim-replace
+rm -rf /tmp/checksite-list
+sowebsitetrenserver=$(cat /tmp/vpssim-websitelist | wc -l)
+listwebsite=$(cat /tmp/vpssim-websitelist)
+rm -rf /tmp/checksite-list
+for checksite in $listwebsite 
+do
+if [ -f /home/$checksite/public_html/index.php ]; then
+echo "$checksite" >> /tmp/checksite-list
+fi
+ done
+
+if [ ! -f /tmp/checksite-list ]; then
+rm -rf /tmp/*vpssim*
+rm -rf /tmp/*hostingaz*
+clear
+echo "========================================================================="
+echo "Khong tim thay website co du lieu tren server"
+/etc/vpssim/menu/vpssim-sao-luu
+fi
+prompt="Nhap lua chon cua ban :"
+options=("BAT/TAT Tu Dong Backup Website" "List Website BAT Tu Dong Backup")
+printf "=========================================================================\n"
+PS3="$prompt"
+select opt in "${options[@]}" "Thoat"; do 
+
+    case "$REPLY" in
+    1 ) /etc/vpssim/menu/vpssim-befor-chon-tat-bat-tu-dong-sao-luu-code;;
+    2 ) /etc/vpssim/menu/vpssim-danh-sach-website-tu-dong-sao-luu-code;;
+    $(( ${#options[@]}+1 )) ) echo "";  clear && /etc/vpssim/menu/vpssim-sao-luu;;
+    *) echo "Ban nhap sai, vui long nhap theo so thu tu tren menu";continue;;
+
+    esac
+done

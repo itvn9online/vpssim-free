@@ -1,0 +1,292 @@
+#!/bin/bash 
+. /home/vpssim.conf
+version=2.0.1
+getsmf () {
+	wget http://download.simplemachines.org/index.php/smf_2-0-11_install.zip
+	echo "-------------------------------------------------------------------------"
+    echo "Download Finished. Start Installation ....."
+    sleep 6  
+    unzip -o smf_2-0-11_install.zip
+    rm -rf smf_2-0-11_install.zip
+}
+php_version1=$(php -r "echo PHP_MAJOR_VERSION.'.'.PHP_MINOR_VERSION;")
+if [ "$php_version1" == "7.0" ]; then
+clear
+echo "========================================================================="
+echo "Ban dang su dung PHP 7.0"
+echo "-------------------------------------------------------------------------"
+echo "SMF Forum 2.0.1 khong hoat dong tren PHP 7.0"
+/etc/vpssim/menu/vpssim-them-website-menu
+exit
+fi
+
+echo "========================================================================="
+echo "Them Domain + Tu dong cai dat Simple Machine Forum $version"
+echo "-------------------------------------------------------------------------"
+echo "Sau khi them Domain vao server, Website cua ban san sang hoat dong ngay"
+echo "-------------------------------------------------------------------------"
+echo "Ban khong can cai dat thu cong SMF Forum nua."
+echo "========================================================================="
+echo -n "Nhap ten domain [ENTER]: " 
+read website
+website=`echo $website | tr '[A-Z]' '[a-z]'`
+if [ "$website" = "" ]; then
+clear
+echo "========================================================================="
+echo "Ban phai nhap ten domain."
+/etc/vpssim/menu/vpssim-them-website-menu
+exit
+fi
+kiemtradomain3="^([[:alnum:]]([[:alnum:]\-]{0,61}[[:alnum:]])?\.)+[[:alpha:]]{2,14}$";
+if [[ ! "$website" =~ $kiemtradomain3 ]]; then
+	website=`echo $website | tr '[A-Z]' '[a-z]'`
+clear
+echo "========================================================================="
+echo "$website co le khong dung dinh dang domain!"
+echo "-------------------------------------------------------------------------"
+echo "Vui long thu lai !"
+/etc/vpssim/menu/vpssim-them-website-menu
+exit
+fi
+if [ -f /etc/nginx/conf.d/$website.conf ]; then
+clear
+echo "========================================================================="
+echo "$website da ton tai tren he thong"
+echo "-------------------------------------------------------------------------"
+echo "Vui long thu lai !"
+/etc/vpssim/menu/vpssim-them-website-menu
+exit
+fi
+echo "-------------------------------------------------------------------------"
+echo -n "Nhap tai khoan Admin [ENTER]: " 
+read adminsmf
+if [ "$adminsmf" = "" ]; then
+echo "========================================================================="
+echo "Ban phai nhap tai khoan admin."
+/etc/vpssim/menu/vpssim-them-website-menu
+exit
+fi
+if [[ ! ${#adminsmf} -ge 5 ]]; then
+clear
+echo "========================================================================="
+echo "Tai khoan admin toi thieu co 5 ky tu "
+echo "-------------------------------------------------------------------------"
+echo "Vui long thu lai !"
+/etc/vpssim/menu/vpssim-them-website-menu
+exit
+fi 
+checkuseradmin="^[a-zA-Z0-9_][-a-zA-Z0-9_]{0,61}[a-zA-Z0-9_]$";
+if [[ ! "$adminsmf" =~ $checkuseradmin ]]; then
+clear
+echo "========================================================================="
+echo "Ban chi duoc phep dung chu cai va so."
+echo "-------------------------------------------------------------------------"
+echo "Vui long thu lai  !"
+/etc/vpssim/menu/vpssim-them-website-menu
+exit
+fi 
+echo "-------------------------------------------------------------------------"
+echo "Sau khi cai dat xong, su dung email de nhan mat khau tai khoan admin"
+echo "-------------------------------------------------------------------------"
+echo -n "Nhap email cua ban [ENTER]: " 
+read uremail
+if [ "$uremail" = "" ]; then
+clear
+echo "========================================================================="
+echo "Ban phaiNhap ten domain."
+/etc/vpssim/menu/vpssim-them-website-menu
+exit
+fi
+kiemtraemail="^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,15}$";
+if [[ ! "$uremail" =~ $kiemtraemail ]]; then
+clear
+echo "========================================================================="
+echo "Dia chi email $uremail khong chinh xac"
+/etc/vpssim/menu/vpssim-them-website-menu
+exit
+fi
+echo "-------------------------------------------------------------------------"
+echo "Prepare To Download and Install Simple Machine Forum $version ..."
+sleep 2
+    mkdir -p "/home/$website/public_html"
+    mkdir -p "/home/$website/logs"
+    cd "/home/$website/public_html"
+	getsmf
+    cd
+chown -R nginx:nginx "/home/$website/public_html/"
+find "/home/$website/public_html/" -type d -exec chmod g+s {} \;
+\cp -uf /etc/vpssim/menu/robots.txt "/home/$website/public_html/"
+    cat > "/etc/nginx/conf.d/$website.conf" <<END
+server {
+	    server_name www.$website;
+	    rewrite ^(.*) http://$website\$1 permanent;
+    	}
+server {
+	    listen   80;
+    	access_log off;
+    	# access_log   /home/$website/logs/access_log;
+    	error_log off;
+    	# error_log /home/$website/logs/error.log;
+    	add_header X-Frame-Options SAMEORIGIN;
+		add_header X-Content-Type-Options nosniff;
+		add_header X-XSS-Protection "1; mode=block";
+		root /home/$website/public_html;
+include /etc/nginx/conf/ddos2.conf;
+	index index.php index.html index.htm;
+    	server_name $website;
+    	
+#///////////////////////////////////////////////////////
+# Ban chi co the chon 1 trong 4 rule AAA, BBB, CCC hoac DDD
+# Ban nen comment cac rule khong su dung thay vi xoa chung vi neu ban su dung wordpress blog 
+# Cac dong nay can thiet cho cac chuc nang trong Wordpress Blog Tools cua VPSSIM
+# Thuat ngu:
+# Comment - Them dau # vao truoc
+# Uncomment - Bo dau # o truoc cau.
+#///////////////////////////////////////////////////////
+
+
+#Chay tat ca cac website (Wordpress, Xenforo, Joomla, Phpbb .... ). Neu ban su dung rule cua ban,comment dong duoi (them dau # vao truoc) (AAA)
+include /etc/nginx/conf/all.conf;
+
+#Neu ban su dung rule cua minh, comment rule o tren. Sau do uncoment (bo dau # ba dong duoi) sau do them rule vao giua. (BBB)
+#location / {
+#Uncomment 3 lines and set your rules here!
+#}
+
+# Rule cho wordpress + Plugin wp super cache. Neu ban su dung wordpress va wp super cache, uncomment dong duoi va comment dong AAA phia tren (CCC)
+#include /etc/nginx/conf/supercache.conf;  
+
+# Rule cho wordpress + Plugin W3 Total Cache. Neu ban su dung wordpress va W3 Total, uncomment dong duoi va comment dong AAA phia tren. (DDD)
+#include /etc/nginx/conf/w3total.conf;
+
+# Confif Cache Static Files
+include /etc/nginx/conf/staticfiles.conf;  
+
+#Tang bao mat security, chong sql injection  ....(uncoment neu ban muon su dung). Boi vi mot so code website khong su dung duoc voi rule nay, nen mac dinh VPSSIM de tat.
+#Khong duoc xoa dong duoi, neu xoa VPSSIM se khong hoat dong !
+#include /etc/nginx/conf/block.conf;
+ 
+# Error Page
+#error_page 403 /errorpage_html/403.html;
+#error_page 404 /errorpage_html/404.html;
+#error_page 405 /errorpage_html/405.html;
+#error_page 502 /errorpage_html/502.html;
+#error_page 503 /errorpage_html/503.html;
+#error_page 504 /errorpage_html/504.html;
+#location ^~ /errorpage_html/ {
+#   internal;
+#    root /home/$website;
+#    access_log              off;
+#}
+    	location ~ \.php$ {
+		fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        include /etc/nginx/fastcgi_params;
+        fastcgi_pass 127.0.0.1:9000;
+        fastcgi_index index.php;
+		fastcgi_connect_timeout 250;
+		fastcgi_send_timeout 250;
+		fastcgi_read_timeout 250;
+		fastcgi_buffer_size 256k;
+		fastcgi_buffers 4 256k;
+		fastcgi_busy_buffers_size 256k;
+		fastcgi_temp_file_write_size 256k;
+		fastcgi_intercept_errors on;
+        fastcgi_param SCRIPT_FILENAME /home/$website/public_html\$fastcgi_script_name;
+    	}
+	
+
+#include /etc/nginx/conf/phpstatus.conf;
+include /etc/nginx/conf/drop.conf;
+
+    }
+END
+mkdir -p /home/$website/errorpage_html && cp -r /etc/vpssim/errorpage_html/*.html /home/$website/errorpage_html
+   echo "$website" > /tmp/databasename.txt
+#echo $website | sed "s/\./_/" | sed "s/\-/_/" | cut -c1-14  > /tmp/databasename.txt  
+sed -i 's/\./_/g' /tmp/databasename.txt
+sed -i 's/\-/_/g' /tmp/databasename.txt
+random=`date |md5sum |cut -c '1-4'`
+dataname=`cat /tmp/databasename.txt | cut -c1-11`_$random
+username=`cat /tmp/databasename.txt | sed "s/\_//" | sed "s/\_//" | sed "s/\_//" | sed "s/\_//" | cut -c1-10`$random
+password=`date |md5sum |cut -c '14-29'`
+rm -rf /tmp/databasename.txt
+cat > "/tmp/config.temp" <<END
+CREATE DATABASE $dataname COLLATE utf8_general_ci;
+END
+
+mysql -u root -p$mariadbpass < /tmp/config.temp
+rm -f /tmp/config.temp
+
+ cat > "/tmp/config.temp" <<END
+CREATE USER '$username'@'localhost' IDENTIFIED BY '$password';
+END
+
+	mysql -u root -p$mariadbpass < /tmp/config.temp
+	rm -f /tmp/config.temp
+
+    cat > "/tmp/config.temp" <<END
+GRANT ALL PRIVILEGES ON $dataname . * TO '$username'@'localhost';
+END
+	mysql -u root -p$mariadbpass < /tmp/config.temp
+	rm -f /tmp/config.temp
+
+    cat > "/tmp/config.temp" <<END
+FLUSH PRIVILEGES;
+END
+	mysql -u root -p$mariadbpass < /tmp/config.temp
+	rm -f /tmp/config.temp
+
+echo "=========================================================================" >> /home/DBinfo.txt
+echo "Database: $dataname - Created on: $(date +%d/%m/%Y) when add $website to VPS" >> /home/DBinfo.txt
+echo "=========================================================================" >> /home/DBinfo.txt
+echo "Data name: $dataname" >> /home/DBinfo.txt
+echo "Username: $username" >> /home/DBinfo.txt
+echo "password: $password" >> /home/DBinfo.txt
+echo "" >> /home/DBinfo.txt
+rm -rf /tmp/database-example-smf.sql
+cp -r /etc/vpssim/menu/database-example/database-example-smf.tar.gz  /tmp/database-example-smf.sql
+cat > "/tmp/smfinstall" <<END
+sed -i 's/adminvpssim/$adminsmf/g' /tmp/database-example-smf.sql
+sed -i 's/admin@google.com/$uremail/g' /tmp/database-example-smf.sql
+sed -i 's/domainexample.com/$website/g' /tmp/database-example-smf.sql
+END
+chmod +x /tmp/smfinstall
+/tmp/smfinstall
+mysql -u root -p$mariadbpass $dataname < /tmp/database-example-smf.sql
+rm -rf /home/$website/public_html/Settings.php
+cp -r /etc/vpssim/menu/database-example/smf-Settings.tar.gz /home/$website/public_html/Settings.php
+random=`date |md5sum |cut -c '1-4'`
+cat > "/tmp/smfinstall" <<END
+sed -i 's/databasename/$dataname/g' /home/$website/public_html/Settings.php
+sed -i 's/databaseuser/$username/g' /home/$website/public_html/Settings.php
+sed -i 's/datbasepassword/$password/g' /home/$website/public_html/Settings.php
+sed -i 's/domainexample.com/$website/g' /home/$website/public_html/Settings.php
+sed -i 's/emailsmf/$uremail/g' /home/$website/public_html/Settings.php
+sed -i 's/SMFCookie411/SMFCookie$random/g' /home/$website/public_html/Settings.php
+END
+chmod +x /tmp/smfinstall
+/tmp/smfinstall
+rm -rf /tmp/*smf*
+rm -rf /home/$website/public_html/*.sql
+rm -rf /home/$website/public_html/install.php
+chown -R nginx:nginx /home/$website/public_html/
+find /home/$website/public_html/ -type d -exec chmod g+s {} \;
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
+service nginx reload
+service php-fpm restart
+else 
+systemctl reload nginx
+systemctl restart php-fpm.service
+fi
+clear
+echo "========================================================================="
+echo "$website is added to server & Pre-Setup SMF Forum successfully "
+echo "-------------------------------------------------------------------------"
+echo "Admin Info: User: $adminsmf | Email: $uremail"
+echo "-------------------------------------------------------------------------"
+echo "Dung chuc nang Lost PassWord (Phuc hoi mat khau) trong $website"
+echo "-------------------------------------------------------------------------"
+echo "De lay mat khau cho tai khoan admin $adminsmf"
+echo "-------------------------------------------------------------------------"
+echo "Thong tin Database duoc luu tai: /home/DBinfo.txt"
+/etc/vpssim/menu/vpssim-them-website-menu

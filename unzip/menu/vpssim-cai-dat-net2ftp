@@ -1,0 +1,190 @@
+#!/bin/bash 
+. /home/vpssim.conf
+if [ ! -f /usr/local/bin/htpasswd.py ]; then
+cp -r /etc/vpssim/menu/vpssim-tao-mat-khau-bao-ve-folder.py /usr/local/bin/htpasswd.py
+chmod 755 /usr/local/bin/htpasswd.py
+fi
+php_version1=$(php -r "echo PHP_MAJOR_VERSION.'.'.PHP_MINOR_VERSION;")
+if [ "$php_version1" == "7.0" ]; then
+clear
+echo "========================================================================="
+echo "Net2FTP chi tuong thich voi php 5.4, 5.5 va 5.6"
+/etc/vpssim/menu/vpssim-net2ftp-menu
+exit
+fi
+if [ -f /etc/vpssim/net2ftpsite.info ]; then
+clear
+echo "========================================================================="
+echo "Ban da cai dat Net2FTP cho server !"
+echo "-------------------------------------------------------------------------"
+echo "Domain Net2FTP la: $(cat /etc/vpssim/net2ftpsite.info )"
+echo "-------------------------------------------------------------------------"
+echo "Hay tro $(cat /etc/vpssim/net2ftpsite.info ) toi $serverip"
+echo "-------------------------------------------------------------------------"
+echo "va truy cap domain nay tren trinh duyet de su dung Net2FTP"
+/etc/vpssim/menu/vpssim-net2ftp-menu
+exit
+fi
+echo "========================================================================="
+echo "Su dung chuc nang nay de cai dat Domain File Manager cho server"
+echo "-------------------------------------------------------------------------"
+echo "Domain cho Net2FTP phai la domain moi, chua duoc add vao he thong"
+echo "-------------------------------------------------------------------------"
+echo "Ban nen su dung Sub-domain cho Net2FTP"
+echo "-------------------------------------------------------------------------"
+echo -n "Nhap ten Domain [ENTER]: " 
+read website
+if [ "$website" = "" ]; then
+clear
+echo "========================================================================="
+echo "Ban nhap sai, vui long nhap lai!"
+/etc/vpssim/menu/vpssim-net2ftp-menu
+exit
+fi
+
+kiemtradomain3="^([[:alnum:]]([[:alnum:]\-]{0,61}[[:alnum:]])?\.)+[[:alpha:]]{2,12}$";
+if [[ ! "$website" =~ $kiemtradomain3 ]]; then
+	website=`echo $website | tr '[A-Z]' '[a-z]'`
+clear
+echo "========================================================================="
+echo "$website co le khong phai la domain !!"
+echo "-------------------------------------------------------------------------"
+echo "Ban vui long thu lai  !"
+/etc/vpssim/menu/vpssim-net2ftp-menu
+exit
+fi
+
+if [ -f /etc/nginx/conf.d/$website.conf ]; then
+clear
+echo "========================================================================="
+echo "Phat hien $website da ton tai tren he thong!"
+/etc/vpssim/menu/vpssim-net2ftp-menu
+exit
+fi
+
+echo "========================================================================="
+echo "Chuan bi cai dat Net2FTP cho $website"
+echo "-------------------------------------------------------------------------"
+echo "De bao mat, cac Search Engine se bi chan khi ket noi toi $website" 
+echo "-------------------------------------------------------------------------"
+echo "$website se khong xuat hien tren Google, bing..."
+sleep 10
+    mkdir -p "/home/$website/public_html"
+    mkdir -p "/home/$website/logs"
+    cd /home/$website/public_html
+wget -q --no-check-certificate http://vpssim.com/script/vpssim/net2ftp_v1.0.zip
+unzip -q net2ftp_v1.0.zip
+mv -f net2ftp_v1.0/files_to_upload/* ././
+rm -rf net2ftp_v1.0.zip
+echo "please wait... "; sleep 2
+cd
+cat > "/home/$website/public_html/robots.txt" <<END
+User-agent: *
+Disallow: /
+END
+chown -R nginx:nginx /home/$website/public_html/
+chmod -R 777 /home/$website/public_html/temp
+    cat > "/etc/nginx/conf.d/$website.conf" <<END
+server {
+	    server_name www.$website;
+	    rewrite ^(.*) http://$website\$1 permanent;
+    	}
+server {
+	    listen   80;
+    	access_log off;
+    	error_log off;
+    	# error_log /home/$website/logs/error.log;
+    	root /home/$website/public_html;
+include /etc/nginx/conf/ddos2.conf;
+ 	index index.php index.html index.htm;
+    	server_name $website;
+    	
+
+#///////////////////////////////////////////////////////
+#///////////////////////////////////////////////////////
+include /etc/nginx/conf/all.conf;  
+
+#Tang bao mat security, chong sql injection  ....(uncoment neu ban muon su dung). Boi vi mot so code website khong su dung duoc voi rule nay, nen mac dinh VPSSIM de tat.
+include /etc/nginx/conf/block.conf;
+
+#Deny scripts inside writable-directories
+include /etc/nginx/conf/deny-script-writeable-folder.conf;
+
+location /temp {
+		auth_basic "Authorization Required";
+		auth_basic_user_file  /home/$website/.htpasswd_temp;
+	}
+	
+    	location ~ \.php$ {
+		fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        	include /etc/nginx/fastcgi_params;
+        	fastcgi_pass 127.0.0.1:9000;
+        	fastcgi_index index.php;
+		fastcgi_connect_timeout 2000;
+		fastcgi_send_timeout 2000;
+		fastcgi_read_timeout 2000;
+		fastcgi_buffer_size 256k;
+		fastcgi_buffers 4 256k;
+		fastcgi_busy_buffers_size 256k;
+		fastcgi_temp_file_write_size 256k;
+		fastcgi_intercept_errors on;
+        	fastcgi_param SCRIPT_FILENAME /home/$website/public_html\$fastcgi_script_name;
+    	}
+    	
+include /etc/nginx/conf/staticfiles.conf;
+#include /etc/nginx/conf/phpstatus.conf;
+include /etc/nginx/conf/drop.conf;
+#include /etc/nginx/conf/errorpage.conf;
+    }
+END
+
+echo "$website" > /tmp/vpssimtmp.txt
+sed -i 's/\./_/g' /tmp/vpssimtmp.txt
+sed -i 's/\-/_/g' /tmp/vpssimtmp.txt
+random=`date |md5sum |cut -c '1-4'`
+random32=`date |md5sum |cut -c '1-32'`
+username=`cat /tmp/vpssimtmp.txt | sed "s/\_//" | sed "s/\_//" | sed "s/\_//" | sed "s/\_//" | cut -c1-10`$random
+password=`date |md5sum |cut -c '14-29'`
+rm -rf /tmp/vpssimtmp.txt
+htpasswd.py -c -b /home/$website/.htpasswd_temp $username $password
+echo "If you want to access to http://$website/temp" > /home/$website/readme.txt
+echo "You must use the infomation: Username: $username || Password: $password" >> /home/$website/readme.txt
+echo "And maybe, you do not need this infomation :)" >> /home/$website/readme.txt
+echo "But you can not delete this file: /home/$website/.htpasswd_temp" >> /home/$website/readme.txt
+echo "Or your server will error !" >> /home/$website/readme.txt
+chmod -R 644 /home/$website/.htpasswd_temp
+# thongtindangnhap:
+sed -i "s/\$net2ftp_settings\[\"admin_username\"\] = \"admin\";/\$net2ftp_settings\[\"admin_username\"\] = \"vpssim_${random}\";/g" /home/$website/public_html/settings.inc.php
+sed -i "s/\$net2ftp_settings\[\"admin_password\"\] = \"\";/\$net2ftp_settings\[\"admin_password\"\] = \"${password}\";/g" /home/$website/public_html/settings.inc.php
+sed -i "s/.*net2ftp_settings\[\"email_feedback\"\].*/\$net2ftp_settings\[\"email_feedback\"\] = \"${emailadmin}\";/g" /home/$website/public_html/settings.inc.php
+sed -i "s/.*net2ftp_settings\[\"encryption_string\"\].*/\$net2ftp_settings\[\"encryption_string\"\] = \"${random32}\";/g" /home/$website/public_html/settings.inc.php
+
+sed -i "s/50000000/50000000000/g" /home/$website/public_html/settings.inc.php
+sed -i "s/1500/15000000/g" /home/$website/public_html/settings.inc.php
+##Database
+#sed -i "s/\$net2ftp_settings\[\"\use_database\"\] = \"no\";/\$net2ftp_settings\[\"use_database\"\] = \"yes\";/g" /home/$website/public_html/settings.inc.php
+#sed -i "s/\$net2ftp_settings\[\"dbusername\"\] = \"\";/\$net2ftp_settings\[\"dbusername\"\] = \"${username}\";/g" /home/$website/public_html/settings.inc.php
+#sed -i "s/.*net2ftp_settings\[\"dbname\"\].*/\$net2ftp_settings\[\"dbname\"\] = \"${dataname}\";/g" /home/$website/public_html/settings.inc.php
+#sed -i "s/\$net2ftp_settings\[\"dbpassword\"\] = \"\";/\$net2ftp_settings\[\"dbpassword\"\] = \"${password}\";/g" /home/$website/public_html/settings.inc.php
+#
+#
+#
+#Tang dung luong upload:
+sed -i 's/$net2ftp_settings\["max_filesize"\]  = "10000000";/$net2ftp_settings["max_filesize"]  = "31457280";/g' /home/$website/public_html/settings.inc.php
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
+service nginx reload
+service php-fpm restart
+else 
+systemctl reload nginx
+systemctl restart php-fpm.service
+fi
+echo "$website" > /etc/vpssim/net2ftpsite.info
+clear
+
+echo "========================================================================="
+echo "Cai dat Net2FTP cho $website thanh cong"
+echo "-------------------------------------------------------------------------"
+echo "Hay tro $website toi $serverip"
+echo "-------------------------------------------------------------------------"
+echo "va truy cap domain nay tren trinh duyet de su dung net2FTP"
+/etc/vpssim/menu/vpssim-net2ftp-menu

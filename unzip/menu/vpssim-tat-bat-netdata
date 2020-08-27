@@ -1,0 +1,79 @@
+#!/bin/bash
+. /home/vpssim.conf
+if [ ! -f /etc/vpssim/netdatasite.info ]; then
+clear
+echo "========================================================================="
+echo "Ban chua cai dat NetData tren server !"
+/etc/vpssim/menu/vpssim-netdata-menu
+exit
+fi
+
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
+	if [ "$(/sbin/service netdata status | awk 'NR==1 {print $5}')" == "running..." ]; then
+netdatast=bat
+	else
+netdatast=tat
+	fi
+fi
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then
+	if [ "`systemctl is-active netdata.service`" == "active" ]; then
+netdatast=bat
+	else
+netdatast=tat
+	fi
+fi
+
+if [ "$netdatast" = "bat" ]; then 
+echo "========================================================================="
+echo "Hien tai NetData dang BAT"
+echo "========================================================================="
+read -r -p "Ban co muon TAT no khong ? [y/N] " response
+case $response in
+    [yY][eE][sS]|[yY]) 
+    echo "Please wait....";sleep 1
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
+service netdata stop
+else 
+systemctl stop netdata
+fi
+clear
+echo "========================================================================="
+echo "NetData da duoc TAT thanh cong !"
+/etc/vpssim/menu/vpssim-netdata-menu
+        ;;
+    *)
+clear
+ echo "========================================================================="
+echo "Ban lua chon NO  !"
+/etc/vpssim/menu/vpssim-netdata-menu
+        ;;
+esac
+exit
+fi
+echo "========================================================================="
+echo "Hien tai NetData dang TAT"
+echo "========================================================================="
+read -r -p "Ban co muon BAT len khong ? [y/N] " response
+case $response in
+    [yY][eE][sS]|[yY]) 
+    echo "Please wait....";sleep 1
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
+service netdata start
+else 
+systemctl start netdata
+fi
+clear
+        echo "========================================================================="
+        echo "NetData da duoc BAT thanh cong !"
+/etc/vpssim/menu/vpssim-netdata-menu
+        ;;
+    *)
+               clear
+ echo "========================================================================="
+echo "Ban lua chon NO!"
+/etc/vpssim/menu/vpssim-netdata-menu
+
+        ;;
+esac
+exit
+fi

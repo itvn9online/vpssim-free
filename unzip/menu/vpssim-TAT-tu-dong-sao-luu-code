@@ -1,0 +1,36 @@
+#!/bin/sh
+
+. /home/vpssim.conf
+website=$(cat /tmp/websiteautobackup)
+websiteTO=`echo $website | tr '[a-z]' '[A-Z]'`
+echo "-------------------------------------------------------------------------"
+echo "Hien $websiteTO dang BAT che do tu dong backup"
+echo "-------------------------------------------------------------------------"
+read -r -p "Ban muon TAT che do Auto backup cho $website  ? [y/N] " response
+case $response in
+    [yY][eE][sS]|[yY]) 
+    echo "-------------------------------------------------------------------------"
+    echo "Please wait ..."
+sleep 1
+rm -rf /bin/vpssim-backupcode-$website
+if [ -f /etc/cron.d/vpssim.code.cron ]; then
+cat > "/tmp/removebackupcode" <<END
+sed -i '/vpssim-backupcode-$website/d' /etc/cron.d/vpssim.code.cron
+END
+chmod +x /tmp/removebackupcode
+/tmp/removebackupcode 
+rm -rf /tmp/removebackupcode
+service crond restart
+fi
+clear
+echo "========================================================================="
+echo "TAT che do Auto backup cho $website thanh cong."
+/etc/vpssim/menu/vpssim-sao-luu
+        ;;
+    *)
+        clear
+echo "========================================================================= "
+echo "Huy TAT Auto Backup cho $website"
+/etc/vpssim/menu/vpssim-sao-luu
+        ;;
+esac

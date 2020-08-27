@@ -1,0 +1,45 @@
+#!/bin/bash 
+if [ -f /etc/pure-ftpd/pure-ftpd.conf ]; then
+echo "========================================================================= "
+read -r -p "Ban muon remove FTP server ? [y/N] " response
+case $response in
+    [yY][eE][sS]|[yY]) 
+echo "Chuan bi Remove FTP Server ... "
+sleep 1
+yum remove pure-ftpd -y
+rm -rf /etc/pure-ftpd/*.*
+rm -rf /etc/vpssim/FTP-Account.info
+if [ ! -f /etc/vpssim/FTP-Account.info ]; then
+echo "=========================================================================" > /etc/vpssim/FTP-Account.info
+echo "Please Do Not Delete This File " >> /etc/vpssim/FTP-Account.info
+echo "-------------------------------------------------------------------------" >> /etc/vpssim/FTP-Account.info
+echo "If you delete this file, VPSSIM will not run !" >> /etc/vpssim/FTP-Account.info
+echo "-------------------------------------------------------------------------" >> /etc/vpssim/FTP-Account.info
+echo "All FTP User for all domain on VPS list below:" >> /etc/vpssim/FTP-Account.info
+echo "=========================================================================" >> /etc/vpssim/FTP-Account.info
+echo "" >> /etc/vpssim/FTP-Account.info
+fi
+clear
+iptables -I INPUT -p tcp --dport 21 -j DROP
+service iptables save
+;;
+    *)
+       clear 
+echo "========================================================================= "
+echo "Huy bo remove FTP Server "
+/etc/vpssim/menu/vpssim-ftpserver-menu
+        ;;
+esac
+clear 
+echo "========================================================================= "
+echo "VPSSIM hoan thanh remove FTP Server "
+/etc/vpssim/menu/vpssim-ftpserver-menu
+fi
+clear
+echo "========================================================================= "
+echo "Ban chua cai dat FTP server "
+/etc/vpssim/menu/vpssim-ftpserver-menu
+exit
+fi
+
+

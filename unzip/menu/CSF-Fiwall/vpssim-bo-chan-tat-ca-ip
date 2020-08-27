@@ -1,0 +1,61 @@
+#!/bin/bash 
+if [ -f /etc/csf/csf.conf ]; then
+if [ "$(cat /etc/csf/csf.deny | awk 'NR==1 {print $1}')" == "" ]; then
+clear
+echo "========================================================================="
+echo "Hien tai CSF Firewall chua block IP nao."
+/etc/vpssim/menu/CSF-Fiwall/vpssim-csf-firewall-menu
+exit
+fi
+fi
+if [ -f /etc/csf/csf.conf ]; then
+    
+echo "========================================================================="
+test_csf=$(csf -v | awk 'NR==1 {print $NF}')
+if [ "$test_csf" == "enable" ]; then
+echo "Chuc nang nay se bat CSF Firewall neu ban dang tat no."
+echo "-------------------------------------------------------------------------" 
+fi
+read -r -p "Are you sured want to unblock all IP ? [y/N] " response
+case $response in
+    [yY][eE][sS]|[yY]) 
+    echo " Please wait.."
+sleep 1
+if [ "$test_csf" == "enable" ]; then
+csf -e
+fi
+csf -df
+clear 
+echo "========================================================================= "
+echo "Any IP blocked by CSF now can access to VPS"
+/etc/vpssim/menu/CSF-Fiwall/vpssim-csf-firewall-menu
+;;
+    *)
+       clear 
+echo "========================================================================= "
+echo "You cancle unblock all IP"
+/etc/vpssim/menu/CSF-Fiwall/vpssim-csf-firewall-menu
+        ;;
+esac
+else
+echo "========================================================================= "
+echo "Chuc nang nay can CSF Firewall de hoat dong"
+echo "-------------------------------------------------------------------------"
+echo "CSF Firewall chua duoc cai dat tren server! "
+echo "-------------------------------------------------------------------------"
+read -r -p "Ban co muon cai dat CSF Firewall vao server [y/N] " response
+case $response in
+    [yY][eE][sS]|[yY]) 
+/etc/vpssim/menu/CSF-Fiwall/vpssim-cai-dat-csf-csf
+clear
+echo "========================================================================= "
+echo "Cai dat va config thanh cong CSF Firewall"
+/etc/vpssim/menu/CSF-Fiwall/vpssim-csf-firewall-menu
+;;
+esac
+clear
+echo "========================================================================= "
+echo "Ban huy bo cai dat CSF Firewall ! "
+/etc/vpssim/menu/CSF-Fiwall/vpssim-csf-firewall-menu
+exit
+fi
