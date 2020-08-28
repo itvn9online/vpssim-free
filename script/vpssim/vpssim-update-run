@@ -1,0 +1,5 @@
+#!/bin/bash
+. /home/vpssim.conf
+echo "Hien tai, chuc nang update VPSSIM hien chua hoan thien"
+/etc/vpssim/menu/vpssim-update-upgrade-service-menu
+exit

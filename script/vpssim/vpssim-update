@@ -65,6 +65,5 @@ fi
 ######################
 ## Bat dau thuc hien update VPSSIM
 #wget -q https://vpssim.vn/script/vpssim/vpssim-update-run -O /etc/vpssim/.tmp/vpssim-update-run && chmod +x /etc/vpssim/.tmp/vpssim-update-run
-#bash /etc/vpssim/.tmp/vpssim-update-run
-echo "Hien tai, chuc nang update chua hoat dong"
-exit
+wget --no-check-certificate -q https://vpssim.vn/script/vpssim/vpssim-update-run -O /etc/vpssim/.tmp/vpssim-update-run && chmod +x /etc/vpssim/.tmp/vpssim-update-run
+bash /etc/vpssim/.tmp/vpssim-update-run
