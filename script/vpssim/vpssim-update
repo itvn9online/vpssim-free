@@ -13,6 +13,7 @@ YYY=i386
 fi
 #checkketnoi=$(curl -o /dev/null --silent --head --write-out '%{http_code}' "https://vpssim.vn/script/vpssim/vpssim.newversion" )
 checkketnoi=$(curl -o /dev/null --silent --head --write-out '%{http_code}' "https://raw.githubusercontent.com/itvn9online/vpssim-free/master/version" )
+#echo $checkketnoi
 if [[ "$checkketnoi" == "000" ]]; then
 clear
 echo "========================================================================="
@@ -29,16 +30,21 @@ rm -rf /etc/vpssim/.tmp/asnhzad
 ldd --version | grep "2.17" > /etc/vpssim/.tmp/asnhzad
 if [ "$(wc -c < /etc/vpssim/.tmp/asnhzad)" -lt "1" ]; then
 ketnoi=$(curl -o /dev/null --silent --head --write-out '%{http_code}' "http://copr-be.cloud.fedoraproject.org/results/mosquito/myrepo-el6/epel-6-x86_64/glibc-2.17-55.fc20/glibc-2.17-55.el6.x86_64.rpm")
+#echo $ketnoi
 if [[ "$ketnoi" != "000" ]]; then
 wget http://copr-be.cloud.fedoraproject.org/results/mosquito/myrepo-el6/epel-6-$YYY/glibc-2.17-55.fc20/glibc-2.17-55.el6.$XXX.rpm
 wget http://copr-be.cloud.fedoraproject.org/results/mosquito/myrepo-el6/epel-6-$YYY/glibc-2.17-55.fc20/glibc-common-2.17-55.el6.$XXX.rpm
 wget http://copr-be.cloud.fedoraproject.org/results/mosquito/myrepo-el6/epel-6-$YYY/glibc-2.17-55.fc20/glibc-devel-2.17-55.el6.$XXX.rpm
 wget http://copr-be.cloud.fedoraproject.org/results/mosquito/myrepo-el6/epel-6-$YYY/glibc-2.17-55.fc20/glibc-headers-2.17-55.el6.$XXX.rpm
 else
-wget --no-check-certificate https://vpssim.com/script/vpssim/Softwear/glibc_2.17/glibc-2.17-55.el6.$XXX.rpm
-wget --no-check-certificate https://vpssim.com/script/vpssim/Softwear/glibc_2.17/glibc-common-2.17-55.el6.$XXX.rpm
-wget --no-check-certificate https://vpssim.com/script/vpssim/Softwear/glibc_2.17/glibc-devel-2.17-55.el6.$XXX.rpm
-wget --no-check-certificate https://vpssim.com/script/vpssim/Softwear/glibc_2.17/glibc-headers-2.17-55.el6.$XXX.rpm
+#wget --no-check-certificate https://vpssim.com/script/vpssim/Softwear/glibc_2.17/glibc-2.17-55.el6.$XXX.rpm
+wget --no-check-certificate https://github.com/itvn9online/vpssim-free/raw/master/script/vpssim/Softwear/glibc_2.17/glibc-2.17-55.el6.$XXX.rpm
+#wget --no-check-certificate https://vpssim.com/script/vpssim/Softwear/glibc_2.17/glibc-common-2.17-55.el6.$XXX.rpm
+wget --no-check-certificate https://github.com/itvn9online/vpssim-free/raw/master/script/vpssim/Softwear/glibc_2.17/glibc-common-2.17-55.el6.$XXX.rpm
+#wget --no-check-certificate https://vpssim.com/script/vpssim/Softwear/glibc_2.17/glibc-devel-2.17-55.el6.$XXX.rpm
+wget --no-check-certificate https://github.com/itvn9online/vpssim-free/raw/master/script/vpssim/Softwear/glibc_2.17/glibc-devel-2.17-55.el6.$XXX.rpm
+#wget --no-check-certificate https://vpssim.com/script/vpssim/Softwear/glibc_2.17/glibc-headers-2.17-55.el6.$XXX.rpm
+wget --no-check-certificate https://github.com/itvn9online/vpssim-free/raw/master/script/vpssim/Softwear/glibc_2.17/glibc-headers-2.17-55.el6.$XXX.rpm
 fi
 sudo rpm -Uvh glibc-2.17-55.el6.$XXX.rpm \
 glibc-common-2.17-55.el6.$XXX.rpm \
@@ -58,5 +64,7 @@ fi
 #######
 ######################
 ## Bat dau thuc hien update VPSSIM
-wget -q https://vpssim.vn/script/vpssim/vpssim-update-run -O /etc/vpssim/.tmp/vpssim-update-run && chmod +x /etc/vpssim/.tmp/vpssim-update-run
-/etc/vpssim/.tmp/vpssim-update-run
+#wget -q https://vpssim.vn/script/vpssim/vpssim-update-run -O /etc/vpssim/.tmp/vpssim-update-run && chmod +x /etc/vpssim/.tmp/vpssim-update-run
+#bash /etc/vpssim/.tmp/vpssim-update-run
+echo "Hien tai, chuc nang update chua hoat dong"
+exit
