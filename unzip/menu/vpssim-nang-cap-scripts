@@ -14,7 +14,8 @@ fi
 maximumsize=10
 rm -rf /etc/vpssim/vpssim.newversion
 cd /etc/vpssim
-timeout 3 wget -q http://hostingaz.vn/script/vpssim/vpssim.newversion
+#timeout 3 wget -q http://hostingaz.vn/script/vpssim/vpssim.newversion
+timeout 3 wget --no-check-certificate -q https://raw.githubusercontent.com/itvn9online/vpssim-free/master/version -O /etc/vpssim/vpssim.newversion
 cd
 if [ -f /etc/vpssim/vpssim.newversion ]; then
 checksizeversion=$(du -sb /etc/vpssim/vpssim.newversion | awk 'NR==1 {print $1}')
