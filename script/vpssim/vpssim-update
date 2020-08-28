@@ -11,7 +11,8 @@ else
 XXX=i686
 YYY=i386
 fi
-checkketnoi=$(curl -o /dev/null --silent --head --write-out '%{http_code}' "https://vpssim.vn/script/vpssim/vpssim.newversion" )
+#checkketnoi=$(curl -o /dev/null --silent --head --write-out '%{http_code}' "https://vpssim.vn/script/vpssim/vpssim.newversion" )
+checkketnoi=$(curl -o /dev/null --silent --head --write-out '%{http_code}' "https://raw.githubusercontent.com/itvn9online/vpssim-free/master/version" )
 if [[ "$checkketnoi" == "000" ]]; then
 clear
 echo "========================================================================="
@@ -34,10 +35,10 @@ wget http://copr-be.cloud.fedoraproject.org/results/mosquito/myrepo-el6/epel-6-$
 wget http://copr-be.cloud.fedoraproject.org/results/mosquito/myrepo-el6/epel-6-$YYY/glibc-2.17-55.fc20/glibc-devel-2.17-55.el6.$XXX.rpm
 wget http://copr-be.cloud.fedoraproject.org/results/mosquito/myrepo-el6/epel-6-$YYY/glibc-2.17-55.fc20/glibc-headers-2.17-55.el6.$XXX.rpm
 else
-wget https://vpssim.com/script/vpssim/Softwear/glibc_2.17/glibc-2.17-55.el6.$XXX.rpm
-wget https://vpssim.com/script/vpssim/Softwear/glibc_2.17/glibc-common-2.17-55.el6.$XXX.rpm
-wget https://vpssim.com/script/vpssim/Softwear/glibc_2.17/glibc-devel-2.17-55.el6.$XXX.rpm
-wget https://vpssim.com/script/vpssim/Softwear/glibc_2.17/glibc-headers-2.17-55.el6.$XXX.rpm
+wget --no-check-certificate https://vpssim.com/script/vpssim/Softwear/glibc_2.17/glibc-2.17-55.el6.$XXX.rpm
+wget --no-check-certificate https://vpssim.com/script/vpssim/Softwear/glibc_2.17/glibc-common-2.17-55.el6.$XXX.rpm
+wget --no-check-certificate https://vpssim.com/script/vpssim/Softwear/glibc_2.17/glibc-devel-2.17-55.el6.$XXX.rpm
+wget --no-check-certificate https://vpssim.com/script/vpssim/Softwear/glibc_2.17/glibc-headers-2.17-55.el6.$XXX.rpm
 fi
 sudo rpm -Uvh glibc-2.17-55.el6.$XXX.rpm \
 glibc-common-2.17-55.el6.$XXX.rpm \

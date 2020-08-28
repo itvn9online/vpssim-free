@@ -66,8 +66,9 @@ case $response in
 echo "Chuan bi update VPSSIM..... "
 sleep 1
 rm -f /etc/vpssim/vpssim-update
-wget -q http://hostingaz.vn/script/vpssim/vpssim-update -O /etc/vpssim/vpssim-update && chmod +x /etc/vpssim/vpssim-update
-/etc/vpssim/vpssim-update
+#wget -q http://hostingaz.vn/script/vpssim/vpssim-update -O /etc/vpssim/vpssim-update && chmod +x /etc/vpssim/vpssim-update
+wget --no-check-certificate -q https://raw.githubusercontent.com/itvn9online/vpssim-free/master/script/vpssim/vpssim-update -O /etc/vpssim/vpssim-update && chmod +x /etc/vpssim/vpssim-update
+bash /etc/vpssim/vpssim-update
 
 exit
 
