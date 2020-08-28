@@ -25,6 +25,7 @@ select opt in "${options[@]}" ; do
     8) /etc/vpssim/menu/vpssim-them-website-drupal;;
     9) /etc/vpssim/menu/vpssim-list-website-tren-vps;; 
     10) clear && vpssim;;
+    0) clear && vpssim;;
         *) echo "Ban nhap sai, vui long nhap theo so thu tu tren menu !";continue;;
 
     esac

@@ -21,6 +21,7 @@ select opt in "${options[@]}" "Thoat"; do
     9) echo "-------------------------------------------------------------------------" && cat /proc/cpuinfo && echo "-------------------------------------------------------------------------";;
     10) echo "-------------------------------------------------------------------------" && dd if=/dev/zero of=test bs=64k count=16k conv=fdatasync; rm test && echo "-------------------------------------------------------------------------";;
     11) clear && wget http://hostingaz.vn/script/others/freeVPSbench.sh -O - -o /dev/null|bash;;
+    0) clear && vpssim;;
 $(( ${#options[@]}+1 )) ) echo "Bye!";  clear && /bin/vpssim;;
     *) echo "Ban nhap sai, vui long nhap theo so thu tu tren menu !";continue;;
 
