@@ -50,6 +50,7 @@ select opt in "${options[@]}" ; do
     4) /etc/vpssim/menu/vpssim-thay-domain-net2ftp;;
     5) /etc/vpssim/menu/vpssim-xoa-website-net2ftp;;
     6) clear && /bin/vpssim;;
+    0) clear && vpssim;;
     
   *) echo "Ban nhap sai, vui long nhap theo so thu tu tren menu !";continue;;
 

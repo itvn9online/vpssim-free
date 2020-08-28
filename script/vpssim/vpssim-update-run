@@ -1,5 +1,37 @@
 #!/bin/bash
 . /home/vpssim.conf
-echo "Hien tai, chuc nang update VPSSIM hien chua hoan thien"
+
+cd ~
+if [ -d /opt/echbay_vpssim ]; then
+	rm -rf /opt/echbay_vpssim/*
+	rm -rf /opt/echbay_vpssim
+	sleep 5
+fi
+
+yum -y install git
+git clone https://github.com/itvn9online/vpssim-free /opt/echbay_vpssim
+sleep 5
+
+yes | cp -rf /opt/echbay_vpssim/version /opt/echbay_vpssim/script/vpssim/vpssim.newversion
+
+rm -rf /etc/vpssim/menu/*
+yes | cp -rf /opt/echbay_vpssim/unzip/menu/. /etc/vpssim/menu/
+
+# Chmod 755 Menu
+find /etc/vpssim/menu -type f -exec chmod 755 {} \;
+find /etc/vpssim/menu/checkddos -type f -exec chmod 755 {} \;
+find /etc/vpssim/menu/crontab -type f -exec chmod 755 {} \;
+find /etc/vpssim/menu/CSF-Fiwall -type f -exec chmod 755 {} \;
+find /etc/vpssim/menu/downloadlog -type f -exec chmod 755 {} \;
+find /etc/vpssim/menu/memcache -type f -exec chmod 755 {} \;
+find /etc/vpssim/menu/nangcap-php -type f -exec chmod 755 {} \;
+find /etc/vpssim/menu/opcache -type f -exec chmod 755 {} \;
+find /etc/vpssim/menu/pagespeed -type f -exec chmod 755 {} \;
+find /etc/vpssim/menu/swap -type f -exec chmod 755 {} \;
+find /etc/vpssim/menu/tienich -type f -exec chmod 755 {} \;
+
+
+#echo "Hien tai, chuc nang update VPSSIM hien chua hoan thien"
 /etc/vpssim/menu/vpssim-update-upgrade-service-menu
-exit
+
+#exit

@@ -22,6 +22,7 @@ select opt in "${options[@]}" ; do
     6) clear && /etc/vpssim/menu/nangcap-php/vpssim-updown-php;; 
     7) clear && /etc/vpssim/menu/vpssim-thay-doi-ngon-ngu-menu;; 
     8) clear && vpssim;;
+    0) clear && vpssim;;
         *) echo "Ban nhap sai, vui long nhap theo so thu tu tren menu !";continue;;
 
     esac

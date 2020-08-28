@@ -72,6 +72,7 @@ select opt in "${options[@]}" ; do
     4) /etc/vpssim/menu/vpssim-mat-khau-bao-ve-netdata;;
     5) /etc/vpssim/menu/vpssim-nang-cap-netdata;;
     6) clear && /bin/vpssim;;
+    0) clear && vpssim;;
     
   *) echo "Ban nhap sai, vui long nhap theo so thu tu tren menu !";continue;;
 

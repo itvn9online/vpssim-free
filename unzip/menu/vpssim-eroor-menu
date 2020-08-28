@@ -102,7 +102,8 @@ select opt in "${options[@]}" ; do
     1) /etc/vpssim/menu/downloadlog/vpssim-download-log-file-menu-download-only;;
     2) clear && /etc/vpssim/menu/downloadlog/vpssim-clear-log-server;;
     3) /etc/vpssim/menu/downloadlog/vpssim-xoa-link-log;;
-    4) clear && /bin/vpssim;;  
+    4) clear && /bin/vpssim;;
+    0) clear && vpssim;;
     *) echo "Ban nhap sai, vui long nhap theo so thu tu tren menu !";continue;;
 
     esac

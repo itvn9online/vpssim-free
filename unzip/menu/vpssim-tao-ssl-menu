@@ -16,6 +16,7 @@ select opt in "${options[@]}" ; do
     2) /etc/vpssim/menu/vpssim-tao-ssl-link-download-domain-csr;;
     3) /etc/vpssim/menu/vpssim-khong-the-download-csr-file;;
     4) clear && /bin/vpssim;;
+    0) clear && vpssim;;
         *) echo "Ban nhap sai, vui long nhap theo so thu tu tren menu !";continue;;
 
     esac

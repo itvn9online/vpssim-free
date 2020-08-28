@@ -36,6 +36,7 @@ select opt in "${options[@]}" ; do
     21) clear && /etc/vpssim/menu/tienich/vpssim-restart-service;;
     22) /etc/vpssim/menu/vpssim-go-bo-scripts;;
     23) clear && vpssim;;
+    0) clear && vpssim;;
 
 
             *) echo "Ban nhap sai, vui long nhap theo so thu tu tren menu !";continue;;

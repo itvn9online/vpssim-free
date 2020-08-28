@@ -34,6 +34,7 @@ select opt in "${options[@]}" ; do
     5) /etc/vpssim/menu/vpssim-rsync-doi-mat-khau-tai-khoan-root-vps-backup;;
     6) /etc/vpssim/menu/vpssim-rsync-ngat-ket-noi-vps-backup;;
     7) clear && vpssim;;
+    0) clear && vpssim;;
         *) echo "Ban nhap sai, vui long nhap so thu tu trong danh sach";continue;;
       #  *) echo "You typed wrong, Please type in the ordinal number on the list";continue;;
 

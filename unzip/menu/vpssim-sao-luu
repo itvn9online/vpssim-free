@@ -56,6 +56,7 @@ select opt in "${options[@]}" ; do
     #6 ) /etc/vpssim/menu/vpssim-link-tai-sao-luu-tat-ca-cac-site;; "Link File Backup Home" 
     6 ) /etc/vpssim/menu/vpssim-xoa-toan-bo-backup-website;;
     7 ) clear && vpssim;;
+    0) clear && vpssim;;
     
     *) echo "Ban nhap sai, vui long nhap theo so thu tu tren menu !";continue;;
 

@@ -44,6 +44,7 @@ select opt in "${options[@]}" ; do
     1) /etc/vpssim/menu/vpssim-chuyen-ngon-ngu-sang-tieng-anh;;
     2) /etc/vpssim/menu/vpssim-chuyen-ngon-ngu-sang-tieng-viet;;
     3) clear && /etc/vpssim/menu/vpssim-update-upgrade-service-menu;; 
+    0) clear && /etc/vpssim/menu/vpssim-update-upgrade-service-menu;; 
     *) echo "You typed wrong, Please type in the ordinal number on the list";continue;;
 
     esac

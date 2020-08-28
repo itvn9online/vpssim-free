@@ -19,6 +19,7 @@ select opt in "${options[@]}" ; do
     5) /etc/vpssim/menu/tienich/vpssim-phuc-hoi-iptables;;
     6) /etc/vpssim/menu/tienich/vpssim-view-iptables-rules;;
     7) clear && /bin/vpssim;;
+    0) clear && vpssim;;
 
             *) echo "Ban nhap sai, vui long nhap theo so thu tu tren menu !";continue;;
 

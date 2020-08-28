@@ -16,6 +16,7 @@ select opt in "${options[@]}" ; do
     2 ) /etc/vpssim/menu/vpssim-link-sao-luu-all-database;;
     3 ) /etc/vpssim/menu/vpssim-befor-phuc-hoi-tat-ca-database;;
     4 ) clear && /etc/vpssim/menu/vpssim-them-xoa-database;;
+    0 ) clear && /etc/vpssim/menu/vpssim-them-xoa-database;;
 
     
     *) echo "Ban nhap sai, vui long nhap theo so thu tu tren menu !";continue;;

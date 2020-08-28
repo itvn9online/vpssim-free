@@ -18,6 +18,7 @@ select opt in "${options[@]}" ; do
     4 ) /etc/vpssim/menu/vpssim-lay-link-sao-luu-database-backup-menu;;
     #5 ) /etc/vpssim/menu/vpssim-list-database-tren-vps;; "Danh Sach Database Tren Server"
     5 ) clear && /etc/vpssim/menu/vpssim-them-xoa-database;;
+    0 ) clear && /etc/vpssim/menu/vpssim-them-xoa-database;;
 
     
     *) echo "Ban nhap sai, vui long nhap theo danh sach";continue;;

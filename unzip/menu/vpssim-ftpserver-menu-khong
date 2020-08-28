@@ -16,6 +16,7 @@ select opt in "${options[@]}" "Thoat"; do
     3) /etc/vpssim/menu/vpssim-thay-mat-khau-user-ftp;;
     4) /etc/vpssim/menu/vpssim-view-userftp-password;;
     5) /etc/vpssim/menu/vpssim-cai-dat-ftp-server;;
+    0) clear && vpssim;;
 $(( ${#options[@]}+1 )) ) echo "";  clear && vpssim;;
      *) echo "Ban nhap sai, vui long nhap theo so thu tu tren menu !";continue;;
 
