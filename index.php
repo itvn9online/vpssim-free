@@ -15,6 +15,12 @@ input {
 </style>
 </head>
 <body>
-<input type="text" value="yum -y install wget ; wget --no-check-certificate https://vpssim.echbay.com/install ; chmod +x install ; bash install" onClick="this.select();">
+<div>
+	<input type="text" value="curl -sO https://vpssim.echbay.com/install && bash install" onClick="this.select();">
+</div>
+<br>
+<div>
+	<input type="text" value="yum -y install wget ; wget --no-check-certificate https://vpssim.echbay.com/install ; chmod +x install ; bash install" onClick="this.select();">
+</div>
 </body>
 </html>

@@ -8,10 +8,11 @@ phiên bản phần mềm cho phù hợp với thời điểm 2020, tránh tình
 
 ### Lệnh Cài Đặt ECHBAY-VPSSIM Trên Centos 6 & 7:
 ```
-yum -y install wget ; wget --no-check-certificate https://vpssim.echbay.com/install ; chmod +x install ; bash install
-```
-```
 curl -sO https://vpssim.echbay.com/install && bash install
+```
+#### Hoặc lệnh
+```
+yum -y install wget ; wget --no-check-certificate https://vpssim.echbay.com/install ; chmod +x install ; bash install
 ```
 
 ### Chức Năng, Tiện Ích Và Tối Ưu VPS Của ECHBAY-VPSSIM:
