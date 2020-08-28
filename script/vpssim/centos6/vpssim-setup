@@ -458,6 +458,8 @@ echo "==========================================================================
 
 urlForDownloadNginxModule="https://vpssim.echbay.com/script/vpssim/module-nginx/"
 
+
+install_devtoolset_gcc () {
 sudo yum -y install gcc-c++ pcre-devel zlib-devel
 
 #sudo rpm --import https://linux.web.cern.ch/linux/scientific6/docs/repository/cern/slc6X/i386/RPM-GPG-KEY-cern
@@ -469,10 +471,25 @@ sudo rpm --import /opt/echbay_vpssim/script/vpssim/module-nginx/RPM-GPG-KEY-cern
 yes | cp -rf /opt/echbay_vpssim/script/vpssim/module-nginx/slc6-devtoolset.repo /etc/yum.repos.d/slc6-devtoolset.repo
 
 sudo yum -y install devtoolset-2-gcc-c++ devtoolset-2-binutils
+}
+install_devtoolset_gcc
 
 if [ ! -d /opt/rh/devtoolset-2/root/usr/bin ]; then
-echo "Khong xac dinh duoc thu muc: /opt/rh/devtoolset-2/root/usr/bin "
-exit
+	echo "Khong xac dinh duoc thu muc: /opt/rh/devtoolset-2/root/usr/bin (lan 1)"
+	sleep 30
+	install_devtoolset_gcc
+
+	if [ ! -d /opt/rh/devtoolset-2/root/usr/bin ]; then
+		echo "Khong xac dinh duoc thu muc: /opt/rh/devtoolset-2/root/usr/bin (lan 2)"
+		sleep 60
+		install_devtoolset_gcc
+
+		if [ ! -d /opt/rh/devtoolset-2/root/usr/bin ]; then
+			echo "Khong xac dinh duoc thu muc: /opt/rh/devtoolset-2/root/usr/bin (lan 3 - THOAT)"
+			echo "Co the do mang hien tai khong on dinh, vui long thu cai dat lai sau"
+			exit
+		fi
+	fi
 fi
 
 #
