@@ -1,6 +1,7 @@
 #!/bin/bash
 . /home/vpssim.conf
 
+# copy tu file install sang
 cd ~
 if [ -d /opt/echbay_vpssim ]; then
 	rm -rf /opt/echbay_vpssim/*
@@ -14,6 +15,8 @@ sleep 5
 
 yes | cp -rf /opt/echbay_vpssim/version /opt/echbay_vpssim/script/vpssim/vpssim.newversion
 
+
+# BEGIN update menu
 rm -rf /etc/vpssim/menu/*
 yes | cp -rf /opt/echbay_vpssim/unzip/menu/. /etc/vpssim/menu/
 
@@ -29,6 +32,7 @@ find /etc/vpssim/menu/opcache -type f -exec chmod 755 {} \;
 find /etc/vpssim/menu/pagespeed -type f -exec chmod 755 {} \;
 find /etc/vpssim/menu/swap -type f -exec chmod 755 {} \;
 find /etc/vpssim/menu/tienich -type f -exec chmod 755 {} \;
+# END update menu
 
 
 #echo "Hien tai, chuc nang update VPSSIM hien chua hoan thien"
