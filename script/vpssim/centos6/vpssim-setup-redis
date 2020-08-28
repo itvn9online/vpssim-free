@@ -8,9 +8,6 @@ opensslversion=openssl-1.0.2s
 zlibversion=zlib-1.2.11
 #pcreVersionInstall=pcre-8.39
 pcreVersionInstall=pcre-8.43
-
-yum -y install wget
-
 kiemtraemail3="^(([-a-zA-Z0-9\!#\$%\&\'*+/=?^_\`{\|}~])+\.)*[-a-zA-Z0-9\!#\$%\&\'*+/=?^_\`{\|}~]+@\w((-|\w)*\w)*\.(\w((-|\w)*\w)*\.)*\w{2,24}$";
 svip=$(wget http://ipecho.net/plain -O - -q ; echo)
 phpmacdinh="7.2"
@@ -689,8 +686,7 @@ yum -y install exim syslog-ng cronie cronie-anacron
 yum -y install MariaDB-client MariaDB-common MariaDB-compat MariaDB-devel MariaDB-server MariaDB-shared perl-DBD-MySQL
 #yum-config-manager --enable remi-php56
 yum-config-manager --enable remi-php72
-#yum -y install php php-curl php-soap php-cli php-snmp php-pspell redis php-pecl-redis php-gmp php-ldap php-bcmath php-intl php-imap perl-libwww-perl perl-LWP-Protocol-https php-pear-Net-SMTP php-enchant php-common php-fpm php-gd php-devel php-mysql php-pear php-pecl-memcached php-pecl-memcache php-opcache php-pdo php-zlib php-xml php-mbstring php-mcrypt php-xmlrpc php-tidy
-yum -y install php php-curl php-soap php-cli php-snmp php-pspell php-gmp php-ldap php-bcmath php-intl php-imap perl-libwww-perl perl-LWP-Protocol-https php-pear-Net-SMTP php-enchant php-common php-fpm php-gd php-devel php-mysql php-pear php-pecl-memcached php-pecl-memcache php-opcache php-pdo php-zlib php-xml php-mbstring php-mcrypt php-xmlrpc php-tidy
+yum -y install php php-curl php-soap php-cli php-snmp php-pspell redis php-pecl-redis php-gmp php-ldap php-bcmath php-intl php-imap perl-libwww-perl perl-LWP-Protocol-https php-pear-Net-SMTP php-enchant php-common php-fpm php-gd php-devel php-mysql php-pear php-pecl-memcached php-pecl-memcache php-opcache php-pdo php-zlib php-xml php-mbstring php-mcrypt php-xmlrpc php-tidy
 #yum -y install memcached 
 yum -y install ImageMagick ImageMagick-devel ImageMagick-c++ ImageMagick-c++-devel
 yes "" | pecl install imagick
@@ -723,8 +719,8 @@ chkconfig --add exim
 chkconfig --levels 235 exim on
 chkconfig --add syslog-ng
 chkconfig --levels 235 syslog-ng on
-#chkconfig --add redis
-#chkconfig --level 345 redis on
+chkconfig --add redis
+chkconfig --level 345 redis on
 service mysql start
 service exim start
 service syslog-ng start

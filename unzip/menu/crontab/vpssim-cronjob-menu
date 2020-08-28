@@ -23,6 +23,7 @@ select opt in "${options[@]}" ; do
     3 ) /etc/vpssim/menu/crontab/vpssim-befor-xoa-het-cronjob;;
     4 ) /etc/vpssim/menu/crontab/vpssim-crontab-hien-tai;;
     5 ) clear && /bin/vpssim;;
+    0 ) clear && /bin/vpssim;;
     
     *) echo "Ban nhap sai, vui long nhap theo so thu tu tren menu";continue;;
 
