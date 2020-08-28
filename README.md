@@ -16,7 +16,8 @@ yum -y install wget ; wget --no-check-certificate https://vpssim.echbay.com/inst
 #### kết hợp với openssl-1.0.2s thay cho bản openssl cũ của VPSSIM, phiên bản này mới hỗ trợ đầy đủ HTTP/2.
 ##### + Phiên bản nginx được xem và cập nhật tại: [http://nginx.org/en/download.html](http://nginx.org/en/download.html)
 ###### Mặc định mình chỉ chọn phiên bản Stable version, các bản Mainline là đang phát triển nên không chọn.
-##### + openssl version: https://www.openssl.org/source/
+##### + Openssl hiện mình mới chỉ cài được bản 1.0.2s, đây là bản cũ nhưng vẫn hỗ trợ HTTP/2, thay cho bản 1.0.2l trên VPSSIM.
+##### 	Các phiên bản khác có thể xem thêm tại đây: https://www.openssl.org/source/
 ##### + https://ftp.pcre.org/pub/pcre/
 ##### + https://www.zlib.net/
 
