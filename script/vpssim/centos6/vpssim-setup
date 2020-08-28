@@ -1571,7 +1571,8 @@ download_vpssim_data () {
 #wget --no-check-certificate -q https://vpssim.echbay.com/script/vpssim/menu.zip
 #unzip -q menu.zip
 #rm -rf menu.zip
-yes | cp -rf /opt/echbay_vpssim/unzip/menu/. /etc/vpssim/
+mkdir -p /etc/vpssim/menu ; chmod 755 /etc/vpssim/menu
+yes | cp -rf /opt/echbay_vpssim/unzip/menu/. /etc/vpssim/menu/
 }
 download_vpssim_data
 if [ ! -f /etc/vpssim/menu/vpssim-tien-ich ]; then
@@ -1581,7 +1582,12 @@ fi
 #unzip -q errorpage_html.zip
 #rm -rf errorpage_html.zip
 #cp -r /etc/vpssim/errorpage_html /home/vpssim.demo/
-yes | cp -rf /opt/echbay_vpssim/unzip/errorpage_html/. /home/vpssim.demo/
+mkdir -p /home/vpssim.demo/errorpage_html ; chmod 755 /home/vpssim.demo/errorpage_html
+yes | cp -rf /opt/echbay_vpssim/unzip/errorpage_html/. /home/vpssim.demo/errorpage_html/
+
+# tao thu muc cho phpmyadmin dung lam cache
+mkdir -p /home/vpssim.demo/private_html/tmp ; chmod 777 /home/vpssim.demo/private_html/tmp
+
 cd
 # Chmod 755 Menu
 find /etc/vpssim/menu -type f -exec chmod 755 {} \;
@@ -1603,7 +1609,8 @@ download_etc_nginx_conf () {
 #zip -r conf.zip /opt/echbay_vpssim/unzip/conf/*
 #unzip -q conf.zip
 #rm -rf conf.zip
-yes | cp -rf /opt/echbay_vpssim/unzip/conf/. /etc/nginx/
+mkdir -p /etc/nginx/conf ; chmod 755 /etc/nginx/conf
+yes | cp -rf /opt/echbay_vpssim/unzip/conf/. /etc/nginx/conf/
 }
 download_etc_nginx_conf
 if [ ! -f /etc/nginx/conf/staticfiles.conf ]; then
