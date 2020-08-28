@@ -27,3 +27,7 @@ yum -y install wget ; wget --no-check-certificate https://vpssim.echbay.com/inst
 #### - Loại bỏ memcached trong quá trình cài đặt mặc định, cái này ai thấy cần thiết thì cài thêm là được.
 #### - Loại bỏ CSF trong quá trình cài đặt mặc định, về cơ bản thì CSF khá tốn RAM, ai có VPS hoặc server RAM khỏe thì bấm cài thêm thủ công.
 #### - Còn lại hầu hết các tính năng vẫn được giữ nguyên hoặc chưa có thời gian chỉnh sửa, bổ sung...
+
+### Có gì mới!
+#### Nói chung là cũng không có quá nhiều cái mới, hầu hết những gì VPSSIM cung cấp mình thấy rất ổn định và dễ sử dụng, ngoài mấy phần mềm cũ so với thời thế thì mình thay bằng bản mới hơn.
+#### Cách cài đặt: cũng được mình thay đổi bằng cách cài đặt từ https://github.com/itvn9online/vpssim-free thay vì download từ nhiều nguồn khác nhau như VPSSIM. Thêm nữa khi up code lên github thì cũng có cái nhìn trực quan hơn, mọi người sẽ dễ dàng tham khảo và góp ý các thay đổi hơn cho đúng chuẩn mã nguồn mở.
