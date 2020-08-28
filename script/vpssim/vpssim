@@ -14,7 +14,8 @@ fi
 fileTime=$(date -r /tmp/00-all-nginx-version.txt +%d)
 if [ ! "$fileTime" == "$curTime" ]; then
 rm -rf /tmp/00-all-nginx-version.txt
-wget -q https://vpssim.echbay.com/script/vpssim/00-all-nginx-version.txt -O /tmp/00-all-nginx-version.txt
+#wget -q https://vpssim.echbay.com/script/vpssim/00-all-nginx-version.txt -O /tmp/00-all-nginx-version.txt
+wget --no-check-certificate -q https://raw.githubusercontent.com/itvn9online/vpssim-free/master/script/vpssim/00-all-nginx-version.txt -O /tmp/00-all-nginx-version.txt
 touch /tmp/00-all-nginx-version.txt
 Nginx1=`cat /etc/vpssim/nginx.version`
 checksize=$(du -sb /tmp/00-all-nginx-version.txt | awk 'NR==1 {print $1}')
@@ -46,7 +47,8 @@ fi
 fileTime2=$(date -r /tmp/vpssim.newversion +%d)
 if [ ! "$fileTime2" == "$curTime" ]; then
 rm -rf /tmp/vpssim.newversion
-wget -q https://vpssim.echbay.com/script/vpssim/vpssim.newversion -O /tmp/vpssim.newversion
+#wget -q https://vpssim.echbay.com/script/vpssim/vpssim.newversion -O /tmp/vpssim.newversion
+wget --no-check-certificate -q https://raw.githubusercontent.com/itvn9online/vpssim-free/master/version -O /tmp/vpssim.newversion
 touch /tmp/vpssim.newversion
 LOCALVER=`cat /etc/vpssim/vpssim.version`
 checksize=$(du -sb /tmp/vpssim.newversion | awk 'NR==1 {print $1}')
