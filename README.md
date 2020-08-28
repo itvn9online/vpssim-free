@@ -4,7 +4,9 @@
 ECHBAY-VPSSIM là bản chỉnh sửa lại từ VPSSIM-3.8.1 (phiên bản này được VPSSIM update vào lúc 2016-02-18 01:30:09) với một số điểm tinh chỉnh lại cho phù hợp với thời điểm 2020.
 
 Lệnh Cài Đặt ECHBAY-VPSSIM Trên Centos 6 & 7:
+```
 yum -y install wget ; wget --no-check-certificate https://vpssim.echbay.com/install ; chmod +x install ; bash install
+```
 
 Chức Năng, Tiện Ích Và Tối Ưu VPS Của ECHBAY-VPSSIM:
 	- Cài đặt nginx-1.18.0, đây là phiên bản ổn định và mới nhất của nginx, kết hợp với openssl-1.0.2s thay cho bản openssl cũ của VPSSIM, giúp tối ưu sức mạnh của HTTP2.
