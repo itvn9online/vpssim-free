@@ -22,7 +22,7 @@ yum -y install wget ; wget --no-check-certificate https://vpssim.echbay.com/inst
 ##### + https://ftp.pcre.org/pub/pcre/ -> cái này mình không rõ nó là gì, mình dùng bản 8.43 thay cho bản 8.39 của VPSSIM.
 ##### + https://www.zlib.net/ -> cái này cũng thế, dùng bản 1.2.11 thay cho bản 1.2.8 của VPSSIM.
 
-#### - Cho bạn lựa chọn MariaDB phiên bản 10.0, 10.1, 10.2 & 10.3 và tự động config phù hợp với cấu hình server.
+#### - Cho bạn lựa chọn MariaDB phiên bản 10.3, 10.2, 10.1, 10.0 và bản 5.5 thay vì bản 10.0 và 5.5 mặc định của VPSSIM. Tự động config phù hợp với cấu hình server.
 #### - Lựa chọn 6 phiên bản PHP : 7.2, 7.1, 7.0, 5.6, 5.5 hoặc 5.4 . VPSSIM tự động config tối ưu PHP tùy theo cấu hình VPS và thay bạn có thể thay đổi PHP version thoải mái trong quá trình sử dụng.
 #### - Loại bỏ memcached trong quá trình cài đặt mặc định, cái này ai thấy cần thiết thì cài thêm là được.
 #### - Loại bỏ CSF trong quá trình cài đặt mặc định, về cơ bản thì CSF khá tốn RAM, ai có VPS hoặc server RAM khỏe thì bấm cài thêm thủ công.
