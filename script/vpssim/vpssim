@@ -190,6 +190,7 @@ select opt in "${options[@]}" ; do
     28) /etc/vpssim/menu/vpssim-dat-mat-khau-bao-ve-folder-mac-dinh;;
     29) clear && /etc/vpssim/menu/vpssim-vps-info;;
 	30) clear && cat /etc/motd && killall -g vpssim;; 
+	0) clear && cat /etc/motd && killall -g vpssim;; 
     *) echo "Ban nhap sai, vui long nhap theo so thu tu tren menu !";continue;;
 
     esac

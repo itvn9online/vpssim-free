@@ -62,6 +62,7 @@ select opt in "${options[@]}"; do
     10) luachon="enabledisablephpfunction"; break;; 
     11) luachon="phpinimacdinh"; break;;
     12) luachon="cancel"; break;;
+    0) clear && vpssim;;
     *) echo "Ban nhap sai, vui long nhap theo so thu tu tren menu";continue;;
     esac  
 done
