@@ -5,6 +5,7 @@ moduledir=/usr/local/vpssim
 opensslversion=openssl-1.0.2s
 #zlibversion=zlib-1.2.8
 zlibversion=zlib-1.2.11
+pcreVersionInstall=pcre-8.43
 rm -rf /tmp/checktmp
 echo "Check /tmp by VPSSIM" > /tmp/checktmp
 if [ ! -f /tmp/checktmp ]; then
@@ -70,12 +71,14 @@ rm -rf ${zlibversion}
 wget --no-check-certificate https://github.com/itvn9online/vpssim-free/raw/master/script/vpssim/module-nginx/${zlibversion}.tar.gz
 tar -xzxf ${zlibversion}.tar.gz
 rm -rf ${zlibversion}.tar.gz
+
 # /usr/local/vpssim/pcre-8.39
-rm -rf pcre-8.39
+rm -rf ${pcreVersionInstall}.zip
 #wget -q https://vpssim.echbay.com/script/vpssim/module-nginx/pcre-8.39.zip
-wget --no-check-certificate https://github.com/itvn9online/vpssim-free/raw/master/script/vpssim/module-nginx/pcre-8.39.zip
-unzip -oq pcre-8.39.zip
-rm -rf pcre-8.39.zip
+wget --no-check-certificate https://github.com/itvn9online/vpssim-free/raw/master/script/vpssim/module-nginx/${pcreVersionInstall}.zip
+unzip -oq ${pcreVersionInstall}.zip
+rm -rf ${pcreVersionInstall}.zip
+
 # /usr/local/vpssim/ngx_http_redis-0.3.8
 rm -rf ngx_http_redis-0.3.8
 #wget -q https://vpssim.echbay.com/script/vpssim/module-nginx/ngx_http_redis-0.3.8.tar.gz
@@ -170,7 +173,7 @@ sed -i 's/"Server: "/"Server: Nginx-VPSSIM"/g' /usr/local/vpssim/nginx-${Nginx_V
 --with-http_gunzip_module \
 --with-http_gzip_static_module \
 --with-file-aio \
---with-pcre=$moduledir/pcre-8.39 \
+--with-pcre=$moduledir/${pcreVersionInstall} \
 --with-pcre-jit \
 --with-google_perftools_module \
 --with-debug \

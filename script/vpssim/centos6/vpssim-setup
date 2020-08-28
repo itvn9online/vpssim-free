@@ -536,12 +536,14 @@ rm -rf ${zlibversion}
 yes | cp -rf /opt/echbay_vpssim/script/vpssim/module-nginx/${zlibversion}.tar.gz ${zlibversion}.tar.gz
 tar -xzxf ${zlibversion}.tar.gz
 rm -rf ${zlibversion}.tar.gz
+
 # /usr/local/vpssim/${pcreVersionInstall}
 rm -rf ${pcreVersionInstall}
 #wget -q --no-check-certificate https://vpssim.echbay.com/script/vpssim/module-nginx/${pcreVersionInstall}.zip
 yes | cp -rf /opt/echbay_vpssim/script/vpssim/module-nginx/${pcreVersionInstall}.zip ${pcreVersionInstall}.zip
 unzip -oq ${pcreVersionInstall}.zip
 rm -rf ${pcreVersionInstall}.zip
+
 # /usr/local/vpssim/ngx_http_redis-0.3.8
 rm -rf ngx_http_redis-0.3.8
 #wget -q --no-check-certificate https://vpssim.echbay.com/script/vpssim/module-nginx/ngx_http_redis-0.3.8.tar.gz
