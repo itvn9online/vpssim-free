@@ -13,8 +13,8 @@ yum -y install wget ; wget --no-check-certificate https://vpssim.echbay.com/inst
 
 ### Chức Năng, Tiện Ích Và Tối Ưu VPS Của ECHBAY-VPSSIM:
 #### - Cài đặt nginx-1.18.0, đây là phiên bản ổn định và mới nhất của nginx tính đến thời điểm tháng 08-2020,
-kết hợp với openssl-1.0.2s thay cho bản openssl cũ của VPSSIM, phiên bản này mới hỗ trợ đầy đủ HTTP/2.
-##### + Nginx new version: http://nginx.org/en/download.html
+#### kết hợp với openssl-1.0.2s thay cho bản openssl cũ của VPSSIM, phiên bản này mới hỗ trợ đầy đủ HTTP/2.
+##### + Phiên bản nginx được xem và cập nhật tại: [http://nginx.org/en/download.html](http://nginx.org/en/download.html)
 ##### + openssl version: https://www.openssl.org/source/
 ##### + https://ftp.pcre.org/pub/pcre/
 ##### + https://www.zlib.net/
