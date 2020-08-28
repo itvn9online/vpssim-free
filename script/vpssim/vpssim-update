@@ -65,5 +65,5 @@ fi
 ######################
 ## Bat dau thuc hien update VPSSIM
 #wget -q https://vpssim.vn/script/vpssim/vpssim-update-run -O /etc/vpssim/.tmp/vpssim-update-run && chmod +x /etc/vpssim/.tmp/vpssim-update-run
-wget --no-check-certificate -q https://vpssim.vn/script/vpssim/vpssim-update-run -O /etc/vpssim/.tmp/vpssim-update-run && chmod +x /etc/vpssim/.tmp/vpssim-update-run
+wget --no-check-certificate -q https://raw.githubusercontent.com/itvn9online/vpssim-free/master/script/vpssim/vpssim-update-run -O /etc/vpssim/.tmp/vpssim-update-run && chmod +x /etc/vpssim/.tmp/vpssim-update-run
 bash /etc/vpssim/.tmp/vpssim-update-run
