@@ -17,9 +17,9 @@ yum -y install wget ; wget --no-check-certificate https://vpssim.echbay.com/inst
 ##### + Phiên bản nginx được xem và cập nhật tại: [http://nginx.org/en/download.html](http://nginx.org/en/download.html)
 ###### Mặc định mình chỉ chọn phiên bản Stable version, các bản Mainline là đang phát triển nên không chọn.
 ##### + Openssl hiện mình mới chỉ cài được bản 1.0.2s, đây là bản cũ nhưng vẫn hỗ trợ HTTP/2, thay cho bản 1.0.2l trên VPSSIM.
-##### 	Các phiên bản khác có thể xem thêm tại đây: https://www.openssl.org/source/
-##### + https://ftp.pcre.org/pub/pcre/
-##### + https://www.zlib.net/
+##### 	Các phiên bản OpenSSL khác có thể xem thêm tại đây: https://www.openssl.org/source/
+##### + https://ftp.pcre.org/pub/pcre/ -> cái này mình không rõ nó là gì, mình dùng bản 8.43 thay cho bản 8.39 của VPSSIM.
+##### + https://www.zlib.net/ -> cái này cũng thế, dùng bản 1.2.11 thay cho bản 1.2.8 của VPSSIM.
 
 #### - Cho bạn lựa chọn MariaDB phiên bản 10.0, 10.1, 10.2 & 10.3 và tự động config phù hợp với cấu hình server.
 #### - Lựa chọn 6 phiên bản PHP : 7.2, 7.1, 7.0, 5.6, 5.5 hoặc 5.4 . VPSSIM tự động config tối ưu PHP tùy theo cấu hình VPS và thay bạn có thể thay đổi PHP version thoải mái trong quá trình sử dụng.
