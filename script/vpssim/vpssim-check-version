@@ -9,9 +9,46 @@ fi
 
 
 
+if [ ! -f /tmp/00-all-nginx-version.txt ]; then
+touch -a -m -t 201601180130.09 /tmp/00-all-nginx-version.txt  
+fi
+
+fileTime=$(date -r /tmp/00-all-nginx-version.txt +%d)
+if [ ! "$fileTime" == "$curTime" ]; then
+rm -rf /tmp/00-all-nginx-version.txt
+#wget -q https://vpssim.echbay.com/script/vpssim/00-all-nginx-version.txt -O /tmp/00-all-nginx-version.txt
+wget --no-check-certificate -q https://raw.githubusercontent.com/itvn9online/vpssim-free/master/script/vpssim/00-all-nginx-version.txt -O /tmp/00-all-nginx-version.txt
+touch /tmp/00-all-nginx-version.txt
+Nginx1=`cat /etc/vpssim/nginx.version`
+checksize=$(du -sb /tmp/00-all-nginx-version.txt | awk 'NR==1 {print $1}')
+if [ $checksize -gt 14 ]; then
+Nginx3=`cat /tmp/00-all-nginx-version.txt | awk 'NR==2 {print $1}' | sed 's/|//' | sed 's/|//'`
+cat >> "/tmp/vpssim_check_nginx" <<END
+		if [  "$(grep $Nginx1 /tmp/00-all-nginx-version.txt | sed 's/|//' | sed 's/|//')" == "$Nginx1" ]; then
+			if [ ! "$Nginx1" == "$Nginx3" ]; then
+			echo "========================================================================="
+			echo "Update for Nginx Found !  "
+			echo "-------------------------------------------------------------------------"
+			echo "Your Version: $Nginx1   |   Newest version: $Nginx3"
+			echo "-------------------------------------------------------------------------"
+			echo "How to update: VPSSIM menu => Update System => Change Nginx Version "
+			
+			fi
+		fi
+END
+chmod +x /tmp/vpssim_check_nginx
+/tmp/vpssim_check_nginx
+rm -rf /tmp/vpssim_check_nginx
+fi
+fi
+
+
+
 if [ ! -f /tmp/vpssim.newversion ]; then
 touch -a -m -t 201602180130.09 /tmp/vpssim.newversion  
 fi
+
+
 
 fileTime2=$(date -r /tmp/vpssim.newversion +%d)
 if [ ! "$fileTime2" == "$curTime" ]; then
@@ -41,7 +78,75 @@ END
 	fi
 fi
 
+if [ ! -f /etc/vpssim/tatthongbao.csf ]; then
+if [ ! -f /etc/csf/csf.conf ]; then
+echo "========================================================================="
+echo "NGUY HIEM ! BAN CHUA CAI DAT CSF FIREWALL DE BAO VE VPS/SERVER !"
+echo "========================================================================="
+echo "Canh bao nay tu dong tat sau khi ban cai dat CSF. Hoac tat bang cach dung"
+echo "========================================================================="
+echo "Chuc nang [ Tat/Bat Canh Bao Tren Menu ] trong [ Quan Ly CSF Firewall ] "
+fi
+fi
+rm -rf /tmp/*ip*
+who am i| awk '{ print $5}' | sed 's/(//'| sed 's/)//' > /tmp/checkip
+checksize=$(du -sb /tmp/checkip | awk 'NR==1 {print $1}')
+if [ $checksize -gt 8 ]; then
+if [ -f /etc/csf/csf.conf ]; then
+checkip=$(cat /tmp/checkip)
+	if [ ! -f /etc/csf/csf.ignore ]; then
+	echo "" > /etc/csf/csf.ignore
+	fi
+if [ "$(grep $checkip /etc/csf/csf.ignore)" == "" ]; then 
+cat >> "/tmp/addcheckip" <<END
+echo "$checkip" >> /etc/csf/csf.ignore
+echo "$checkip" >> /etc/csf/csf.allow
+echo "========================================================================="
+echo "Dia chi IP hien tai cua ban:  $checkip" 
+echo "-------------------------------------------------------------------------"
+echo "Dia chi IP nay khong co trong whitelist cua CSF Firewwall"
+echo "-------------------------------------------------------------------------"
+echo "VPSSIM da them IP nay vao CSF whitelist de khong bi CSF Firewall Block"
+echo "-------------------------------------------------------------------------"
+echo "De thay doi co hieu luc, CSF Firewall can khoi dong lai"
+echo "========================================================================="
+read -p "Nhan [Enter] de khoi dong lai CSF Firewall va Truy cap VPSSIM ..."
+#iptables -I INPUT -p tcp --dport $priport -j ACCEPT
+#iptables -A INPUT -p tcp -s $checkip --dport $priport -j ACCEPT
+#service iptables save
+#service iptables restart
+/etc/vpssim/menu/CSF-Fiwall/vpssim-re-start-khoi-dong-lai-csf-lfd
+clear
+echo "========================================================================="
+echo "IP: $checkip da duoc them vao CSF Firewall's Whitelist"
+END
+chmod +x /tmp/addcheckip
+/tmp/addcheckip
+fi
+fi
+fi
 
+if [ ! -f /etc/vpssim/minfreedisc.info ]; then
+echo "1000" > /etc/vpssim/minfreedisc.info
+fi
+minfreedisc=`cat /etc/vpssim/minfreedisc.info`
+if ! [[ $minfreedisc =~ $checktruenumber ]] ; then
+echo "1000" > /etc/vpssim/minfreedisc.info
+fi 
+if [ ! -f /tmp/checkdiscsize ]; then
+touch -a -m -t 201602180130.09 /tmp/checkdiscsize 
+fi
+fileTime3=$(date -r /tmp/checkdiscsize +%d)
+if [ ! "$fileTime3" == "$curTime" ]; then
+touch /tmp/checkdiscsize
+disfree=$(calc $(df $PWD | awk '/[0-9]%/{print $(NF-2)}')/1024)
+	if [[ $disfree =~ $checktruenumber ]] ; then  
+	  if [ "$disfree" -lt "$minfreedisc" ]; then
+echo "========================================================================="
+echo "CANH BAO: Hien tai server con $disfree MB dung luong trong ! "
+	  fi
+   fi
+fi
 
 rm -rf /tmp/*ip*
 rm -rf /tmp/showthongbao 

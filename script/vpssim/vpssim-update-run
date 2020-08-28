@@ -16,7 +16,19 @@ sleep 5
 yes | cp -rf /opt/echbay_vpssim/version /opt/echbay_vpssim/script/vpssim/vpssim.newversion
 
 
-# BEGIN update menu
+# BEGIN update VPSSIM main
+#rm -rf /etc/motd
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/motd /etc/motd
+
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/vpssim /bin/vpssim && chmod +x /bin/vpssim
+# BEGIN update VPSSIM main
+
+
+rm -rf /home/vpssim.demo/errorpage_html/*
+yes | cp -rf /opt/echbay_vpssim/unzip/errorpage_html/. /home/vpssim.demo/errorpage_html/
+
+
+# BEGIN update VPSSIM menu
 rm -rf /etc/vpssim/menu/*
 yes | cp -rf /opt/echbay_vpssim/unzip/menu/. /etc/vpssim/menu/
 
@@ -32,7 +44,7 @@ find /etc/vpssim/menu/opcache -type f -exec chmod 755 {} \;
 find /etc/vpssim/menu/pagespeed -type f -exec chmod 755 {} \;
 find /etc/vpssim/menu/swap -type f -exec chmod 755 {} \;
 find /etc/vpssim/menu/tienich -type f -exec chmod 755 {} \;
-# END update menu
+# END update VPSSIM menu
 
 
 #echo "Hien tai, chuc nang update VPSSIM hien chua hoan thien"

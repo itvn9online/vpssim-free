@@ -1559,9 +1559,11 @@ clear
 echo "=========================================================================="
 echo "Dang Tao VPSSIM Menu...... "
 echo "=========================================================================="
+
 rm -rf /etc/motd
 #wget --no-check-certificate -q https://vpssim.echbay.com/script/vpssim/motd -O /etc/motd
 yes | cp -rf /opt/echbay_vpssim/script/vpssim/motd /etc/motd
+
 # Download vpssim_main_menu
 download_vpssim_main_menu () {
 #wget --no-check-certificate -q https://vpssim.echbay.com/script/vpssim/vpssim -O /bin/vpssim && chmod +x /bin/vpssim
@@ -1572,6 +1574,7 @@ checkvpssim_main_menu=`cat /bin/vpssim`
 if [ -z "$checkvpssim_main_menu" ]; then
 download_vpssim_main_menu
 fi
+
 cd /etc/vpssim/
 # Download VPSSIM data
 download_vpssim_data () {
@@ -1586,6 +1589,7 @@ download_vpssim_data
 if [ ! -f /etc/vpssim/menu/vpssim-tien-ich ]; then
 download_vpssim_data
 fi
+
 #wget --no-check-certificate -q https://vpssim.echbay.com/script/vpssim/errorpage_html.zip
 #unzip -q errorpage_html.zip
 #rm -rf errorpage_html.zip
@@ -1609,6 +1613,9 @@ find /etc/vpssim/menu/opcache -type f -exec chmod 755 {} \;
 find /etc/vpssim/menu/pagespeed -type f -exec chmod 755 {} \;
 find /etc/vpssim/menu/swap -type f -exec chmod 755 {} \;
 find /etc/vpssim/menu/tienich -type f -exec chmod 755 {} \;
+
+
+
 # Download /etc/nginx/conf
 cd /etc/nginx/
 download_etc_nginx_conf () {
