@@ -2,6 +2,7 @@
 cd ~
 if [ -d /opt/echbay_vpssim ]; then
 	rm -rf /opt/echbay_vpssim/*
+	rm -rf /opt/echbay_vpssim
 fi
 
 yum -y install git
