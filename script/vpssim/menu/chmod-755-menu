@@ -19,7 +19,8 @@ find /etc/vpssim/menu -type f -exec chmod 755 {} \;
 #find /etc/vpssim/menu/swap -type f -exec chmod 755 {} \;
 #find /etc/vpssim/menu/tienich -type f -exec chmod 755 {} \;
 
-for d in /opt/echbay_vpssim/script/vpssim/menu/*
+#for d in /opt/echbay_vpssim/script/vpssim/menu/*
+for d in /etc/vpssim/menu/*
 do
 	if [ -d $d ]; then
 		echo $d
