@@ -2,12 +2,12 @@
 . /home/vpssim.conf
 if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
 	if [ "$(/sbin/service nginx status | awk 'NR==1 {print $5}')" == "running..." ]; then
-/etc/vpssim/menu/vpssim-nang-cap-nginx
+/etc/vpssim/menu/nang-cap-nginx
 	else
 	echo "-------------------------------------------------------------------------"
 service nginx start
 		if [ "$(/sbin/service nginx status | awk 'NR==1 {print $5}')" == "running..." ]; then
-/etc/vpssim/menu/vpssim-nang-cap-nginx
+/etc/vpssim/menu/nang-cap-nginx
 		else
 	clear
 	echo "========================================================================="
@@ -20,11 +20,11 @@ fi
 
 if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
 	if [ "`systemctl is-active nginx.service`" == "active" ]; then
-/etc/vpssim/menu/vpssim-nang-cap-nginx
+/etc/vpssim/menu/nang-cap-nginx
 	else
 systemctl start nginx.service
 	if [ "`systemctl is-active nginx.service`" == "active" ]; then
-/etc/vpssim/menu/vpssim-nang-cap-nginx
+/etc/vpssim/menu/nang-cap-nginx
 		else
 	clear
 	echo "========================================================================="

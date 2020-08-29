@@ -1,11 +1,15 @@
 #!/bin/bash
 . /home/vpssim.conf
+
+
 moduledir=/usr/local/vpssim
 #opensslversion=openssl-1.0.2h
 opensslversion=openssl-1.0.2s
 #zlibversion=zlib-1.2.8
 zlibversion=zlib-1.2.11
 pcreVersionInstall=pcre-8.43
+
+
 rm -rf /tmp/checktmp
 echo "Check /tmp by VPSSIM" > /tmp/checktmp
 if [ ! -f /tmp/checktmp ]; then

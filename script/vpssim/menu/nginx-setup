@@ -163,6 +163,8 @@ rm -rf libatomic_ops.zip
 #wget -q https://vpssim.echbay.com/script/vpssim/module-nginx/nginx_module_vts.tar.gz
 #tar -xzxf nginx_module_vts.tar.gz
 #rm -rf nginx_module_vts.tar.gz
+
+
 cd
 cd /usr/local/vpssim
 #cai dat nginx
@@ -222,6 +224,7 @@ cd /usr/local/vpssim/nginx-${Nginx_VERSION}
 make
 make install
 ############################
+
 # Download init & config file for nginx
 rm -f /etc/init.d/nginx
 download_initd_nginx () {
