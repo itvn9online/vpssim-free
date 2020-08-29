@@ -6,7 +6,7 @@ if [ -d /opt/echbay_vpssim ]; then
 	sleep 5
 fi
 
-yum -y install git
+sudo yum -y install git
 git clone https://github.com/itvn9online/vpssim-free /opt/echbay_vpssim
 sleep 5
 

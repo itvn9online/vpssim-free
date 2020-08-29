@@ -12,14 +12,15 @@ sudo yum -y install wget
 
 kiemtraemail3="^(([-a-zA-Z0-9\!#\$%\&\'*+/=?^_\`{\|}~])+\.)*[-a-zA-Z0-9\!#\$%\&\'*+/=?^_\`{\|}~]+@\w((-|\w)*\w)*\.(\w((-|\w)*\w)*\.)*\w{2,24}$";
 svip=$(wget http://ipecho.net/plain -O - -q ; echo)
+phpmacdinh="7.2"
 echo "=========================================================================="
-echo "Mac dinh server se duoc cai dat PHP 5.6. Neu muon su dung phien ban PHP "
+echo "Mac dinh server se duoc cai dat PHP "$phpmacdinh". Neu muon su dung phien ban PHP "
 echo "--------------------------------------------------------------------------"
 echo "khac, sau khi cai dat server xong dung chuc nang [ Change PHP Version ] "
 echo "--------------------------------------------------------------------------"
 echo "trong [ Update System ] cua VPSSIM."
 echo "--------------------------------------------------------------------------"
-echo "VPSSIM ho tro: PHP 7.0, PHP 5.6, PHP 5.5 & PHP 5.4"
+echo "VPSSIM ho tro: PHP 7.2, PHP 7.1, PHP 7.0, PHP 5.6, PHP 5.5 & PHP 5.4"
 cpuname=$( awk -F: '/model name/ {name=$2} END {print name}' /proc/cpuinfo )
 cpucores=$( awk -F: '/model name/ {core++} END {print core}' /proc/cpuinfo )
 cpufreq=$( awk -F: ' /cpu MHz/ {freq=$2} END {print freq}' /proc/cpuinfo )
@@ -164,7 +165,8 @@ rm -rf vpssim.newversion
 rm -rf 00-all-phpmyadmin-version.txt
 ###########################
 download_version_nginx () {
-wget --no-check-certificate -q https://hostingaz.vn/script/vpssim/00-all-nginx-version.txt
+#wget --no-check-certificate -q https://hostingaz.vn/script/vpssim/00-all-nginx-version.txt
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/00-all-nginx-version.txt 00-all-nginx-version.txt
 }
 download_version_nginx
 checkdownload_version_nginx=`cat /tmp/00-all-nginx-version.txt`
@@ -173,7 +175,8 @@ download_version_nginx
 fi
 ###########################
 download_version_phpmyadmin () {
-wget --no-check-certificate -q https://hostingaz.vn/script/vpssim/00-all-phpmyadmin-version.txt
+#wget --no-check-certificate -q https://hostingaz.vn/script/vpssim/00-all-phpmyadmin-version.txt
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/00-all-phpmyadmin-version.txt 00-all-phpmyadmin-version.txt
 }
 download_version_phpmyadmin
 checkdownload_version_phpmyadmin=`cat /tmp/00-all-phpmyadmin-version.txt`
@@ -182,7 +185,8 @@ download_version_phpmyadmin
 fi
 ###########################
 download_version_vpssim () {
-wget -q --no-check-certificate https://hostingaz.vn/script/vpssim/vpssim.newversion
+#wget -q --no-check-certificate https://hostingaz.vn/script/vpssim/vpssim.newversion
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/vpssim.newversion vpssim.newversion
 }
 download_version_vpssim
 checkdownload_version_vpssim=`cat /tmp/vpssim.newversion`
@@ -215,7 +219,7 @@ echo "Mat khau tai khoan root MySQL: $passrootmysql"
 echo "--------------------------------------------------------------------------"
 echo "Nginx Version: $Nginx_VERSION"
 echo "--------------------------------------------------------------------------"
-echo "PHP Version: 5.6"
+echo "PHP Version: "$phpmacdinh
 echo "--------------------------------------------------------------------------"
 echo "VPSSIM Version: $vpssim_version"
 echo "=========================================================================="
@@ -241,7 +245,8 @@ rm -rf /root/install && bash /root/vpssim-setup
 exit
 fi
 download_nginx_conf () {
-wget --no-check-certificate -q https://hostingaz.vn/script/vpssim/nginx.conf -O /tmp/nginx.conf
+#wget --no-check-certificate -q https://hostingaz.vn/script/vpssim/nginx.conf -O /tmp/nginx.conf
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/nginx.conf /tmp/nginx.conf
 }
 download_nginx_conf
 checkdownload_nginx_conf=`cat /tmp/nginx.conf`
@@ -257,11 +262,12 @@ echo "$svport" > /tmp/priport.txt
 if [ -s /etc/selinux/config ]; then
 sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
 fi
-yum -y install epel-release
+sudo yum -y install epel-release
 rpm -Uvh http://rpms.famillecollet.com/enterprise/remi-release-7.rpm
 if [ -f /etc/yum.repos.d/epel.repo ]; then
 sudo sed -i "s/mirrorlist=https/mirrorlist=http/" /etc/yum.repos.d/epel.repo
 fi
+
 if [ "$phienbanmariadb" = "10.0" ]; then
 cat > "/etc/yum.repos.d/mariadb.repo" <<END
 # MariaDB 10.0 CentOS repository list 
@@ -273,6 +279,43 @@ gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
 gpgcheck=1
 END
 fi
+
+if [ "$phienbanmariadb" = "10.1" ]; then
+cat > "/etc/yum.repos.d/mariadb.repo" <<END
+# MariaDB 10.1 CentOS repository list 
+# http://downloads.mariadb.org/mariadb/repositories/
+[mariadb]
+name = MariaDB
+baseurl = http://yum.mariadb.org/10.1/centos7-amd64
+gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
+gpgcheck=1
+END
+fi
+
+if [ "$phienbanmariadb" = "10.2" ]; then
+cat > "/etc/yum.repos.d/mariadb.repo" <<END
+# MariaDB 10.2 CentOS repository list 
+# http://downloads.mariadb.org/mariadb/repositories/
+[mariadb]
+name = MariaDB
+baseurl = http://yum.mariadb.org/10.2/centos7-amd64
+gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
+gpgcheck=1
+END
+fi
+
+if [ "$phienbanmariadb" = "10.3" ]; then
+cat > "/etc/yum.repos.d/mariadb.repo" <<END
+# MariaDB 10.3 CentOS repository list 
+# http://downloads.mariadb.org/mariadb/repositories/
+[mariadb]
+name = MariaDB
+baseurl = http://yum.mariadb.org/10.3/centos7-amd64
+gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
+gpgcheck=1
+END
+fi
+
 if [ "$phienbanmariadb" = "5.5" ]; then
 cat > "/etc/yum.repos.d/mariadb.repo" <<END
 # MariaDB 5.5 CentOS repository list
@@ -296,17 +339,17 @@ systemctl disable xinetd.service
 systemctl disable saslauthd.service 
 systemctl disable rsyslog.service 
 systemctl disable postfix.service
-yum -y remove mysql*
-yum -y remove php*
-yum -y remove httpd*
-yum -y remove sendmail*
-yum -y remove postfix*
-yum -y remove rsyslog*
+sudo yum -y remove mysql*
+sudo yum -y remove php*
+sudo yum -y remove httpd*
+sudo yum -y remove sendmail*
+sudo yum -y remove postfix*
+sudo yum -y remove rsyslog*
 mkdir -p /usr/local/vpssim
 cd /usr/local/vpssim
 groupadd nginx
 useradd -g nginx -d /dev/null -s /sbin/nologin nginx
-yum -y update
+sudo yum -y update
 sudo yum -y groupinstall "Development Tools"
 sudo yum -y install gcc gcc-c++ pcre pcre-devel zlib zlib-devel mailx tar expect imake lsof autoconf nc ca-certificates libedit-devel make automake expat-devel perl-libwww-perl perl-Crypt-SSLeay perl-Net-SSLeay tree virt-what cmake openssl-devel net-tools systemd-devel libdb-devel libxml2-devel libxml2 libxslt-devel gd gd-devel perl-ExtUtils-Embed patch sysstat libtool bind-utils libXext-devel cyrus-sasl-devel glib2 glib2-devel openssl ncurses-devel bzip2 bzip2-devel flex bison libcurl-devel which libevent libevent-devel libgcj gettext-devel vim-minimal nano cairo-devel libpng-devel freetype freetype-devel libart_lgpl-devel  GeoIP-devel gperftools-devel libicu libicu-devel aspell gmp-devel aspell-devel libtidy libtidy-devel readline-devel iptables* coreutils libedit-devel enchant enchant-devel pam-devel git perl-ExtUtils perl-ExtUtils-MakeMaker perl-Time-HiRes openldap openldap-devel curl curl-devel diffutils libc-client libc-client-devel numactl lsof pkgconfig gdbm-devel tk-devel libatomic_ops-devel gperftools bluez-libs-devel
 sudo yum -y install unzip zip rar unrar rsync psmisc syslog-ng-libdbi
@@ -316,7 +359,7 @@ cd
 #sed -i 's/\.//g' /tmp/gitversion
 #if [ $(cat /tmp/gitversion) -lt 253 ]; then
 #if [ ! "$(cat /tmp/gitversion)" = "253" ]; then
-#yum -y remove git
+#sudo yum -y remove git
 #cd /usr/src
 #wget -q --no-check-certificate https://vpssim.com/script/vpssim/git-2.5.3.tar.gz
 #tar xzf git-2.5.3.tar.gz
@@ -346,77 +389,92 @@ sleep 3
 cd /usr/local/vpssim
 # /usr/local/vpssim/echo-nginx-module
 rm -rf echo-nginx-module*
-wget --no-check-certificate https://vpssim.com/script/vpssim/module-nginx/echo-nginx-module.zip
+#wget --no-check-certificate https://vpssim.com/script/vpssim/module-nginx/echo-nginx-module.zip
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/module-nginx/echo-nginx-module.zip echo-nginx-module.zip
 unzip -oq echo-nginx-module.zip
 rm -rf echo-nginx-module.zip
 # /usr/local/vpssim/ngx_http_substitutions_filter_module
 rm -rf ngx_http_substitutions_filter_module*
-wget --no-check-certificate https://vpssim.com/script/vpssim/module-nginx/ngx_http_substitutions_filter_module.zip
+#wget --no-check-certificate https://vpssim.com/script/vpssim/module-nginx/ngx_http_substitutions_filter_module.zip
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/module-nginx/ngx_http_substitutions_filter_module.zip ngx_http_substitutions_filter_module.zip
 unzip -oq ngx_http_substitutions_filter_module.zip
 rm -rf ngx_http_substitutions_filter_module.zip
 # /usr/local/vpssim/ngx_cache_purge-master
 rm -rf ngx_cache_purge*
-wget --no-check-certificate https://vpssim.com/script/vpssim/module-nginx/ngx_cache_purge.zip
+#wget --no-check-certificate https://vpssim.com/script/vpssim/module-nginx/ngx_cache_purge.zip
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/module-nginx/ngx_cache_purge.zip ngx_cache_purge.zip
 unzip -oq ngx_cache_purge.zip
 rm -rf ngx_cache_purge.zip
 # /usr/local/vpssim/headers-more-nginx-module
 rm -rf headers-more-nginx-module*
-wget --no-check-certificate https://vpssim.com/script/vpssim/module-nginx/headers-more-nginx-module.zip
+#wget --no-check-certificate https://vpssim.com/script/vpssim/module-nginx/headers-more-nginx-module.zip
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/module-nginx/headers-more-nginx-module.zip headers-more-nginx-module.zip
 unzip -oq headers-more-nginx-module.zip
 rm -rf headers-more-nginx-module.zip
 # /usr/local/vpssim/openssl-1.0.2h
 rm -rf ${opensslversion}
-wget -q --no-check-certificate https://vpssim.com/script/vpssim/module-nginx/${opensslversion}.tar.gz
+#wget -q --no-check-certificate https://vpssim.com/script/vpssim/module-nginx/${opensslversion}.tar.gz
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/module-nginx/${opensslversion}.tar.gz ${opensslversion}.tar.gz
 tar -xzxf ${opensslversion}.tar.gz
 rm -rf ${opensslversion}.tar.gz
 # $moduledir/${zlibversion}
 rm -rf ${zlibversion}
-wget -q --no-check-certificate https://vpssim.com/script/vpssim/module-nginx/${zlibversion}.tar.gz
+#wget -q --no-check-certificate https://vpssim.com/script/vpssim/module-nginx/${zlibversion}.tar.gz
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/module-nginx/${zlibversion}.tar.gz ${zlibversion}.tar.gz
 tar -xzxf ${zlibversion}.tar.gz
 rm -rf ${zlibversion}.tar.gz
 # /usr/local/vpssim/${pcreVersionInstall}
 rm -rf ${pcreVersionInstall}
-wget -q --no-check-certificate https://vpssim.com/script/vpssim/module-nginx/${pcreVersionInstall}.zip
+#wget -q --no-check-certificate https://vpssim.com/script/vpssim/module-nginx/${pcreVersionInstall}.zip
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/module-nginx/${pcreVersionInstall}.zip ${pcreVersionInstall}.zip
 unzip -oq ${pcreVersionInstall}.zip
 rm -rf ${pcreVersionInstall}.zip
 # /usr/local/vpssim/ngx_http_redis-0.3.8
 rm -rf ngx_http_redis-0.3.8
-wget -q --no-check-certificate https://vpssim.com/script/vpssim/module-nginx/ngx_http_redis-0.3.8.tar.gz
+#wget -q --no-check-certificate https://vpssim.com/script/vpssim/module-nginx/ngx_http_redis-0.3.8.tar.gz
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/module-nginx/ngx_http_redis-0.3.8.tar.gz ngx_http_redis-0.3.8.tar.gz
 tar -xzxf ngx_http_redis-0.3.8.tar.gz
 rm -rf ngx_http_redis-0.3.8.tar.gz
 # /usr/local/vpssim/redis2-nginx-module
 rm -rf redis2-nginx-module*
-wget --no-check-certificate https://vpssim.com/script/vpssim/module-nginx/redis2-nginx-module.zip
+#wget --no-check-certificate https://vpssim.com/script/vpssim/module-nginx/redis2-nginx-module.zip
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/module-nginx/redis2-nginx-module.zip redis2-nginx-module.zip
 unzip -oq redis2-nginx-module.zip
 rm -rf redis2-nginx-module.zip
 # /usr/local/vpssim/set-misc-nginx-module
 rm -rf set-misc-nginx-module*
-wget --no-check-certificate https://vpssim.com/script/vpssim/module-nginx/set-misc-nginx-module.zip
+#wget --no-check-certificate https://vpssim.com/script/vpssim/module-nginx/set-misc-nginx-module.zip
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/module-nginx/set-misc-nginx-module.zip set-misc-nginx-module.zip
 unzip -oq set-misc-nginx-module.zip
 rm -rf set-misc-nginx-module.zip
 # /usr/local/vpssim/ngx_devel_kit
 rm -rf ngx_devel_kit*
-wget --no-check-certificate https://vpssim.com/script/vpssim/module-nginx/ngx_devel_kit.zip
+#wget --no-check-certificate https://vpssim.com/script/vpssim/module-nginx/ngx_devel_kit.zip
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/module-nginx/ngx_devel_kit.zip ngx_devel_kit.zip
 unzip -oq ngx_devel_kit.zip
 rm -rf ngx_devel_kit.zip
 # /usr/local/vpssim/ngx_http_concat
 rm -rf ngx_http_concat
-wget -q --no-check-certificate https://vpssim.com/script/vpssim/module-nginx/ngx_http_concat.tar.gz
+#wget -q --no-check-certificate https://vpssim.com/script/vpssim/module-nginx/ngx_http_concat.tar.gz
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/module-nginx/ngx_http_concat.tar.gz ngx_http_concat.tar.gz
 tar -xzxf ngx_http_concat.tar.gz
 rm -rf ngx_http_concat.tar.gz
 # /usr/local/vpssim/srcache-nginx-module
 rm -rf srcache-nginx-module*
-wget --no-check-certificate https://vpssim.com/script/vpssim/module-nginx/srcache-nginx-module.zip
+#wget --no-check-certificate https://vpssim.com/script/vpssim/module-nginx/srcache-nginx-module.zip
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/module-nginx/srcache-nginx-module.zip srcache-nginx-module.zip
 unzip -oq srcache-nginx-module.zip
 rm -rf srcache-nginx-module.zip
 # /usr/local/vpssim/memc-nginx-module
 rm -rf memc-nginx-module*
-wget --no-check-certificate https://vpssim.com/script/vpssim/module-nginx/memc-nginx-module.zip
+#wget --no-check-certificate https://vpssim.com/script/vpssim/module-nginx/memc-nginx-module.zip
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/module-nginx/memc-nginx-module.zip memc-nginx-module.zip
 unzip -oq memc-nginx-module.zip
 rm -rf memc-nginx-module.zip
 # /usr/local/vpssim/libatomic_ops-master
 rm -rf libatomic_ops*
-wget --no-check-certificate https://vpssim.com/script/vpssim/module-nginx/libatomic_ops.zip
+#wget --no-check-certificate https://vpssim.com/script/vpssim/module-nginx/libatomic_ops.zip
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/module-nginx/libatomic_ops.zip libatomic_ops.zip
 unzip -oq libatomic_ops.zip
 rm -rf libatomic_ops.zip
 # /usr/local/vpssim/nginx-module-vts-master
@@ -488,7 +546,8 @@ make install
 # Download init & config file for nginx
 rm -f /etc/init.d/nginx
 download_initd_nginx () {
-wget --no-check-certificate -q https://hostingaz.vn/script/vpssim/nginx -O /etc/init.d/nginx && chmod +x /etc/init.d/nginx
+#wget --no-check-certificate -q https://hostingaz.vn/script/vpssim/nginx -O /etc/init.d/nginx && chmod +x /etc/init.d/nginx
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/nginx /etc/init.d/nginx && chmod +x /etc/init.d/nginx
 }
 download_initd_nginx
 checkdownload_initd_nginx=`cat /etc/init.d/nginx`
@@ -501,12 +560,13 @@ mv /tmp/nginx.conf /etc/nginx/nginx.conf
 # End Download init & config file for nginx
 ############################
 
-yum -y install MariaDB-client MariaDB-common MariaDB-compat MariaDB-devel MariaDB-server MariaDB-shared perl-DBD-MySQL
-yum -y install exim syslog-ng cronie cronie-anacron
-yum-config-manager --enable remi-php56
-yum -y install php php-curl php-soap php-cli php-snmp php-pspell redis php-pecl-redis php-gmp php-ldap php-bcmath php-intl php-imap perl-libwww-perl perl-LWP-Protocol-https php-pear-Net-SMTP php-enchant php-common php-fpm php-gd php-devel php-mysql php-pear php-pecl-memcached php-pecl-memcache php-opcache php-pdo php-zlib php-xml php-mbstring php-mcrypt php-xmlrpc php-tidy
-yum -y install memcached 
-yum -y install ImageMagick ImageMagick-devel ImageMagick-c++ ImageMagick-c++-devel 
+sudo yum -y install MariaDB-client MariaDB-common MariaDB-compat MariaDB-devel MariaDB-server MariaDB-shared perl-DBD-MySQL
+sudo yum -y install exim syslog-ng cronie cronie-anacron
+#yum-config-manager --enable remi-php56
+yum-config-manager --enable remi-php72
+sudo yum -y install php php-curl php-soap php-cli php-snmp php-pspell redis php-pecl-redis php-gmp php-ldap php-bcmath php-intl php-imap perl-libwww-perl perl-LWP-Protocol-https php-pear-Net-SMTP php-enchant php-common php-fpm php-gd php-devel php-mysql php-pear php-pecl-memcached php-pecl-memcache php-opcache php-pdo php-zlib php-xml php-mbstring php-mcrypt php-xmlrpc php-tidy
+#sudo yum -y install memcached 
+sudo yum -y install ImageMagick ImageMagick-devel ImageMagick-c++ ImageMagick-c++-devel 
 yes "" | pecl install imagick
 echo "extension=imagick.so" > /etc/php.d/imagick.ini
 clear
@@ -541,7 +601,8 @@ systemctl start redis.service
 mkdir -p /home/vpssim.demo/public_html
 cd /home/vpssim.demo/public_html
 #wget http://hostingaz.vn/script/vpssim/robots.txt
-wget --no-check-certificate -q https://vpssim.com/script/vpssim/html/install/vietnam/index.html
+#wget --no-check-certificate -q https://vpssim.com/script/vpssim/html/install/vietnam/index.html
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/html/install/vietnam/index.html index.html
 cd
 mkdir /home/vpssim.demo/private_html
 mkdir /home/vpssim.demo/logs
@@ -964,7 +1025,8 @@ ldap.max_links = -1
 
 END
 if [ ! -d /home/0-VPSSIM-SHORTCUT ];then
-wget --no-check-certificate -q https://vpssim.com/script/vpssim/check-imagick.php.zip -O /home/vpssim.demo/private_html/check-imagick.php
+#wget --no-check-certificate -q https://vpssim.com/script/vpssim/check-imagick.php.zip -O /home/vpssim.demo/private_html/check-imagick.php
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/check-imagick.php.zip /home/vpssim.demo/private_html/check-imagick.php
 mkdir -p /home/0-VPSSIM-SHORTCUT
 mkdir -p /home/vpssim.demo/private_html/backup
 ln -s /home/vpssim.demo/private_html/backup /home/0-VPSSIM-SHORTCUT/Backup\ \(Website\ +\ Database\)
@@ -1231,6 +1293,54 @@ log_slow_filter =admin,filesort,filesort_on_disk,full_join,full_scan,query_cache
 END
 fi
 
+if [ "$phienbanmariadb" = "10.1" ] ; then
+cat >> "/etc/my.cnf.d/server.cnf" <<END
+
+[mariadb-10.1]
+innodb_buffer_pool_dump_at_shutdown=1
+innodb_buffer_pool_load_at_startup=1
+innodb_buffer_pool_populate=0
+performance_schema=OFF
+innodb_stats_on_metadata=OFF
+innodb_sort_buffer_size=1M
+query_cache_strip_comments=0
+log_slow_filter =admin,filesort,filesort_on_disk,full_join,full_scan,query_cache,query_cache_miss,tmp_table,tmp_table_on_disk
+
+END
+fi
+
+if [ "$phienbanmariadb" = "10.2" ] ; then
+cat >> "/etc/my.cnf.d/server.cnf" <<END
+
+[mariadb-10.2]
+innodb_buffer_pool_dump_at_shutdown=1
+innodb_buffer_pool_load_at_startup=1
+innodb_buffer_pool_populate=0
+performance_schema=OFF
+innodb_stats_on_metadata=OFF
+innodb_sort_buffer_size=1M
+query_cache_strip_comments=0
+log_slow_filter =admin,filesort,filesort_on_disk,full_join,full_scan,query_cache,query_cache_miss,tmp_table,tmp_table_on_disk
+
+END
+fi
+
+if [ "$phienbanmariadb" = "10.3" ] ; then
+cat >> "/etc/my.cnf.d/server.cnf" <<END
+
+[mariadb-10.3]
+innodb_buffer_pool_dump_at_shutdown=1
+innodb_buffer_pool_load_at_startup=1
+innodb_buffer_pool_populate=0
+performance_schema=OFF
+innodb_stats_on_metadata=OFF
+innodb_sort_buffer_size=1M
+query_cache_strip_comments=0
+log_slow_filter =admin,filesort,filesort_on_disk,full_join,full_scan,query_cache,query_cache_miss,tmp_table,tmp_table_on_disk
+
+END
+fi
+
 
     cat >> "/etc/security/limits.conf" <<END
 * soft nofile 65536
@@ -1280,7 +1390,8 @@ service mysql start
 # Download mysql_secure_installation
 rm -f /bin/mysql_secure_installation
 download_mysql_secure_installation () {
-wget --no-check-certificate -q https://hostingaz.vn/script/vpssim/mysql_secure_installation -O /bin/mysql_secure_installation && chmod +x /bin/mysql_secure_installation
+#wget --no-check-certificate -q https://hostingaz.vn/script/vpssim/mysql_secure_installation -O /bin/mysql_secure_installation && chmod +x /bin/mysql_secure_installation
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/mysql_secure_installation /bin/mysql_secure_installation && chmod +x /bin/mysql_secure_installation
 }
 download_mysql_secure_installation
 checkmysql_secure_installation=`cat /bin/mysql_secure_installation`
@@ -1288,7 +1399,8 @@ if [ -z "$checkmysql_secure_installation" ]; then
 download_mysql_secure_installation
 fi
 
-wget --no-check-certificate -q https://vpssim.com/script/vpssim/Softwear/wp-cli.phar
+#wget --no-check-certificate -q https://vpssim.com/script/vpssim/Softwear/wp-cli.phar
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/Softwear/wp-cli.phar wp-cli.phar
 chmod +x wp-cli.phar
 mv wp-cli.phar /usr/local/bin/wp
 #clear
@@ -1307,8 +1419,10 @@ echo "Cai dat phpMyAdmin... "
 echo "=========================================================================="
 sleep 2
 cd /home/vpssim.demo/private_html/
-wget -q https://gist.github.com/ck-on/4959032/raw/0b871b345fd6cfcd6d2be030c1f33d1ad6a475cb/ocp.php
-wget --no-check-certificate -q https://vpssim.com/script/vpssim/memcache.php.zip -O /home/vpssim.demo/private_html/memcache.php
+#wget -q https://gist.github.com/ck-on/4959032/raw/0b871b345fd6cfcd6d2be030c1f33d1ad6a475cb/ocp.php
+wget -q https://gist.githubusercontent.com/ck-on/4959032/raw/0b871b345fd6cfcd6d2be030c1f33d1ad6a475cb/ocp.php
+#wget --no-check-certificate -q https://vpssim.com/script/vpssim/memcache.php.zip -O /home/vpssim.demo/private_html/memcache.php
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/memcache.php.zip /home/vpssim.demo/private_html/memcache.php
 wget -q https://files.phpmyadmin.net/phpMyAdmin/${phpmyadmin_version}/phpMyAdmin-${phpmyadmin_version}-all-languages.zip
 unzip -q phpMyAdmin-*.zip
 yes | cp -rf phpMyAdmin-*/* .
@@ -1324,12 +1438,14 @@ echo "Dang Tao VPSSIM Menu...... "
 echo "=========================================================================="
 rm -rf /etc/motd
 
-wget --no-check-certificate -q https://hostingaz.vn/script/vpssim/motd -O /etc/motd
+#wget --no-check-certificate -q https://hostingaz.vn/script/vpssim/motd -O /etc/motd
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/motd /etc/motd
 
 
 # Download vpssim_main_menu
 download_vpssim_main_menu () {
-wget --no-check-certificate -q https://hostingaz.vn/script/vpssim/vpssim -O /bin/vpssim && chmod +x /bin/vpssim
+#wget --no-check-certificate -q https://hostingaz.vn/script/vpssim/vpssim -O /bin/vpssim && chmod +x /bin/vpssim
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/vpssim /bin/vpssim && chmod +x /bin/vpssim
 }
 download_vpssim_main_menu
 checkvpssim_main_menu=`cat /bin/vpssim`
@@ -1343,20 +1459,28 @@ cd /etc/vpssim/
 
 # Download VPSSIM data
 download_vpssim_data () {
-rm -rf menu.zip
-wget --no-check-certificate -q https://hostingaz.vn/script/vpssim/menu.zip
-unzip -q menu.zip
-rm -rf menu.zip
+#rm -rf menu.zip
+#wget --no-check-certificate -q https://hostingaz.vn/script/vpssim/menu.zip
+#unzip -q menu.zip
+#rm -rf menu.zip
+mkdir -p /etc/vpssim/menu ; chmod 755 /etc/vpssim/menu
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/menu/. /etc/vpssim/menu/
 }
 download_vpssim_data
 if [ ! -f /etc/vpssim/menu/vpssim-tien-ich ]; then
 download_vpssim_data
 fi
 
-wget --no-check-certificate -q https://vpssim.com/script/vpssim/errorpage_html.zip
-unzip -q errorpage_html.zip
-rm -rf errorpage_html.zip
-cp -r /etc/vpssim/errorpage_html /home/vpssim.demo/
+#wget --no-check-certificate -q https://vpssim.com/script/vpssim/errorpage_html.zip
+#unzip -q errorpage_html.zip
+#rm -rf errorpage_html.zip
+#cp -r /etc/vpssim/errorpage_html /home/vpssim.demo/
+mkdir -p /home/vpssim.demo/errorpage_html ; chmod 755 /home/vpssim.demo/errorpage_html
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/errorpage_html/. /home/vpssim.demo/errorpage_html/
+
+# tao thu muc cho phpmyadmin dung lam cache
+mkdir -p /home/vpssim.demo/private_html/tmp ; chmod 777 /home/vpssim.demo/private_html/tmp
+
 cd
 # Chmod 755 Menu
 find /etc/vpssim/menu -type f -exec chmod 755 {} \;
@@ -1370,13 +1494,16 @@ find /etc/vpssim/menu/opcache -type f -exec chmod 755 {} \;
 find /etc/vpssim/menu/pagespeed -type f -exec chmod 755 {} \;
 find /etc/vpssim/menu/swap -type f -exec chmod 755 {} \;
 find /etc/vpssim/menu/tienich -type f -exec chmod 755 {} \;
+
 # Download /etc/nginx/conf
 cd /etc/nginx/
 download_etc_nginx_conf () {
-rm -rf conf.zip
-wget --no-check-certificate -q https://vpssim.com/script/vpssim/conf.zip
-unzip -q conf.zip
-rm -rf conf.zip
+#rm -rf conf.zip
+#wget --no-check-certificate -q https://vpssim.com/script/vpssim/conf.zip
+#unzip -q conf.zip
+#rm -rf conf.zip
+mkdir -p /etc/nginx/conf ; chmod 755 /etc/nginx/conf
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/conf/. /etc/nginx/conf/
 }
 download_etc_nginx_conf
 if [ ! -f /etc/nginx/conf/staticfiles.conf ]; then
@@ -1403,7 +1530,8 @@ cat > "/etc/vpssim/pwprotect.default" <<END
 userdefault="$usernamebv"
 passdefault="$matkhaubv"
 END
-wget --no-check-certificate -q https://vpssim.com/script/vpssim/Softwear/status.zip -O /home/vpssim.demo/public_html/status.php
+#wget --no-check-certificate -q https://vpssim.com/script/vpssim/Softwear/status.zip -O /home/vpssim.demo/public_html/status.php
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/Softwear/status.zip /home/vpssim.demo/public_html/status.php
 rm -rf /etc/vpssim/defaulpassword.php
 cat > "/etc/vpssim/defaulpassword.php" <<END
 <?php
@@ -1437,8 +1565,8 @@ echo "Setup CSF Firewall ... "
 echo "=========================================================================="
 sleep 3
 /etc/vpssim/menu/vpssim-cai-csf-firewall-cai-dat-CSF-FIREWALL
-systemctl start memcached.service
-systemctl enable memcached.service 
+#systemctl start memcached.service
+#systemctl enable memcached.service 
 rm -rf /root/install*
 rm -rf /root/vpssim-setup
 cat >> "/home/VPSSIM-manage-info.txt" <<END
@@ -1528,8 +1656,8 @@ echo "Link phpMyAdmin: http://$svip:$svport"
 echo "--------------------------------------------------------------------------"
 echo "Quan Ly Zend Opcache: http://$svip:$svport/ocp.php"
 echo "--------------------------------------------------------------------------"
-echo "Quan Ly Memcached: http://$svip:$svport/memcache.php"
-echo "--------------------------------------------------------------------------"
+#echo "Quan Ly Memcached: http://$svip:$svport/memcache.php"
+#echo "--------------------------------------------------------------------------"
 echo "Xem Server Status: http://$svip/status.php"
 echo "--------------------------------------------------------------------------"
 echo "Thong tin username & password bao ve phpMyAdmin, ocp.php, status.php ..."
