@@ -10,11 +10,11 @@ phiên bản phần mềm cho phù hợp với thời điểm 2020, tránh tình
 ```
 curl -sO https://raw.githubusercontent.com/itvn9online/vpssim-free/master/install && bash install
 ```
-#### Hoặc lệnh
+#### Hoặc lệnh (cập nhật chậm hơn so với bản trên github)
 ```
 curl -sO https://vpssim.echbay.com/install && bash install
 ```
-#### Hoặc lệnh
+#### Hoặc lệnh (phòng trường hợp 2 lệnh trên lỗi)
 ```
 yum -y install wget ; wget --no-check-certificate https://vpssim.echbay.com/install ; chmod +x install ; bash install
 ```
