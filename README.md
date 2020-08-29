@@ -8,6 +8,10 @@ phiên bản phần mềm cho phù hợp với thời điểm 2020, tránh tình
 
 ### Lệnh Cài Đặt ECHBAY-VPSSIM Trên Centos 6 & 7:
 ```
+curl -sO https://raw.githubusercontent.com/itvn9online/vpssim-free/master/install && bash install
+```
+#### Hoặc lệnh
+```
 curl -sO https://vpssim.echbay.com/install && bash install
 ```
 #### Hoặc lệnh
