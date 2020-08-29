@@ -6,7 +6,7 @@ clear
 echo "========================================================================="
 echo "Xin loi, chung toi khong the biet phien ban hien tai cua ban"
 echo "-------------------------------------------------------------------------"
-echo "Hay chac rang ban chay script offical tu website HostingAZ.VN"
+echo "Hay chac rang ban chay script offical tu website https://github.com/itvn9online/vpssim-free"
 vpssim
 exit
 fi
@@ -45,13 +45,13 @@ rm -f /etc/vpssim/vpssim.newversion
 echo "========================================================================="
 echo "Ban dang su dung phien ban moi nhat cua VPSSIM - Phien ban: $LOCALVER"
 echo "-------------------------------------------------------------------------"
-echo "Xem VPSSIM update Log tai: http://hostingaz.vn/news"
+echo "Xem VPSSIM update Log tai: https://github.com/itvn9online/vpssim-free"
 /etc/vpssim/menu/vpssim-update-upgrade-service-menu
 exit
 fi
 
 printf "=========================================================================\n"
-printf "Xem VPSSIM update Log tai: http://hostingaz.vn/news\n"
+printf "Xem VPSSIM update Log tai: https://github.com/itvn9online/vpssim-free\n"
 printf "=========================================================================\n"
 printf "Da phat hien update cho VPSSIM\n"
 echo "-------------------------------------------------------------------------"

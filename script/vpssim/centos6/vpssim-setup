@@ -9,7 +9,7 @@ zlibversion=zlib-1.2.11
 #pcreVersionInstall=pcre-8.39
 pcreVersionInstall=pcre-8.43
 
-yum -y install wget
+sudo yum -y install wget
 
 kiemtraemail3="^(([-a-zA-Z0-9\!#\$%\&\'*+/=?^_\`{\|}~])+\.)*[-a-zA-Z0-9\!#\$%\&\'*+/=?^_\`{\|}~]+@\w((-|\w)*\w)*\.(\w((-|\w)*\w)*\.)*\w{2,24}$";
 svip=$(wget http://ipecho.net/plain -O - -q ; echo)
@@ -267,10 +267,10 @@ sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
 fi
 arch=`uname -m`
 if [ "$arch" = "x86_64" ]; then
-yum -y install epel-release
+sudo yum -y install epel-release
 rpm -Uvh http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
 else
-yum -y install epel-release
+sudo yum -y install epel-release
 rpm -Uvh http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
 fi
 if [ -f /etc/yum.repos.d/epel.repo ]; then
@@ -413,13 +413,13 @@ chkconfig rsyslog off
 service postfix stop
 chkconfig postfix off
 
-yum -y remove mysql*
-yum -y remove php*
-yum -y remove httpd*
-yum -y remove sendmail*
-yum -y remove postfix*
-yum -y remove rsyslog*
-yum -y update
+sudo yum -y remove mysql*
+sudo yum -y remove php*
+sudo yum -y remove httpd*
+sudo yum -y remove sendmail*
+sudo yum -y remove postfix*
+sudo yum -y remove rsyslog*
+sudo yum -y update
 mkdir -p /usr/local/vpssim
 cd /usr/local/vpssim
 groupadd nginx
@@ -434,7 +434,7 @@ cd
 #sed -i 's/\.//g' /tmp/gitversion
 #if [ $(cat /tmp/gitversion) -lt 253 ]; then
 #if [ ! "$(cat /tmp/gitversion)" = "253" ]; then
-#yum -y remove git
+#sudo yum -y remove git
 #cd /usr/src
 #wget -q --no-check-certificate https://vpssim.echbay.com/script/vpssim/git-2.5.3.tar.gz
 #tar xzf git-2.5.3.tar.gz
@@ -687,14 +687,14 @@ sleep 5
 
 
 ############################
-yum -y install exim syslog-ng cronie cronie-anacron
-yum -y install MariaDB-client MariaDB-common MariaDB-compat MariaDB-devel MariaDB-server MariaDB-shared perl-DBD-MySQL
+sudo yum -y install exim syslog-ng cronie cronie-anacron
+sudo yum -y install MariaDB-client MariaDB-common MariaDB-compat MariaDB-devel MariaDB-server MariaDB-shared perl-DBD-MySQL
 #yum-config-manager --enable remi-php56
 yum-config-manager --enable remi-php72
-#yum -y install php php-curl php-soap php-cli php-snmp php-pspell redis php-pecl-redis php-gmp php-ldap php-bcmath php-intl php-imap perl-libwww-perl perl-LWP-Protocol-https php-pear-Net-SMTP php-enchant php-common php-fpm php-gd php-devel php-mysql php-pear php-pecl-memcached php-pecl-memcache php-opcache php-pdo php-zlib php-xml php-mbstring php-mcrypt php-xmlrpc php-tidy
-yum -y install php php-curl php-soap php-cli php-snmp php-pspell php-gmp php-ldap php-bcmath php-intl php-imap perl-libwww-perl perl-LWP-Protocol-https php-pear-Net-SMTP php-enchant php-common php-fpm php-gd php-devel php-mysql php-pear php-pecl-memcached php-pecl-memcache php-opcache php-pdo php-zlib php-xml php-mbstring php-mcrypt php-xmlrpc php-tidy
-#yum -y install memcached 
-yum -y install ImageMagick ImageMagick-devel ImageMagick-c++ ImageMagick-c++-devel
+#sudo yum -y install php php-curl php-soap php-cli php-snmp php-pspell redis php-pecl-redis php-gmp php-ldap php-bcmath php-intl php-imap perl-libwww-perl perl-LWP-Protocol-https php-pear-Net-SMTP php-enchant php-common php-fpm php-gd php-devel php-mysql php-pear php-pecl-memcached php-pecl-memcache php-opcache php-pdo php-zlib php-xml php-mbstring php-mcrypt php-xmlrpc php-tidy
+sudo yum -y install php php-curl php-soap php-cli php-snmp php-pspell php-gmp php-ldap php-bcmath php-intl php-imap perl-libwww-perl perl-LWP-Protocol-https php-pear-Net-SMTP php-enchant php-common php-fpm php-gd php-devel php-mysql php-pear php-pecl-memcached php-pecl-memcache php-opcache php-pdo php-zlib php-xml php-mbstring php-mcrypt php-xmlrpc php-tidy
+#sudo yum -y install memcached 
+sudo yum -y install ImageMagick ImageMagick-devel ImageMagick-c++ ImageMagick-c++-devel
 yes "" | pecl install imagick
 echo "extension=imagick.so" > /etc/php.d/imagick.ini
 
@@ -1583,7 +1583,7 @@ download_vpssim_data () {
 #unzip -q menu.zip
 #rm -rf menu.zip
 mkdir -p /etc/vpssim/menu ; chmod 755 /etc/vpssim/menu
-yes | cp -rf /opt/echbay_vpssim/unzip/menu/. /etc/vpssim/menu/
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/menu/. /etc/vpssim/menu/
 }
 download_vpssim_data
 if [ ! -f /etc/vpssim/menu/vpssim-tien-ich ]; then
@@ -1595,7 +1595,7 @@ fi
 #rm -rf errorpage_html.zip
 #cp -r /etc/vpssim/errorpage_html /home/vpssim.demo/
 mkdir -p /home/vpssim.demo/errorpage_html ; chmod 755 /home/vpssim.demo/errorpage_html
-yes | cp -rf /opt/echbay_vpssim/unzip/errorpage_html/. /home/vpssim.demo/errorpage_html/
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/errorpage_html/. /home/vpssim.demo/errorpage_html/
 
 # tao thu muc cho phpmyadmin dung lam cache
 mkdir -p /home/vpssim.demo/private_html/tmp ; chmod 777 /home/vpssim.demo/private_html/tmp
@@ -1621,11 +1621,11 @@ cd /etc/nginx/
 download_etc_nginx_conf () {
 #rm -rf conf.zip
 #wget --no-check-certificate -q https://vpssim.echbay.com/script/vpssim/conf.zip
-#zip -r conf.zip /opt/echbay_vpssim/unzip/conf/*
+#zip -r conf.zip /opt/echbay_vpssim/script/vpssim/conf/*
 #unzip -q conf.zip
 #rm -rf conf.zip
 mkdir -p /etc/nginx/conf ; chmod 755 /etc/nginx/conf
-yes | cp -rf /opt/echbay_vpssim/unzip/conf/. /etc/nginx/conf/
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/conf/. /etc/nginx/conf/
 }
 download_etc_nginx_conf
 if [ ! -f /etc/nginx/conf/staticfiles.conf ]; then
@@ -1763,6 +1763,13 @@ END
 chmod +x /tmp/finishedemail.sh
 /tmp/finishedemail.sh
 rm -f /tmp/finishedemail.sh
+
+
+rm -rf /opt/echbay_vpssim/*
+rm -rf /opt/echbay_vpssim
+sleep 1
+
+
 clear
 echo "=========================================================================="
 echo "VPSSIM da hoan tat qua trinh cai dat Server. "
