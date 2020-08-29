@@ -1,0 +1,39 @@
+#!/bin/sh
+
+
+
+
+if [ ! -f /tmp/vpssim.newversion ]; then
+touch -a -m -t 201602180130.09 /tmp/vpssim.newversion  
+fi
+
+fileTime2=$(date -r /tmp/vpssim.newversion +%d)
+if [ ! "$fileTime2" == "$curTime" ]; then
+rm -rf /tmp/vpssim.newversion
+#wget -q https://vpssim.echbay.com/script/vpssim/vpssim.newversion -O /tmp/vpssim.newversion
+wget --no-check-certificate -q https://raw.githubusercontent.com/itvn9online/vpssim-free/master/version -O /tmp/vpssim.newversion
+touch /tmp/vpssim.newversion
+LOCALVER=`cat /etc/vpssim/vpssim.version`
+checksize=$(du -sb /tmp/vpssim.newversion | awk 'NR==1 {print $1}')
+###
+	if [ $checksize -gt 2 ]; then
+	REMOVER=`cat /tmp/vpssim.newversion`
+	cat >> "/tmp/vpssim_check_vpssim_version" <<END
+		if [ ! "$LOCALVER" == "$REMOVER" ]; then
+			echo "========================================================================="
+			echo "Update for VPSSIM found !  "
+			echo "-------------------------------------------------------------------------"
+			echo "Your Version: $LOCALVER   |   Newest version: $REMOVER"
+			echo "-------------------------------------------------------------------------"
+			echo "How to update: VPSSIM menu => Update System => Update VPSSIM "
+			
+		fi
+END
+	chmod +x /tmp/vpssim_check_vpssim_version
+	/tmp/vpssim_check_vpssim_version
+	rm -rf /tmp/vpssim_check_vpssim_version
+	fi
+fi
+
+
+
