@@ -450,7 +450,7 @@ cd
 #fi
 
 
-/opt/echbay_vpssim/script/vpssim/nginx-setup
+/opt/echbay_vpssim/script/vpssim/menu/nginx-setup
 
 
 ############################

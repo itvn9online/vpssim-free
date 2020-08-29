@@ -13,6 +13,7 @@ sudo yum -y install git
 git clone https://github.com/itvn9online/vpssim-free /opt/echbay_vpssim
 sleep 5
 
+find /opt/echbay_vpssim/script/vpssim/menu -type f -exec chmod 755 {} \;
 yes | cp -rf /opt/echbay_vpssim/version /opt/echbay_vpssim/script/vpssim/vpssim.newversion
 
 
