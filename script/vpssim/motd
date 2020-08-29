@@ -1,5 +1,6 @@
 ========================================================================
 * VPS (Server) duoc Cai dat va Cau hinh boi VPSSIM
+* https://github.com/itvn9online/vpssim-free
 ========================================================================
 * Lenh goi VPSSIM menu :    vpssim 
 ========================================================================
@@ -10,4 +11,14 @@
 * Neu Server ho tro tao SWAP, ban nen su dung chuc nang [Quan ly SWAP]
 ------------------------------------------------------------------------
 * de tao SWAP, nang cao hieu suat Server.
+------------------------------------------------------------------------
+* Mac dinh: CSF Firewall bi disable.
+*-----------------------------------------------------------------------
+* Neu server > 1 GB RAM ==> Ban nen Enable CSF Firewall.
+========================================================================
+* Vi cong dong VPSSIM user, hay comment neu gap loi khi su dung VPSSIM.
+*-----------------------------------------------------------------------
+* Hoi dap, chia se kinh nghiem, giup do cong dong tai dien dan:
+*-----------------------------------------------------------------------
+* https://www.facebook.com/groups/wordpresseb
 ========================================================================

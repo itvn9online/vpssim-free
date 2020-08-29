@@ -33,17 +33,7 @@ rm -rf /etc/vpssim/menu/*
 yes | cp -rf /opt/echbay_vpssim/script/vpssim/menu/. /etc/vpssim/menu/
 
 # Chmod 755 Menu
-find /etc/vpssim/menu -type f -exec chmod 755 {} \;
-find /etc/vpssim/menu/checkddos -type f -exec chmod 755 {} \;
-find /etc/vpssim/menu/crontab -type f -exec chmod 755 {} \;
-find /etc/vpssim/menu/CSF-Fiwall -type f -exec chmod 755 {} \;
-find /etc/vpssim/menu/downloadlog -type f -exec chmod 755 {} \;
-find /etc/vpssim/menu/memcache -type f -exec chmod 755 {} \;
-find /etc/vpssim/menu/nangcap-php -type f -exec chmod 755 {} \;
-find /etc/vpssim/menu/opcache -type f -exec chmod 755 {} \;
-find /etc/vpssim/menu/pagespeed -type f -exec chmod 755 {} \;
-find /etc/vpssim/menu/swap -type f -exec chmod 755 {} \;
-find /etc/vpssim/menu/tienich -type f -exec chmod 755 {} \;
+/etc/vpssim/menu/chmod-755-menu
 # END update VPSSIM menu
 
 
