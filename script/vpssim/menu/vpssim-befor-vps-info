@@ -67,11 +67,8 @@ fi
 fi
 
 
-if [ "$(redis-cli ping)" = "PONG" ]; then
-echo "Working" > /tmp/vpssim-redis-info.txt
-else
-echo"Stopped" > /tmp/vpssim-redis-info.txt
-fi
+# /etc/vpssim/menu/vpssim-befor-vps-info-redis
+
 
 if [ -f /var/lib/mysql/vpssimCheckDB/db.opt ]; then
 rm -rf /var/lib/mysql/vpssimCheckDB

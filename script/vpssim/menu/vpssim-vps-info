@@ -3,7 +3,7 @@
 /etc/vpssim/menu/vpssim-befor-vps-info
 clear
 printf "=========================================================================\n"
-printf "               VPSSIM - Quan Ly VPS/Server by HostingAZ.VN \n"
+printf "               VPSSIM - Quan Ly VPS/Server by WebGiaRe.org \n"
 printf "=========================================================================\n"
 printf "                            Server Status \n"
 printf "=========================================================================\n"

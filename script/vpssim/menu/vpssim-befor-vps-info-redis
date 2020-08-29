@@ -1,0 +1,7 @@
+#!/bin/sh
+
+if [ "$(redis-cli ping)" = "PONG" ]; then
+echo "Working" > /tmp/vpssim-redis-info.txt
+else
+echo "Stopped" > /tmp/vpssim-redis-info.txt
+fi
