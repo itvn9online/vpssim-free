@@ -14,6 +14,8 @@ zlibversion=zlib-1.2.11
 pcreVersionInstall=pcre-8.43
 
 Nginx_VERSION=`cat /tmp/00-all-nginx-version.txt | awk 'NR==2 {print $1}' | sed 's/|//' | sed 's/|//'`
+echo $Nginx_VERSION
+exit
 
 
 echo "=========================================================================="
