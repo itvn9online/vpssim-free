@@ -38,8 +38,12 @@ echo "Zend Opcache: On | Ram Usage: $ramzenduse MB | Auto Clear Time: $cleartime
 else
 echo "Zend Opcache: Off"
 fi
+if [ -f "/tmp/vpssim-memcached-info.txt" ]; then
 echo "$(cat /tmp/vpssim-memcached-info.txt)"
+fi
+if [ -f "/tmp/vpssim-redis-info.txt" ]; then
 echo "Redis: $(cat /tmp/vpssim-redis-info.txt)"
+fi
 echo "-------------------------------------------------------------------------"
 #CSF Stautus
 echo "$(cat /tmp/vpssim-csf-firewall-info.txt)"
