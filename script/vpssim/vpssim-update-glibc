@@ -14,8 +14,8 @@ fi
 echo $XXX
 echo $YYY
 
-if [ ! -d /etc/vpssim ]; then
-mkdir -p /etc/vpssim
+if [ ! -d /etc/vpssim/.tmp ]; then
+mkdir -p /etc/vpssim/.tmp
 fi
 
 cd
