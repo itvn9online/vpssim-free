@@ -41,7 +41,7 @@ fi
 
 if [ "$LOCALVER" == "$REMOVER" ]; then
 clear
-rm -f /etc/vpssim/vpssim.newversion
+rm -rf /etc/vpssim/vpssim.newversion
 echo "========================================================================="
 echo "Ban dang su dung phien ban moi nhat cua VPSSIM - Phien ban: $LOCALVER"
 echo "-------------------------------------------------------------------------"
@@ -65,9 +65,10 @@ case $response in
     echo "-------------------------------------------------------------------------" 
 echo "Chuan bi update VPSSIM..... "
 sleep 1
-rm -f /etc/vpssim/vpssim-update
+rm -rf /etc/vpssim/vpssim-update
 #wget -q http://hostingaz.vn/script/vpssim/vpssim-update -O /etc/vpssim/vpssim-update && chmod +x /etc/vpssim/vpssim-update
-wget --no-check-certificate -q https://raw.githubusercontent.com/itvn9online/vpssim-free/master/script/vpssim/vpssim-update -O /etc/vpssim/vpssim-update && chmod +x /etc/vpssim/vpssim-update
+wget --no-check-certificate -q https://raw.githubusercontent.com/itvn9online/vpssim-free/master/script/vpssim/vpssim-update -O /etc/vpssim/vpssim-update
+chmod +x /etc/vpssim/vpssim-update
 bash /etc/vpssim/vpssim-update
 
 exit

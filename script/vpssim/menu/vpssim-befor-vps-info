@@ -5,17 +5,17 @@ echo "-------------------------------------------------------------------------"
 echo "Please wait. VPSSIM dang kiem tra ..."; sleep 1
 if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
 	if [ "$(/sbin/service memcached status | awk 'NR==1 {print $5}')" == "running..." ]; then
-	echo "Memcached: Running | Ram Usage: `grep CACHESIZE= /etc/sysconfig/memcached | grep -o '[0-9]*'` MB"  > /tmp/vpssim-memcached-info.txt
+		echo "Memcached: Running | Ram Usage: `grep CACHESIZE= /etc/sysconfig/memcached | grep -o '[0-9]*'` MB"  > /tmp/vpssim-memcached-info.txt
 	else
-	echo "Memcached: Stopped"  > /tmp/vpssim-memcached-info.txt
+		echo "Memcached: Stopped"  > /tmp/vpssim-memcached-info.txt
 	fi
 fi
 
 if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
 	if [ "`systemctl is-active memcached.service`" == "active" ]; then
-	echo "Memcached: Running | Ram Usage: `grep CACHESIZE= /etc/sysconfig/memcached | grep -o '[0-9]*'` MB"  > /tmp/vpssim-memcached-info.txt
+		echo "Memcached: Running | Ram Usage: `grep CACHESIZE= /etc/sysconfig/memcached | grep -o '[0-9]*'` MB"  > /tmp/vpssim-memcached-info.txt
 	else
-	echo "Memcached: Stopped"  > /tmp/vpssim-memcached-info.txt
+		echo "Memcached: Stopped"  > /tmp/vpssim-memcached-info.txt
 	fi
 fi
 
