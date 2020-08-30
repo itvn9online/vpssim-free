@@ -14,15 +14,15 @@ select opt in "${options[@]}" ; do
     case "$REPLY" in
 
 
-    1) /etc/vpssim/menu/update-he-thong;;
-    2) /etc/vpssim/menu/vpssim-nang-cap-scripts;;
-    3) /etc/vpssim/menu/vpssim-nang-cap-nginx;;
-    4) /etc/vpssim/menu/vpssim-nang-cap-phpmyadmin;;
-    5) /etc/vpssim/menu/nang-cap-mariaDB/vpssim-before-nang-cap-mariadb;;
-    6) clear && /etc/vpssim/menu/nangcap-php/vpssim-updown-php;; 
-    7) clear && /etc/vpssim/menu/vpssim-thay-doi-ngon-ngu-menu;; 
-    8) clear && vpssim;;
-    0) clear && vpssim;;
+	1) /etc/vpssim/menu/update-he-thong;;
+	2) /etc/vpssim/menu/vpssim-nang-cap-scripts;;
+	3) /etc/vpssim/menu/vpssim-nang-cap-nginx;;
+	4) /etc/vpssim/menu/vpssim-nang-cap-phpmyadmin;;
+#	5) /etc/vpssim/menu/nang-cap-mariaDB/vpssim-before-nang-cap-mariadb;;
+	5) clear && /etc/vpssim/menu/nangcap-php/vpssim-updown-php;; 
+	6) clear && /etc/vpssim/menu/vpssim-thay-doi-ngon-ngu-menu;; 
+	7) clear && vpssim;;
+	0) clear && vpssim;;
         *) echo "Ban nhap sai, vui long nhap theo so thu tu tren menu !";continue;;
 
     esac

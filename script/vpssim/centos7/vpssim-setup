@@ -91,7 +91,8 @@ exit
 fi
 prompt="Nhap lua chon cua ban: "
 #options=( "MariaDB 10.0 " "MariaDB 5.5")
-options=("MariaDB 10.3" "MariaDB 10.2" "MariaDB 10.1" "MariaDB 10.0" "MariaDB 5.5")
+#options=("MariaDB 10.3" "MariaDB 10.2" "MariaDB 10.1" "MariaDB 10.0" "MariaDB 5.5")
+options=("MariaDB 10.3" "MariaDB 10.2" "MariaDB 10.1" "MariaDB 10.0")
 echo "=========================================================================="
 echo "Lua Chon Cai Dat Phien Ban MariaDB  "
 echo "=========================================================================="
