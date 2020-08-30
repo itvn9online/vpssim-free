@@ -11,6 +11,9 @@ XXX=i686
 YYY=i386
 fi
 
+echo $XXX
+echo $YYY
+
 ### Check GLIBC 2.17 tren centos6 - Fix loi VPSSIM tu phien ban 4.2.0.8 tro ve cai dat san tren server
 if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
 cd
