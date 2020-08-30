@@ -24,6 +24,9 @@ ldd --version | grep "2.17" > /etc/vpssim/.tmp/asnhzad
 
 if [ "$(wc -c < /etc/vpssim/.tmp/asnhzad)" -lt "1" ]; then
 ldd --version
+sudo yum clean all
+sudo yum -y update glibc
+
 ketnoi=$(curl -o /dev/null --silent --head --write-out '%{http_code}' "http://copr-be.cloud.fedoraproject.org/results/mosquito/myrepo-el6/epel-6-x86_64/glibc-2.17-55.fc20/glibc-2.17-55.el6.x86_64.rpm")
 #echo $ketnoi
 if [[ "$ketnoi" != "000" ]]; then
