@@ -1,6 +1,13 @@
 #!/bin/bash
 checktruenumber='^[0-9]+$'
 
+#
+cd /opt/echbay_vpssim/script/vpssim
+chmod +x vpssim-update-glibc
+#clear
+bash vpssim-update-glibc
+cd ~
+
 kiemtraemail3="^(([-a-zA-Z0-9\!#\$%\&\'*+/=?^_\`{\|}~])+\.)*[-a-zA-Z0-9\!#\$%\&\'*+/=?^_\`{\|}~]+@\w((-|\w)*\w)*\.(\w((-|\w)*\w)*\.)*\w{2,24}$";
 svip=$(wget http://ipecho.net/plain -O - -q ; echo)
 phpmacdinh="7.2"

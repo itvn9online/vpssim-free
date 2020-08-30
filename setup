@@ -54,6 +54,8 @@ sudo yum -y -q install virt-what unzip sudo net-tools iproute iproute2 curl delt
 clear  
 rm -rf /root/vpssim*
 
+sudo yum -y install wget
+
 prompt="Nhap lua chon cua ban: "
 options=("Tieng Viet" "Tieng Anh" "Huy Bo")
 echo "========================================================================="
@@ -69,14 +71,6 @@ echo "nang [ Change VPSSIM Language ] trong [ Update System ]."
 echo "========================================================================="
 echo "                     Chon Ngon Ngu Cho VPSSIM"
 echo "========================================================================="
-
-sudo yum -y install wget
-
-cd /opt/echbay_vpssim/script/vpssim
-chmod +x vpssim-update-glibc
-#clear
-bash vpssim-update-glibc
-cd ~
 
 PS3="$prompt"
 select opt in "${options[@]}"; do 
