@@ -31,51 +31,16 @@ exit
 fi
 
 
-### Check GLIBC 2.17 tren centos6 - Fix loi VPSSIM tu phien ban 4.2.0.8 tro ve cai dat san tren server
-if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
-cd
-rm -rf /etc/vpssim/.tmp/asnhzad
-ldd --version | grep "2.17" > /etc/vpssim/.tmp/asnhzad
-if [ "$(wc -c < /etc/vpssim/.tmp/asnhzad)" -lt "1" ]; then
-ketnoi=$(curl -o /dev/null --silent --head --write-out '%{http_code}' "http://copr-be.cloud.fedoraproject.org/results/mosquito/myrepo-el6/epel-6-x86_64/glibc-2.17-55.fc20/glibc-2.17-55.el6.x86_64.rpm")
-#echo $ketnoi
-if [[ "$ketnoi" != "000" ]]; then
-wget http://copr-be.cloud.fedoraproject.org/results/mosquito/myrepo-el6/epel-6-$YYY/glibc-2.17-55.fc20/glibc-2.17-55.el6.$XXX.rpm
-wget http://copr-be.cloud.fedoraproject.org/results/mosquito/myrepo-el6/epel-6-$YYY/glibc-2.17-55.fc20/glibc-common-2.17-55.el6.$XXX.rpm
-wget http://copr-be.cloud.fedoraproject.org/results/mosquito/myrepo-el6/epel-6-$YYY/glibc-2.17-55.fc20/glibc-devel-2.17-55.el6.$XXX.rpm
-wget http://copr-be.cloud.fedoraproject.org/results/mosquito/myrepo-el6/epel-6-$YYY/glibc-2.17-55.fc20/glibc-headers-2.17-55.el6.$XXX.rpm
-else
-#wget --no-check-certificate https://vpssim.com/script/vpssim/Softwear/glibc_2.17/glibc-2.17-55.el6.$XXX.rpm
-wget --no-check-certificate https://github.com/itvn9online/echbay-vpssim-software/raw/master/glibc_2.17/glibc-2.17-55.el6.$XXX.rpm
-#wget --no-check-certificate https://vpssim.com/script/vpssim/Softwear/glibc_2.17/glibc-common-2.17-55.el6.$XXX.rpm
-wget --no-check-certificate https://github.com/itvn9online/echbay-vpssim-software/raw/master/glibc_2.17/glibc-common-2.17-55.el6.$XXX.rpm
-#wget --no-check-certificate https://vpssim.com/script/vpssim/Softwear/glibc_2.17/glibc-devel-2.17-55.el6.$XXX.rpm
-wget --no-check-certificate https://github.com/itvn9online/echbay-vpssim-software/raw/master/glibc_2.17/glibc-devel-2.17-55.el6.$XXX.rpm
-#wget --no-check-certificate https://vpssim.com/script/vpssim/Softwear/glibc_2.17/glibc-headers-2.17-55.el6.$XXX.rpm
-wget --no-check-certificate https://github.com/itvn9online/echbay-vpssim-software/raw/master/glibc_2.17/glibc-headers-2.17-55.el6.$XXX.rpm
-fi
-sudo rpm -Uvh glibc-2.17-55.el6.$XXX.rpm \
-glibc-common-2.17-55.el6.$XXX.rpm \
-glibc-devel-2.17-55.el6.$XXX.rpm \
-glibc-headers-2.17-55.el6.$XXX.rpm #--force --nodeps
-
-if [ "$(ldd --version | grep "2.17" | wc -c)" -lt "1" ]; then
-sudo rpm -Uvh glibc-2.17-55.el6.$XXX.rpm \
-glibc-common-2.17-55.el6.$XXX.rpm \
-glibc-devel-2.17-55.el6.$XXX.rpm \
-glibc-headers-2.17-55.el6.$XXX.rpm --force --nodeps
-fi
-rm -rf /root/glibc*
-fi
-fi
-#rm -rf /etc/vpssim/.tmp/asnhzad
-#######
-######################
+# update glibc
+#wget --no-check-certificate -q https://raw.githubusercontent.com/itvn9online/vpssim-free/master/script/vpssim/vpssim-update-glibc -O /etc/vpssim/.tmp/vpssim-update-glibc
+#chmod +x /etc/vpssim/.tmp/vpssim-update-glibc
+#bash /etc/vpssim/.tmp/vpssim-update-glibc
 
 
 ## Bat dau thuc hien update VPSSIM
 #wget -q https://vpssim.vn/script/vpssim/vpssim-update-run -O /etc/vpssim/.tmp/vpssim-update-run && chmod +x /etc/vpssim/.tmp/vpssim-update-run
-wget --no-check-certificate -q https://raw.githubusercontent.com/itvn9online/vpssim-free/master/script/vpssim/vpssim-update-run -O /etc/vpssim/.tmp/vpssim-update-run && chmod +x /etc/vpssim/.tmp/vpssim-update-run
+wget --no-check-certificate -q https://raw.githubusercontent.com/itvn9online/vpssim-free/master/script/vpssim/vpssim-update-run -O /etc/vpssim/.tmp/vpssim-update-run
+chmod +x /etc/vpssim/.tmp/vpssim-update-run
 bash /etc/vpssim/.tmp/vpssim-update-run
 
 
