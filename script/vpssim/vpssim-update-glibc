@@ -1,5 +1,5 @@
 #!/bin/bash
-. /home/vpssim.conf
+#. /home/vpssim.conf
 
 
 arch=`uname -m`
@@ -13,6 +13,10 @@ fi
 
 echo $XXX
 echo $YYY
+
+if [ ! -d /etc/vpssim ]; then
+mkdir -p /etc/vpssim
+fi
 
 cd
 rm -rf /etc/vpssim/.tmp/asnhzad
