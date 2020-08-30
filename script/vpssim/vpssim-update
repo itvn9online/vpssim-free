@@ -20,12 +20,16 @@ vpssim
 exit
 fi
 
+#
 rm -rf /etc/vpssim/.tmp/vpssim-update-*
 
 # update glibc
+### Check GLIBC 2.17 tren centos6 - Fix loi VPSSIM tu phien ban 4.2.0.8 tro ve cai dat san tren server
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then
 wget --no-check-certificate -q https://raw.githubusercontent.com/itvn9online/vpssim-free/master/script/vpssim/vpssim-update-glibc -O /etc/vpssim/.tmp/vpssim-update-glibc
 chmod +x /etc/vpssim/.tmp/vpssim-update-glibc
 bash /etc/vpssim/.tmp/vpssim-update-glibc
+fi
 
 
 ## Bat dau thuc hien update VPSSIM

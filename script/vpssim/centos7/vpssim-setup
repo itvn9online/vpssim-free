@@ -1,8 +1,6 @@
 #!/bin/bash
 checktruenumber='^[0-9]+$'
 
-sudo yum -y install wget
-
 kiemtraemail3="^(([-a-zA-Z0-9\!#\$%\&\'*+/=?^_\`{\|}~])+\.)*[-a-zA-Z0-9\!#\$%\&\'*+/=?^_\`{\|}~]+@\w((-|\w)*\w)*\.(\w((-|\w)*\w)*\.)*\w{2,24}$";
 svip=$(wget http://ipecho.net/plain -O - -q ; echo)
 phpmacdinh="7.2"
