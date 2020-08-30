@@ -54,19 +54,19 @@ if [ "$chonphpversion" = "74" ]; then
 /etc/vpssim/menu/nangcap-php/setup-php-74
 #7.3
 ###################################
-if [ "$chonphpversion" = "73" ]; then
+elif [ "$chonphpversion" = "73" ]; then
 /etc/vpssim/menu/nangcap-php/setup-php-73
 #7.2
 ###################################
-if [ "$chonphpversion" = "72" ]; then
+elif [ "$chonphpversion" = "72" ]; then
 /etc/vpssim/menu/nangcap-php/setup-php-72
 #7.1
 ###################################
-if [ "$chonphpversion" = "71" ]; then
+elif [ "$chonphpversion" = "71" ]; then
 /etc/vpssim/menu/nangcap-php/setup-php-71
 #7.0
 ###################################
-if [ "$chonphpversion" = "70" ]; then
+elif [ "$chonphpversion" = "70" ]; then
 /etc/vpssim/menu/nangcap-php/setup-php-70
 ###################################
 #5.6
