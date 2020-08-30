@@ -4,14 +4,25 @@
 prompt="Nhap lua chon cua ban: "
 php_version=$(php -r "echo PHP_MAJOR_VERSION.'.'.PHP_MINOR_VERSION;")
 
-if [ "$php_version" == "5.6" ]; then
-options=( "PHP 7.0" "PHP 5.6 (Current)" "PHP 5.5" "PHP 5.4" "Thoat")
+if [ "$php_version" == "7.2" ]; then
+options=( "PHP 7.4" "PHP 7.3" "PHP 7.2 (Current)" "PHP 7.1" "PHP 7.0" "PHP 5.6" "PHP 5.5" "PHP 5.4" "Thoat")
+elif [ "$php_version" == "7.4" ]; then
+options=( "PHP 7.4 (Current)" "PHP 7.3" "PHP 7.2" "PHP 7.1" "PHP 7.0" "PHP 5.6" "PHP 5.5" "PHP 5.4" "Thoat")
+elif [ "$php_version" == "7.3" ]; then
+options=( "PHP 7.4" "PHP 7.3 (Current)" "PHP 7.2" "PHP 7.1" "PHP 7.0" "PHP 5.6" "PHP 5.5" "PHP 5.4" "Thoat")
+elif [ "$php_version" == "7.1" ]; then
+options=( "PHP 7.4" "PHP 7.3" "PHP 7.2" "PHP 7.1 (Current)" "PHP 7.0" "PHP 5.6" "PHP 5.5" "PHP 5.4" "Thoat")
+elif [ "$php_version" == "7.0" ]; then
+options=( "PHP 7.4" "PHP 7.3" "PHP 7.2" "PHP 7.1" "PHP 7.0 (Current)" "PHP 5.6" "PHP 5.5" "PHP 5.4" "Thoat")
+elif [ "$php_version" == "5.6" ]; then
+options=( "PHP 7.4" "PHP 7.3" "PHP 7.2" "PHP 7.1" "PHP 7.0" "PHP 5.6 (Current)" "PHP 5.5" "PHP 5.4" "Thoat")
 elif [ "$php_version" == "5.5" ]; then
-options=( "PHP 7.0" "PHP 5.6" "PHP 5.5 (Current)" "PHP 5.4" "Thoat")
+options=( "PHP 7.4" "PHP 7.3" "PHP 7.2" "PHP 7.1" "PHP 7.0" "PHP 5.6" "PHP 5.5 (Current)" "PHP 5.4" "Thoat")
 elif [ "$php_version" == "5.4" ]; then
-options=( "PHP 7.0" "PHP 5.6" "PHP 5.5" "PHP 5.4 (Current)" "Thoat")
+options=( "PHP 7.4" "PHP 7.3" "PHP 7.2" "PHP 7.1" "PHP 7.0" "PHP 5.6" "PHP 5.5" "PHP 5.4 (Current)" "Thoat")
 else
-options=( "PHP 7.0 (Current)" "PHP 5.6" "PHP 5.5" "PHP 5.4" "Thoat")
+echo "Phien ban PHP hien tai: "$php_version
+options=( "PHP 7.4" "PHP 7.3" "PHP 7.2" "PHP 7.1" "PHP 7.0" "PHP 5.6" "PHP 5.5" "PHP 5.4" "Thoat")
 fi
 printf "=========================================================================\n"
 printf "                VPSSIM - Quan Ly VPS/Server by HostingAZ.VN \n"
@@ -22,16 +33,37 @@ PS3="$prompt"
 select opt in "${options[@]}"; do 
 
     case "$REPLY" in
-    1) chonphpversion="70"; break;;
-    2) chonphpversion="56"; break;;
-    3) chonphpversion="55"; break;;
-    4) chonphpversion="54"; break;;
-    5) chonphpversion="cancle"; break;;
+    1) chonphpversion="74"; break;;
+    2) chonphpversion="73"; break;;
+    3) chonphpversion="72"; break;;
+    4) chonphpversion="71"; break;;
+    5) chonphpversion="70"; break;;
+    6) chonphpversion="56"; break;;
+    7) chonphpversion="55"; break;;
+    8) chonphpversion="54"; break;;
+    9) chonphpversion="cancle"; break;;
+    0) chonphpversion="cancle"; break;;
     *) echo "Ban nhap sai, vui long nhap theo so thu tu trong danh sach";continue;;
   
     esac  
 done
 ###################################
+#7.4
+###################################
+if [ "$chonphpversion" = "74" ]; then
+/etc/vpssim/menu/nangcap-php/setup-php-74
+#7.3
+###################################
+if [ "$chonphpversion" = "73" ]; then
+/etc/vpssim/menu/nangcap-php/setup-php-73
+#7.2
+###################################
+if [ "$chonphpversion" = "72" ]; then
+/etc/vpssim/menu/nangcap-php/setup-php-72
+#7.1
+###################################
+if [ "$chonphpversion" = "71" ]; then
+/etc/vpssim/menu/nangcap-php/setup-php-71
 #7.0
 ###################################
 if [ "$chonphpversion" = "70" ]; then

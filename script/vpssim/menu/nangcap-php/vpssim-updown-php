@@ -3,13 +3,21 @@
 
 nang_cap_php_fpm_check () {
 php_version=$(php -r "echo PHP_MAJOR_VERSION.'.'.PHP_MINOR_VERSION;")
-if [ "$php_version" == "5.6" ]; then
+if [ "$php_version" == "7.0" ]; then
+/etc/vpssim/menu/nangcap-php/change-php-version-menu
+elif [ "$php_version" == "7.1" ]; then
+/etc/vpssim/menu/nangcap-php/change-php-version-menu
+elif [ "$php_version" == "7.2" ]; then
+/etc/vpssim/menu/nangcap-php/change-php-version-menu
+elif [ "$php_version" == "7.3" ]; then
+/etc/vpssim/menu/nangcap-php/change-php-version-menu
+elif [ "$php_version" == "7.4" ]; then
+/etc/vpssim/menu/nangcap-php/change-php-version-menu
+elif [ "$php_version" == "5.6" ]; then
 /etc/vpssim/menu/nangcap-php/change-php-version-menu
 elif [ "$php_version" == "5.5" ]; then
 /etc/vpssim/menu/nangcap-php/change-php-version-menu
 elif [ "$php_version" == "5.4" ]; then
-/etc/vpssim/menu/nangcap-php/change-php-version-menu
-elif [ "$php_version" == "7.0" ]; then
 /etc/vpssim/menu/nangcap-php/change-php-version-menu
 else
 clear
