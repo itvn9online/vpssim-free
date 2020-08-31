@@ -383,7 +383,7 @@ cd
 #openssl s_client -connect $svip:443 -ssl2
 #openssl s_client -connect $svip:443 -tls1_1
 #openssl s_client -connect $svip:443 -tls1_2
-sleep 30
+#sleep 30
 #exit
 
 
@@ -1365,7 +1365,7 @@ systemctl enable iptables
 systemctl enable ip6tables
 systemctl start iptables
 systemctl start ip6tables
-systemctl start  iptables.service
+systemctl start iptables.service
 iptables -I INPUT -p tcp --dport 80 -j ACCEPT
 iptables -I INPUT -p tcp --dport 22 -j ACCEPT
 iptables -I INPUT -p tcp --dport 21 -j ACCEPT
