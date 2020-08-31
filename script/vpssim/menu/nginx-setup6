@@ -141,6 +141,5 @@ echo "Cai Dat Hoan Tat Nginx "
 echo "=========================================================================="
 #exit
 nginx -V
-sleep 30
 
 # End Download init & config file for nginx
