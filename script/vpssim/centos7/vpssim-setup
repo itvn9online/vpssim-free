@@ -379,6 +379,7 @@ cd
 
 
 /opt/echbay_vpssim/script/vpssim/menu/nginx-setup7
+/opt/echbay_vpssim/script/vpssim/menu/nginx-setup-done
 # check ssl/ tls in serrver
 #openssl s_client -connect $svip:443 -ssl2
 #openssl s_client -connect $svip:443 -tls1_1
