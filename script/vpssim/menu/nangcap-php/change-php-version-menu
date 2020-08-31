@@ -28,6 +28,8 @@ printf "========================================================================
 printf "                VPSSIM - Quan Ly VPS/Server by HostingAZ.VN \n"
 printf "=========================================================================\n"
 printf "                       Chon PHP Version Cho Server\n"
+printf "                   Phien ban on dinh cao nhat la PHP 7.2\n"
+printf "              Phien ban 7.3 va 7.4 hien tai chua hoat dong on dinh\n"
 printf "=========================================================================\n"
 PS3="$prompt"
 select opt in "${options[@]}"; do 
