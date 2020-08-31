@@ -56,32 +56,32 @@ rm -rf /root/vpssim*
 
 sudo yum -y install wget
 
-prompt="Nhap lua chon cua ban: "
-options=("Tieng Viet" "Tieng Anh" "Huy Bo")
+#prompt="Nhap lua chon cua ban: "
+#options=("Tieng Viet" "Tieng Anh" "Huy Bo")
 echo "========================================================================="
 echo "VPSSIM Ho Tro Centos 6 (32 - 64 Bit) & Centos 7"
 echo "-------------------------------------------------------------------------"
 echo "Ban nen su dung Centos 6 - 64 bit de Server co hieu suat tot nhat."
 echo "-------------------------------------------------------------------------"
-echo "VPSSIM ho tro 2 ngon ngu: Tieng Anh va Tieng Viet. "
-echo "-------------------------------------------------------------------------"
-echo "Trong qua trinh su dung, ban co the thay doi ngon ngu ngon ngu bang chuc "
-echo "-------------------------------------------------------------------------"
-echo "nang [ Change VPSSIM Language ] trong [ Update System ]."
-echo "========================================================================="
-echo "                     Chon Ngon Ngu Cho VPSSIM"
+#echo "VPSSIM ho tro 2 ngon ngu: Tieng Anh va Tieng Viet. "
+#echo "-------------------------------------------------------------------------"
+#echo "Trong qua trinh su dung, ban co the thay doi ngon ngu ngon ngu bang chuc "
+#echo "-------------------------------------------------------------------------"
+#echo "nang [ Change VPSSIM Language ] trong [ Update System ]."
+#echo "========================================================================="
+#echo "                     Chon Ngon Ngu Cho VPSSIM"
 echo "========================================================================="
 
-PS3="$prompt"
-select opt in "${options[@]}"; do 
-
-    case "$REPLY" in
-    1) yourlanguage="vietnamese"; break;;
-    2) yourlanguage="english"; break;;
-    3) yourlanguage="Cancel"; break;;
-    *) echo "Ban nhap sai, vui long nhap theo so thu tu trong danh sach";continue;;
-    esac  
-done
+#PS3="$prompt"
+#select opt in "${options[@]}"; do 
+#case "$REPLY" in
+#1) yourlanguage="vietnamese"; break;;
+#2) yourlanguage="english"; break;;
+#3) yourlanguage="Cancel"; break;;
+#*) echo "Ban nhap sai, vui long nhap theo so thu tu trong danh sach";continue;;
+#esac  
+#done
+yourlanguage="vietnamese"
 
 current_os_version=$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))
 #echo $current_os_version
