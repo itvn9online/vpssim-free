@@ -57,12 +57,25 @@ glibc-devel-2.17-55.el6.$XXX.rpm \
 glibc-headers-2.17-55.el6.$XXX.rpm --force --nodeps
 fi
 
+sleep 5
+
 # Note: If you see that it is not showing the above new version, probably your yum cache should be updated. In that case, do the following and then try the yum update again.
 sudo yum clean all
 sudo yum -y update glibc
 
 rm -rf /root/glibc*
+
+rm -rf /etc/vpssim/.tmp/asnhzad
+ldd --version | grep "2.17" > /etc/vpssim/.tmp/asnhzad
+if [ "$(wc -c < /etc/vpssim/.tmp/asnhzad)" -lt "1" ]; then
+clear
+echo "========================================================================="
+echo "Qua trinh cap nhat glibc that bai"
+echo "========================================================================="
+fi
+
 ldd --version
+
 fi
 
 #rm -rf /etc/vpssim/.tmp/asnhzad

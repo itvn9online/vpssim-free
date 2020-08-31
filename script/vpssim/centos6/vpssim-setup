@@ -1,7 +1,7 @@
 #!/bin/bash
 checktruenumber='^[0-9]+$'
 
-#
+# glibc -> Phai update truoc, neu khong se loi cronjob
 cd /opt/echbay_vpssim/script/vpssim
 chmod +x vpssim-update-glibc
 #clear
