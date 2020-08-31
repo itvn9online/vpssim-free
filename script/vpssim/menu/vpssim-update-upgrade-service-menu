@@ -17,8 +17,8 @@ select opt in "${options[@]}" ; do
 
 	1) /etc/vpssim/menu/update-he-thong;;
 	2) /etc/vpssim/menu/vpssim-nang-cap-scripts;;
-#	3) /etc/vpssim/menu/nang-cap-nginx;;
-	3) /etc/vpssim/menu/vpssim-befor-nang-cap-nginx;;
+	3) /etc/vpssim/menu/nang-cap-nginx;;
+#	3) /etc/vpssim/menu/vpssim-befor-nang-cap-nginx;;
 	4) /etc/vpssim/menu/vpssim-nang-cap-phpmyadmin;;
 #	5) /etc/vpssim/menu/nang-cap-mariaDB/vpssim-before-nang-cap-mariadb;;
 	5) clear && /etc/vpssim/menu/nangcap-php/vpssim-updown-php;; 
