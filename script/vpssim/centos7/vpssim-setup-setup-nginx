@@ -1,15 +1,5 @@
 #!/bin/bash
-. /opt/echbay_vpssim/script/vpssim/nginx-setup.conf
 checktruenumber='^[0-9]+$'
-moduledir=/usr/local/vpssim
-#opensslversion=openssl-1.0.2h
-opensslversion=openssl-1.0.2s
-#zlibversion=zlib-1.2.8
-zlibversion=zlib-1.2.11
-#pcreVersionInstall=pcre-8.39
-pcreVersionInstall=pcre-8.43
-
-sudo yum -y install wget
 
 kiemtraemail3="^(([-a-zA-Z0-9\!#\$%\&\'*+/=?^_\`{\|}~])+\.)*[-a-zA-Z0-9\!#\$%\&\'*+/=?^_\`{\|}~]+@\w((-|\w)*\w)*\.(\w((-|\w)*\w)*\.)*\w{2,24}$";
 svip=$(wget http://ipecho.net/plain -O - -q ; echo)
@@ -196,6 +186,7 @@ download_version_vpssim
 fi
 ###########################
 cd
+. /opt/echbay_vpssim/script/vpssim/nginx-setup.conf
 phpmyadmin_version=`cat /tmp/00-all-phpmyadmin-version.txt | awk 'NR==2 {print $1}' | sed 's/|//' | sed 's/|//'`
 #Nginx_VERSION=`cat /tmp/00-all-nginx-version.txt | awk 'NR==2 {print $1}' | sed 's/|//' | sed 's/|//'`
 vpssim_version=`cat /tmp/vpssim.newversion`
