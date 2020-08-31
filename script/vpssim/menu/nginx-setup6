@@ -96,6 +96,8 @@ cd /usr/local/vpssim/nginx-${Nginx_VERSION}
 --with-debug \
 --with-openssl=$moduledir/${opensslversion} \
 --with-openssl-opt=$withopensslopt \
+--with-openssl-opt="enable-ec_nistp_64_gcc_128" \
+--with-openssl-opt="enable-tls1_3" \
 --with-zlib=$moduledir/${zlibversion} \
 --with-http_realip_module \
 --with-http_stub_status_module \

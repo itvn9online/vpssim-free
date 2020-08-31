@@ -55,6 +55,8 @@ cd /usr/local/vpssim/nginx-${Nginx_VERSION}
 --with-zlib=$moduledir/${zlibversion} \
 --with-openssl=$moduledir/${opensslversion} \
 --with-openssl-opt=$withopensslopt \
+--with-openssl-opt="enable-ec_nistp_64_gcc_128" \
+--with-openssl-opt="enable-tls1_3" \
 --conf-path=/etc/nginx/nginx.conf \
 --with-http_gzip_static_module \
 --with-threads \
