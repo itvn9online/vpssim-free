@@ -1,6 +1,12 @@
 #!/bin/bash
 
 . /opt/echbay_vpssim/script/vpssim/nginx-setup.conf
+echo $moduledir
+echo $opensslversion
+echo $zlibversion
+echo $pcreVersionInstall
+echo $Nginx_VERSION
+#exit
 
 
 /opt/echbay_vpssim/script/vpssim/menu/nginx-setup-download

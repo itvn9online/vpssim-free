@@ -6,7 +6,7 @@ echo $opensslversion
 echo $zlibversion
 echo $pcreVersionInstall
 echo $Nginx_VERSION
-exit
+#exit
 
 
 /opt/echbay_vpssim/script/vpssim/menu/nginx-setup-download
