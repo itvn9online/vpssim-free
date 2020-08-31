@@ -206,6 +206,8 @@ vpssim_version=`cat /tmp/vpssim.newversion`
 clear
 
 echo "=========================================================================="
+echo "OS Version: "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))
+echo "--------------------------------------------------------------------------"
 echo "VPSSIM Se Cai Dat Server Theo Thong Tin:"
 echo "=========================================================================="
 echo "eMail Quan Ly: $vpssimemail"
