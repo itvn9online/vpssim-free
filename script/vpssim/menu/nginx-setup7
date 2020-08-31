@@ -53,7 +53,7 @@ cd /usr/local/vpssim/nginx-${Nginx_VERSION}
 --with-debug \
 --with-zlib=$moduledir/${zlibversion} \
 --with-openssl=$moduledir/${opensslversion} \
---with-openssl-opt="enable-tlsext" \
+--with-openssl-opt=no-nextprotoneg \
 --conf-path=/etc/nginx/nginx.conf \
 --with-http_gzip_static_module \
 --with-threads \
@@ -73,6 +73,7 @@ cd /usr/local/vpssim/nginx-${Nginx_VERSION}
 #--add-module=$moduledir/echo-nginx-module-master \
 #--add-module=$moduledir/memc-nginx-module-master \
 #--add-module=$moduledir/redis2-nginx-module-master \
+#--with-openssl-opt="enable-tlsext" \
 #
 
 #
