@@ -3,36 +3,28 @@
 
 #
 cd ~
+if [ -d /opt/echbay_vpssim ]; then
+	rm -rf /opt/echbay_vpssim/*
+	rm -rf /opt/echbay_vpssim
+	sleep 5
+fi
+
+sudo yum -y install git
+git clone https://github.com/itvn9online/vpssim-free /opt/echbay_vpssim
+sleep 5
+
+find /opt/echbay_vpssim/script/vpssim/menu -type f -exec chmod 755 {} \;
+/opt/echbay_vpssim/script/vpssim/menu/git-clone-done
+
+#
+cd ~
 cd /tmp
 rm -rf 00-all-nginx-version.txt
-wget --no-check-certificate -q https://raw.githubusercontent.com/itvn9online/vpssim-free/master/script/vpssim/00-all-nginx-version.txt
-
-cd ~
-mkdir -p /opt/echbay_vpssim/script/vpssim
-cd /opt/echbay_vpssim/script/vpssim
-rm -rf nginx-setup.conf
-wget --no-check-certificate -q https://github.com/itvn9online/vpssim-free/raw/master/script/vpssim/nginx-setup.conf
-
-
-cd ~
-mkdir -p /opt/echbay_vpssim/script/vpssim/menu
-cd /opt/echbay_vpssim/script/vpssim/menu
-
-#wget --no-check-certificate -q https://github.com/itvn9online/vpssim-free/raw/master/script/vpssim/menu/nginx-setup-download
-yes | cp -rf /etc/vpssim/menu/nginx-setup-download nginx-setup-download
-chmod +x nginx-setup-download
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/00-all-nginx-version.txt 00-all-nginx-version.txt
 
 if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then
-rm -rf nginx-setup6
-#wget --no-check-certificate -q https://github.com/itvn9online/vpssim-free/raw/master/script/vpssim/menu/nginx-setup6
-yes | cp -rf /etc/vpssim/menu/nginx-setup6 nginx-setup6
-chmod +x nginx-setup6
 /opt/echbay_vpssim/script/vpssim/menu/nginx-setup6
 else
-rm -rf nginx-setup7
-#wget --no-check-certificate -q https://github.com/itvn9online/vpssim-free/raw/master/script/vpssim/menu/nginx-setup7
-yes | cp -rf /etc/vpssim/menu/nginx-setup7 nginx-setup7
-chmod +x nginx-setup7
 /opt/echbay_vpssim/script/vpssim/menu/nginx-setup7
 fi
 
@@ -50,6 +42,11 @@ systemctl restart nginx.service
 else
 service nginx restart
 fi
+
+rm -rf /opt/echbay_vpssim/*
+rm -rf /opt/echbay_vpssim
+sleep 1
+
 clear
 echo "========================================================================="
 echo "Cai dat Nginx phien ban $Nginx_VERSION thanh cong !"
