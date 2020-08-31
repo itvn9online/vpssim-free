@@ -379,7 +379,7 @@ cd
 
 
 /opt/echbay_vpssim/script/vpssim/menu/nginx-setup7
-exit
+#exit
 
 
 sudo yum -y install MariaDB-client MariaDB-common MariaDB-compat MariaDB-devel MariaDB-server MariaDB-shared perl-DBD-MySQL
