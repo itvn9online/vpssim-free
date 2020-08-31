@@ -1,4 +1,5 @@
 #!/bin/bash
+. /opt/echbay_vpssim/script/vpssim/nginx-setup.conf
 checktruenumber='^[0-9]+$'
 
 kiemtraemail3="^(([-a-zA-Z0-9\!#\$%\&\'*+/=?^_\`{\|}~])+\.)*[-a-zA-Z0-9\!#\$%\&\'*+/=?^_\`{\|}~]+@\w((-|\w)*\w)*\.(\w((-|\w)*\w)*\.)*\w{2,24}$";
@@ -188,7 +189,7 @@ fi
 ###########################
 cd
 phpmyadmin_version=`cat /tmp/00-all-phpmyadmin-version.txt | awk 'NR==2 {print $1}' | sed 's/|//' | sed 's/|//'`
-Nginx_VERSION=`cat /tmp/00-all-nginx-version.txt | awk 'NR==2 {print $1}' | sed 's/|//' | sed 's/|//'`
+#Nginx_VERSION=`cat /tmp/00-all-nginx-version.txt | awk 'NR==2 {print $1}' | sed 's/|//' | sed 's/|//'`
 vpssim_version=`cat /tmp/vpssim.newversion`
 
 # End Download Nginx, VPSSIM & phpMyadmin Version
@@ -377,7 +378,7 @@ cd
 #fi
 
 
-/opt/echbay_vpssim/script/vpssim/menu/nginx-setup
+/opt/echbay_vpssim/script/vpssim/menu/nginx-setup7
 exit
 
 

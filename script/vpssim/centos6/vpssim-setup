@@ -1,4 +1,5 @@
 #!/bin/bash
+. /opt/echbay_vpssim/script/vpssim/nginx-setup.conf
 checktruenumber='^[0-9]+$'
 
 # glibc -> Phai update truoc, neu khong se loi cronjob -> chi danh cho centos6
@@ -197,7 +198,7 @@ fi
 ###########################
 cd
 phpmyadmin_version=`cat /tmp/00-all-phpmyadmin-version.txt | awk 'NR==2 {print $1}' | sed 's/|//' | sed 's/|//'`
-Nginx_VERSION=`cat /tmp/00-all-nginx-version.txt | awk 'NR==2 {print $1}' | sed 's/|//' | sed 's/|//'`
+#Nginx_VERSION=`cat /tmp/00-all-nginx-version.txt | awk 'NR==2 {print $1}' | sed 's/|//' | sed 's/|//'`
 vpssim_version=`cat /tmp/vpssim.newversion`
 
 # End Download Nginx, VPSSIM & phpMyadmin Version
@@ -458,7 +459,7 @@ cd
 #fi
 
 
-/opt/echbay_vpssim/script/vpssim/menu/nginx-setup
+/opt/echbay_vpssim/script/vpssim/menu/nginx-setup6
 #exit
 
 ############################
