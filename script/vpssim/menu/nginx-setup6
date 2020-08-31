@@ -7,6 +7,7 @@ echo $zlibversion
 echo $pcreVersionInstall
 echo $Nginx_VERSION
 #exit
+sleep 10
 
 
 /opt/echbay_vpssim/script/vpssim/menu/nginx-setup-download
