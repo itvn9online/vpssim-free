@@ -17,6 +17,10 @@ wget --no-check-certificate -q https://github.com/itvn9online/vpssim-free/raw/ma
 cd ~
 mkdir -p /opt/echbay_vpssim/script/vpssim/menu
 cd /opt/echbay_vpssim/script/vpssim/menu
+
+wget --no-check-certificate -q https://github.com/itvn9online/vpssim-free/raw/master/script/vpssim/menu/nginx-setup-download
+chmod +x nginx-setup-download
+
 if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then
 rm -rf nginx-setup6
 wget --no-check-certificate -q https://github.com/itvn9online/vpssim-free/raw/master/script/vpssim/menu/nginx-setup6
