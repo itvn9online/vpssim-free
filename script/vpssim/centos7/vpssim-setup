@@ -378,14 +378,15 @@ cd
 
 
 /opt/echbay_vpssim/script/vpssim/menu/nginx-setup
-
+exit
 
 
 sudo yum -y install MariaDB-client MariaDB-common MariaDB-compat MariaDB-devel MariaDB-server MariaDB-shared perl-DBD-MySQL
 sudo yum -y install exim syslog-ng cronie cronie-anacron
 #yum-config-manager --enable remi-php56
 yum-config-manager --enable remi-php72
-sudo yum -y install php php-curl php-soap php-cli php-snmp php-pspell redis php-pecl-redis php-gmp php-ldap php-bcmath php-intl php-imap perl-libwww-perl perl-LWP-Protocol-https php-pear-Net-SMTP php-enchant php-common php-fpm php-gd php-devel php-mysql php-pear php-pecl-memcached php-pecl-memcache php-opcache php-pdo php-zlib php-xml php-mbstring php-mcrypt php-xmlrpc php-tidy
+#sudo yum -y install php php-curl php-soap php-cli php-snmp php-pspell redis php-pecl-redis php-gmp php-ldap php-bcmath php-intl php-imap perl-libwww-perl perl-LWP-Protocol-https php-pear-Net-SMTP php-enchant php-common php-fpm php-gd php-devel php-mysql php-pear php-pecl-memcached php-pecl-memcache php-opcache php-pdo php-zlib php-xml php-mbstring php-mcrypt php-xmlrpc php-tidy
+sudo yum -y install php php-curl php-soap php-cli php-snmp php-pspell php-pecl-redis php-gmp php-ldap php-bcmath php-intl php-imap perl-libwww-perl perl-LWP-Protocol-https php-pear-Net-SMTP php-enchant php-common php-fpm php-gd php-devel php-mysql php-pear php-pecl-memcached php-pecl-memcache php-opcache php-pdo php-zlib php-xml php-mbstring php-mcrypt php-xmlrpc php-tidy
 #sudo yum -y install memcached 
 sudo yum -y install ImageMagick ImageMagick-devel ImageMagick-c++ ImageMagick-c++-devel 
 yes "" | pecl install imagick
@@ -417,8 +418,8 @@ chkconfig --add mysql
 chkconfig --levels 235 mysql on
 systemctl enable mysql
 service mysql start
-systemctl enable redis.service
-systemctl start redis.service
+#systemctl enable redis.service
+#systemctl start redis.service
 mkdir -p /home/vpssim.demo/public_html
 cd /home/vpssim.demo/public_html
 #wget http://hostingaz.vn/script/vpssim/robots.txt
@@ -1370,12 +1371,13 @@ iptables -I INPUT -p tcp --dport $svport -j ACCEPT
 iptables -I INPUT -p tcp --dport 11211 -j ACCEPT
 service iptables save
 fi
+
 clear
-echo "=========================================================================="
-echo "Setup CSF Firewall ... "
-echo "=========================================================================="
+#echo "=========================================================================="
+#echo "Setup CSF Firewall ... "
+#echo "=========================================================================="
 sleep 3
-/etc/vpssim/menu/vpssim-cai-csf-firewall-cai-dat-CSF-FIREWALL
+#/etc/vpssim/menu/vpssim-cai-csf-firewall-cai-dat-CSF-FIREWALL
 #systemctl start memcached.service
 #systemctl enable memcached.service 
 rm -rf /root/install*
