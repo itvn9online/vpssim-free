@@ -459,8 +459,8 @@ cd
 #fi
 
 
-#/opt/echbay_vpssim/script/vpssim/menu/nginx-setup6
-exit
+/opt/echbay_vpssim/script/vpssim/menu/nginx-setup6
+#exit
 
 ############################
 sudo yum -y install exim syslog-ng cronie cronie-anacron
