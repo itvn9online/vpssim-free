@@ -12,7 +12,7 @@ fi
 echo "========================================================================="
 read -r -p "Ban muon su dung PHP phien ban 7.1 ? [y/N] " response
 case $response in
-    [yY][eE][sS]|[yY]) 
+[yY][eE][sS]|[yY]) 
 echo "-------------------------------------------------------------------------"
 echo "Ok ! please wait ...."
 sleep 1
@@ -33,26 +33,32 @@ yes | cp -rf /etc/php.d/opcache.ini /root/updown/
 fi
 yes | cp -rf /etc/php.ini /root/updown/
 yes | cp -rf /etc/php-fpm.d/www.conf /root/updown
+
 if [ -f /etc/php.d/imagick.ini ]; then
 imagickstatus=1
 rm -rf /etc/php.d/imagick.ini 
 pecl uninstall imagick
 fi
+
 if [ -f /etc/php.d/*suhosin*.ini ]; then
 suhosin=1
 fi
+
 if [ -f /etc/redis/redis.conf ]; then
 phppeclredis=php-pecl-redis
 fi
+
 if [ -f /etc/sysconfig/memcached ]; then
 memcachedinstall=$(echo "php-pecl-memcached php-pecl-memcache")
 fi
+
 yum -y remove php\*
 yum-config-manager --disable remi-php$phphientai 
 yum-config-manager --enable remi-php71 
 yum -y install php php-common php-fpm php-gd php-devel php-json
 yum -y install php-curl php-pecl-zip $phppeclredis php-zip php-soap php-cli php-ldap php-mysqlnd php-pear-Net-SMTP php-enchant php-mysql php-pgsql php-pear $memcachedinstall php-opcache php-pdo php-zlib php-xml php-mbstring php-mcrypt
 clear
+
 #edit php.ini va Zend opcache
 rm -rf /etc/php.ini  
 rm -rf /etc/php-zts.d/*opcache*
@@ -61,16 +67,18 @@ rm -rf /etc/php-fpm.conf
 yes | cp -rf /root/updown/php-fpm.conf /etc/
 yes | cp -rf /root/updown/php.ini /etc/
 yes | cp -rf /root/updown/www.conf /etc/php-fpm.d/
-#copy opcache config
 
+#copy opcache config
 yes | cp -rf /root/updown/opcache.* /etc/php.d/
 php_version=$(php -r "echo PHP_MAJOR_VERSION.'.'.PHP_MINOR_VERSION;")
 sed --in-place '/zend_extension/d' /etc/php.d/opcache.*
+
 ####Suhosin################
 if [ "$suhosin" = "1" ]; then
 yum -y install php-suhosin
 fi
 ###########################
+
 ###Imagick & Zend Opcache
 if [ "$imagickstatus" == "1" ]; then
 yum -y install ImageMagick ImageMagick-devel ImageMagick-c++ ImageMagick-c++-devel 
@@ -85,10 +93,11 @@ else
 echo "extension=imagick.so" > /etc/php.d/imagick.ini
 fi
 fi
+
 if [ "$php_version" == "5.4" ]; then
-  if [ "$(find / -name 'opcache.so')" == "0" ]; then
- pecl install channel://pecl.php.net/ZendOpcache-7.0.5
-  fi
+if [ "$(find / -name 'opcache.so')" == "0" ]; then
+pecl install channel://pecl.php.net/ZendOpcache-7.0.5
+fi
 duongdanopcache=$(find / -name 'opcache.so' | grep php/modules/opcache.so)
 echo "zend_extension=$duongdanopcache" >> /etc/php.d/opcache.*
 else
@@ -96,14 +105,16 @@ echo "zend_extension=opcache.so" >> /etc/php.d/opcache.*
 fi
 ######################
 if [ "$ioncubestatus" = "1" ]; then
-	arch=`uname -m`
+arch=`uname -m`
 if [ "$arch" = "x86_64" ]; then
-wget -q -O - http://downloads3.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz | tar -xzf - -C /usr/local
+#wget -q -O - http://downloads3.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz | tar -xzf - -C /usr/local
+wget --no-check-certificate -q -O - https://github.com/itvn9online/echbay-vpssim-software/raw/master/ioncube_loaders_lin_x86-64.tar.gz | tar -xzf - -C /usr/local
 rm -r -f /root/ioncube_loaders_lin_x86-64.tar.gz
 rm -r -f /etc/php.d/*.ioncube.*
 rm -r -f /etc/php.d/ioncube.*
 else
-wget -q -O - http://downloads3.ioncube.com/loader_downloads/ioncube_loaders_lin_x86.tar.gz | tar -xzf - -C /usr/local
+#wget -q -O - http://downloads3.ioncube.com/loader_downloads/ioncube_loaders_lin_x86.tar.gz | tar -xzf - -C /usr/local
+wget --no-check-certificate -q -O - https://github.com/itvn9online/echbay-vpssim-software/raw/master/ioncube_loaders_lin_x86.tar.gz | tar -xzf - -C /usr/local
 rm -r -f /root/ioncube_loaders_lin_x86.tar.gz
 rm -r -f /etc/php.d/*.ioncube.*
 rm -r -f /etc/php.d/ioncube.*
@@ -130,19 +141,19 @@ systemctl restart php-fpm.service
 fi
 chmod 777 /var/lib/php/session/
 if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
-	if [ ! "$(/sbin/service php-fpm status | awk 'NR==1 {print $5}')" == "running..." ]; then
-	clear
-	echo "========================================================================="
-	echo "Sorry, There's an error on changing PHP version."
-	
+if [ ! "$(/sbin/service php-fpm status | awk 'NR==1 {print $5}')" == "running..." ]; then
+clear
+echo "========================================================================="
+echo "Sorry, There's an error on changing PHP version."
+
 /etc/vpssim/menu/vpssim-update-upgrade-service-menu
 fi
 fi
 if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
-	if [ ! "`systemctl is-active php-fpm.service`" == "active" ]; then
-	clear
-	echo "========================================================================="
-	echo "Sorry, There's an error on changing PHP version."
+if [ ! "`systemctl is-active php-fpm.service`" == "active" ]; then
+clear
+echo "========================================================================="
+echo "Sorry, There's an error on changing PHP version."
 /etc/vpssim/menu/vpssim-update-upgrade-service-menu
 fi
 fi
@@ -152,10 +163,10 @@ echo "Hoan thanh thay doi PHP version. "
 echo "-------------------------------------------------------------------------"
 echo "Phien ban PHP hien tai: $(php -i | grep 'PHP Version' | awk 'NR==1 {print $4}')                          "
 /etc/vpssim/menu/nangcap-php/change-php-version-menu
-        ;;
+;;
 esac
 clear
 echo "========================================================================="
- printf "Ban huy thay doi phien ban PHP.                         \n"
+printf "Ban huy thay doi phien ban PHP.                         \n"
 /etc/vpssim/menu/nangcap-php/change-php-version-menu
 

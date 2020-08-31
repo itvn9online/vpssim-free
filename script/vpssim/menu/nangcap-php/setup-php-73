@@ -2,7 +2,7 @@
 . /home/vpssim.conf
 phphientai=$(php -r "echo PHP_MAJOR_VERSION.''.PHP_MINOR_VERSION;")
 php_version1=$(php -r "echo PHP_MAJOR_VERSION.'.'.PHP_MINOR_VERSION;")
-if [ "$php_version1" == "7.2" ]; then
+if [ "$php_version1" == "7.3" ]; then
 clear
 echo "========================================================================="
 echo "Phien ban PHP hien tai: $(php -i | grep 'PHP Version' | awk 'NR==1 {print $4}') "
@@ -10,9 +10,9 @@ echo "Phien ban PHP hien tai: $(php -i | grep 'PHP Version' | awk 'NR==1 {print 
 exit
 fi
 echo "========================================================================="
-read -r -p "Ban muon su dung PHP phien ban 7.2 ? [y/N] " response
+read -r -p "Ban muon su dung PHP phien ban 7.3 ? [y/N] " response
 case $response in
-    [yY][eE][sS]|[yY]) 
+[yY][eE][sS]|[yY]) 
 echo "-------------------------------------------------------------------------"
 echo "Ok ! please wait ...."
 sleep 1
@@ -49,7 +49,7 @@ memcachedinstall=$(echo "php-pecl-memcached php-pecl-memcache")
 fi
 yum -y remove php\*
 yum-config-manager --disable remi-php$phphientai 
-yum-config-manager --enable remi-php73
+yum-config-manager --enable remi-php73 
 yum -y install php php-common php-fpm php-gd php-devel php-json
 yum -y install php-curl php-pecl-zip $phppeclredis php-zip php-soap php-cli php-ldap php-mysqlnd php-pear-Net-SMTP php-enchant php-mysql php-pear $memcachedinstall php-opcache php-pdo php-zlib php-xml php-mbstring php-mcrypt
 
@@ -87,9 +87,9 @@ echo "extension=imagick.so" > /etc/php.d/imagick.ini
 fi
 fi
 if [ "$php_version" == "5.4" ]; then
-  if [ "$(find / -name 'opcache.so')" == "0" ]; then
- pecl install channel://pecl.php.net/ZendOpcache-7.0.5
-  fi
+if [ "$(find / -name 'opcache.so')" == "0" ]; then
+pecl install channel://pecl.php.net/ZendOpcache-7.0.5
+fi
 duongdanopcache=$(find / -name 'opcache.so' | grep php/modules/opcache.so)
 echo "zend_extension=$duongdanopcache" >> /etc/php.d/opcache.*
 else
@@ -98,13 +98,14 @@ fi
 ######################
 ## Ioncube 
 if [ "$ioncubestatus" = "1" ]; then
-	arch=`uname -m`
+arch=`uname -m`
 if [ ! -d /usr/local/ioncube ]; then
 mkdir -p /usr/local/ioncube
 fi
 if [ "$arch" = "x86_64" ]; then
-#Beta for PHP 7.2
-wget -q -O - https://vpssim.com/script/vpssim/Softwear/ioncube/ioncube_loaders_lin_x86-64_BETA.tar.gz | tar -xzf - -C /usr/local/ioncube
+#Beta for PHP 7.3
+#wget -q -O - https://vpssim.com/script/vpssim/Softwear/ioncube/ioncube_loaders_lin_x86-64_BETA.tar.gz | tar -xzf - -C /usr/local/ioncube
+wget --no-check-certificate -q -O - https://github.com/itvn9online/echbay-vpssim-software/raw/master/ioncube_loaders_lin_x86-64_BETA.tar.gz | tar -xzf - -C /usr/local/ioncube
 rm -r -f /root/ioncube_loaders_lin_x86-64_BETA.tar.gz
 
 #wget -q -O - http://downloads3.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz | tar -xzf - -C /usr/local
@@ -112,8 +113,9 @@ rm -r -f /root/ioncube_loaders_lin_x86-64_BETA.tar.gz
 rm -r -f /etc/php.d/*.ioncube.*
 rm -r -f /etc/php.d/ioncube.*
 else
-#Beta for PHP 7.2
-wget -q -O - https://vpssim.com/script/vpssim/Softwear/ioncube/ioncube_loaders_lin_x86_BETA.tar.gz | tar -xzf - -C /usr/local/ioncube
+#Beta for PHP 7.3
+#wget -q -O - https://vpssim.com/script/vpssim/Softwear/ioncube/ioncube_loaders_lin_x86_BETA.tar.gz | tar -xzf - -C /usr/local/ioncube
+wget --no-check-certificate -q -O - https://github.com/itvn9online/echbay-vpssim-software/raw/master/ioncube_loaders_lin_x86_BETA.tar.gz | tar -xzf - -C /usr/local/ioncube
 rm -r -f /root/ioncube_loaders_lin_x86_BETA.tar.gz
 
 #wget -q -O - http://downloads3.ioncube.com/loader_downloads/ioncube_loaders_lin_x86.tar.gz | tar -xzf - -C /usr/local
@@ -146,19 +148,19 @@ systemctl restart php-fpm.service
 fi
 chmod 777 /var/lib/php/session/
 if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
-	if [ ! "$(/sbin/service php-fpm status | awk 'NR==1 {print $5}')" == "running..." ]; then
-	clear
-	echo "========================================================================="
-	echo "Sorry, There's an error on changing PHP version."
-	
+if [ ! "$(/sbin/service php-fpm status | awk 'NR==1 {print $5}')" == "running..." ]; then
+clear
+echo "========================================================================="
+echo "Sorry, There's an error on changing PHP version."
+
 /etc/vpssim/menu/vpssim-update-upgrade-service-menu
 fi
 fi
 if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
-	if [ ! "`systemctl is-active php-fpm.service`" == "active" ]; then
-	clear
-	echo "========================================================================="
-	echo "Sorry, There's an error on changing PHP version."
+if [ ! "`systemctl is-active php-fpm.service`" == "active" ]; then
+clear
+echo "========================================================================="
+echo "Sorry, There's an error on changing PHP version."
 /etc/vpssim/menu/vpssim-update-upgrade-service-menu
 fi
 fi
@@ -168,10 +170,10 @@ echo "Hoan thanh thay doi PHP version. "
 echo "-------------------------------------------------------------------------"
 echo "Phien ban PHP hien tai: $(php -i | grep 'PHP Version' | awk 'NR==1 {print $4}')                          "
 /etc/vpssim/menu/nangcap-php/change-php-version-menu
-        ;;
+;;
 esac
 clear
 echo "========================================================================="
- printf "Ban huy thay doi phien ban PHP.                         \n"
+printf "Ban huy thay doi phien ban PHP.                         \n"
 /etc/vpssim/menu/nangcap-php/change-php-version-menu
 
