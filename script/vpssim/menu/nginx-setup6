@@ -3,6 +3,7 @@
 . /opt/echbay_vpssim/script/vpssim/nginx-setup.conf
 echo $moduledir
 echo $opensslversion
+echo $withopensslopt
 echo $zlibversion
 echo $pcreVersionInstall
 echo $Nginx_VERSION
@@ -94,7 +95,7 @@ cd /usr/local/vpssim/nginx-${Nginx_VERSION}
 --with-google_perftools_module \
 --with-debug \
 --with-openssl=$moduledir/${opensslversion} \
---with-openssl-opt="enable-tlsext" \
+--with-openssl-opt=$withopensslopt \
 --with-zlib=$moduledir/${zlibversion} \
 --with-http_realip_module \
 --with-http_stub_status_module \
