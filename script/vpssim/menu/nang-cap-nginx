@@ -18,17 +18,20 @@ cd ~
 mkdir -p /opt/echbay_vpssim/script/vpssim/menu
 cd /opt/echbay_vpssim/script/vpssim/menu
 
-wget --no-check-certificate -q https://github.com/itvn9online/vpssim-free/raw/master/script/vpssim/menu/nginx-setup-download
+#wget --no-check-certificate -q https://github.com/itvn9online/vpssim-free/raw/master/script/vpssim/menu/nginx-setup-download
+yes | cp -rf /etc/vpssim/menu/nginx-setup-download nginx-setup-download
 chmod +x nginx-setup-download
 
 if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then
 rm -rf nginx-setup6
-wget --no-check-certificate -q https://github.com/itvn9online/vpssim-free/raw/master/script/vpssim/menu/nginx-setup6
+#wget --no-check-certificate -q https://github.com/itvn9online/vpssim-free/raw/master/script/vpssim/menu/nginx-setup6
+yes | cp -rf /etc/vpssim/menu/nginx-setup6 nginx-setup6
 chmod +x nginx-setup6
 /opt/echbay_vpssim/script/vpssim/menu/nginx-setup6
 else
 rm -rf nginx-setup7
-wget --no-check-certificate -q https://github.com/itvn9online/vpssim-free/raw/master/script/vpssim/menu/nginx-setup7
+#wget --no-check-certificate -q https://github.com/itvn9online/vpssim-free/raw/master/script/vpssim/menu/nginx-setup7
+yes | cp -rf /etc/vpssim/menu/nginx-setup7 nginx-setup7
 chmod +x nginx-setup7
 /opt/echbay_vpssim/script/vpssim/menu/nginx-setup7
 fi
