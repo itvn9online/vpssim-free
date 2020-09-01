@@ -19,13 +19,21 @@ yum -y install wget ; wget --no-check-certificate https://vpssim.echbay.com/inst
 
 ### Chức Năng, Tiện Ích Và Tối Ưu VPS Của ECHBAY-VPSSIM:
 ### 2020/09/01:
+### nginx
+#### Nguồn cài đặt: https://github.com/itvn9online/vpssim-free/blob/master/script/vpssim/nginx-setup.conf
 #### - Cài đặt nginx-1.18.0, đây là phiên bản ổn định và mới nhất của nginx tính đến thời điểm hiện tại, kết hợp với openssl-1.0.2s thay cho bản openssl cũ của VPSSIM, phiên bản này mới hỗ trợ đầy đủ HTTP/2.
 ##### + Phiên bản nginx được xem và cập nhật tại: http://nginx.org/en/download.html . Mặc định mình chỉ chọn phiên bản Stable version, các bản Mainline là đang phát triển nên không chọn.
 ##### + Chuyển sang sử dụng openssl-1.1.1g, đây cũng là bản openssl mới nhất hiện nay. Hỗ trợ HTTP/2 hoàn chỉnh, TLSv1.3 và rất nhiều cải tiến khác so với các bản tiền nhiệm. Các phiên bản OpenSSL khác có thể xem thêm tại đây: https://www.openssl.org/source/
 ##### + https://ftp.pcre.org/pub/pcre/ -> dùng bản 8.44 thay cho bản 8.39 của VPSSIM.
 ##### + https://www.zlib.net/ -> dùng bản 1.2.11 thay cho bản 1.2.8 của VPSSIM.
-##### ++ Có thể tham khảo thêm zlib của cloudflare: https://github.com/cloudflare/zlib
+##### ++ Có thể tham khảo thêm zlib của cloudflare: https://github.com/cloudflare/zlib - thấy ở đây cập nhật cũng mới hơn nhưng chả rõ như nào, bạn nào rảnh thì test xem có hay ho gì không.
 
+### 2020/08/29:
+#### Loại bỏ phiên bản MariaDB 5 do có vẻ nó đã lỗi thời, với lại mấy năm nay mình dùng bản MariaDB 10 thấy rất ổn định nên cũng khuyên dùng.
+
+----------------------------------------------------------
+
+### 2020/08/27:
 #### - Cho bạn lựa chọn MariaDB phiên bản 10.3, 10.2, 10.1, 10.0 và bản 5.5 thay vì bản 10.0 và 5.5 mặc định của VPSSIM. Tự động config phù hợp với cấu hình server.
 #### - Lựa chọn 6 phiên bản PHP : 7.2, 7.1, 7.0, 5.6, 5.5 hoặc 5.4 . VPSSIM tự động config tối ưu PHP tùy theo cấu hình VPS và thay bạn có thể thay đổi PHP version thoải mái trong quá trình sử dụng.
 #### - Loại bỏ memcached trong quá trình cài đặt mặc định, cái này ai thấy cần thiết thì cài thêm là được. Giờ Server/ VPS thường thuê là hàng chạy ổ SSD cũng rất nhanh, nên mình dùng Cache trên ổ cứng cho nó kinh tế hơn nhiều mà tốc độ tải không chậm hơn so với RAM là bao nhiêu.
