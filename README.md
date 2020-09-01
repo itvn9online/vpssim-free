@@ -20,32 +20,21 @@ yum -y install wget ; wget --no-check-certificate https://vpssim.echbay.com/inst
 ### Chức Năng, Tiện Ích Và Tối Ưu VPS Của ECHBAY-VPSSIM:
 
 ### Dự kiến:
-#### Cập nhật openssl lên bản mới nhất và build nginx từ bản này: https://linuxscriptshub.com/update-openssl-1-1-0-centos-6-9-7-0/
-`
-cd ~
-which openssl
-wget https://www.openssl.org/source/openssl-1.1.1g.tar.gz
-tar -xzf openssl-1.1.1g.tar.gz
-cd openssl-1.1.1g
-./config
-make
-sudo make install
-sudo ln -s /usr/local/lib64/libssl.so.1.1 /usr/lib64/
-sudo ln -s /usr/local/lib64/libcrypto.so.1.1 /usr/lib64/
-sudo ln -s /usr/local/bin/openssl /usr/bin/openssl_latest
-openssl_latest version
-cd /usr/bin/
-mv openssl openssl_old
-mv openssl_latest openssl
-openssl version
-`
-
-### Dự kiến:
 #### Nghiên cứu thêm về Brotli: https://github.com/google/ngx_brotli
 Brotli là một thuật toán nén mã nguồn mở mới được Google phát triển như là một sự thay thế cho Gzip, Zopfli và Deflate. Theo Google việc nén bằng Brotli đã cho thấy file được nén có dung lượng nhỏ hơn tới 26% so với các phương pháp nén hiện tại, điều này đồng nghĩa với việc các website khi được nén bởi Brotli sẽ giúp người dùng truy cập website nhanh hơn và đồng thời giảm tải cho Server.
 
 ### Dự kiến:
 ##### Có thể tham khảo thêm zlib của cloudflare: https://github.com/cloudflare/zlib - thấy ở đây cập nhật cũng mới hơn nhưng chả rõ như nào! để rảnh thì test xem có hay ho gì không.
+
+----------------------------------------------
+
+### 2020/09/01:
+### OpenSSL
+#### Cập nhật openssl lên bản mới nhất và build nginx từ bản này: https://linuxscriptshub.com/update-openssl-1-1-0-centos-6-9-7-0/
+#### Mã thực thi: https://github.com/itvn9online/vpssim-free/blob/master/script/vpssim/menu/nang-cap-openssl
+#### Cách sử dụng: Trong VPSSIM menu -> 26) Update System -> 7) Thay phien phien ban OpenSSL
+
+----------------------------------------------
 
 ### 2020/09/01:
 ### nginx
