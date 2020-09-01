@@ -28,10 +28,12 @@ yum -y install wget ; wget --no-check-certificate https://vpssim.echbay.com/inst
 ##### + https://www.zlib.net/ -> dùng bản 1.2.11 thay cho bản 1.2.8 của VPSSIM.
 ##### ++ Có thể tham khảo thêm zlib của cloudflare: https://github.com/cloudflare/zlib - thấy ở đây cập nhật cũng mới hơn nhưng chả rõ như nào, bạn nào rảnh thì test xem có hay ho gì không.
 
+----------------------------------------------
+
 ### 2020/08/29:
 #### Loại bỏ phiên bản MariaDB 5 do có vẻ nó đã lỗi thời, với lại mấy năm nay mình dùng bản MariaDB 10 thấy rất ổn định nên cũng khuyên dùng.
 
-----------------------------------------------------------
+----------------------------------------------
 
 ### 2020/08/27:
 #### - Cho bạn lựa chọn MariaDB phiên bản 10.3, 10.2, 10.1, 10.0 và bản 5.5 thay vì bản 10.0 và 5.5 mặc định của VPSSIM. Tự động config phù hợp với cấu hình server.
