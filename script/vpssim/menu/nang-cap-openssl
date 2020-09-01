@@ -1,0 +1,67 @@
+#!/bin/bash
+. /home/vpssim.conf
+
+#
+cd ~
+echo "========================================================================="
+echo "which openssl: "$(which openssl)
+echo "openssl version: "$(openssl version)
+echo "========================================================================="
+
+echo -n "Ban muon cap nhat lai OpenSSL ? [y/N] "
+read selectServer
+if [ "$selectServer" = "y" ]; then
+echo "-------------------------------------------------------------------------"
+echo "Ok ! please wait check OpenSSL new version ...."
+sleep 1
+
+#
+cd ~
+if [ -d /opt/echbay_vpssim ]; then
+rm -rf /opt/echbay_vpssim/*
+rm -rf /opt/echbay_vpssim
+sleep 5
+fi
+
+sudo yum -y install git
+git clone https://github.com/itvn9online/vpssim-free /opt/echbay_vpssim
+sleep 5
+
+find /opt/echbay_vpssim/script/vpssim/menu -type f -exec chmod 755 {} \;
+/opt/echbay_vpssim/script/vpssim/menu/git-clone-done
+
+. /opt/echbay_vpssim/script/vpssim/nginx-setup.conf
+echo "========================================================================="
+echo "NEW openssl version: "$opensslversion
+echo "========================================================================="
+
+echo -n "ban that su muon thay doi sang phien ban "$opensslversion" ? [y/N] "
+read selectOpenSSL
+if [ "$selectOpenSSL" = "y" ]; then
+echo "Ok ! please wait update "$opensslversion" ...."
+sleep 1
+wget https://www.openssl.org/source/$opensslversion.tar.gz
+tar -xzf $opensslversion.tar.gz
+cd $opensslversion
+./config
+make
+sudo make install
+sudo ln -s /usr/local/lib64/libssl.so.1.1 /usr/lib64/
+sudo ln -s /usr/local/lib64/libcrypto.so.1.1 /usr/lib64/
+sudo ln -s /usr/local/bin/openssl /usr/bin/openssl_latest
+openssl_latest version
+cd /usr/bin/
+mv openssl openssl_old
+mv openssl_latest openssl
+openssl version
+else
+echo "Ban da huy thay doi phien ban "$opensslversion
+fi
+
+else
+echo "Ban da huy thay doi phien ban SSL"
+fi
+
+#
+/etc/vpssim/menu/vpssim-update-upgrade-service-menu
+

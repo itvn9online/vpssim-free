@@ -1,7 +1,7 @@
 #!/bin/bash
 prompt="Lua chon cua ban (8-Thoat):" 
 #options=( "Update System" "Update VPSSIM" "Change Nginx Version" "Change phpMyAdmin Version" "Upgrade MariaDB to 10.0 Version" "Change PHP Version" "Change VPSSIM Language" "Thoat")
-options=( "Update System" "Update VPSSIM" "Change Nginx Version" "Change phpMyAdmin Version" "Change PHP Version" "Change VPSSIM Language" "Thoat")
+options=( "Update System" "Update VPSSIM" "Change Nginx Version" "Change phpMyAdmin Version" "Change PHP Version" "Change VPSSIM Language" "Thay phien phien ban OpenSSL")
 printf "=========================================================================\n"
 printf "                VPSSIM - Quan Ly VPS/Server by WebGiaRe.org \n"
 printf "=========================================================================\n"
@@ -21,9 +21,9 @@ select opt in "${options[@]}" ; do
 #	3) /etc/vpssim/menu/vpssim-befor-nang-cap-nginx;;
 	4) /etc/vpssim/menu/vpssim-nang-cap-phpmyadmin;;
 #	5) /etc/vpssim/menu/nang-cap-mariaDB/vpssim-before-nang-cap-mariadb;;
-	5) clear && /etc/vpssim/menu/nangcap-php/vpssim-updown-php;; 
-	6) clear && /etc/vpssim/menu/vpssim-thay-doi-ngon-ngu-menu;; 
-	7) clear && vpssim;;
+	5) clear && /etc/vpssim/menu/nangcap-php/vpssim-updown-php;;
+	6) clear && /etc/vpssim/menu/vpssim-thay-doi-ngon-ngu-menu;;
+	7) clear && /etc/vpssim/menu/nang-cap-openssl;;
 	0) clear && vpssim;;
         *) echo "Ban nhap sai, vui long nhap theo so thu tu tren menu !";continue;;
 
