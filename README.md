@@ -2,7 +2,7 @@
 ### [https://www.facebook.com/groups/wordpresseb](https://www.facebook.com/groups/wordpresseb)
 
 ECHBAY-VPSSIM là bản chỉnh sửa lại từ VPSSIM-3.8.1, đây là phiên bản cuối cùng của VPSSIM mà mình clone lại được trước khi VPSSIM tiến hành mã hóa và thương mại hóa.
-Cơ bản thì trong bản VPSSIM mình chỉnh sửa lại cũng không có gì đặc biệt, chủ yếu tinh chỉnh lại một số phiên bản phần mềm cho phù hợp với thời điểm 2020, tránh tình trạng cổ lỗ sĩ quá.
+Cơ bản thì trong phiên bản ECHBAY-VPSSIM mình chủ yếu cập nhật lại một số phiên bản phần mềm trong cài đặt mặc định lên bản mới và ổn định nhất cho phù hợp với thời điểm 2020.
 
 ### Lệnh Cài Đặt ECHBAY-VPSSIM Trên Centos 6 & 7:
 ```
@@ -61,6 +61,15 @@ Brotli là một thuật toán nén mã nguồn mở mới được Google phát
 #### - Loại bỏ CSF trong quá trình cài đặt mặc định, về cơ bản thì CSF khá tốn RAM, ai có VPS hoặc server RAM khỏe thì bấm cài thêm thủ công. Sau khi cài xong VPS các bạn nên đổi SSH port đi, điều này cũng tránh được khá nhiều phiền toái cho VPS mà lại nhẹ. Đổi SSH port bằng cách vào menu số 25) Tien ich - Addons -> 13) Thay Doi Port SSH Number.
 #### - Còn lại hầu hết các tính năng vẫn được giữ nguyên hoặc chưa có thời gian chỉnh sửa, bổ sung...
 
-### Có gì mới!
-#### Nói chung là cũng không có quá nhiều cái mới, hầu hết những gì VPSSIM cung cấp mình thấy rất ổn định và dễ sử dụng, ngoài mấy phần mềm cũ so với thời thế thì mình thay bằng bản mới hơn.
-#### Cách cài đặt: cũng được mình thay đổi bằng cách cài đặt từ https://github.com/itvn9online/vpssim-free thay vì download từ nhiều nguồn khác nhau như VPSSIM. Thêm nữa khi up code lên github thì cũng có cái nhìn trực quan hơn, mọi người sẽ dễ dàng tham khảo và góp ý các thay đổi hơn cho đúng chuẩn mã nguồn mở.
+----------------------------------------------
+
+### Giới thiệu!
+#### Về cơ bản thì ECHBAY-VPSSIM được hình thành do thời gian gần đây VPSSIM rất ít cập nhật và sử dụng những phần mềm quan trọng nhưng lại rất cũ so với thời đại. Ngoài ra, trong quá trình cài đặt và sử dụng có lỗi thì tác giả cũng rất lâu mới sửa, việc liên hệ với tác giả cũng rất khó nên mình quyết định từ bỏ bản mới nhất của tác giả là 4.2.xx để quay lại với phiên bản cũ hơn, ít tính năng hơn nhưng hầu hết những cái cần thiết với mình đều đã có.
+#### Quan trọng nhất thì bản VPSSIM-3.8.1 này là bản chưa mã hóa nên mình có thể xem mã nguồn và chỉnh sửa được nó theo ý muốn, theo kiến thức mà mình đã có.
+### Cách cài đặt:
+#### Cũng được mình thay đổi bằng cách cài đặt từ https://github.com/itvn9online/vpssim-free thay vì download từ nhiều nguồn khác nhau như VPSSIM. Thêm nữa khi up code lên github thì cũng có cái nhìn trực quan hơn, mọi người sẽ dễ dàng tham khảo và góp ý các thay đổi hơn cho đúng chuẩn mã nguồn mở.
+
+### Liên hệ:
+Facebok: https://www.facebook.com/ech.bay/
+Email: itvn9online@yahoo.com
+Website: https://echbay.com/
