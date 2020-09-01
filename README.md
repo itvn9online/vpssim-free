@@ -20,9 +20,10 @@ yum -y install wget ; wget --no-check-certificate https://vpssim.echbay.com/inst
 ### Chức Năng, Tiện Ích Và Tối Ưu VPS Của ECHBAY-VPSSIM:
 
 ### Dự kiến:
-#### Cập nhật openssl lên bản mới nhất và build nginx từ bản này
+#### Cập nhật openssl lên bản mới nhất và build nginx từ bản này: https://linuxscriptshub.com/update-openssl-1-1-0-centos-6-9-7-0/
 `
 cd ~
+which openssl
 wget https://www.openssl.org/source/openssl-1.1.1g.tar.gz
 tar -xzf openssl-1.1.1g.tar.gz
 cd openssl-1.1.1g
