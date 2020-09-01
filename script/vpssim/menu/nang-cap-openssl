@@ -32,17 +32,18 @@ find /opt/echbay_vpssim/script/vpssim/menu -type f -exec chmod 755 {} \;
 
 . /opt/echbay_vpssim/script/vpssim/nginx-setup.conf
 echo "========================================================================="
-echo "NEW openssl version: "$opensslversion
+echo "NEW openssl version: "${opensslversion}
 echo "========================================================================="
 
-echo -n "ban that su muon thay doi sang phien ban "$opensslversion" ? [y/N] "
+echo -n "ban that su muon thay doi sang phien ban "${opensslversion}" ? [y/N] "
 read selectOpenSSL
 if [ "$selectOpenSSL" = "y" ]; then
-echo "Ok ! please wait update "$opensslversion" ...."
+echo "Ok ! please wait update "${opensslversion}" ...."
 sleep 1
-wget https://www.openssl.org/source/$opensslversion.tar.gz
-tar -xzf $opensslversion.tar.gz
-cd $opensslversion
+wget https://www.openssl.org/source/${opensslversion}.tar.gz
+tar -xzf ${opensslversion}.tar.gz
+rm -rf ${opensslversion}.tar.gz
+cd ${opensslversion}
 ./config
 make
 sudo make install
@@ -55,7 +56,7 @@ mv openssl openssl_old
 mv openssl_latest openssl
 openssl version
 else
-echo "Ban da huy thay doi phien ban "$opensslversion
+echo "Ban da huy thay doi phien ban "${opensslversion}
 fi
 
 else
