@@ -17,6 +17,8 @@ curl -sO https://vpssim.echbay.com/install && bash install
 yum -y install wget ; wget --no-check-certificate https://vpssim.echbay.com/install ; chmod +x install ; bash install
 ```
 
+----------------------------------------------
+
 ### Chức Năng, Tiện Ích Và Tối Ưu VPS Của ECHBAY-VPSSIM:
 
 ### Dự kiến:
