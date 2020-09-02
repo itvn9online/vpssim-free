@@ -15,7 +15,8 @@ echo "-------------------------------------------------------------------------"
 echo "Ok ! please wait check OpenSSL new version ...."
 sleep 1
 
-# copy tu file install sang
+# copy code tu file install sang
+cd ~
 wget --no-check-certificate -q https://raw.githubusercontent.com/itvn9online/vpssim-free/master/script/vpssim/menu/git-clone
 chmod +x /root/git-clone
 bash /root/git-clone

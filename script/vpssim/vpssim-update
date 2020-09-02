@@ -1,6 +1,7 @@
 #!/bin/bash
 . /home/vpssim.conf
 
+cd ~
 
 if [ ! -d /etc/vpssim/.tmp ]; then
 mkdir -p /etc/vpssim/.tmp
