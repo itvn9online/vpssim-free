@@ -1,0 +1,23 @@
+#!/bin/bash
+
+clear
+echo "========================================================================="
+echo "------------------- VPSSIM ----------------------"
+if [ -f /etc/vpssim/vpssim.version ]; then
+echo "VPSSIM version: "$(cat /etc/vpssim/vpssim.version)
+fi
+echo "--------------------- PHP -----------------------"
+echo "PHP version: "$(php -r "echo PHP_MAJOR_VERSION.'.'.PHP_MINOR_VERSION;")
+echo "---------------- phpmyadmin ---------------------"
+if [ -f /etc/vpssim/phpmyadmin.version ]; then
+echo "phpmyadmin version: "$(cat /etc/vpssim/phpmyadmin.version)
+fi
+echo "--------------------- LDD -----------------------"
+ldd --version
+echo "-------------------- nginx ----------------------"
+nginx -V
+echo "------------------- openssl ---------------------"
+openssl version
+echo "========================================================================="
+
+/etc/vpssim/menu/vpssim-update-upgrade-service-menu
