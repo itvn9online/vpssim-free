@@ -30,9 +30,11 @@ read selectOpenSSL
 if [ "$selectOpenSSL" = "y" ]; then
 echo "Ok ! please wait update "${opensslversion}" ...."
 sleep 1
-wget https://www.openssl.org/source/${opensslversion}.tar.gz
+#wget --no-check-certificate -q https://www.openssl.org/source/${opensslversion}.tar.gz
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/module-nginx/${opensslversion}.tar.gz ${opensslversion}.tar.gz
 tar -xzf ${opensslversion}.tar.gz
 rm -rf ${opensslversion}.tar.gz
+
 cd ${opensslversion}
 ./config
 make
