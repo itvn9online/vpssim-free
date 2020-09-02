@@ -7,13 +7,21 @@ wget --no-check-certificate -q https://raw.githubusercontent.com/itvn9online/vps
 chmod +x /root/git-clone
 bash /root/git-clone
 
-exit
-
 #
 cd ~
 cd /tmp
 rm -rf 00-all-nginx-version.txt
 yes | cp -rf /opt/echbay_vpssim/script/vpssim/00-all-nginx-version.txt 00-all-nginx-version.txt
+
+nginx -V
+
+. /opt/echbay_vpssim/script/vpssim/nginx-setup.conf
+echo "========================================================================="
+echo "NEW nginx version: "${Nginx_VERSION}
+echo "========================================================================="
+
+# test
+exit
 
 if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then
 /opt/echbay_vpssim/script/vpssim/menu/nginx-setup6
