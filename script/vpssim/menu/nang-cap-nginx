@@ -21,7 +21,15 @@ echo "NEW nginx version: "${Nginx_VERSION}
 echo "========================================================================="
 
 # test
+echo -n "Ban that su muon thay doi sang phien ban "${Nginx_VERSION}" ? [y/N] "
+read selectNginxVersion
+if [ "$selectNginxVersion" = "y" ]; then
+echo "Ok ! please wait install nginx-"${Nginx_VERSION}" ...."
+sleep 1
+else
+/etc/vpssim/menu/vpssim-update-upgrade-service-menu
 exit
+fi
 
 if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then
 /opt/echbay_vpssim/script/vpssim/menu/nginx-setup6

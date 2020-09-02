@@ -26,7 +26,7 @@ echo "========================================================================="
 echo "NEW openssl version: "${opensslversion}
 echo "========================================================================="
 
-echo -n "ban that su muon thay doi sang phien ban "${opensslversion}" ? [y/N] "
+echo -n "Ban that su muon thay doi sang phien ban "${opensslversion}" ? [y/N] "
 read selectOpenSSL
 if [ "$selectOpenSSL" = "y" ]; then
 echo "Ok ! please wait update "${opensslversion}" ...."
