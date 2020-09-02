@@ -26,7 +26,7 @@ fi
 fi
 clear
 echo "========================================================================="
-echo "Sorry, VPSSIM khong phat hien Memcached tren he thong !"
+echo "Sorry, ECHBAY-VPSSIM khong phat hien Memcached tren he thong !"
 vpssim
 exit
 fi

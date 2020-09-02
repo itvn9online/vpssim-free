@@ -18,7 +18,7 @@ options=("Enable Memcached" "Restart Memcached" "Config Memcached" "Clear Memcac
 fi
 fi
 printf "=========================================================================\n"
-printf "                VPSSIM - Quan Ly VPS/Server by HostingAZ.VN \n"
+printf "                ECHBAY-VPSSIM - Quan Ly VPS/Server by HostingAZ.VN \n"
 printf "=========================================================================\n"
 printf "                            Quan Ly Memcached \n"
 printf "=========================================================================\n"

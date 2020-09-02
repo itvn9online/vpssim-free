@@ -20,7 +20,7 @@ minimumsize=1024000
 	\cp -uf /var/log/nginx/error.log /home/$mainsite/private_html/server-log/
 	cd /home/$mainsite/private_html/server-log
 		sed -i '1s/^/========================================================================= \n\n/' error.log
-	sed -i '2s/^/Nginx Log - Created by VPSSIM \n\n/' error.log
+	sed -i '2s/^/Nginx Log - Created by ECHBAY-VPSSIM \n\n/' error.log
 	sed -i '3s/^/========================================================================= \n\n/' error.log
 	zip nginx.log-$random.zip error.log
 	rm -rf error.log
@@ -37,7 +37,7 @@ minimumsize=1024000
 	cd /home/$mainsite/private_html/server-log
 	mv error.log nginx.log-$random.txt	
 	sed -i '1s/^/========================================================================= \n\n/' nginx.log-$random.txt
-	sed -i '2s/^/Nginx Log - Created by VPSSIM \n\n/' nginx.log-$random.txt
+	sed -i '2s/^/Nginx Log - Created by ECHBAY-VPSSIM \n\n/' nginx.log-$random.txt
 	sed -i '3s/^/========================================================================= \n\n/' nginx.log-$random.txt
 	cd
 	chmod -R 755 /home/$mainsite/private_html/server-log/*

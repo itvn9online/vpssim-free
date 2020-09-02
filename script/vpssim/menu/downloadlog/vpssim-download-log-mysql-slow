@@ -20,7 +20,7 @@ minimumsize=1024000
 	\cp -uf /home/$mainsite/logs/mysql-slow.log /home/$mainsite/private_html/server-log/
 	cd /home/$mainsite/private_html/server-log
 			sed -i '1s/^/========================================================================= \n\n/' mysql-slow.log
-	sed -i '2s/^/MySQL Slow Log - Created by VPSSIM \n\n/' mysql-slow.log
+	sed -i '2s/^/MySQL Slow Log - Created by ECHBAY-VPSSIM \n\n/' mysql-slow.log
 	sed -i '3s/^/========================================================================= \n\n/' mysql-slow.log
 	zip mysql-slow.log-$random.zip mysql-slow.log
 	rm -rf mysql-slow.log
@@ -38,7 +38,7 @@ minimumsize=1024000
 	cd /home/$mainsite/private_html/server-log
 	mv mysql-slow.log mysql-slow.log-$random.txt
 		sed -i '1s/^/========================================================================= \n\n/' mysql-slow.log-$random.txt
-	sed -i '2s/^/MySQL Slow Log - Created by VPSSIM \n\n/' mysql-slow.log-$random.txt
+	sed -i '2s/^/MySQL Slow Log - Created by ECHBAY-VPSSIM \n\n/' mysql-slow.log-$random.txt
 	sed -i '3s/^/========================================================================= \n\n/' mysql-slow.log-$random.txt
 	cd
 	chmod -R 755 /home/$mainsite/private_html/server-log/*

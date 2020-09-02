@@ -1,3 +1,5 @@
 #!/bin/bash
 
 yes | cp -rf /opt/echbay_vpssim/version /opt/echbay_vpssim/script/vpssim/vpssim.newversion
+rm -rf /root/git-clone*
+rm -rf /root/install*

@@ -1,4 +1,4 @@
-All Nginx Versions for VPSSIM Server !
+All Nginx Versions for ECHBAY-VPSSIM Server !
 |1.18.0|
 |1.11.4|
 |1.11.3|

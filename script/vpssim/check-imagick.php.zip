@@ -27,7 +27,7 @@ $draw->setFillPatternURL('#gradient');
 $draw->setFontSize(52);
 
 /* Annotate some text */
-$draw->annotation(20, 50, "Install Imagick OK ! VPSSIM :)");
+$draw->annotation(20, 50, "Install Imagick OK ! ECHBAY-VPSSIM :)");
 /* Create a new canvas object and a white image */
 $canvas = new Imagick();
 $canvas->newImage(750, 70, "white");

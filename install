@@ -1,17 +1,12 @@
 #!/bin/sh
+
 cd ~
-if [ -d /opt/echbay_vpssim ]; then
-	rm -rf /opt/echbay_vpssim/*
-	rm -rf /opt/echbay_vpssim
-	sleep 5
-fi
 
-sudo yum -y install git
-git clone https://github.com/itvn9online/vpssim-free /opt/echbay_vpssim
-sleep 5
+sudo yum -y install wget
 
-find /opt/echbay_vpssim/script/vpssim/menu -type f -exec chmod 755 {} \;
-/opt/echbay_vpssim/script/vpssim/menu/git-clone-done
+wget --no-check-certificate -q https://raw.githubusercontent.com/itvn9online/vpssim-free/master/script/vpssim/menu/git-clone
+chmod +x /root/git-clone
+bash /root/git-clone
 
 cd /opt/echbay_vpssim
 chmod +x setup

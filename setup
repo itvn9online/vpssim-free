@@ -4,28 +4,28 @@ if [ $(id -u) != "0" ]; then
     exit
 fi
 if [ -f /var/cpanel/cpanel.config ]; then
-echo "Server cua ban da cai san WHM/Cpanel, neu ban muon dung VPSSIM"
+echo "Server cua ban da cai san WHM/Cpanel, neu ban muon dung ECHBAY-VPSSIM"
 echo "Hay cai moi lai he dieu hanh, khuyen dung centos6 - 64bit"
 echo "Chao tam biet !"
 exit
 fi
 
 if [ -f /etc/psa/.psa.shadow ]; then
-echo "Server cua ban da cai san Plesk, neu ban muon dung VPSSIM"
+echo "Server cua ban da cai san Plesk, neu ban muon dung ECHBAY-VPSSIM"
 echo "Hay cai moi lai he dieu hanh, khuyen dung centos6 - 64bit"
 echo "Chao tam biet !"
 exit
 fi
 
 if [ -f /etc/init.d/directadmin ]; then
-echo "Server cua ban da cai san DirectAdmin, neu ban muon dung VPSSIM"
+echo "Server cua ban da cai san DirectAdmin, neu ban muon dung ECHBAY-VPSSIM"
 echo "Hay cai moi lai he dieu hanh, khuyen dung centos6 - 64bit"
 echo "Chao tam biet !"
 exit
 fi
 
 if [ -f /etc/init.d/webmin ]; then
-echo "Server cua ban da cai san webmin, neu ban muon dung VPSSIM"
+echo "Server cua ban da cai san webmin, neu ban muon dung ECHBAY-VPSSIM"
 echo "Hay cai moi lai he dieu hanh, khuyen dung centos6 - 64bit"
 echo "Chao tam biet !"
 exit
@@ -35,8 +35,8 @@ if [ -f /home/vpssim.conf ]; then
 clear
 echo "========================================================================="
 echo "========================================================================="
-echo "Server/VPS cua ban da cai san VPSSIM"
-echo "Hay su dung lenh vpssim de truy cap VPSSIM menu"
+echo "Server/VPS cua ban da cai san ECHBAY-VPSSIM"
+echo "Hay su dung lenh ECHBAY-VPSSIM de truy cap ECHBAY-VPSSIM menu"
 echo "Chao tam biet !"
 echo "========================================================================="
 echo "========================================================================="
@@ -54,22 +54,20 @@ sudo yum -y -q install virt-what unzip sudo net-tools iproute iproute2 curl delt
 clear  
 rm -rf /root/vpssim*
 
-sudo yum -y install wget
-
 #prompt="Nhap lua chon cua ban: "
 #options=("Tieng Viet" "Tieng Anh" "Huy Bo")
 echo "========================================================================="
-echo "VPSSIM Ho Tro Centos 6 (32 - 64 Bit) & Centos 7"
+echo "ECHBAY-VPSSIM Ho Tro Centos 6 (32 - 64 Bit) & Centos 7"
 echo "-------------------------------------------------------------------------"
 echo "Ban nen su dung Centos 6 - 64 bit de Server co hieu suat tot nhat."
 echo "-------------------------------------------------------------------------"
-#echo "VPSSIM ho tro 2 ngon ngu: Tieng Anh va Tieng Viet. "
+#echo "ECHBAY-VPSSIM ho tro 2 ngon ngu: Tieng Anh va Tieng Viet. "
 #echo "-------------------------------------------------------------------------"
 #echo "Trong qua trinh su dung, ban co the thay doi ngon ngu ngon ngu bang chuc "
 #echo "-------------------------------------------------------------------------"
-#echo "nang [ Change VPSSIM Language ] trong [ Update System ]."
+#echo "nang [ Change ECHBAY-VPSSIM Language ] trong [ Update System ]."
 #echo "========================================================================="
-#echo "                     Chon Ngon Ngu Cho VPSSIM"
+#echo "                   Chon Ngon Ngu Cho ECHBAY-VPSSIM"
 echo "========================================================================="
 
 #PS3="$prompt"

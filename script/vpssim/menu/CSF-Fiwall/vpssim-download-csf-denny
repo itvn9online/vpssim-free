@@ -25,7 +25,7 @@ sleep 1
 rm -rf /home/$mainsite/private_html/csf-block.txt
 cp /etc/csf/csf.deny /home/$mainsite/private_html/csf-block.txt
 chmod -R 644 /home/$mainsite/private_html/csf-block.txt
-sed -i '1s/^/Danh sach cac IP bi CSF FireWall Block - Created by VPSSIM \n\n/' /home/$mainsite/private_html/csf-block.txt
+sed -i '1s/^/Danh sach cac IP bi CSF FireWall Block - Created by ECHBAY-VPSSIM \n\n/' /home/$mainsite/private_html/csf-block.txt
 clear
 echo "========================================================================= "
 echo "Link list IP blocked boi CSF Firewall:"

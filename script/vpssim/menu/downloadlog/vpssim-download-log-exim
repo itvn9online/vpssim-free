@@ -29,7 +29,7 @@ checksize=$(du -sb $(cat /tmp/eximlog.list)  | tail -1 | cut -f 1)
 	for abcddd in $exim231 
      do
 	sed -i '1s/^/========================================================================= \n\n/' $abcddd
-	sed -i '2s/^/Exim Log - Created by VPSSIM \n\n/' $abcddd
+	sed -i '2s/^/Exim Log - Created by ECHBAY-VPSSIM \n\n/' $abcddd
 	sed -i '3s/^/========================================================================= \n\n/' $abcddd
 	done
 	zip -r exim.log.zip *.*
@@ -72,7 +72,7 @@ done
 	\cp -uf /tmp/eximlog.tmp /home/$mainsite/private_html/server-log/
 	cd /home/$mainsite/private_html/server-log
 	sed -i '1s/^/========================================================================= \n\n/' eximlog.tmp
-	sed -i '2s/^/Exim Log - Created by VPSSIM \n\n/' eximlog.tmp
+	sed -i '2s/^/Exim Log - Created by ECHBAY-VPSSIM \n\n/' eximlog.tmp
 	sed -i '3s/^/========================================================================= \n\n/' eximlog.tmp
 	mv eximlog.tmp  exim.log-$random.txt
 	cd
@@ -81,7 +81,7 @@ done
 	clear
 	echo "========================================================================= "
      if [ ! "$(cat /tmp/countnumber)" == "1" ]; then
-	echo "Co tat ca $(cat /tmp/countnumber) file log. VPSSIM tu dong noi thanh mot file duy nhat."
+	echo "Co tat ca $(cat /tmp/countnumber) file log. ECHBAY-VPSSIM tu dong noi thanh mot file duy nhat."
     echo "-------------------------------------------------------------------------"
     fi
 	echo "Link Xem Exim Log:"

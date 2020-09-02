@@ -3,7 +3,7 @@
 curTime=$(date +%d)
 checktruenumber='^[0-9]+$'
 if [ $(id -u) != "0" ]; then
-    printf "Co loi ! VPSSIM chi chay tren user root !\n"
+    printf "Co loi ! ECHBAY-VPSSIM chi chay tren user root !\n"
     exit
 fi
 
@@ -31,7 +31,7 @@ cat >> "/tmp/vpssim_check_nginx" <<END
 			echo "-------------------------------------------------------------------------"
 			echo "Your Version: $Nginx1   |   Newest version: $Nginx3"
 			echo "-------------------------------------------------------------------------"
-			echo "How to update: VPSSIM menu => Update System => Change Nginx Version "
+			echo "How to update: ECHBAY-VPSSIM menu => Update System => Change Nginx Version "
 			
 			fi
 		fi
@@ -64,11 +64,11 @@ checksize=$(du -sb /tmp/vpssim.newversion | awk 'NR==1 {print $1}')
 	cat >> "/tmp/vpssim_check_vpssim_version" <<END
 		if [ ! "$LOCALVER" == "$REMOVER" ]; then
 			echo "========================================================================="
-			echo "Update for VPSSIM found !  "
+			echo "Update for ECHBAY-VPSSIM found !  "
 			echo "-------------------------------------------------------------------------"
 			echo "Your Version: $LOCALVER   |   Newest version: $REMOVER"
 			echo "-------------------------------------------------------------------------"
-			echo "How to update: VPSSIM menu => Update System => Update VPSSIM "
+			echo "How to update: ECHBAY-VPSSIM menu => Update System => Update ECHBAY-VPSSIM "
 			
 		fi
 END
@@ -110,7 +110,7 @@ echo "VPSSIM da them IP nay vao CSF whitelist de khong bi CSF Firewall Block"
 echo "-------------------------------------------------------------------------"
 echo "De thay doi co hieu luc, CSF Firewall can khoi dong lai"
 echo "========================================================================="
-read -p "Nhan [Enter] de khoi dong lai CSF Firewall va Truy cap VPSSIM ..."
+read -p "Nhan [Enter] de khoi dong lai CSF Firewall va Truy cap ECHBAY-VPSSIM ..."
 #iptables -I INPUT -p tcp --dport $priport -j ACCEPT
 #iptables -A INPUT -p tcp -s $checkip --dport $priport -j ACCEPT
 #service iptables save
@@ -155,9 +155,9 @@ prompt="Nhap lua chon cua ban:"
 options=("Them Website & Code" "Xoa website" "Backup & Restore Code" "Quan Ly Database" "Quan Ly phpMyAdmin" "Quan Ly Zend OPcache" "Quan Ly Memcached" "Quan Ly Redis Cache" "Quan Ly FTP Server" "Quan Ly Swap" "Quan Ly Cronjob"  "Quan Ly File Log" "Config Cau Hinh PHP" "Wordpress Blog Tools" "Quan Ly CSF Firewall" "Quan Ly IPtables Firewall" "Quan Ly BitTorrent Sync" "Quan Ly VPS Backup" "Linux Malware Detect" "Cai Dat File Manager" "Cai Dat Net2FTP" "Cai Dat NetData" "Cai Dat SSL (Let's Enctypt)" "Check & Block IP DOS" "Tien ich - Addons" "Update System" "Clear All Caches" "User & Password Mac Dinh" "Server Status" "Thoat")
 
 echo "========================================================================="
-echo "            VPSSIM - Quan Ly VPS/Server by HostingAZ.VN ($(cat /etc/vpssim/vpssim.version))                "
+echo "    ECHBAY-VPSSIM - Quan Ly VPS/Server by HostingAZ.VN ($(cat /etc/vpssim/vpssim.version))                "
 echo "========================================================================="
-echo "                               VPSSIM Menu                             "
+echo "                          ECHBAY-VPSSIM Menu                             "
 echo "========================================================================="
 
 PS3="$prompt"

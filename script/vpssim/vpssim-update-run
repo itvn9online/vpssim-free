@@ -2,40 +2,30 @@
 . /home/vpssim.conf
 
 # copy tu file install sang
-cd ~
-if [ -d /opt/echbay_vpssim ]; then
-	rm -rf /opt/echbay_vpssim/*
-	rm -rf /opt/echbay_vpssim
-	sleep 5
-fi
-
-sudo yum -y install git
-git clone https://github.com/itvn9online/vpssim-free /opt/echbay_vpssim
-sleep 5
-
-find /opt/echbay_vpssim/script/vpssim/menu -type f -exec chmod 755 {} \;
-/opt/echbay_vpssim/script/vpssim/menu/git-clone-done
+wget --no-check-certificate -q https://raw.githubusercontent.com/itvn9online/vpssim-free/master/script/vpssim/menu/git-clone
+chmod +x /root/git-clone
+bash /root/git-clone
 
 
-# BEGIN update VPSSIM main
+# BEGIN update ECHBAY-VPSSIM main
 #rm -rf /etc/motd
 yes | cp -rf /opt/echbay_vpssim/script/vpssim/motd /etc/motd
 
 yes | cp -rf /opt/echbay_vpssim/script/vpssim/vpssim /bin/vpssim && chmod +x /bin/vpssim
-# BEGIN update VPSSIM main
+# BEGIN update ECHBAY-VPSSIM main
 
 
 rm -rf /home/vpssim.demo/errorpage_html/*
 yes | cp -rf /opt/echbay_vpssim/script/vpssim/errorpage_html/. /home/vpssim.demo/errorpage_html/
 
 
-# BEGIN update VPSSIM menu
+# BEGIN update ECHBAY-VPSSIM menu
 rm -rf /etc/vpssim/menu/*
 yes | cp -rf /opt/echbay_vpssim/script/vpssim/menu/. /etc/vpssim/menu/
 
 # Chmod 755 Menu
 /opt/echbay_vpssim/script/vpssim/menu/chmod-755-menu
-# END update VPSSIM menu
+# END update ECHBAY-VPSSIM menu
 
 
 # confirm done update
@@ -47,7 +37,6 @@ rm -rf /opt/echbay_vpssim
 sleep 1
 
 
-#echo "Hien tai, chuc nang update VPSSIM hien chua hoan thien"
 /etc/vpssim/menu/vpssim-update-upgrade-service-menu
 
 #exit

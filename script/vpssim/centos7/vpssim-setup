@@ -9,7 +9,7 @@ echo "Mac dinh server se duoc cai dat PHP "$phpmacdinh". Neu muon su dung phien 
 echo "--------------------------------------------------------------------------"
 echo "khac, sau khi cai dat server xong dung chuc nang [ Change PHP Version ] "
 echo "--------------------------------------------------------------------------"
-echo "trong [ Update System ] cua VPSSIM."
+echo "trong [ Update System ] cua ECHBAY-VPSSIM."
 echo "--------------------------------------------------------------------------"
 echo "VPSSIM ho tro: PHP 7.2, PHP 7.1, PHP 7.0, PHP 5.6, PHP 5.5 & PHP 5.4"
 cpuname=$( awk -F: '/model name/ {name=$2} END {print name}' /proc/cpuinfo )
@@ -192,7 +192,7 @@ phpmyadmin_version=`cat /tmp/00-all-phpmyadmin-version.txt | awk 'NR==2 {print $
 #Nginx_VERSION=`cat /tmp/00-all-nginx-version.txt | awk 'NR==2 {print $1}' | sed 's/|//' | sed 's/|//'`
 vpssim_version=`cat /tmp/vpssim.newversion`
 
-# End Download Nginx, VPSSIM & phpMyadmin Version
+# End Download Nginx, ECHBAY-VPSSIM & phpMyadmin Version
 ###############################################################################
 
 clear
@@ -232,7 +232,7 @@ done
 
 if [ "$xacnhanthongtin" = "dongy" ]; then
 echo "--------------------------------------------------------------------------"
-echo "Chuan Bi Cai Dat VPSSIM ..."
+echo "Chuan Bi Cai Dat ECHBAY-VPSSIM ..."
 sleep 2
 else 
 clear
@@ -251,7 +251,7 @@ fi
 cat >> "/root/.bash_profile" <<END
 IPvpssimcheck="\$(echo \$SSH_CONNECTION | cut -d " " -f 1)"
 timeloginvpssimcheck=\$(date +"%e %b %Y, %a %r")
-echo 'Someone has IP address '\$IPvpssimcheck' login to $svip on '\$timeloginvpssimcheck'.' | mail -s 'eMail Notifications From VPSSIM On $svip' ${vpssimemail}
+echo 'Someone has IP address '\$IPvpssimcheck' login to $svip on '\$timeloginvpssimcheck'.' | mail -s 'eMail Notifications From ECHBAY-VPSSIM On $svip' ${vpssimemail}
 END
 echo "$svport" > /tmp/priport.txt
 if [ -s /etc/selinux/config ]; then
@@ -521,7 +521,7 @@ server {
 		log_not_found     off;
 	 	error_log         off;
     	root /home/vpssim.demo/private_html;
-    	auth_basic "Authorization Required ( Get User & Password at /home/VPSSIM-manage-info.txt or Create new one by : VPSSIM menu ->  User & Password Mac Dinh )";
+    	auth_basic "Authorization Required ( Get User & Password at /home/VPSSIM-manage-info.txt or Create new one by : ECHBAY-VPSSIM menu ->  User & Password Mac Dinh )";
 		auth_basic_user_file  /etc/nginx/.htpasswd;
 	    index index.php index.html index.htm;
     	server_name vpssim.demo;
@@ -1265,7 +1265,7 @@ mkdir -p /var/lib/php/session
 chown -R nginx:nginx /var/lib/php
 clear
 echo "=========================================================================="
-echo "Dang Tao VPSSIM Menu...... "
+echo "Dang Tao ECHBAY-VPSSIM Menu...... "
 echo "=========================================================================="
 rm -rf /etc/motd
 
@@ -1288,7 +1288,7 @@ fi
 
 cd /etc/vpssim/
 
-# Download VPSSIM data
+# Download ECHBAY-VPSSIM data
 download_vpssim_data () {
 #rm -rf menu.zip
 #wget --no-check-certificate -q https://hostingaz.vn/script/vpssim/menu.zip
@@ -1409,7 +1409,7 @@ Thong tin dang nhap phpMyadmin, quan ly Zend Opcache, status.php, download backu
 Username: $usernamebv
 Password: $matkhaubv 
 
-Lenh truy cap VPSSIM: vpssim
+Lenh truy cap ECHBAY-VPSSIM: vpssim
 
 LUU Y: 
 
@@ -1419,7 +1419,7 @@ va su dung cac Plugin cache(wp super cache....) cho website.
 Neu VPS dang bat Zend Opcache, khi edit file PHP, do cac file php duoc cache vao RAM  
 nen ban can clear Zend Opcache de thay doi duoc cap nhat. 
 
-Chuc ban se thanh cong cung VPSSIM .
+Chuc ban se thanh cong cung ECHBAY-VPSSIM .
 END
 # increase SSH login speed
 if [ -f /etc/ssh/sshd_config ]; then 
@@ -1432,14 +1432,14 @@ fi
 #fi
    cat > "/tmp/finishedemail.sh" <<END
 #!/bin/bash 
-echo -e 'Subject: VPSSIM - Chuc mung cai dat thanh cong $svip!
+echo -e 'Subject: ECHBAY-VPSSIM - Chuc mung cai dat thanh cong $svip!
 
 Chao ban!
 
-Chuc mung ban da hoan thanh qua trinh cai dat va cau hinh server $svip bang VPSSIM.
+Chuc mung ban da hoan thanh qua trinh cai dat va cau hinh server $svip bang ECHBAY-VPSSIM.
 Sau day la thong tin quan ly server cua ban:
 
-+ Lenh goi VPSSIM: vpssim
++ Lenh goi ECHBAY-VPSSIM: vpssim
 + Link phpMyAdmin: http://$svip:$svport
 + Quan Ly Zend Opcache: http://$svip:$svport/ocp.php
 + Quan Ly Memcached: http://$svip:$svport/memcache.php
@@ -1460,7 +1460,7 @@ Luu Y:
 + Sau khi Upload code len server. Ban phai chay chuc nang [ Fix Loi Chmod, Chown ] trong [ Tien Ich - Addons ] de thiet lap phan quyen cho website. 
   Neu website su dung code wordpress, thiet lap phan quyen cho website bang chuc nang [ Fix loi Permission ] trong [ Wordpress Blog Tools ]
 + Tuy theo so luong website, dung luong code ma ban cau hinh lai Zend Opcache, Memcached, Redis Cache bang chuc nang [ Quan Ly Memcached ], [ Quan Ly Zend Opcache ] , [ Quan Ly Redis Cache ] cho phu hop.
-+ De bao mat, moi khi co dang nhap SSH va Server, VPSSIM se gui email thong bao toi dia chi email $vpssimemail .
++ De bao mat, moi khi co dang nhap SSH va Server, ECHBAY-VPSSIM se gui email thong bao toi dia chi email $vpssimemail .
   Thay email hoac tat chuc nang nay bang [ BAT/TAT Email Thong Bao Login ] trong [ Tien ich - Addons ].  
   
 VPSSIM by Nguyen Oanh - http://hostingaz.vn' | exim  $vpssimemail
@@ -1472,7 +1472,7 @@ clear
 echo "=========================================================================="
 echo "VPSSIM da hoan tat qua trinh cai dat Server. "
 echo "=========================================================================="
-echo "Lenh goi VPSSIM: vpssim"
+echo "Lenh goi ECHBAY-VPSSIM: vpssim"
 echo "--------------------------------------------------------------------------"
 echo "Link phpMyAdmin: http://$svip:$svport"
 echo "--------------------------------------------------------------------------"
@@ -1486,11 +1486,11 @@ echo "Thong tin username & password bao ve phpMyAdmin, ocp.php, status.php ..."
 echo "--------------------------------------------------------------------------"
 echo "Username: $usernamebv  | Password: $matkhaubv"
 echo "--------------------------------------------------------------------------"
-echo "Thay thong tin dang nhap nay: VPSSIM menu ==> User & Password Mac Dinh. "
+echo "Thay thong tin dang nhap nay: ECHBAY-VPSSIM menu ==> User & Password Mac Dinh. "
 echo "=========================================================================="
 echo "Thong tin quan ly duoc luu tai: /home/VPSSIM-manage-info.txt "
 echo "--------------------------------------------------------------------------"
-echo "va gui kem luu y su dung VPSSIM toi: $vpssimemail"
+echo "va gui kem luu y su dung ECHBAY-VPSSIM toi: $vpssimemail"
 echo "=========================================================================="
 echo "Server se tu khoi dong lai sau 3 giay.... "
 sleep 3

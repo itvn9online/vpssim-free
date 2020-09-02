@@ -19,11 +19,11 @@ if [ ! -f /etc/vpssim/tatthongbao.csf ]; then
 echo "========================================================================="
 echo "BAN NEN CAI DAT CSF FIREWALL DE BAO VE VPS/SERVER  !!!!!"
 echo "========================================================================="
-echo "Khi CSF Firewall chua cai dat, VPSSIM se hien canh bao tren VPSSIM Menu"
+echo "Khi CSF Firewall chua cai dat, ECHBAY-VPSSIM se hien canh bao tren ECHBAY-VPSSIM Menu"
 echo "-------------------------------------------------------------------------"
 echo "Chuc nang nay su dung de BAT hoac TAT canh bao do."
 echo "========================================================================="
-echo "Canh bao [ Chua cai dat CSF ] tren VPSSIM Menu dang duoc BAT !"
+echo "Canh bao [ Chua cai dat CSF ] tren ECHBAY-VPSSIM Menu dang duoc BAT !"
 echo "========================================================================="
 read -r -p "Ban muon TAT canh bao nay ?  [y/N] " response
 case $response in
@@ -48,11 +48,11 @@ else
 echo "========================================================================="
 echo "BAN NEN CAI DAT CSF FIREWALL DE BAO VE VPS/SERVER  !!!!!"
 echo "========================================================================="
-echo "Khi CSF Firewall chua cai dat, VPSSIM se hien canh bao tren VPSSIM Menu"
+echo "Khi CSF Firewall chua cai dat, ECHBAY-VPSSIM se hien canh bao tren ECHBAY-VPSSIM Menu"
 echo "-------------------------------------------------------------------------"
 echo "Chuc nang nay su dung de BAT hoac TAT canh bao do."
 echo "========================================================================="
-echo "Canh bao [ Chua cai dat CSF ] tren VPSSIM Menu dang duoc TAT !"
+echo "Canh bao [ Chua cai dat CSF ] tren ECHBAY-VPSSIM Menu dang duoc TAT !"
 echo "========================================================================="
 read -r -p "Ban muon BAT canh bao nay  ? [y/N] " response
 case $response in

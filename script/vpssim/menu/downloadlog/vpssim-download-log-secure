@@ -19,7 +19,7 @@ minimumsize=1024000
 	\cp -uf /var/log/secure /home/$mainsite/private_html/server-log/
 	cd /home/$mainsite/private_html/server-log
 		sed -i '1s/^/========================================================================= \n\n/' secure
-	sed -i '2s/^/Secure Log - Created by VPSSIM \n\n/' secure
+	sed -i '2s/^/Secure Log - Created by ECHBAY-VPSSIM \n\n/' secure
 	sed -i '3s/^/========================================================================= \n\n/' secure
 	zip log-secure.log-$random.zip secure
 	rm -rf secure
@@ -37,7 +37,7 @@ minimumsize=1024000
 	cd /home/$mainsite/private_html/server-log
 	mv secure log-secure.log-$random.txt	
 	sed -i '1s/^/========================================================================= \n\n/' log-secure.log-$random.txt
-	sed -i '2s/^/Secure Log - Created by VPSSIM \n\n/' log-secure.log-$random.txt
+	sed -i '2s/^/Secure Log - Created by ECHBAY-VPSSIM \n\n/' log-secure.log-$random.txt
 	sed -i '3s/^/========================================================================= \n\n/' log-secure.log-$random.txt
 	cd
 	chmod -R 755 /home/$mainsite/private_html/server-log/*

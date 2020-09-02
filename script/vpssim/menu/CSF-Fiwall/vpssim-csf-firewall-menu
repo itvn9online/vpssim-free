@@ -7,7 +7,7 @@ else
 options=("Block IP" "Unblock IP" "Unblock Tat Ca IP" "Them IP Vao CSF.Allow" "Remove IP Khoi CSF.Allow" "Block Countries By CSF" "Unblock All Countries"  "Restart (Enable) CSF Firewall" "Disable CSF Firewall" "Remove CSF Firewall" "View IP Blocked List" "Cai dat CSF Firewall" "Tat/Bat Canh Bao Tren Menu" "Thoat")
 fi
 printf "=========================================================================\n"
-printf "                VPSSIM - Quan Ly VPS/Server by HostingAZ.VN \n"
+printf "                ECHBAY-VPSSIM - Quan Ly VPS/Server by HostingAZ.VN \n"
 printf "=========================================================================\n"
 printf "                            Quan Ly CSF Firewall                                \n"
 printf "=========================================================================\n"

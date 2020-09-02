@@ -20,7 +20,7 @@ minimumsize=1024000
 	\cp -uf /home/$mainsite/logs/php-fpm-error.log /home/$mainsite/private_html/server-log
 	cd /home/$mainsite/private_html/server-log
 		sed -i '1s/^/========================================================================= \n\n/' php-fpm-error.log
-	sed -i '2s/^/PHP-FPM Error Log - Created by VPSSIM \n\n/' php-fpm-error.log
+	sed -i '2s/^/PHP-FPM Error Log - Created by ECHBAY-VPSSIM \n\n/' php-fpm-error.log
 	sed -i '3s/^/========================================================================= \n\n/' php-fpm-error.log
 	zip php-fpm-error.log-$random.zip php-fpm-error.log
 	rm -rf php-fpm-error.log
@@ -38,7 +38,7 @@ minimumsize=1024000
 	cd /home/$mainsite/private_html/server-log
 	mv php-fpm-error.log php-fpm-error.log-$random.txt	
 	sed -i '1s/^/========================================================================= \n\n/' php-fpm-error.log-$random.txt
-	sed -i '2s/^/PHP-FPM Error Log - Created by VPSSIM \n\n/' php-fpm-error.log-$random.txt
+	sed -i '2s/^/PHP-FPM Error Log - Created by ECHBAY-VPSSIM \n\n/' php-fpm-error.log-$random.txt
 	sed -i '3s/^/========================================================================= \n\n/' php-fpm-error.log-$random.txt
 	cd
 	chmod -R 755 /home/$mainsite/private_html/server-log/*
