@@ -1539,8 +1539,8 @@ chmod +x /tmp/finishedemail.sh
 rm -f /tmp/finishedemail.sh
 
 
-#rm -rf /opt/echbay_vpssim/*
-#rm -rf /opt/echbay_vpssim
+rm -rf /opt/echbay_vpssim/*
+rm -rf /opt/echbay_vpssim
 sleep 1
 
 
