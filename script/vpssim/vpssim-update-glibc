@@ -1,5 +1,5 @@
 #!/bin/bash
-#. /home/vpssim.conf
+. /home/vpssim.conf
 
 if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then
 

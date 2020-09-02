@@ -11,6 +11,8 @@ bash /root/git-clone
 #rm -rf /etc/motd
 yes | cp -rf /opt/echbay_vpssim/script/vpssim/motd /etc/motd
 
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/calc /bin/calc && chmod +x /bin/calc
+
 yes | cp -rf /opt/echbay_vpssim/script/vpssim/vpssim /bin/vpssim && chmod +x /bin/vpssim
 # BEGIN update ECHBAY-VPSSIM main
 
