@@ -53,7 +53,7 @@ echo "Ban da huy thay doi phien ban "${opensslversion}
 fi
 
 else
-echo "Ban da huy thay doi phien ban SSL"
+echo "Ban da huy thay doi phien ban OpenSSL"
 fi
 
 #
