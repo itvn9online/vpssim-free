@@ -33,8 +33,8 @@ else
 service nginx restart
 fi
 
-rm -rf /opt/echbay_vpssim/*
-rm -rf /opt/echbay_vpssim
+#rm -rf /opt/echbay_vpssim/*
+#rm -rf /opt/echbay_vpssim
 sleep 1
 
 clear

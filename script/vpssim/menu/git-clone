@@ -1,14 +1,24 @@
 #!/bin/sh
 
 cd ~
-if [ -d /opt/echbay_vpssim ]; then
-rm -rf /opt/echbay_vpssim/*
-rm -rf /opt/echbay_vpssim
-sleep 5
-fi
+#if [ -d /opt/echbay_vpssim ]; then
+#rm -rf /opt/echbay_vpssim/*
+#rm -rf /opt/echbay_vpssim
+#sleep 5
+#fi
 
 sudo yum -y install git
+
+# update code
+if [ -d /opt/echbay_vpssim ]; then
+cd /opt/echbay_vpssim
+#git pull origin master
+git pull origin
+# or clone new
+else
 git clone https://github.com/itvn9online/vpssim-free /opt/echbay_vpssim
+fi
+
 sleep 5
 
 find /opt/echbay_vpssim/script/vpssim/menu -type f -exec chmod 755 {} \;
