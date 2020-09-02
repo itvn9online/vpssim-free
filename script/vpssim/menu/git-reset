@@ -8,3 +8,9 @@ sleep 5
 fi
 
 /etc/vpssim/menu/git-clone
+sleep 1
+
+clear
+echo "========================================================================="
+echo "Done! Reset code from git..."
+/etc/vpssim/menu/vpssim-update-upgrade-service-menu
