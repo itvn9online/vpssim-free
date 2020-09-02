@@ -3,8 +3,10 @@
 if [ ! -f /etc/vpssim/minfreedisc.info ]; then
 echo "1000" > /etc/vpssim/minfreedisc.info
 fi
+
 minfreedisc=`cat /etc/vpssim/minfreedisc.info`
-echo $minfreedisc
+#echo "minfreedisc: "$minfreedisc
+
 if ! [[ $minfreedisc =~ $checktruenumber ]] ; then
 echo "1000" > /etc/vpssim/minfreedisc.info
 fi 
@@ -15,7 +17,8 @@ fileTime3=$(date -r /tmp/checkdiscsize +%d)
 if [ ! "$fileTime3" == "$curTime" ]; then
 touch /tmp/checkdiscsize
 disfree=$(calc $(df $PWD | awk '/[0-9]%/{print $(NF-2)}')/1024)
-echo $disfree
+echo "diskfree: "$disfree
+
 if [[ $disfree =~ $checktruenumber ]] ; then  
 if [ "$disfree" -lt "$minfreedisc" ]; then
 echo "========================================================================="

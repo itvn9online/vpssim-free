@@ -1,6 +1,7 @@
 #!/bin/sh
 
-
+curTime=$(date +%d)
+#echo "curTime: "$curTime
 
 
 if [ ! -f /tmp/vpssim.newversion ]; then
@@ -8,6 +9,8 @@ touch -a -m -t 201602180130.09 /tmp/vpssim.newversion
 fi
 
 fileTime2=$(date -r /tmp/vpssim.newversion +%d)
+#echo "fileTime2: "$fileTime2
+
 if [ ! "$fileTime2" == "$curTime" ]; then
 rm -rf /tmp/vpssim.newversion
 #wget -q https://vpssim.echbay.com/script/vpssim/vpssim.newversion -O /tmp/vpssim.newversion

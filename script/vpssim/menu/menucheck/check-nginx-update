@@ -1,5 +1,7 @@
 #!/bin/sh
 
+curTime=$(date +%d)
+#echo "curTime: "$curTime
 
 
 if [ ! -f /tmp/00-all-nginx-version.txt ]; then
@@ -7,6 +9,8 @@ touch -a -m -t 201601180130.09 /tmp/00-all-nginx-version.txt
 fi
 
 fileTime=$(date -r /tmp/00-all-nginx-version.txt +%d)
+#echo "fileTime: "$fileTime
+
 if [ ! "$fileTime" == "$curTime" ]; then
 rm -rf /tmp/00-all-nginx-version.txt
 #wget -q https://vpssim.echbay.com/script/vpssim/00-all-nginx-version.txt -O /tmp/00-all-nginx-version.txt
