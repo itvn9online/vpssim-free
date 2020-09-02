@@ -72,6 +72,7 @@ sleep 1
 
 clear
 echo "========================================================================="
+nginx -V
 echo "Cai dat Nginx phien ban $Nginx_VERSION thanh cong !"
 /etc/vpssim/menu/vpssim-update-upgrade-service-menu
 
