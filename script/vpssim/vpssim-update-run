@@ -35,8 +35,8 @@ yes | cp -rf /opt/echbay_vpssim/script/vpssim/menu/. /etc/vpssim/menu/
 yes | cp -rf /opt/echbay_vpssim/version /etc/vpssim/vpssim.version
 
 
-rm -rf /opt/echbay_vpssim/*
-rm -rf /opt/echbay_vpssim
+#rm -rf /opt/echbay_vpssim/*
+#rm -rf /opt/echbay_vpssim
 sleep 1
 
 
