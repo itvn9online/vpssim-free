@@ -7,4 +7,4 @@ rm -rf /opt/echbay_vpssim
 sleep 5
 fi
 
-/opt/echbay_vpssim/script/vpssim/menu/git-clone-done
+/etc/vpssim/menu/git-clone
