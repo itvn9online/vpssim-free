@@ -33,6 +33,7 @@ select opt in "${options[@]}"; do
     1) cauhinh="battatemail"; break;;
     2) cauhinh="thaydoiemail"; break;;
     3) cauhinh="cancel"; break;;
+    0) cauhinh="cancel"; break;;
     *) echo "Ban nhap sai ! Ban vui long chon so trong danh sach";continue;;
     esac  
 done
