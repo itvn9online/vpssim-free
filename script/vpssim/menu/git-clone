@@ -13,6 +13,7 @@ sudo yum -y install git
 if [ -d /opt/echbay_vpssim ]; then
 cd /opt/echbay_vpssim
 git pull origin master
+git merge origin master
 #git pull origin
 # or clone new
 else
@@ -25,3 +26,4 @@ sleep 5
 
 find /opt/echbay_vpssim/script/vpssim/menu -type f -exec chmod 755 {} \;
 /opt/echbay_vpssim/script/vpssim/menu/git-clone-done
+
