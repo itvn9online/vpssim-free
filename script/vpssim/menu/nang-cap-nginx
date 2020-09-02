@@ -4,10 +4,15 @@
 # them lenh kiem tra neu co git roi thi thoi khong tai lai nua
 okResetGit="y"
 if [ -d /opt/echbay_vpssim ]; then
-echo -n "ban co muon cap nhat lai git code moi khong? [y/N] "
+echo "========================================================================="
+echo "========================================================================="
+echo "========================================================================="
+echo -n "Ban co muon cap nhat lai git code moi khong? [y/N] "
 read resetGit
 if [ "$resetGit" = "y" ]; then
 okResetGit="y"
+echo "Ok ok! Chuan bi cap nhat lai code tu github..."
+sleep 10
 else
 okResetGit="n"
 fi
