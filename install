@@ -1,6 +1,11 @@
 #!/bin/sh
 
 cd ~
+if [ -d /opt/echbay_vpssim ]; then
+rm -rf /opt/echbay_vpssim/*
+rm -rf /opt/echbay_vpssim
+sleep 5
+fi
 
 sudo yum -y install wget
 
