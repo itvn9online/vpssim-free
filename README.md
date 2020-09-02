@@ -41,7 +41,7 @@ Brotli là một thuật toán nén mã nguồn mở mới được Google phát
 ### 2020/09/01:
 ### nginx
 #### Nguồn cài đặt: https://github.com/itvn9online/vpssim-free/blob/master/script/vpssim/nginx-setup.conf
-#### - Cài đặt nginx-1.18.0, đây là phiên bản ổn định và mới nhất của nginx tính đến thời điểm hiện tại, kết hợp với openssl-1.0.2s thay cho bản openssl cũ của VPSSIM, phiên bản này mới hỗ trợ đầy đủ HTTP/2.
+#### - Cài đặt nginx-1.18.0, đây là phiên bản ổn định và mới nhất của nginx tính đến thời điểm hiện tại, kết hợp với openssl-1.1.1s thay cho bản openssl cũ của VPSSIM, phiên bản này mới hỗ trợ đầy đủ HTTP/2.
 ##### + Phiên bản nginx được xem và cập nhật tại: http://nginx.org/en/download.html . Mặc định mình chỉ chọn phiên bản Stable version, các bản Mainline là đang phát triển nên không chọn.
 ##### + Chuyển sang sử dụng openssl-1.1.1g, đây cũng là bản openssl mới nhất hiện nay. Hỗ trợ HTTP/2 hoàn chỉnh, TLSv1.3 và rất nhiều cải tiến khác so với các bản tiền nhiệm. Các phiên bản OpenSSL khác có thể xem thêm tại đây: https://www.openssl.org/source/
 ##### + https://ftp.pcre.org/pub/pcre/ -> dùng bản 8.44 thay cho bản 8.39 của VPSSIM.
