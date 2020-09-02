@@ -70,6 +70,6 @@ Brotli là một thuật toán nén mã nguồn mở mới được Google phát
 #### Cũng được mình thay đổi bằng cách cài đặt từ https://github.com/itvn9online/vpssim-free thay vì download từ nhiều nguồn khác nhau như VPSSIM. Thêm nữa khi up code lên github thì cũng có cái nhìn trực quan hơn, mọi người sẽ dễ dàng tham khảo và góp ý các thay đổi hơn cho đúng chuẩn mã nguồn mở.
 
 ### Liên hệ:
-Facebok: https://www.facebook.com/ech.bay/
-Email: itvn9online@yahoo.com
-Website: https://echbay.com/
+#### Facebok: https://www.facebook.com/ech.bay/
+#### Email: itvn9online@yahoo.com
+#### Website: https://echbay.com/
