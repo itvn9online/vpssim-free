@@ -61,7 +61,8 @@ echo "extension=$duongdanimagick" >> /etc/php.d/imagick.ini
 else
 echo "extension=imagick.so" > /etc/php.d/imagick.ini
 fi
-wget --no-check-certificate -q https://vpssim.com/script/vpssim/check-imagick.php.zip -O /home/$mainsite/private_html/check-imagick.php
+#wget --no-check-certificate -q https://vpssim.com/script/vpssim/check-imagick.php.zip -O /home/$mainsite/private_html/check-imagick.php
+wget --no-check-certificate -q https://github.com/itvn9online/vpssim-free/raw/master/script/vpssim/check-imagick.php.zip -O /home/$mainsite/private_html/check-imagick.php
 /etc/vpssim/menu/vpssim-re-config-cac-ham-php-disable-php.ini
 if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
 service php-fpm restart

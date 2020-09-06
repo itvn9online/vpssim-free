@@ -65,7 +65,8 @@ yes | cp -rf /root/updown/opcache.* /etc/php.d/
 php_version=$(php -r "echo PHP_MAJOR_VERSION.'.'.PHP_MINOR_VERSION;")
 sed --in-place '/zend_extension/d' /etc/php.d/opcache.*
 yes "" | pecl install imagick
-wget --no-check-certificate -q https://vpssim.com/script/vpssim/check-imagick.php.zip -O /home/$mainsite/private_html/check-imagick.php
+#wget --no-check-certificate -q https://vpssim.com/script/vpssim/check-imagick.php.zip -O /home/$mainsite/private_html/check-imagick.php
+wget --no-check-certificate -q https://github.com/itvn9online/vpssim-free/raw/master/script/vpssim/check-imagick.php.zip -O /home/$mainsite/private_html/check-imagick.php
 if [ "$php_version" == "5.4" ]; then
   if [ "$(find / -name 'opcache.so')" == "0" ]; then
  pecl install channel://pecl.php.net/ZendOpcache-7.0.5

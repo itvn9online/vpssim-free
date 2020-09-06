@@ -190,3 +190,5 @@ tmp=$(mktemp)
 test | tee $tmp
 (echo "curl -Lso- tocdo.net | bash" && cat $tmp) >> ~/tocdo.log
 
+echo "========================================================================="
+/etc/vpssim/menu/vpssim-tien-ich
