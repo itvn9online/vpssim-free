@@ -1,6 +1,6 @@
 #!/bin/bash
 prompt="Lua chon cua ban (23-Thoat):"
-options=( "Thay Password Root" "Fix Loi Chmod, Chown" "Find Top Largest Files & Folders" "Service Running & Ram Use" "Kiem Tra IP/Nameserver Website" "File Size Converter " "Kiem Tra Thong Tin Server" "Cai Dat Server Timezone" "Install / Remove Imagick" "Install / Remove Ioncube" "Cai Dat Htop" "Backup Config File & Vhost" "Thay Doi Port SSH Number" "Config SSH Timeout" "Block Exploits, SQL Injections" "Deny Run Script In Upload Folder" "Dat Mat Khau Bao Ve Folder" "BAT/TAT Email Thong Bao Login" "BAT/TAT Auto Run VPSSIM" "Canh Bao Full Disc Tren Menu" "Restart Service" "Go Bo (Remove) VPSSIM " "Thoat" )
+options=( "Thay Password Root" "Fix Loi Chmod, Chown" "Find Top Largest Files & Folders" "Service Running & Ram Use" "Kiem Tra IP/Nameserver Website" "File Size Converter " "Kiem Tra Thong Tin Server" "Cai Dat Server Timezone" "Install / Remove Imagick" "Install / Remove Ioncube" "Cai Dat Htop" "Backup Config File & Vhost" "Thay Doi Port SSH Number" "Config SSH Timeout" "Block Exploits, SQL Injections" "Deny Run Script In Upload Folder" "Dat Mat Khau Bao Ve Folder" "BAT/TAT Email Thong Bao Login" "BAT/TAT Auto Run VPSSIM" "Canh Bao Full Disc Tren Menu" "Restart Service" "Go Bo (Remove) VPSSIM" )
 printf "=========================================================================\n"
 printf "                VPSSIM - Quan Ly VPS/Server by HostingAZ.VN \n"
 printf "=========================================================================\n"
@@ -35,7 +35,8 @@ select opt in "${options[@]}" ; do
 	20) /etc/vpssim/menu/vpssim-config-canh-bao-dung-luong-disc-trong-free-it;;
     21) clear && /etc/vpssim/menu/tienich/vpssim-restart-service;;
     22) /etc/vpssim/menu/vpssim-go-bo-scripts;;
-    23) clear && vpssim;;
+    23) clear && /etc/vpssim/menu/tienich/toc-do-dot-net;;
+#    23) clear && vpssim;;
     0) clear && vpssim;;
 
 
