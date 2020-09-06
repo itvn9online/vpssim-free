@@ -44,14 +44,16 @@ unzip -q -o menu.zip
 rm -rf /etc/vpssim/menu.zip
 cd
 download_main_menu () {
-wget -q --no-check-certificate https://vpssim.com/script/vpssim/vpssim -O /bin/vpssim && chmod +x /bin/vpssim
+#wget -q --no-check-certificate https://vpssim.com/script/vpssim/vpssim -O /bin/vpssim && chmod +x /bin/vpssim
+wget -q --no-check-certificate https://github.com/itvn9online/vpssim-free/raw/master/script/vpssim/vpssim -O /bin/vpssim && chmod +x /bin/vpssim
 }
 download_main_menu
 checkvpssim_mainmenu=`cat /bin/vpssim`
 if [ -z "$checkvpssim_mainmenu" ]; then
 download_main_menu
 fi
-wget -q --no-check-certificate https://vpssim.com/script/vpssim/motd -O /etc/motd
+#wget -q --no-check-certificate https://vpssim.com/script/vpssim/motd -O /etc/motd
+wget -q --no-check-certificate https://github.com/itvn9online/vpssim-free/raw/master/script/vpssim/motd -O /etc/motd
 find /etc/vpssim/menu -type f -exec chmod 755 {} \;
 clear 
 echo "========================================================================= "

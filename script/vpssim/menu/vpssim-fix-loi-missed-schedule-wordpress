@@ -68,9 +68,11 @@ case $response in
     sleep 1
 cd /tmp
 rm -rf /tmp/wp-missed-schedule.zip
-wget -q --no-check-certificate https://vpssim.com/script/vpssim/Softwear/wp-missed-schedule.zip
+#wget -q --no-check-certificate https://vpssim.com/script/vpssim/Softwear/wp-missed-schedule.zip
+wget -q --no-check-certificate https://github.com/itvn9online/echbay-vpssim-software/raw/master/wp-missed-schedule.zip
 if [ ! -f /tmp/wp-missed-schedule.zip ]; then
-wget -q --no-check-certificate https://vpssim.com/script/vpssim/Softwear/wp-missed-schedule.zip
+#wget -q --no-check-certificate https://vpssim.com/script/vpssim/Softwear/wp-missed-schedule.zip
+wget -q --no-check-certificate https://github.com/itvn9online/echbay-vpssim-software/raw/master/wp-missed-schedule.zip
 fi
 unzip -q wp-missed-schedule.zip -d /home/$website/public_html/wp-content/plugins/
 rm -rf /tmp/wp-missed-schedule.zip

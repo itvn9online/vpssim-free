@@ -1,7 +1,8 @@
 #!/bin/bash
 prompt="Lua chon cua ban (8-Thoat):" 
 #options=( "Update System" "Update VPSSIM" "Change Nginx Version" "Change phpMyAdmin Version" "Upgrade MariaDB to 10.0 Version" "Change PHP Version" "Change VPSSIM Language" "Thoat")
-options=( "Update System" "Update VPSSIM" "Update Nginx" "Change phpMyAdmin Version" "Change PHP Version" "Change VPSSIM Language" "Update OpenSSL version" "Reset code form git" "List soft version")
+#options=( "Update System" "Update VPSSIM" "Update Nginx" "Change phpMyAdmin Version" "Change PHP Version" "Change VPSSIM Language" "Update OpenSSL version" "Reset code form git" "List soft version")
+options=( "Update System" "Update VPSSIM" "Update Nginx" "Change phpMyAdmin Version" "Change PHP Version" "Update OpenSSL version" "Reset code form git" "List soft version")
 printf "=========================================================================\n"
 printf "                VPSSIM - Quan Ly VPS/Server by WebGiaRe.org \n"
 printf "=========================================================================\n"
@@ -22,10 +23,10 @@ select opt in "${options[@]}" ; do
 	4) /etc/vpssim/menu/vpssim-nang-cap-phpmyadmin;;
 #	5) /etc/vpssim/menu/nang-cap-mariaDB/vpssim-before-nang-cap-mariadb;;
 	5) clear && /etc/vpssim/menu/nangcap-php/vpssim-updown-php;;
-	6) clear && /etc/vpssim/menu/vpssim-thay-doi-ngon-ngu-menu;;
-	7) clear && /etc/vpssim/menu/nang-cap-openssl;;
-	8) clear && /etc/vpssim/menu/git-reset;;
-	9) clear && /etc/vpssim/menu/list-all-soft-version;;
+#	6) clear && /etc/vpssim/menu/vpssim-thay-doi-ngon-ngu-menu;;
+	6) clear && /etc/vpssim/menu/nang-cap-openssl;;
+	7) clear && /etc/vpssim/menu/git-reset;;
+	8) clear && /etc/vpssim/menu/list-all-soft-version;;
 	0) clear && vpssim;;
         *) echo "Ban nhap sai, vui long nhap theo so thu tu tren menu !";continue;;
 
