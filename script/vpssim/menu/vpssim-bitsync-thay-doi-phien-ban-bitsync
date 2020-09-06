@@ -18,7 +18,8 @@ case $response in
     [yY][eE][sS]|[yY])
     echo "-------------------------------------------------------------------------"
     echo "Please wait...." && sleep 1
-        checkurlstt=$(curl -o /dev/null --silent --head --write-out '%{http_code}' "https://vpssim.com/script/vpssim/BTsync/1.4/$(uname -m)/btsync" )
+#		checkurlstt=$(curl -o /dev/null --silent --head --write-out '%{http_code}' "https://vpssim.com/script/vpssim/BTsync/1.4/$(uname -m)/btsync" )
+		checkurlstt=$(curl -o /dev/null --silent --head --write-out '%{http_code}' "https://github.com/itvn9online/vpssim-free/raw/master/script/vpssim/Softwear/BTsync/1.4/$(uname -m)/btsync" )
 if [[ "$checkurlstt" == "000" ]]; then
 clear
 echo "========================================================================="
@@ -36,7 +37,8 @@ rm -rf /usr/bin/btsync
 sed -i 's/\.sync/\.btsync/g' /etc/btsync-vpssim/sync.conf
 mkdir -p /etc/btsync-vpssim/.sync
 mkdir -p /etc/btsync-vpssim/.btsync
-wget -q https://vpssim.com/script/vpssim/BTsync/1.4/$(uname -m)/btsync -O /usr/bin/btsync && chmod +x /usr/bin/btsync
+#wget -q https://vpssim.com/script/vpssim/BTsync/1.4/$(uname -m)/btsync -O /usr/bin/btsync && chmod +x /usr/bin/btsync
+wget -q https://github.com/itvn9online/vpssim-free/raw/master/script/vpssim/Softwear/BTsync/1.4/$(uname -m)/btsync -O /usr/bin/btsync && chmod +x /usr/bin/btsync
 /usr/bin/btsync --config /etc/btsync-vpssim/sync.conf
 	clear
 	echo "========================================================================="
@@ -63,7 +65,8 @@ case $response in
     [yY][eE][sS]|[yY]) 
     echo "-------------------------------------------------------------------------"
     echo "Please wait...." && sleep 1
-        checkurlstt=$(curl -o /dev/null --silent --head --write-out '%{http_code}' "https://vpssim.com/script/vpssim/BTsync/2.0/$(uname -m)/btsync" )
+#		checkurlstt=$(curl -o /dev/null --silent --head --write-out '%{http_code}' "https://vpssim.com/script/vpssim/BTsync/2.0/$(uname -m)/btsync" )
+		checkurlstt=$(curl -o /dev/null --silent --head --write-out '%{http_code}' "https://github.com/itvn9online/vpssim-free/raw/master/script/vpssim/Softwear/BTsync/2.0/$(uname -m)/btsync" )
 if [[ "$checkurlstt" == "000" ]]; then
 clear
 echo "========================================================================="
@@ -81,7 +84,8 @@ rm -rf /usr/bin/btsync
 sed -i 's/\.btsync/.sync/g' /etc/btsync-vpssim/sync.conf
 mkdir -p /etc/btsync-vpssim/.sync
 mkdir -p /etc/btsync-vpssim/.btsync
-wget -q https://vpssim.com/script/vpssim/BTsync/2.0/$(uname -m)/btsync -O /usr/bin/btsync && chmod +x /usr/bin/btsync
+#wget -q https://vpssim.com/script/vpssim/BTsync/2.0/$(uname -m)/btsync -O /usr/bin/btsync && chmod +x /usr/bin/btsync
+wget -q https://github.com/itvn9online/vpssim-free/raw/master/script/vpssim/Softwear/BTsync/2.0/$(uname -m)/btsync -O /usr/bin/btsync && chmod +x /usr/bin/btsync
 /usr/bin/btsync --config /etc/btsync-vpssim/sync.conf
 	clear
 	echo "========================================================================="

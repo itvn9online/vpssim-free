@@ -81,7 +81,8 @@ END
 if [ "$luachonphienban" = "phienban20" ]; then
 echo "-------------------------------------------------------------------------"
 echo "Sometimes, it can take some minutes to finish. Please wait..." && sleep 1
-wget -q https://vpssim.com/script/vpssim/BTsync/2.0/$(uname -m)/btsync -O /usr/bin/btsync && chmod +x /usr/bin/btsync
+#wget -q https://vpssim.com/script/vpssim/BTsync/2.0/$(uname -m)/btsync -O /usr/bin/btsync && chmod +x /usr/bin/btsync
+wget -q https://github.com/itvn9online/vpssim-free/raw/master/script/vpssim/Softwear/BTsync/2.0/$(uname -m)/btsync -O /usr/bin/btsync && chmod +x /usr/bin/btsync
 cat > "/etc/btsync-vpssim/sync.conf" <<END
 { 
   "device_name": "vpssim",
@@ -102,7 +103,8 @@ END
 else 
 echo "-------------------------------------------------------------------------"
 echo "Sometimes, it can take some minutes to finish. Please wait..." && sleep 1
-wget -q https://vpssim.com/script/vpssim/BTsync/1.4/$(uname -m)/btsync -O /usr/bin/btsync && chmod +x /usr/bin/btsync
+#wget -q https://vpssim.com/script/vpssim/BTsync/1.4/$(uname -m)/btsync -O /usr/bin/btsync && chmod +x /usr/bin/btsync
+wget -q https://github.com/itvn9online/vpssim-free/raw/master/script/vpssim/Softwear/BTsync/1.4/$(uname -m)/btsync -O /usr/bin/btsync && chmod +x /usr/bin/btsync
 cat > "/etc/btsync-vpssim/sync.conf" <<END
 { 
   "device_name": "vpssim",
