@@ -10,27 +10,34 @@ rm -rf /etc/yum.repos.d/varnishcache_varnish*
 echo "========================================================================="
 
 if [ -f /etc/vpssim/varnish.version ];then
-printf "                     Phien ban Varnish: $(cat /etc/vpssim/varnish.version) \n"
+printf "                   Phien ban Varnish hien tai: $(cat /etc/vpssim/varnish.version) \n"
 else
 printf "                  Varnish Cache chua duoc cai dat\n"
-printf "            Hoac khong duoc cai dat thong qua ECHBAY-VPSSIM \n"
+printf "          Hoac khong duoc cai dat thong qua ECHBAY-VPSSIM \n"
 fi
 
-echo "      Remove repo: rpm -e [reponame]"
-echo "      Remove repo file: rm -rf /etc/yum.repos.d/varnishcache_varnish*"
+echo "-------------------------------------------------------------------------"
+varnishd -V
+echo "========================================================================="
+echo "Remove repo: rpm -e [reponame]"
+echo "Remove repo file: rm -rf /etc/yum.repos.d/varnishcache_varnish*"
 echo "========================================================================="
 
 echo -n "Ban co muon go bo Varnish Cache khong? [y/N] "
 read goBoVarnish
 
 if [ "$goBoVarnish" = "y" ]; then
+clear
 echo "Ok ok! Chuan bi go bo Varnish Cache..."
 sleep 2
 rpm -qa | grep -i varnish
 yum -y erase varnish
+rm -rf /etc/yum.repos.d/varnishcache_varnish*
 rpm -qa | grep -i varnish
 else
 echo "Huy bo thao tac: go bo Varnish Cache..."
+sleep 2
+clear
 fi
 
 /etc/vpssim/menu/varnish/install-varnish

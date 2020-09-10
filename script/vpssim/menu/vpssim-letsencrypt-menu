@@ -54,6 +54,7 @@ select opt in "${options[@]}" ; do
     6) /etc/vpssim/menu/vpssim-remove-ssl-letsencrypt;;
     7) /etc/vpssim/menu/vpssim-update-letsencrypt;;
     8) clear && /bin/vpssim;;
+    0) clear && /bin/vpssim;;
     
   *) echo "Ban nhap sai, vui long nhap theo so thu tu tren menu !";continue;;
 

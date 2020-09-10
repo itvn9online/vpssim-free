@@ -1,18 +1,45 @@
 #!/bin/bash
 prompt="Lua chon phien ban Varnish (0-Thoat):"
-options=( "Varnish 4.0" "Varnish 4.1 (Khuyen dung)" "Varnish 6.0" "Varnish 6.1" "Varnish 6.2" "Varnish 6.3" "Varnish 6.4" "Go bo Varnish" )
-printf "=========================================================================\n"
-printf "                ECHBAY-VPSSIM - Quan Ly VPS/Server by HostingAZ.VN \n"
-printf "=========================================================================\n"
-printf "                           Tien Ich - Addons\n"
 
 if [ -f /etc/vpssim/varnish.version ];then
-printf "                     Phien ban Varnish: $(cat /etc/vpssim/varnish.version) \n"
+current_varnish_version=$(cat /etc/vpssim/varnish.version)
 else
-printf "                  Varnish Cache chua duoc cai dat\n"
-printf "            Hoac khong duoc cai dat thong qua ECHBAY-VPSSIM \n"
+current_varnish_version=""
 fi
 
+if [ "$current_varnish_version" == "4.0" ]; then
+options=( "Varnish 4.0 (Current)" "Varnish 4.1" "Varnish 6.0" "Varnish 6.1" "Varnish 6.2" "Varnish 6.3" "Varnish 6.4" "Go bo Varnish" )
+elif [ "$current_varnish_version" == "4.1" ]; then
+options=( "Varnish 4.0" "Varnish 4.1 (Current)" "Varnish 6.0" "Varnish 6.1" "Varnish 6.2" "Varnish 6.3" "Varnish 6.4" "Go bo Varnish" )
+elif [ "$current_varnish_version" == "6.0" ]; then
+options=( "Varnish 4.0" "Varnish 4.1" "Varnish 6.0 (Current)" "Varnish 6.1" "Varnish 6.2" "Varnish 6.3" "Varnish 6.4" "Go bo Varnish" )
+elif [ "$current_varnish_version" == "6.1" ]; then
+options=( "Varnish 4.0" "Varnish 4.1" "Varnish 6.0" "Varnish 6.1 (Current)" "Varnish 6.2" "Varnish 6.3" "Varnish 6.4" "Go bo Varnish" )
+elif [ "$current_varnish_version" == "6.2" ]; then
+options=( "Varnish 4.0" "Varnish 4.1" "Varnish 6.0" "Varnish 6.1" "Varnish 6.2 (Current)" "Varnish 6.3" "Varnish 6.4" "Go bo Varnish" )
+elif [ "$current_varnish_version" == "6.3" ]; then
+options=( "Varnish 4.0" "Varnish 4.1" "Varnish 6.0" "Varnish 6.1" "Varnish 6.2" "Varnish 6.3 (Current)" "Varnish 6.4" "Go bo Varnish" )
+elif [ "$current_varnish_version" == "6.4" ]; then
+options=( "Varnish 4.0" "Varnish 4.1" "Varnish 6.0" "Varnish 6.1" "Varnish 6.2" "Varnish 6.3" "Varnish 6.4 (Current)" "Go bo Varnish" )
+else
+options=( "Varnish 4.0" "Varnish 4.1 (Khuyen dung)" "Varnish 6.0" "Varnish 6.1" "Varnish 6.2" "Varnish 6.3" "Varnish 6.4" "Go bo Varnish" )
+fi
+
+printf "=========================================================================\n"
+printf "         ECHBAY-VPSSIM - Quan Ly VPS/Server by HostingAZ.VN \n"
+printf "=========================================================================\n"
+printf "                           Tien Ich - Addons\n"
+echo "========================================================================="
+
+if [ -f /etc/vpssim/varnish.version ];then
+printf "                   Phien ban Varnish hien tai: $(cat /etc/vpssim/varnish.version) \n"
+else
+printf "                    Varnish Cache chua duoc cai dat\n"
+printf "          Hoac khong duoc cai dat thong qua ECHBAY-VPSSIM \n"
+fi
+
+echo "-------------------------------------------------------------------------"
+varnishd -V
 printf "=========================================================================\n"
 
 PS3="$prompt"
@@ -27,7 +54,8 @@ case "$REPLY" in
 6) clear && /etc/vpssim/menu/varnish/varnish63;;
 7) clear && /etc/vpssim/menu/varnish/varnish64;;
 8) clear && /etc/vpssim/menu/varnish/uninstall-varnish;;
-0) clear && vpssim;;
+#0) clear && vpssim;;
+0) clear && /etc/vpssim/menu/vpssim-tien-ich;;
 *) echo "Ban nhap sai ! Ban vui long chon so trong danh sach";continue;;
 esac
 done
