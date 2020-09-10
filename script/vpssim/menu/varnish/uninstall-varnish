@@ -8,6 +8,14 @@ rm -rf /etc/yum.repos.d/varnishcache_varnish*
 }
 
 echo "========================================================================="
+
+if [ -f /etc/vpssim/varnish.version ];then
+printf "                     Phien ban Varnish: $(cat /etc/vpssim/varnish.version) \n"
+else
+printf "                  Varnish Cache chua duoc cai dat\n"
+printf "            Hoac khong duoc cai dat thong qua ECHBAY-VPSSIM \n"
+fi
+
 echo "      Remove repo: rpm -e [reponame]"
 echo "      Remove repo file: rm -rf /etc/yum.repos.d/varnishcache_varnish*"
 echo "========================================================================="

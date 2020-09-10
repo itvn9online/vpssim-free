@@ -5,6 +5,14 @@ printf "========================================================================
 printf "                ECHBAY-VPSSIM - Quan Ly VPS/Server by HostingAZ.VN \n"
 printf "=========================================================================\n"
 printf "                           Tien Ich - Addons\n"
+
+if [ -f /etc/vpssim/varnish.version ];then
+printf "                     Phien ban Varnish: $(cat /etc/vpssim/varnish.version) \n"
+else
+printf "                  Varnish Cache chua duoc cai dat\n"
+printf "            Hoac khong duoc cai dat thong qua ECHBAY-VPSSIM \n"
+fi
+
 printf "=========================================================================\n"
 
 PS3="$prompt"

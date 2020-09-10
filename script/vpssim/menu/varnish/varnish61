@@ -7,6 +7,17 @@ curl -s https://packagecloud.io/install/repositories/varnishcache/varnish61/scri
 sleep 2
 sudo yum -y install varnish
 
+#
+if [ ! -f /etc/vpssim/varnish.version ]; then
+touch /etc/vpssim/varnish.version
+fi
+
+chown -R root:root /etc/vpssim/varnish.version
+chmod 644 /etc/vpssim/varnish.version
+> /etc/vpssim/varnish.version
+echo "6.1" >> /etc/vpssim/varnish.version
+
+
 current_os_version=$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))
 
 if [ "$current_os_version" == "6" ]; then
