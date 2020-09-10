@@ -1,0 +1,25 @@
+#!/bin/bash
+prompt="Lua chon phien ban Varnish (0-Thoat):"
+options=( "Varnish 4.0" "Varnish 4.1 (Khuyen dung)" "Varnish 6.0" "Varnish 6.1" "Varnish 6.2" "Varnish 6.3" "Varnish 6.4" "Go bo Varnish" )
+printf "=========================================================================\n"
+printf "                ECHBAY-VPSSIM - Quan Ly VPS/Server by HostingAZ.VN \n"
+printf "=========================================================================\n"
+printf "                           Tien Ich - Addons\n"
+printf "=========================================================================\n"
+
+PS3="$prompt"
+select opt in "${options[@]}" ; do 
+
+case "$REPLY" in
+1) clear && /etc/vpssim/menu/varnish/varnish40;;
+2) clear && /etc/vpssim/menu/varnish/varnish41;;
+3) clear && /etc/vpssim/menu/varnish/varnish60;;
+4) clear && /etc/vpssim/menu/varnish/varnish61;;
+5) clear && /etc/vpssim/menu/varnish/varnish62;;
+6) clear && /etc/vpssim/menu/varnish/varnish63;;
+7) clear && /etc/vpssim/menu/varnish/varnish64;;
+8) clear && /etc/vpssim/menu/varnish/uninstall-varnish;;
+0) clear && vpssim;;
+*) echo "Ban nhap sai ! Ban vui long chon so trong danh sach";continue;;
+esac
+done

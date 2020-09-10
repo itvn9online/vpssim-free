@@ -1,41 +1,11 @@
 #!/bin/bash
 
-# https://packagecloud.io/varnishcache/varnish60lts/install#manual-rpm
-# https://packagecloud.io/varnishcache/varnish61/install#manual-rpm
+# https://packagecloud.io/varnishcache/
+# https://packagecloud.io/varnishcache/varnish60/install#bash-rpm
 
-sudo yum install -y epel-release
-sudo yum -y install pygpgme yum-utils
-
-current_os_version=$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))
-
-sudo tee /etc/yum.repos.d/varnishcache_varnish61.repo <<EOF
-[varnishcache_varnish61]
-name=varnishcache_varnish61
-baseurl=https://packagecloud.io/varnishcache/varnish61/el/6/$basearch
-repo_gpgcheck=1
-gpgcheck=0
-enabled=1
-gpgkey=https://packagecloud.io/varnishcache/varnish61/gpgkey
-sslverify=1
-sslcacert=/etc/pki/tls/certs/ca-bundle.crt
-metadata_expire=300
-
-[varnishcache_varnish61-source]
-name=varnishcache_varnish61-source
-baseurl=https://packagecloud.io/varnishcache/varnish61/el/6/SRPMS
-repo_gpgcheck=1
-gpgcheck=0
-enabled=1
-gpgkey=https://packagecloud.io/varnishcache/varnish61/gpgkey
-sslverify=1
-sslcacert=/etc/pki/tls/certs/ca-bundle.crt
-metadata_expire=300
-EOF
-
-sudo yum -q makecache -y --disablerepo='*' --enablerepo='varnishcache_varnish61'
-
-sudo yum install varnish
-rpm -qi varnish
+curl -s https://packagecloud.io/install/repositories/varnishcache/varnish60/script.rpm.sh | sudo bash
+sleep 2
+sudo yum -y install varnish
 
 if [ "$current_os_version" == "6" ]; then
 service varnish start
@@ -46,3 +16,5 @@ systemctl enable varnish.service
 fi
 
 varnishd -V
+
+/etc/vpssim/menu/varnish/install-varnish

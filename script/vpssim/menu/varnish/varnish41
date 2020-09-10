@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # https://packagecloud.io/varnishcache/
-# https://packagecloud.io/varnishcache/varnish64/install#bash-rpm
+# https://packagecloud.io/varnishcache/varnish40/install#bash-rpm
 
-curl -s https://packagecloud.io/install/repositories/varnishcache/varnish64/script.rpm.sh | sudo bash
+curl -s https://packagecloud.io/install/repositories/varnishcache/varnish41/script.rpm.sh | sudo bash
 sleep 2
 sudo yum -y install varnish
 

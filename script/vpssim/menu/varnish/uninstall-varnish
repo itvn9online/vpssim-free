@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# https://docs.google.com/spreadsheets/d/1BkuZk-1O97__eq4AobMDkm1nK8HNQ5AzHnYrxMLbBS0/edit?usp=sharing
+
+remove_varnish_repo () {
+rpm -e reponame
+rm -rf /etc/yum.repos.d/varnishcache_varnish*
+}
+
+echo "========================================================================="
+echo "      Remove repo: rpm -e [reponame]"
+echo "      Remove repo file: rm -rf /etc/yum.repos.d/varnishcache_varnish*"
+echo "========================================================================="
+
+echo -n "Ban co muon go bo Varnish Cache khong? [y/N] "
+read goBoVarnish
+
+if [ "$goBoVarnish" = "y" ]; then
+echo "Ok ok! Chuan bi go bo Varnish Cache..."
+sleep 2
+rpm -qa | grep -i varnish
+yum -y erase varnish
+rpm -qa | grep -i varnish
+else
+echo "Huy bo thao tac: go bo Varnish Cache..."
+fi
+
+/etc/vpssim/menu/varnish/install-varnish
