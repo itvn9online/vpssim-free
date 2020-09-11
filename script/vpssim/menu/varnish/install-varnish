@@ -55,7 +55,7 @@ case "$REPLY" in
 5) clear && /etc/vpssim/menu/varnish/varnish62;;
 6) clear && /etc/vpssim/menu/varnish/varnish63;;
 7) clear && /etc/vpssim/menu/varnish/varnish64;;
-8) clear && /etc/vpssim/menu/varnish/disk-cache-varnish;;
+8) clear && /etc/vpssim/menu/varnish/reset-disk-cache-varnish;;
 9) clear && /etc/vpssim/menu/varnish/uninstall-varnish;;
 #0) clear && vpssim;;
 0) clear && /etc/vpssim/menu/vpssim-tien-ich;;
