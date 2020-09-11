@@ -1,0 +1,7 @@
+#!/bin/bash
+
+disfree=$(calc $(df $PWD | awk '/[0-9]%/{print $(NF-2)}')/1024)
+echo "Disk free: "$disfree
+#diskrecommended=$(($disfree/3*2/1024))
+#diskrecommended=$(($disfree/1024-1))
+#echo "Disk cache recommended: "$diskrecommended

@@ -1,0 +1,9 @@
+#!/bin/bash
+
+if [ ! -f /etc/vpssim/varnish.version ]; then
+touch /etc/vpssim/varnish.version
+fi
+
+chown -R root:root /etc/vpssim/varnish.version
+chmod 644 /etc/vpssim/varnish.version
+> /etc/vpssim/varnish.version

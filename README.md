@@ -30,6 +30,16 @@ Brotli là một thuật toán nén mã nguồn mở mới được Google phát
 
 ----------------------------------------------
 
+### 2020/09/11:
+### Varnish Cache
+#### Thêm chức năng cài đặt Varnish Cache: https://packagecloud.io/varnishcache/
+#### Ngoài việc sử dụng ECHBAY-VPSSIM làm VPS chạy website thông thường, giờ đây bạn cũng có thể sử dụng để làm VPS chạy Varnish Cache rất tiện dụng. Hiện tại mình đang chạy thành công trên Varnish 4.1, bản 6.xx mới hơn chút xíu nhưng mình chưa thử nghiệm ngon lành, nên khuyên dùng vẫn là Varnish 4.1
+#### Mã thực thi: https://github.com/itvn9online/vpssim-free/tree/master/script/vpssim/menu/varnish
+#### Cách sử dụng: Trong VPSSIM menu -> 25) Tien ich - Addons -> 23) Varnish Cache -> Chọn phiên bản Varnish mà bạn muốn cài đặt
+#### * Không nên sử dụng VPS vừa làm VPS cache vừa làm VPS chạy web để tránh các xung đột không cần thiết.
+
+----------------------------------------------
+
 ### 2020/09/01:
 ### OpenSSL
 #### Cập nhật OpenSSL lên bản mới nhất và build nginx từ bản này: https://linuxscriptshub.com/update-openssl-1-1-0-centos-6-9-7-0/

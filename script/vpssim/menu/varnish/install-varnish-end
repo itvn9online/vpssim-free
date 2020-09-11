@@ -1,0 +1,22 @@
+#!/bin/bash
+
+sleep 2
+sudo yum -y install varnish
+
+/etc/vpssim/menu/varnish/disk-cache-varnish
+
+current_os_version=$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))
+
+if [ "$current_os_version" == "6" ]; then
+service varnish start
+chkconfig varnish on
+service varnish restart
+else
+systemctl start varnish.service
+systemctl enable varnish.service
+systemctl restart varnish.service
+fi
+
+varnishd -V
+
+/etc/vpssim/menu/varnish/install-varnish

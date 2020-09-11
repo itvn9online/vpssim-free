@@ -1,0 +1,205 @@
+#
+# This is an example VCL file for Varnish.
+#
+# It does not do anything by default, delegating control to the
+# builtin VCL. The builtin VCL is called when there is no explicit
+# return statement.
+#
+# See the VCL chapters in the Users Guide at https://www.varnish-cache.org/docs/
+# and http://varnish-cache.org/trac/wiki/VCLExamples for more examples.# Marker to tell the VCL compiler that this VCL has been adapted to the
+# new 4.0 format.
+vcl 4.0;
+# Based on: https://github.com/mattiasgeniar/varnish-4.0-configuration-templates/blob/master/default.vcl
+
+import std;
+import directors;
+
+
+# Default backend definition. Set this to point to your content server.
+#backend default {
+#	.host = "{tmp.host_ip}";
+#	.port = "80";
+#}
+
+# list server backen
+{tmp.list_server_backend}
+
+acl purge {
+	# ACL we'll use later to allow purges
+	"localhost";
+	"127.0.0.1";
+	"::1";
+}
+
+sub vcl_recv {
+	
+	
+	
+	# redirect https
+#	if (req.http.host ~ "echbay.com") {
+#		if ( req.http.X-Forwarded-Proto !~ "(?i)https" ) {
+#			return (synth(750, ""));
+#		}
+#	}
+	
+	#
+	if ( req.http.X-Forwarded-Proto !~ "(?i)https" ) {
+		{tmp.check_str_ssl_domain}
+	}
+	
+	
+	
+	# set verver backend -> multi domain
+	{tmp.set_server_backend}
+	
+	#
+	if (req.method == "PURGE") {
+		if (!client.ip ~ purge) {
+			return(synth(405,"Not allowed."));
+		}
+		
+		if (req.http.X-Purge-Method == "regex") {
+			ban("req.url ~ " + req.url + " && req.http.host ~ " + req.http.host);
+			return (synth(200, "Banned."));
+		} else {
+			return (purge);
+		}
+	}
+	
+	### Do not Authorized requests.
+	if (req.http.Authorization) {
+		return(pass); // DO NOT CACHE
+	}
+	
+	### Pass any requests with the "If-None-Match" header directly.
+	if (req.http.If-None-Match) {
+		return(pass); // DO NOT CACHE
+	}
+	
+	### Do not cache AJAX requests.
+	if (req.http.X-Requested-With == "XMLHttpRequest") {
+		return(pass); // DO NOT CACHE
+	}
+	
+	### Only cache GET or HEAD requests. This makes sure the POST (and OPTIONS) requests are always passed.
+	if (req.method != "GET" && req.method != "HEAD") {
+		return (pass); // DO NOT CACHE
+	}
+	
+	### Static files: Do not cache PDF, XML, ... files (=static & huge and no use caching them - in all Vary: variations!)
+	if (req.url ~ "\.(doc|mp3|pdf|tif|tiff|xml)(\?.*|)$") {
+		return(pass); // DO NOT CACHE
+	}
+	
+	# Unset the header for static files
+	if (req.url ~ "\.(gif|jpg|jpeg|swf|ttf|css|js|flv|mp3|mp4|pdf|ico|png)(\?.*|)$") {
+		unset req.http.cookie;
+		set req.url = regsub(req.url, "\?.*$", "");
+	}
+	
+	if (req.url ~ "\?(utm_(campaign|medium|source|term)|adParams|client|cx|eid|fbid|feed|ref(id|src)?|v(er|iew))=") {
+		set req.url = regsub(req.url, "\?.*$", "");
+	}
+	
+	if (req.url ~ "wp-(login|admin)" || req.url ~ "preview=true" || req.url ~ "xmlrpc.php") {
+		return (pass);
+	}
+	
+	if (req.http.cookie) {
+		# Google Analytics
+		set req.http.Cookie = regsuball( req.http.Cookie, "(^|;\s*)(__utm[a-z]+)=([^;]*)", "");
+		
+		# Quant Capital
+		set req.http.Cookie = regsuball( req.http.Cookie, "(^|;\s*)(_ga)=([^;]*)", "");
+		
+		# __gad __gads
+		set req.http.Cookie = regsuball( req.http.Cookie, "(^|;\s*)(__qc[a-z]+)=([^;]*)", "");
+		
+		# Google Cookie consent (client javascript cookie)
+		set req.http.Cookie = regsuball( req.http.Cookie, "(^|;\s*)(__gad[a-z]+)=([^;]*)", "");
+		
+		# Other known Cookies: remove them (if found).
+		set req.http.Cookie = regsuball( req.http.Cookie, "(^|;\s*)(displayCookieConsent)=([^;]*)", "");
+		set req.http.Cookie = regsuball( req.http.Cookie, "(^|;\s*)(__CT_Data)=([^;]*)", "");
+		set req.http.Cookie = regsuball( req.http.Cookie, "(^|;\s*)(WRIgnore|WRUID)=([^;]*)", "");
+		
+		# PostAction: Remove (once and if found) a ";" prefix followed by 0..n whitespaces.
+		
+		# INFO \s* = 0..n whitespace characters
+		set req.http.Cookie = regsub( req.http.Cookie, "^;\s*", "" );# PostAction: Unset the header if it is empty or 0..n whitespaces.
+		
+		if ( req.http.cookie ~ "^\s*$" ) {
+			unset req.http.Cookie;
+		}
+	}
+}
+
+sub vcl_synth  {
+	if (resp.status == 750) {
+#		if (req.http.host ~ "echbay.com") {
+#			set resp.status = 301;
+#			set resp.http.Location = "https://echbay.com" + req.url;
+#			return(deliver);
+#		}
+		
+		#
+		{tmp.redirect_str_ssl_domain}
+	}
+}
+
+
+
+sub vcl_backend_response {
+#	if ( (!(bereq.url ~ "(wp-(login|admin)|login)")) || (bereq.method == "GET") ) {
+		#unset beresp.http.set-cookie;
+#		set beresp.ttl = 1h;
+#	}
+
+	
+	# Remove some headers we never want to see
+	unset beresp.http.Server;
+	unset beresp.http.X-Powered-By;
+	
+#	if (bereq.url ~ "\.(gif|jpg|jpeg|swf|ttf|css|js|flv|mp3|mp4|pdf|ico|png)(\?.*|)$") {
+#	if (bereq.url ~ "\.(gif|jpg|jpeg|swf|ttf|flv|mp3|mp4|pdf|ico|png)(\?.*|)$") {
+	if (bereq.url ~ "\.(gif|jpg|jpeg|ico|png)(\?.*|)$") {
+		unset beresp.http.cookie;
+#		set beresp.ttl = 7d;
+		set beresp.ttl = 4h;
+	} elsif (bereq.url ~ "\.(css|js)(\?.*|)$") {
+		unset beresp.http.cookie;
+		set beresp.ttl = 300s;
+	} elsif (bereq.url ~ "\.(swf|ttf|flv|mp3|mp4|pdf)(\?.*|)$") {
+		unset beresp.http.cookie;
+#		set beresp.ttl = 7d;
+		set beresp.ttl = 4h;
+	} else {
+		set beresp.ttl = 120s;
+		
+		set beresp.http.Expires = "" + (now + beresp.ttl);
+	}
+#	set beresp.grace = 120s;
+	set beresp.grace = 1h;
+}
+
+sub vcl_deliver {
+	if (obj.hits > 0) {
+		set resp.http.X-Cache = "HIT";
+	} else {
+		set resp.http.X-Cache = "MISS";
+	}
+	
+    set resp.http.Access-Control-Allow-Origin = "*";
+    set resp.http.Server = "EchBay-Hosting";
+	
+	set resp.http.Strict-Transport-Security = "max-age=63072000; includeSubdomains; preload";
+	
+#	set resp.http.X-XSS-Protection = "1; mode=block; report=https://argsec.report-uri.com/r/d/xss/enforce";
+	set resp.http.X-XSS-Protection = "1; mode=block";
+	
+	set resp.http.X-Frame-Options = "SAMEORIGIN";
+	
+	set resp.http.X-Content-Type-Options = "nosniff";
+	
+	set resp.http.Referrer-Policy = "strict-origin-when-cross-origin";
+}

@@ -8,27 +8,29 @@ current_varnish_version=""
 fi
 
 if [ "$current_varnish_version" == "4.0" ]; then
-options=( "Varnish 4.0 (Current)" "Varnish 4.1" "Varnish 6.0" "Varnish 6.1" "Varnish 6.2" "Varnish 6.3" "Varnish 6.4" "Go bo Varnish" )
+options=( "Varnish 4.0 (Current)" "Varnish 4.1" "Varnish 6.0" "Varnish 6.1" "Varnish 6.2" "Varnish 6.3" "Varnish 6.4" "Auto setup storage" "Uninstall Varnish" )
 elif [ "$current_varnish_version" == "4.1" ]; then
-options=( "Varnish 4.0" "Varnish 4.1 (Current)" "Varnish 6.0" "Varnish 6.1" "Varnish 6.2" "Varnish 6.3" "Varnish 6.4" "Go bo Varnish" )
+options=( "Varnish 4.0" "Varnish 4.1 (Current)" "Varnish 6.0" "Varnish 6.1" "Varnish 6.2" "Varnish 6.3" "Varnish 6.4" "Auto setup storage" "Uninstall Varnish" )
 elif [ "$current_varnish_version" == "6.0" ]; then
-options=( "Varnish 4.0" "Varnish 4.1" "Varnish 6.0 (Current)" "Varnish 6.1" "Varnish 6.2" "Varnish 6.3" "Varnish 6.4" "Go bo Varnish" )
+options=( "Varnish 4.0" "Varnish 4.1" "Varnish 6.0 (Current)" "Varnish 6.1" "Varnish 6.2" "Varnish 6.3" "Varnish 6.4" "Auto setup storage" "Uninstall Varnish" )
 elif [ "$current_varnish_version" == "6.1" ]; then
-options=( "Varnish 4.0" "Varnish 4.1" "Varnish 6.0" "Varnish 6.1 (Current)" "Varnish 6.2" "Varnish 6.3" "Varnish 6.4" "Go bo Varnish" )
+options=( "Varnish 4.0" "Varnish 4.1" "Varnish 6.0" "Varnish 6.1 (Current)" "Varnish 6.2" "Varnish 6.3" "Varnish 6.4" "Auto setup storage" "Uninstall Varnish" )
 elif [ "$current_varnish_version" == "6.2" ]; then
-options=( "Varnish 4.0" "Varnish 4.1" "Varnish 6.0" "Varnish 6.1" "Varnish 6.2 (Current)" "Varnish 6.3" "Varnish 6.4" "Go bo Varnish" )
+options=( "Varnish 4.0" "Varnish 4.1" "Varnish 6.0" "Varnish 6.1" "Varnish 6.2 (Current)" "Varnish 6.3" "Varnish 6.4" "Auto setup storage" "Uninstall Varnish" )
 elif [ "$current_varnish_version" == "6.3" ]; then
-options=( "Varnish 4.0" "Varnish 4.1" "Varnish 6.0" "Varnish 6.1" "Varnish 6.2" "Varnish 6.3 (Current)" "Varnish 6.4" "Go bo Varnish" )
+options=( "Varnish 4.0" "Varnish 4.1" "Varnish 6.0" "Varnish 6.1" "Varnish 6.2" "Varnish 6.3 (Current)" "Varnish 6.4" "Auto setup storage" "Uninstall Varnish" )
 elif [ "$current_varnish_version" == "6.4" ]; then
-options=( "Varnish 4.0" "Varnish 4.1" "Varnish 6.0" "Varnish 6.1" "Varnish 6.2" "Varnish 6.3" "Varnish 6.4 (Current)" "Go bo Varnish" )
+options=( "Varnish 4.0" "Varnish 4.1" "Varnish 6.0" "Varnish 6.1" "Varnish 6.2" "Varnish 6.3" "Varnish 6.4 (Current)" "Auto setup storage" "Uninstall Varnish" )
 else
-options=( "Varnish 4.0" "Varnish 4.1 (Khuyen dung)" "Varnish 6.0" "Varnish 6.1" "Varnish 6.2" "Varnish 6.3" "Varnish 6.4" "Go bo Varnish" )
+options=( "Varnish 4.0" "Varnish 4.1 (Khuyen dung)" "Varnish 6.0" "Varnish 6.1" "Varnish 6.2" "Varnish 6.3" "Varnish 6.4" "Auto setup storage" "Uninstall Varnish" )
 fi
 
 printf "=========================================================================\n"
 printf "         ECHBAY-VPSSIM - Quan Ly VPS/Server by HostingAZ.VN \n"
 printf "=========================================================================\n"
-printf "                           Tien Ich - Addons\n"
+printf "                           Varnish Cache\n"
+echo "========================================================================="
+/etc/vpssim/menu/varnish/disk-varnish
 echo "========================================================================="
 
 if [ -f /etc/vpssim/varnish.version ];then
@@ -53,7 +55,8 @@ case "$REPLY" in
 5) clear && /etc/vpssim/menu/varnish/varnish62;;
 6) clear && /etc/vpssim/menu/varnish/varnish63;;
 7) clear && /etc/vpssim/menu/varnish/varnish64;;
-8) clear && /etc/vpssim/menu/varnish/uninstall-varnish;;
+8) clear && /etc/vpssim/menu/varnish/disk-cache-varnish;;
+9) clear && /etc/vpssim/menu/varnish/uninstall-varnish;;
 #0) clear && vpssim;;
 0) clear && /etc/vpssim/menu/vpssim-tien-ich;;
 *) echo "Ban nhap sai ! Ban vui long chon so trong danh sach";continue;;

@@ -3,31 +3,9 @@
 # https://packagecloud.io/varnishcache/
 # https://packagecloud.io/varnishcache/varnish40/install#bash-rpm
 
-curl -s https://packagecloud.io/install/repositories/varnishcache/varnish41/script.rpm.sh | sudo bash
-sleep 2
-sudo yum -y install varnish
-
-#
-if [ ! -f /etc/vpssim/varnish.version ]; then
-touch /etc/vpssim/varnish.version
-fi
-
-chown -R root:root /etc/vpssim/varnish.version
-chmod 644 /etc/vpssim/varnish.version
-> /etc/vpssim/varnish.version
+/etc/vpssim/menu/varnish/install-varnish-begin
 echo "4.1" >> /etc/vpssim/varnish.version
 
+curl -s https://packagecloud.io/install/repositories/varnishcache/varnish41/script.rpm.sh | sudo bash
 
-current_os_version=$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))
-
-if [ "$current_os_version" == "6" ]; then
-service varnish start
-chkconfig varnish on
-else
-systemctl start varnish.service
-systemctl enable varnish.service
-fi
-
-varnishd -V
-
-/etc/vpssim/menu/varnish/install-varnish
+/etc/vpssim/menu/varnish/install-varnish-end
