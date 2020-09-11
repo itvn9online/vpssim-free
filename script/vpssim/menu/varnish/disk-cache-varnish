@@ -37,7 +37,7 @@ varnish_size=$(($current_varnish_storage+$diskrecommended))
 #echo $varnish_size
 varnish_size=$(($varnish_size-3))
 #echo $varnish_size
-echo "Disk cache recommended: "$varnish_size
+echo "Disk cache recommended: "$varnish_size"G"
 
 fi
 
