@@ -36,7 +36,7 @@ echo "==========================================================================
 echo -n "Nhap Phpmyadmin Port [ENTER]: " 
 read svport
 if [ "$svport" = "80" ] || [ "$svport" = "443" ] || [ "$svport" = "22" ] || [ "$svport" = "3306" ] || [ "$svport" = "25" ] || [ "$svport" = "465" ] || [ "$svport" = "587" ] || [ "$svport" = "21" ]; then
-	svport="2313"
+svport="2313"
 echo "Phpmyadmin khong the trung voi port cua dich vu khac !"
 echo "VPSSIM se dat phpmyadmin port la 2313"
 fi
@@ -90,30 +90,29 @@ bash /root/vpssim-setup
 exit
 fi
 prompt="Nhap lua chon cua ban: "
-options=("MariaDB 10.3" "MariaDB 10.2" "MariaDB 10.1" "MariaDB 10.0")
+options=("MariaDB 10.3" "MariaDB 10.4" "MariaDB 10.5")
 echo "=========================================================================="
 echo "Lua Chon Cai Dat Phien Ban MariaDB  "
 echo "=========================================================================="
 PS3="$prompt"
 select opt in "${options[@]}"; do 
 
-    case "$REPLY" in
-    1) mariadbversion="10.3"; break;;
-    2) mariadbversion="10.2"; break;;
-    3) mariadbversion="10.1"; break;;
-    4) mariadbversion="10.0"; break;;
-    *) echo "Ban nhap sai ! Ban vui long chon so trong danh sach";continue;;
-    esac  
+case "$REPLY" in
+1) mariadbversion="10.3"; break;;
+2) mariadbversion="10.4"; break;;
+3) mariadbversion="10.5"; break;;
+*) echo "Ban nhap sai ! Ban vui long chon so trong danh sach";continue;;
+esac  
 done
-if [ "$mariadbversion" = "10.3" ]; then
-phienbanmariadb=10.3
-elif [ "$mariadbversion" = "10.2" ]; then
-phienbanmariadb=10.2
-elif [ "$mariadbversion" = "10.1" ]; then
-phienbanmariadb=10.1
+
+if [ "$mariadbversion" = "10.4" ]; then
+phienbanmariadb=10.4
+elif [ "$mariadbversion" = "10.5" ]; then
+phienbanmariadb=10.5
 else 
-phienbanmariadb=10.0
+phienbanmariadb=10.3
 fi
+
 echo "-------------------------------------------------------------------------"
 echo "Mat khau root MySQL toi thieu 8 ki tu va chi su dung chu cai va so."
 echo "-------------------------------------------------------------------------"
@@ -220,11 +219,11 @@ options=( "Dong Y" "Khong Dong Y")
 PS3="$prompt"
 select opt in "${options[@]}"; do 
 
-    case "$REPLY" in
-    1) xacnhanthongtin="dongy"; break;;
-    2) xacnhanthongtin="khongdongy"; break;;
-    *) echo "Ban nhap sai ! Ban vui long chon so trong danh sach";continue;;
-    esac  
+case "$REPLY" in
+1) xacnhanthongtin="dongy"; break;;
+2) xacnhanthongtin="khongdongy"; break;;
+*) echo "Ban nhap sai ! Ban vui long chon so trong danh sach";continue;;
+esac  
 done
 
 if [ "$xacnhanthongtin" = "dongy" ]; then
@@ -263,42 +262,6 @@ if [ -f /etc/yum.repos.d/epel.repo ]; then
 sudo sed -i "s/mirrorlist=https/mirrorlist=http/" /etc/yum.repos.d/epel.repo
 fi
 
-if [ "$phienbanmariadb" = "10.0" ]; then
-cat > "/etc/yum.repos.d/mariadb.repo" <<END
-# MariaDB 10.0 CentOS repository list 
-# http://downloads.mariadb.org/mariadb/repositories/
-[mariadb]
-name = MariaDB
-baseurl = http://yum.mariadb.org/10.0/centos7-amd64
-gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
-gpgcheck=1
-END
-fi
-
-if [ "$phienbanmariadb" = "10.1" ]; then
-cat > "/etc/yum.repos.d/mariadb.repo" <<END
-# MariaDB 10.1 CentOS repository list 
-# http://downloads.mariadb.org/mariadb/repositories/
-[mariadb]
-name = MariaDB
-baseurl = http://yum.mariadb.org/10.1/centos7-amd64
-gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
-gpgcheck=1
-END
-fi
-
-if [ "$phienbanmariadb" = "10.2" ]; then
-cat > "/etc/yum.repos.d/mariadb.repo" <<END
-# MariaDB 10.2 CentOS repository list 
-# http://downloads.mariadb.org/mariadb/repositories/
-[mariadb]
-name = MariaDB
-baseurl = http://yum.mariadb.org/10.2/centos7-amd64
-gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
-gpgcheck=1
-END
-fi
-
 if [ "$phienbanmariadb" = "10.3" ]; then
 cat > "/etc/yum.repos.d/mariadb.repo" <<END
 # MariaDB 10.3 CentOS repository list 
@@ -306,6 +269,30 @@ cat > "/etc/yum.repos.d/mariadb.repo" <<END
 [mariadb]
 name = MariaDB
 baseurl = http://yum.mariadb.org/10.3/centos8-amd64
+gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
+gpgcheck=1
+END
+fi
+
+if [ "$phienbanmariadb" = "10.4" ]; then
+cat > "/etc/yum.repos.d/mariadb.repo" <<END
+# MariaDB 10.4 CentOS repository list 
+# http://downloads.mariadb.org/mariadb/repositories/
+[mariadb]
+name = MariaDB
+baseurl = http://yum.mariadb.org/10.4/centos8-amd64
+gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
+gpgcheck=1
+END
+fi
+
+if [ "$phienbanmariadb" = "10.5" ]; then
+cat > "/etc/yum.repos.d/mariadb.repo" <<END
+# MariaDB 10.5 CentOS repository list 
+# http://downloads.mariadb.org/mariadb/repositories/
+[mariadb]
+name = MariaDB
+baseurl = http://yum.mariadb.org/10.5/centos8-amd64
 gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
 gpgcheck=1
 END
@@ -402,13 +389,13 @@ echo "==========================================================================
 echo "Cai Dat Hoan Tat, Bat Dau Qua Trinh Cau Hinh...... "
 echo "=========================================================================="
 sleep 3
-	ramformariadb=$(calc $svram/10*6)
-	ramforphpnginx=$(calc $svram-$ramformariadb)
-	max_children=$(calc $ramforphpnginx/30)
-	memory_limit=$(calc $ramforphpnginx/5*3)M
-	mem_apc=$(calc $ramforphpnginx/5)M
-	buff_size=$(calc $ramformariadb/10*8)M
-	log_size=$(calc $ramformariadb/10*2)M
+ramformariadb=$(calc $svram/10*6)
+ramforphpnginx=$(calc $svram-$ramformariadb)
+max_children=$(calc $ramforphpnginx/30)
+memory_limit=$(calc $ramforphpnginx/5*3)M
+mem_apc=$(calc $ramforphpnginx/5)M
+buff_size=$(calc $ramformariadb/10*8)M
+log_size=$(calc $ramformariadb/10*2)M
 systemctl enable exim.service 
 systemctl enable syslog-ng.service
 systemctl start exim.service 
@@ -449,21 +436,21 @@ END
 
 rm -rf /etc/nginx/conf.d
 mkdir -p /etc/nginx/conf.d
-    cat > "/etc/nginx/conf.d/vpssim.demo.conf" <<END
+cat > "/etc/nginx/conf.d/vpssim.demo.conf" <<END
 server {
-	    server_name www.vpssim.demo;
-	    rewrite ^(.*) http://vpssim.demo\$1 permanent;
-    	}
+server_name www.vpssim.demo;
+rewrite ^(.*) http://vpssim.demo\$1 permanent;
+}
 server {
-	    listen   80 default_server;
+listen   80 default_server;
 
-    	access_log off;
-    	error_log off;
-    	# error_log /home/vpssim.demo/logs/error.log;
-    	root /home/vpssim.demo/public_html;
+access_log off;
+error_log off;
+# error_log /home/vpssim.demo/logs/error.log;
+root /home/vpssim.demo/public_html;
 include /etc/nginx/conf/ddos2.conf;
-	index index.php index.html index.htm;
-    	server_name vpssim.demo;   
+index index.php index.html index.htm;
+server_name vpssim.demo;   
 
 
 #///////////////////////////////////////////////////////
@@ -490,70 +477,70 @@ include /etc/nginx/conf/all.conf;
 #    root /home/vpssim.demo;
 #    access_log              off;
 #}
-    	location ~ \.php$ {
-		fastcgi_split_path_info ^(.+\.php)(/.+)$;
-        	include /etc/nginx/fastcgi_params;
-        	fastcgi_pass 127.0.0.1:9000;
-        	fastcgi_index index.php;
-		fastcgi_connect_timeout 120;
-		fastcgi_send_timeout 180;
-		fastcgi_read_timeout 180;
-		fastcgi_buffer_size 256k;
-		fastcgi_buffers 4 256k;
-		fastcgi_busy_buffers_size 256k;
-		fastcgi_temp_file_write_size 256k;
-		fastcgi_intercept_errors on;
-        	fastcgi_param SCRIPT_FILENAME /home/vpssim.demo/public_html\$fastcgi_script_name;
-    	}
+location ~ \.php$ {
+fastcgi_split_path_info ^(.+\.php)(/.+)$;
+include /etc/nginx/fastcgi_params;
+fastcgi_pass 127.0.0.1:9000;
+fastcgi_index index.php;
+fastcgi_connect_timeout 120;
+fastcgi_send_timeout 180;
+fastcgi_read_timeout 180;
+fastcgi_buffer_size 256k;
+fastcgi_buffers 4 256k;
+fastcgi_busy_buffers_size 256k;
+fastcgi_temp_file_write_size 256k;
+fastcgi_intercept_errors on;
+fastcgi_param SCRIPT_FILENAME /home/vpssim.demo/public_html\$fastcgi_script_name;
+}
 
 include /etc/nginx/conf/staticfiles.conf;
 #include /etc/nginx/conf/phpstatus.conf;
 include /etc/nginx/conf/drop.conf;
 
 }
-	
+
 server {
-	    listen   $svport;
-	 	access_log        off;
-		log_not_found     off;
-	 	error_log         off;
-    	root /home/vpssim.demo/private_html;
-    	auth_basic "Authorization Required ( Get User & Password at /home/VPSSIM-manage-info.txt or Create new one by : ECHBAY-VPSSIM menu ->  User & Password Mac Dinh )";
-		auth_basic_user_file  /etc/nginx/.htpasswd;
-	    index index.php index.html index.htm;
-    	server_name vpssim.demo;
- 
-     	location / {
-		try_files \$uri \$uri/ /index.php;
-   	    }
-        location /nginx_status {
-  		stub_status on;
-  		access_log   off;
-		}
-    	location /php_status {
-            	fastcgi_pass 127.0.0.1:9000;
-            	fastcgi_index index.php;
-            	fastcgi_param SCRIPT_FILENAME  /home/vpssim.demo/public_html\$fastcgi_script_name;
-            	include /etc/nginx/fastcgi_params;
-    	}
-    	location ~ \.php$ {
-		fastcgi_split_path_info ^(.+\.php)(/.+)$;
-        	include /etc/nginx/fastcgi_params;
-        	fastcgi_pass 127.0.0.1:9000;
-        	fastcgi_index index.php;
-			fastcgi_connect_timeout 1000;
-			fastcgi_send_timeout 1000;
-			fastcgi_read_timeout 1000;
-			fastcgi_buffer_size 256k;
-			fastcgi_buffers 4 256k;
-			fastcgi_busy_buffers_size 256k;
-			fastcgi_temp_file_write_size 256k;
-			fastcgi_intercept_errors on;
-        	fastcgi_param SCRIPT_FILENAME /home/vpssim.demo/private_html\$fastcgi_script_name;
-    	}
-        location ~* \.(bak|back|bk)$ {
-		deny all;
-	}
+listen   $svport;
+access_log        off;
+log_not_found     off;
+error_log         off;
+root /home/vpssim.demo/private_html;
+auth_basic "Authorization Required ( Get User & Password at /home/VPSSIM-manage-info.txt or Create new one by : ECHBAY-VPSSIM menu ->  User & Password Mac Dinh )";
+auth_basic_user_file  /etc/nginx/.htpasswd;
+index index.php index.html index.htm;
+server_name vpssim.demo;
+
+location / {
+try_files \$uri \$uri/ /index.php;
+}
+location /nginx_status {
+stub_status on;
+access_log   off;
+}
+location /php_status {
+fastcgi_pass 127.0.0.1:9000;
+fastcgi_index index.php;
+fastcgi_param SCRIPT_FILENAME  /home/vpssim.demo/public_html\$fastcgi_script_name;
+include /etc/nginx/fastcgi_params;
+}
+location ~ \.php$ {
+fastcgi_split_path_info ^(.+\.php)(/.+)$;
+include /etc/nginx/fastcgi_params;
+fastcgi_pass 127.0.0.1:9000;
+fastcgi_index index.php;
+fastcgi_connect_timeout 1000;
+fastcgi_send_timeout 1000;
+fastcgi_read_timeout 1000;
+fastcgi_buffer_size 256k;
+fastcgi_buffers 4 256k;
+fastcgi_busy_buffers_size 256k;
+fastcgi_temp_file_write_size 256k;
+fastcgi_intercept_errors on;
+fastcgi_param SCRIPT_FILENAME /home/vpssim.demo/private_html\$fastcgi_script_name;
+}
+location ~* \.(bak|back|bk)$ {
+deny all;
+}
 }
 
 END
@@ -606,7 +593,7 @@ fi
 
 
 rm -f /etc/php-fpm.d/www.conf
-    cat > "/etc/php-fpm.d/www.conf" <<END
+cat > "/etc/php-fpm.d/www.conf" <<END
 [www]
 listen = 127.0.0.1:9000
 listen.allowed_clients = 127.0.0.1
@@ -641,7 +628,7 @@ END
 
 
 rm -f /etc/php.ini
-    cat > "/etc/php.ini" <<END
+cat > "/etc/php.ini" <<END
 [PHP]
 engine = On
 short_open_tag = On
@@ -877,7 +864,7 @@ opcache.revalidate_freq=60
 opcache.fast_shutdown=1
 END
 rm -f /etc/sysctl.conf
-    cat > "/etc/sysctl.conf" <<END
+cat > "/etc/sysctl.conf" <<END
 net.ipv4.ip_forward = 0
 net.ipv4.conf.default.rp_filter = 1
 net.ipv4.conf.default.accept_source_route = 0
@@ -903,7 +890,7 @@ fs.suid_dumpable = 0
 END
 
 rm -f /etc/php-fpm.conf
-    cat > "/etc/php-fpm.conf" <<END
+cat > "/etc/php-fpm.conf" <<END
 include=/etc/php-fpm.d/*.conf
 
 [global]
@@ -970,8 +957,9 @@ fi
 if ! [[ $cpucores =~ $checktruenumber ]] ; then
 cpucores=1
 fi 
+
 rm -f /etc/my.cnf.d/server.cnf
-    cat > "/etc/my.cnf.d/server.cnf" <<END
+cat > "/etc/my.cnf.d/server.cnf" <<END
 
 [mysqld]
 skip-host-cache
@@ -1068,7 +1056,7 @@ aria_log_purge_type = immediate
 aria_pagecache_buffer_size = 1M
 aria_sort_buffer_size = 1M
 
-#[mariadb-5.5]
+[mariadb-5.5]
 #ignore_db_dirs=
 query_cache_strip_comments=0
 
@@ -1105,53 +1093,6 @@ write_buffer = $(calc 128*$heso4)K
 [mysqlhotcopy]
 interactive-timeout
 END
-if [ "$phienbanmariadb" = "10.0" ] ; then
-cat >> "/etc/my.cnf.d/server.cnf" <<END
-
-[mariadb-10.0]
-innodb_buffer_pool_dump_at_shutdown=1
-innodb_buffer_pool_load_at_startup=1
-innodb_buffer_pool_populate=0
-performance_schema=OFF
-innodb_stats_on_metadata=OFF
-innodb_sort_buffer_size=1M
-query_cache_strip_comments=0
-log_slow_filter =admin,filesort,filesort_on_disk,full_join,full_scan,query_cache,query_cache_miss,tmp_table,tmp_table_on_disk
-
-END
-fi
-
-if [ "$phienbanmariadb" = "10.1" ] ; then
-cat >> "/etc/my.cnf.d/server.cnf" <<END
-
-[mariadb-10.1]
-innodb_buffer_pool_dump_at_shutdown=1
-innodb_buffer_pool_load_at_startup=1
-innodb_buffer_pool_populate=0
-performance_schema=OFF
-innodb_stats_on_metadata=OFF
-innodb_sort_buffer_size=1M
-query_cache_strip_comments=0
-log_slow_filter =admin,filesort,filesort_on_disk,full_join,full_scan,query_cache,query_cache_miss,tmp_table,tmp_table_on_disk
-
-END
-fi
-
-if [ "$phienbanmariadb" = "10.2" ] ; then
-cat >> "/etc/my.cnf.d/server.cnf" <<END
-
-[mariadb-10.2]
-innodb_buffer_pool_dump_at_shutdown=1
-innodb_buffer_pool_load_at_startup=1
-innodb_buffer_pool_populate=0
-performance_schema=OFF
-innodb_stats_on_metadata=OFF
-innodb_sort_buffer_size=1M
-query_cache_strip_comments=0
-log_slow_filter =admin,filesort,filesort_on_disk,full_join,full_scan,query_cache,query_cache_miss,tmp_table,tmp_table_on_disk
-
-END
-fi
 
 if [ "$phienbanmariadb" = "10.3" ] ; then
 cat >> "/etc/my.cnf.d/server.cnf" <<END
@@ -1169,8 +1110,40 @@ log_slow_filter =admin,filesort,filesort_on_disk,full_join,full_scan,query_cache
 END
 fi
 
+if [ "$phienbanmariadb" = "10.4" ] ; then
+cat >> "/etc/my.cnf.d/server.cnf" <<END
 
-    cat >> "/etc/security/limits.conf" <<END
+[mariadb-10.4]
+innodb_buffer_pool_dump_at_shutdown=1
+innodb_buffer_pool_load_at_startup=1
+innodb_buffer_pool_populate=0
+performance_schema=OFF
+innodb_stats_on_metadata=OFF
+innodb_sort_buffer_size=1M
+query_cache_strip_comments=0
+log_slow_filter =admin,filesort,filesort_on_disk,full_join,full_scan,query_cache,query_cache_miss,tmp_table,tmp_table_on_disk
+
+END
+fi
+
+if [ "$phienbanmariadb" = "10.5" ] ; then
+cat >> "/etc/my.cnf.d/server.cnf" <<END
+
+[mariadb-10.5]
+innodb_buffer_pool_dump_at_shutdown=1
+innodb_buffer_pool_load_at_startup=1
+innodb_buffer_pool_populate=0
+performance_schema=OFF
+innodb_stats_on_metadata=OFF
+innodb_sort_buffer_size=1M
+query_cache_strip_comments=0
+log_slow_filter =admin,filesort,filesort_on_disk,full_join,full_scan,query_cache,query_cache_miss,tmp_table,tmp_table_on_disk
+
+END
+fi
+
+
+cat >> "/etc/security/limits.conf" <<END
 * soft nofile 65536
 * hard nofile 65536
 nginx soft nofile 65536
@@ -1206,7 +1179,7 @@ LC_ALL=en_US.utf-8
 END
 fi
 rm -f /home/vpssim.conf
-    cat > "/home/vpssim.conf" <<END
+cat > "/home/vpssim.conf" <<END
 mainsite="vpssim.demo"
 priport="$svport"
 serverip="$svip"
@@ -1390,7 +1363,7 @@ rm -rf /root/install*
 rm -rf /root/vpssim-setup
 cat >> "/home/VPSSIM-manage-info.txt" <<END
 =========================================================================
-                           VPS MANAGE INFOMATION                         
+VPS MANAGE INFOMATION                         
 =========================================================================
 
 phpMyAdmin: http://$svip:$svport
@@ -1427,7 +1400,7 @@ fi
 #if [ -f /root/.bash_profile ]; then
 #sed -i "/.*#\ .bash_profile.*/acd /home" /root/.bash_profile
 #fi
-   cat > "/tmp/finishedemail.sh" <<END
+cat > "/tmp/finishedemail.sh" <<END
 #!/bin/bash 
 echo -e 'Subject: ECHBAY-VPSSIM - Chuc mung cai dat thanh cong $svip!
 
@@ -1451,15 +1424,15 @@ Luu Y:
 + De dat mat khau bao mat phpMyAdmin, backup files, ...: dung chuc nang [ BAT/TAT Bao Ve phpMyAdmin ] trong [ Quan Ly phpMyAdmin ]
 + De cai dat File Manager: Dung chuc nang [ Cai Dat File Manager ] 
 + Sau khi them website vao server, cai dat FTP server va tao tai khoan FTP cho tung website tren server bang chuc nang [ Quan Ly FTP Server ].
-  Mac dinh ban khong the dang nhap FTP vao server bang tai khoan root. Neu muon dang nhap, ban phai dung sFTP voi thong tin dang nhap:
-  Host: sftp://$svip  - User: root - Password: Your_password - Port: 22 (hoac port SSH ban da thay)
+Mac dinh ban khong the dang nhap FTP vao server bang tai khoan root. Neu muon dang nhap, ban phai dung sFTP voi thong tin dang nhap:
+Host: sftp://$svip  - User: root - Password: Your_password - Port: 22 (hoac port SSH ban da thay)
 + Neu server Timezone khong trung voi gio cua ban, cai dat lai time zone cho Server bang chuc nang [ Cai Dat Server Timezone ] trong [ Tien Ich - Addons ]
 + Sau khi Upload code len server. Ban phai chay chuc nang [ Fix Loi Chmod, Chown ] trong [ Tien Ich - Addons ] de thiet lap phan quyen cho website. 
-  Neu website su dung code wordpress, thiet lap phan quyen cho website bang chuc nang [ Fix loi Permission ] trong [ Wordpress Blog Tools ]
+Neu website su dung code wordpress, thiet lap phan quyen cho website bang chuc nang [ Fix loi Permission ] trong [ Wordpress Blog Tools ]
 + Tuy theo so luong website, dung luong code ma ban cau hinh lai Zend Opcache, Memcached, Redis Cache bang chuc nang [ Quan Ly Memcached ], [ Quan Ly Zend Opcache ] , [ Quan Ly Redis Cache ] cho phu hop.
 + De bao mat, moi khi co dang nhap SSH va Server, ECHBAY-VPSSIM se gui email thong bao toi dia chi email $vpssimemail .
-  Thay email hoac tat chuc nang nay bang [ BAT/TAT Email Thong Bao Login ] trong [ Tien ich - Addons ].  
-  
+Thay email hoac tat chuc nang nay bang [ BAT/TAT Email Thong Bao Login ] trong [ Tien ich - Addons ].  
+
 VPSSIM by Nguyen Oanh - http://hostingaz.vn' | exim  $vpssimemail
 END
 chmod +x /tmp/finishedemail.sh
