@@ -245,11 +245,14 @@ checkdownload_nginx_conf=`cat /tmp/nginx.conf`
 if [ -z "$checkdownload_nginx_conf" ]; then
 download_nginx_conf
 fi
-cat >> "/root/.bash_profile" <<END
-IPvpssimcheck="\$(echo \$SSH_CONNECTION | cut -d " " -f 1)"
-timeloginvpssimcheck=\$(date +"%e %b %Y, %a %r")
-echo 'Someone has IP address '\$IPvpssimcheck' login to $svip on '\$timeloginvpssimcheck'.' | mail -s 'eMail Notifications From ECHBAY-VPSSIM On $svip' ${vpssimemail}
-END
+
+# tren centos 8, mac dinh tat chuc nang gui email thong bao login
+#cat >> "/root/.bash_profile" <<END
+#IPvpssimcheck="\$(echo \$SSH_CONNECTION | cut -d " " -f 1)"
+#timeloginvpssimcheck=\$(date +"%e %b %Y, %a %r")
+#echo 'Someone has IP address '\$IPvpssimcheck' login to $svip on '\$timeloginvpssimcheck'.' | mail -s 'eMail Notifications From ECHBAY-VPSSIM On $svip' ${vpssimemail}
+#END
+
 echo "$svport" > /tmp/priport.txt
 if [ -s /etc/selinux/config ]; then
 sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config

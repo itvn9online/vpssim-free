@@ -54,6 +54,10 @@ yes | cp -rf /opt/echbay_vpssim/script/vpssim/module-nginx/${zlibversion}.tar.gz
 tar -xzxf ${zlibversion}.tar.gz
 rm -rf ${zlibversion}.tar.gz
 
+wget -q --no-check-certificate https://github.com/cloudflare/zlib/archive/gcc.amd64.zip -O zlib-cloudflare.zip
+unzip -oq zlib-cloudflare.zip
+rm -rf zlib-cloudflare.zip
+
 # /usr/local/vpssim/${pcreVersionInstall}
 rm -rf ${pcreVersionInstall}
 #wget -q --no-check-certificate https://vpssim.echbay.com/script/vpssim/module-nginx/${pcreVersionInstall}.zip

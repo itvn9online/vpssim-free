@@ -30,7 +30,7 @@ select opt in "${options[@]}" ; do
 	15) /etc/vpssim/menu/vpssim-block-exploits-sql-injections-menu;;
 	16) /etc/vpssim/menu/vpssim-chan-run-script-trong-folder-upload-menu;;
 	17) /etc/vpssim/menu/vpssim-dat-mat-khau-bao-ve-folder-website;;
-	18) /etc/vpssim/menu/vpssim-bat-tat-email-thong-bao-dang-nhap-server;;
+	18) /etc/vpssim/menu/bat-tat-email-thong-bao-dang-nhap-server;;
 	19) /etc/vpssim/menu/vpssim-bat-tat-tu-dong-chay-vpssim;;
 	20) /etc/vpssim/menu/vpssim-config-canh-bao-dung-luong-disc-trong-free-it;;
 	21) clear && /etc/vpssim/menu/tienich/vpssim-restart-service;;
