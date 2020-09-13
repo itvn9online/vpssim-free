@@ -4,7 +4,8 @@
 ECHBAY-VPSSIM là bản chỉnh sửa lại từ VPSSIM-3.8.1, đây là phiên bản cuối cùng của VPSSIM mà mình clone lại được trước khi VPSSIM tiến hành mã hóa và thương mại hóa.
 Cơ bản thì trong phiên bản ECHBAY-VPSSIM mình chủ yếu cập nhật lại một số phiên bản phần mềm trong cài đặt mặc định lên bản mới và ổn định nhất cho phù hợp với thời điểm 2020.
 
-### Lệnh Cài Đặt ECHBAY-VPSSIM Trên Centos 6 & 7:
+### Lệnh Cài Đặt ECHBAY-VPSSIM Trên Centos 6 & 7 & 8:
+### Khuyên dùng CentOS 8 để cho hiệu suất tốt nhất.
 ```
 curl -sO https://raw.githubusercontent.com/itvn9online/vpssim-free/master/install && bash install
 ```
@@ -20,6 +21,10 @@ yum -y install wget ; wget --no-check-certificate https://vpssim.echbay.com/inst
 ----------------------------------------------
 
 ### Chức Năng, Tiện Ích Và Tối Ưu VPS Của ECHBAY-VPSSIM:
+#### Nginx-1.18.0
+#### OpenSSL-1.1.1g (Hỗ trợ TLS 1.3 trên CentOS 8, các phiên bản Centos 7-- sẽ là TLS 1.2)
+#### PHP-7.2
+#### MariaDB-10.x
 
 ### Dự kiến:
 #### Nghiên cứu thêm về Brotli: https://github.com/google/ngx_brotli
