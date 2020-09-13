@@ -45,11 +45,12 @@ cd /usr/local/vpssim/nginx-${Nginx_VERSION}
 --with-mail \
 --with-mail_ssl_module \
 --with-http_gunzip_module \
---with-http_gzip_static_module \
 --with-file-aio \
+--with-pcre \
 --with-pcre-jit \
 --with-google_perftools_module \
 --with-debug \
+--with-zlib=$moduledir/${zlibversion} \
 --with-openssl=$moduledir/${opensslversion} \
 --conf-path=/etc/nginx/nginx.conf \
 --with-http_gzip_static_module \

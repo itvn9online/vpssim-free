@@ -69,10 +69,13 @@ mkdir -p /var/lib/nginx/tmp/client_body
 --with-mail_ssl_module \
 --with-pcre \
 --with-pcre-jit \
+--with-threads \
+--with-google_perftools_module \
 --with-stream=dynamic \
 --with-stream_ssl_module \
 --with-debug \
 --with-http_geoip_module \
+--with-zlib=$moduledir/${zlibversion} \
 --with-openssl=$moduledir/${opensslversion} \
 --with-cc-opt='-O2 -g -pipe -Wall -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -fexceptions -fstack-protector-strong -grecord-gcc-switches -specs=/usr/lib/rpm/redhat/redhat-hardened-cc1 -specs=/usr/lib/rpm/redhat/redhat-annobin-cc1 -m64 -mtune=generic -fasynchronous-unwind-tables -fstack-clash-protection -fcf-protection' \
 --with-ld-opt='-Wl,-z,relro -Wl,-z,now -specs=/usr/lib/rpm/redhat/redhat-hardened-ld -Wl,-E' \

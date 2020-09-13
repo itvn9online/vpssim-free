@@ -47,7 +47,6 @@ cd /usr/local/vpssim/nginx-${Nginx_VERSION}
 --with-mail \
 --with-mail_ssl_module \
 --with-http_gunzip_module \
---with-http_gzip_static_module \
 --with-file-aio \
 --with-pcre=$moduledir/${pcreVersionInstall} \
 --with-pcre-jit \
