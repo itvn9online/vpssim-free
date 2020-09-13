@@ -52,8 +52,10 @@ fi
 
 if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then
 /opt/echbay_vpssim/script/vpssim/menu/nginx-setup6
-else
+elif [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then
 /opt/echbay_vpssim/script/vpssim/menu/nginx-setup7
+else
+/opt/echbay_vpssim/script/vpssim/menu/nginx-setup8
 fi
 
 cd ~
