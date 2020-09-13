@@ -64,7 +64,6 @@ cd /usr/local/vpssim/nginx-${Nginx_VERSION}
 --add-module=$moduledir/ngx_cache_purge-master \
 --add-module=$moduledir/ngx_devel_kit-master \
 --add-module=$moduledir/set-misc-nginx-module-master \
---add-module=$moduledir/srcache-nginx-module-master \
 --add-module=$moduledir/ngx_http_substitutions_filter_module-master \
 --add-module=$moduledir/headers-more-nginx-module-master \
 --add-module=$moduledir/ngx_http_redis-0.3.8 
@@ -81,6 +80,9 @@ cd /usr/local/vpssim/nginx-${Nginx_VERSION}
 #./configure: error: the HTTP XSLT module requires the libxml2/libxslt
 #libraries. You can either do not enable the module or install the libraries.
 #--with-http_xslt_module \
+
+# /usr/local/vpssim/srcache-nginx-module-master/config: line 30: [: !=: unary operator expected
+#--add-module=$moduledir/srcache-nginx-module-master \
 
 #
 
