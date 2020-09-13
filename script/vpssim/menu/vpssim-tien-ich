@@ -25,7 +25,7 @@ select opt in "${options[@]}" ; do
 	10) /etc/vpssim/menu/tienich/vpssim-before-ioncube;;
 	11) /etc/vpssim/menu/tienich/vpssim-cai-dat-htop;;
 	12) /etc/vpssim/menu/vpssim-sao-luu-sys;;
-	13) /etc/vpssim/menu/vpssim-thay-doi-port-ssh;;
+	13) /etc/vpssim/menu/thay-doi-port-ssh;;
 	14) /etc/vpssim/menu/vpssim-bat-tat-ssh-time-out;;
 	15) /etc/vpssim/menu/vpssim-block-exploits-sql-injections-menu;;
 	16) /etc/vpssim/menu/vpssim-chan-run-script-trong-folder-upload-menu;;

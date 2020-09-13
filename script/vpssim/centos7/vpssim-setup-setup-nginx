@@ -1549,7 +1549,7 @@ echo "==========================================================================
 echo "Setup CSF Firewall ... "
 echo "=========================================================================="
 sleep 3
-/etc/vpssim/menu/vpssim-cai-csf-firewall-cai-dat-CSF-FIREWALL
+/etc/vpssim/menu/cai-csf-firewall-cai-dat-CSF-FIREWALL
 #systemctl start memcached.service
 #systemctl enable memcached.service 
 rm -rf /root/install*

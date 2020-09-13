@@ -70,8 +70,18 @@ if [[ ! ${portcu} =~ ^[0-9]+$ ]] ;then
  echo "Port $sshport" >> /etc/ssh/sshd_config
 echo "-------------------------------------------------------------------------"
 echo "please wait..."; sleep 1
-/etc/vpssim/menu/vpssim-cai-dat-remove-csf-ssh-port
+/etc/vpssim/menu/cai-dat-remove-csf-ssh-port
+
+iptables -I INPUT -p tcp --dport $sshport -j ACCEPT
+service iptables save
+if [ ! "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then
+systemctl restart iptables.service
+/bin/systemctl restart sshd.service
+else
+service iptables restart
 service sshd restart
+fi
+
 clear
 echo "========================================================================="
 echo "Thay port SSH thanh cong ! Port SSH moi la $sshport"
@@ -85,7 +95,8 @@ echo "-------------------------------------------------------------------------"
 echo "Host: sftp://$serverip, User & Pass: Root's info , Port: $sshport" 
 /etc/vpssim/menu/vpssim-tien-ich
 exit
-fi 
+fi
+
 cat > "/tmp/changeportssh" <<END
 sed -i 's/Port $portcu/Port $sshport/g' /etc/ssh/sshd_config
 END
@@ -94,8 +105,17 @@ chmod +x /tmp/changeportssh
 rm -rf /tmp/changeportssh
 echo "-------------------------------------------------------------------------"
 echo "please wait..."; sleep 1
-/etc/vpssim/menu/vpssim-cai-dat-remove-csf-ssh-port
+/etc/vpssim/menu/cai-dat-remove-csf-ssh-port
+
+iptables -I INPUT -p tcp --dport $sshport -j ACCEPT
+service iptables save
+if [ ! "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then
+systemctl restart iptables.service
+/bin/systemctl restart sshd.service
+else
+service iptables restart
 service sshd restart
+fi
 clear
 echo "========================================================================="
 echo "Thay port SSH thanh cong ! Port SSH moi la $sshport"

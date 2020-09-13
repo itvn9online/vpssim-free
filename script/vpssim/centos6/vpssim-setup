@@ -25,6 +25,8 @@ cpufreq=$( awk -F: ' /cpu MHz/ {freq=$2} END {print freq}' /proc/cpuinfo )
 svram=$( free -m | awk 'NR==2 {print $2}' )
 svhdd=$( df -h | awk 'NR==2 {print $2}' )
 svswap=$( free -m | awk 'NR==4 {print $2}' )
+free -m
+df -h
 echo "=========================================================================="
 echo "Thong Tin Server:  "
 echo "--------------------------------------------------------------------------"
@@ -1458,7 +1460,7 @@ clear
 #echo "Setup CSF Firewall ... "
 #echo "=========================================================================="
 sleep 3
-#/etc/vpssim/menu/vpssim-cai-csf-firewall-cai-dat-CSF-FIREWALL
+#/etc/vpssim/menu/cai-csf-firewall-cai-dat-CSF-FIREWALL
 #chkconfig memcached on
 #service memcached start
 rm -rf /root/install*

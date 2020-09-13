@@ -11,5 +11,5 @@ yes | cp -rf /etc/csf/csf.conf /etc/vpssim/csf.conf_bak
 cd /etc/csf
 sh uninstall.sh
 cd
-/etc/vpssim/menu/vpssim-cai-csf-firewall-cai-dat-CSF-FIREWALL
+/etc/vpssim/menu/cai-csf-firewall-cai-dat-CSF-FIREWALL
 fi

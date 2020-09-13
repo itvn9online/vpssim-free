@@ -9,7 +9,7 @@ else
 echo "-------------------------------------------------------------------------"
 echo "Install CSF Firewall...."
 sleep 2
-/etc/vpssim/menu/vpssim-cai-csf-firewall-cai-dat-CSF-FIREWALL
+/etc/vpssim/menu/cai-csf-firewall-cai-dat-CSF-FIREWALL
 
 clear
 if [ -f /etc/csf/csf.conf ]; then
