@@ -106,7 +106,8 @@ echo "-------------------------------------------------------------------------"
 echo "Please wait ..."
 sleep 3
 change_phpmyadmin_run
-if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+#if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+if [ ! "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
 systemctl restart php-fpm.service
 systemctl restart nginx.service
 else

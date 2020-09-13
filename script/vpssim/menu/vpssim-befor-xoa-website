@@ -17,7 +17,8 @@ service nginx start
 fi
 fi
 
-if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+#if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+if [ ! "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
 	if [ "`systemctl is-active nginx.service`" == "active" ]; then
 /etc/vpssim/menu/vpssim-xoa-website
 	else

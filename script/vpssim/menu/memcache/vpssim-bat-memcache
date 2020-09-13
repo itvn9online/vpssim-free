@@ -7,7 +7,8 @@ echo "Please wait....";sleep 1
 chkconfig memcached on
 service memcached start
 fi
-if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+#if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+if [ ! "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
 echo "-------------------------------------------------------------------------"
 echo "Please wait....";sleep 1
 systemctl start memcached.service

@@ -20,7 +20,8 @@ echo "Ban khong the install / Remove imagick"
 fi
 fi
 
-if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+#if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+if [ ! "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
 	if [ "`systemctl is-active php-fpm.service`" == "active" ]; then
 /etc/vpssim/menu/tienich/vpssim-imagick-cai-dat-remove
 	else

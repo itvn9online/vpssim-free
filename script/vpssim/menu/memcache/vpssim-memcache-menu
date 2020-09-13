@@ -10,7 +10,8 @@ if [ "$(/sbin/service memcached status | awk 'NR==1 {print $3}')" == "stopped" ]
 options=("Enable Memcached" "Restart Memcached" "Config Memcached" "Clear Memcached" )
 fi
 fi
-if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+#if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+if [ ! "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
 if [ "`systemctl is-active memcached.service`" == "active" ]; then
 options=("Disable Memcached" "Restart Memcached" "Config Memcached" "Clear Memcached" )
 else
@@ -32,7 +33,8 @@ echo "                      Memcached Status: Stopped"
 fi
 fi
 
-if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+#if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+if [ ! "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
 if [ "`systemctl is-active memcached.service`" == "active" ]; then
 echo "        Memcached Status: Running - Configured RAM Usage: $(/bin/systemctl status  memcached.service | awk 'NR==6 {print $8}') MB"
 else

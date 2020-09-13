@@ -49,7 +49,8 @@ echo "PHP-FPM can not restart! Maybe you did a wrong config  !"
 exit
 fi
 fi
-if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+#if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+if [ ! "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
 test_php=$(/bin/systemctl status  php-fpm.service | awk 'NR==3 {print $2}')
 if [ "$test_php" == "inacctive" ]; then
 clear
@@ -59,7 +60,8 @@ echo "PHP-FPM can not restart! Maybe you did a wrong config  !"
 exit
 fi
 fi
-if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+#if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+if [ ! "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
 test_php=$(/bin/systemctl status  php-fpm.service | awk 'NR==3 {print $2}')
 if [ "$test_php" == "failed" ]; then
 clear

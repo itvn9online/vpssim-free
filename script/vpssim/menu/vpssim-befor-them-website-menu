@@ -45,7 +45,8 @@ sleep 4 ;
 fi
 fi
 
-if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+#if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+if [ ! "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
 	if [ "`systemctl is-active nginx.service`" == "active" ]; then
 clear
 /etc/vpssim/menu/vpssim-them-website-menu
@@ -117,7 +118,8 @@ sleep 4 ;
 fi
 fi
 
-if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+#if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+if [ ! "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
 if [ "`systemctl is-active php-fpm.service`" == "active" ]; then
 check_nginx_service
 	else

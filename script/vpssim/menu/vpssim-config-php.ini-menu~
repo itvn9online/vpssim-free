@@ -101,7 +101,8 @@ fi
 echo "-------------------------------------------------------------------------"
 echo "Please wait ..."; sleep 2
 sed -i "s/.*max_execution_time\ =.*/max_execution_time = ${maxexecutiontime}/g" /etc/php.ini
-if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+#if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+if [ ! "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
 systemctl restart php-fpm.service
 else
 service php-fpm restart
@@ -150,7 +151,8 @@ fi
 echo "-------------------------------------------------------------------------"
 echo "Please wait ..."; sleep 2
 sed -i "s/.*max_input_time\ =.*/max_input_time = ${maxinputtime}/g" /etc/php.ini
-if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+#if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+if [ ! "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
 systemctl restart php-fpm.service
 else
 service php-fpm restart
@@ -198,7 +200,8 @@ fi
 echo "-------------------------------------------------------------------------"
 echo "Please wait ..."; sleep 2
 sed -i "s/.*memory_limit\ =.*/memory_limit = ${memorylimit}M/g" /etc/php.ini
-if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+#if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+if [ ! "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
 systemctl restart php-fpm.service
 else
 service php-fpm restart
@@ -249,7 +252,8 @@ echo "Please wait ..."; sleep 5
 sed -i "s/.*upload_max_filesize\ =.*/upload_max_filesize = ${uploadmaxfilesize}M/g" /etc/php.ini
 sed -i "s/.*post_max_size\ =.*/post_max_size = ${uploadmaxfilesize}M/g" /etc/php.ini
 sed -i "s/.*client_max_body_size.*/client_max_body_size ${uploadmaxfilesize}m;/g" /etc/nginx/nginx.conf 
-if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+#if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+if [ ! "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
 systemctl restart php-fpm.service
 systemctl reload nginx
 else
@@ -297,7 +301,8 @@ fi
 echo "-------------------------------------------------------------------------"
 echo "Please wait ..."; sleep 2
 sed -i "s/.*max_input_vars\ =.*/max_input_vars = ${maxinputvars}/g" /etc/php.ini
-if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+#if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+if [ ! "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
 systemctl restart php-fpm.service
 else
 service php-fpm restart
@@ -531,7 +536,8 @@ ldap.max_links = -1
 [dba]
 
 END
-if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+#if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+if [ ! "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
 systemctl restart php-fpm.service
 else
 service php-fpm restart

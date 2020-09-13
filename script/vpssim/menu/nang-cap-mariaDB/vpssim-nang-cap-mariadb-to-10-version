@@ -93,7 +93,8 @@ chkconfig --levels 235 mysql on
 service mysql start
 mysql_upgrade -p$mariadbpass
 fi
-if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then
+#if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then
+if [ ! "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
 systemctl stop mariadb.service
 service mysql stop
 rm -rf /etc/yum.repos.d/mariadb*

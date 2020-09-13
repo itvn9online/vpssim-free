@@ -149,7 +149,8 @@ echo "Sorry, There's an error on changing PHP version."
 /etc/vpssim/menu/vpssim-update-upgrade-service-menu
 fi
 fi
-if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+#if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+if [ ! "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
 if [ ! "`systemctl is-active php-fpm.service`" == "active" ]; then
 clear
 echo "========================================================================="

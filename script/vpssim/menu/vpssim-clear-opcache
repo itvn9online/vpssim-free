@@ -5,7 +5,8 @@ if [ -f /etc/php.d/opcache.ini ]; then
 if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
 service php-fpm restart
 fi
-if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+#if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+if [ ! "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
 systemctl restart php-fpm.service
 fi
 
@@ -22,7 +23,8 @@ exit
 fi
 fi
 
-if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+#if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+if [ ! "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
 test_php=$(/bin/systemctl status  php-fpm.service | awk 'NR==3 {print $2}')
 if [ "$test_php" == "inacctive" ]; then
 clear
@@ -35,7 +37,8 @@ exit
 fi
 fi
 
-if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+#if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+if [ ! "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
 test_php=$(/bin/systemctl status  php-fpm.service | awk 'NR==3 {print $2}')
 if [ "$test_php" == "failed" ]; then
 clear

@@ -96,7 +96,11 @@ echo "--------------------------------------------------------------------------
 echo "Please wait ..."
 sleep 2
 #wget -q --no-check-certificate https://vpssim.echbay.com/script/vpssim/centos${current_os_version}/vpssim-setup && chmod +x vpssim-setup && clear && ./vpssim-setup
+if [ "$current_os_version" == "6" ]; then
 cd /opt/echbay_vpssim/script/vpssim/centos${current_os_version} ; chmod +x vpssim-setup ; clear ; bash vpssim-setup
+else
+cd /opt/echbay_vpssim/script/vpssim/centos7 ; chmod +x vpssim-setup ; clear ; bash vpssim-setup
+fi
 else 
 rm -rf /root/install* && rm -rf /root/vpssim* && clear
 fi

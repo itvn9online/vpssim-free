@@ -9,7 +9,8 @@ if [ "$(/sbin/service memcached status | awk 'NR==1 {print $3}')" == "stopped" ]
 options=("Enable" "Restart" "Config Memcached" )
 fi
 fi
-if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+#if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+if [ ! "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
 if [ "`systemctl is-active memcached.service`" == "active" ]; then
 options=("Disable" "Restart" "Config Memcached" )
 fi

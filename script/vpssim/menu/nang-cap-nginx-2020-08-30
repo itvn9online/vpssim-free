@@ -146,7 +146,8 @@ rm -rf /usr/local/vpssim/nginx*
 wget --no-check-certificate http://nginx.org/download/nginx-${Nginx_VERSION}.tar.gz
 tar -xzf nginx-${Nginx_VERSION}.tar.gz
 rm -rf /usr/local/vpssim/nginx-${Nginx_VERSION}.tar.gz
-if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+#if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+if [ ! "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
 #rm -rf /tmp/nginx.conf
 #cp /etc/nginx/nginx.conf /tmp/nginx.conf
 cd /usr/local/vpssim/nginx-${Nginx_VERSION}
@@ -294,7 +295,8 @@ rm -rf /usr/local/vpssim/nginx-${Nginx_VERSION}
 wget -q --no-check-certificate http://nginx.org/download/nginx-${Nginx_VERSION}.tar.gz
 tar -xzf nginx-${Nginx_VERSION}.tar.gz
 cd
-if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+#if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+if [ ! "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
 #rm -rf /tmp/nginx.conf
 #cp /etc/nginx/nginx.conf /tmp/nginx.conf
 cd /usr/local/vpssim/nginx-${Nginx_VERSION}
@@ -437,7 +439,8 @@ sed -i 's/.*ngx_pagespeed.conf.*/#include \/etc\/nginx\/ngx_pagespeed.conf; (Ngi
 if [ -f /etc/nginx/ngx_pagespeed.conf ]; then
 rm -rf /etc/nginx/ngx_pagespeed.conf
 fi
-if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+#if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+if [ ! "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
 systemctl restart nginx.service
 else
 service nginx restart

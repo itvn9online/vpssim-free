@@ -11,7 +11,8 @@ if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6
 	fi
 fi
 
-if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+#if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+if [ ! "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
 	if [ "`systemctl is-active memcached.service`" == "active" ]; then
 		echo "Memcached: Running | Ram Usage: `grep CACHESIZE= /etc/sysconfig/memcached | grep -o '[0-9]*'` MB"  > /tmp/vpssim-memcached-info.txt
 	else
@@ -45,7 +46,8 @@ echo "NetData: Installed But Disable | Domain: $netdatasite" > /tmp/vpssim-netda
 	fi
 fi
 
-if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then
+#if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then
+if [ ! "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
 	if [ "`systemctl is-active netdata.service`" == "active" ]; then
 echo "NetData: Installed & Enable | Domain: $netdatasite" > /tmp/vpssim-netdata-info.txt
 	else
@@ -153,7 +155,8 @@ echo "Nginx Status: Stopped" > /tmp/vpssim-nginx-info.txt
 fi
 fi
 
-if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+#if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+if [ ! "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
 	if [ "`systemctl is-active nginx.service`" == "active" ]; then
 
 echo "Nginx Status: Running" > /tmp/vpssim-nginx-info.txt
@@ -219,7 +222,8 @@ sleep 4 ;
 fi
 fi
 
-if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+#if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+if [ ! "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
 if [ "`systemctl is-active php-fpm.service`" == "active" ]; then
 	echo "PHP Status: Running" > /tmp/vpssim-php-info.txt
 	echo "PHP version: $(php -i | grep 'PHP Version' | awk 'NR==1 {print $4}') " >> /tmp/vpssim-php-info.txt
