@@ -39,7 +39,13 @@ mkdir -p /etc/ssl/private
 fi
 yes | cp -rf /etc/pki/pure-ftpd/pure-ftpd.pem /etc/ssl/private/pure-ftpd.pem
 fi
- 
+
+if [ ! -f /etc/vpssim/pure-ftpd.pem ]; then
+if [ -f /etc/pki/pure-ftpd/pure-ftpd.pem ]; then
+yes | cp -rf /etc/pki/pure-ftpd/pure-ftpd.pem /etc/vpssim/pure-ftpd.pem
+fi
+fi
+
 if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
 chkconfig pure-ftpd on
 service pure-ftpd start

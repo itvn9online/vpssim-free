@@ -19,7 +19,7 @@ select opt in "${options[@]}" "Thoat"; do
     2) /etc/vpssim/menu/vpssim-xoa-ftp-user;;
     3) /etc/vpssim/menu/vpssim-thay-mat-khau-user-ftp;;
     4) /etc/vpssim/menu/vpssim-view-userftp-password;;
-       5) /etc/vpssim/menu/vpssim-remove-ftp-server;;
+       5) /etc/vpssim/menu/ftp-server-remove;;
     0) clear && vpssim;;
 
 $(( ${#options[@]}+1 )) ) echo "";  clear && vpssim;;
