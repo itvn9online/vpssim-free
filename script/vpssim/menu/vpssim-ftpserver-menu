@@ -63,7 +63,7 @@ read -p "Nhan [Enter] de tiep tuc ..."
 clear
 fi
 if [ ! -f /etc/pure-ftpd/pure-ftpd.conf ]; then
-/etc/vpssim/menu/vpssim-ftpserver-menu-khong
+/etc/vpssim/menu/ftpserver-menu-khong
 else
-/etc/vpssim/menu/vpssim-ftpserver-menu-co
+/etc/vpssim/menu/ftpserver-menu-co
 fi
