@@ -9,8 +9,8 @@ echo $pcreVersionInstall
 echo $Nginx_VERSION
 echo "Nginx-Setup8"
 #exit
-echo "Install after 10s"
-sleep 10
+echo "Install after 3s"
+sleep 3
 
 
 /opt/echbay_vpssim/script/vpssim/menu/nginx-setup-download
