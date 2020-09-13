@@ -57,9 +57,9 @@ rm -rf /root/vpssim*
 #prompt="Nhap lua chon cua ban: "
 #options=("Tieng Viet" "Tieng Anh" "Huy Bo")
 echo "========================================================================="
-echo "ECHBAY-VPSSIM Ho Tro Centos 6 (32 - 64 Bit) & Centos 7"
+echo "ECHBAY-VPSSIM Ho Tro Centos 6 (32 - 64 Bit) & Centos 7 & Centos 8"
 echo "-------------------------------------------------------------------------"
-echo "Ban nen su dung Centos 6 - 64 bit de Server co hieu suat tot nhat."
+echo "Ban nen su dung Centos 8 - 64 bit de Server co hieu suat tot nhat."
 echo "-------------------------------------------------------------------------"
 #echo "ECHBAY-VPSSIM ho tro 2 ngon ngu: Tieng Anh va Tieng Viet. "
 #echo "-------------------------------------------------------------------------"
