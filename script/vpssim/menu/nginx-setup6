@@ -8,6 +8,7 @@ echo $zlibversion
 echo $pcreVersionInstall
 echo $Nginx_VERSION
 #exit
+echo "Install after 10s"
 sleep 10
 
 
