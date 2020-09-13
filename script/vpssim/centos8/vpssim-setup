@@ -409,10 +409,10 @@ sleep 3
 	mem_apc=$(calc $ramforphpnginx/5)M
 	buff_size=$(calc $ramformariadb/10*8)M
 	log_size=$(calc $ramformariadb/10*2)M
-systemctl enable  exim.service 
-systemctl enable  syslog-ng.service
-systemctl start  exim.service 
-systemctl start  syslog-ng.service
+systemctl enable exim.service 
+systemctl enable syslog-ng.service
+systemctl start exim.service 
+systemctl start syslog-ng.service
 systemctl disable httpd.service
 systemctl enable nginx.service 
 systemctl start nginx.service 
