@@ -25,8 +25,10 @@ yum -y install wget ; wget --no-check-certificate https://vpssim.echbay.com/inst
 #### Nghiên cứu thêm về Brotli: https://github.com/google/ngx_brotli
 Brotli là một thuật toán nén mã nguồn mở mới được Google phát triển như là một sự thay thế cho Gzip, Zopfli và Deflate. Theo Google việc nén bằng Brotli đã cho thấy file được nén có dung lượng nhỏ hơn tới 26% so với các phương pháp nén hiện tại, điều này đồng nghĩa với việc các website khi được nén bởi Brotli sẽ giúp người dùng truy cập website nhanh hơn và đồng thời giảm tải cho Server.
 
+----------------------------------------------
+
 ### Dự kiến:
-##### Có thể tham khảo thêm zlib của cloudflare: https://github.com/cloudflare/zlib - thấy ở đây cập nhật cũng mới hơn nhưng chả rõ như nào! để rảnh thì test xem có hay ho gì không.
+#### Có thể tham khảo thêm zlib của cloudflare: https://github.com/cloudflare/zlib - thấy ở đây cập nhật cũng mới hơn nhưng chả rõ như nào! để rảnh thì test xem có hay ho gì không.
 
 ----------------------------------------------
 
