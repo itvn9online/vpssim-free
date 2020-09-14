@@ -28,10 +28,10 @@ yum -y install wget ; wget --no-check-certificate https://vpssim.echbay.com/inst
 
 ### Danh sách các phiên bản đã qua thử nghiệm và có kết quả thành công:
 #### 2020/09/11:
-CentOS-7 x64
-Nginx-1.18.0 + OpenSSL-1.1.1g + Prce-8.44 + Zlib-1.2.11
-PHP-7.2
-MariaDB-10.1
+- CentOS-7 x64
+- Nginx-1.18.0 + OpenSSL-1.1.1g + Prce-8.44 + Zlib-1.2.11
+- PHP-7.2
+- MariaDB-10.1
 
 ----------------------------------------------
 
