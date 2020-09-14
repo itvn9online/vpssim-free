@@ -4,8 +4,17 @@
 ECHBAY-VPSSIM là bản chỉnh sửa lại từ VPSSIM-3.8.1, đây là phiên bản cuối cùng của VPSSIM mà mình clone lại được trước khi VPSSIM tiến hành mã hóa và thương mại hóa.
 Cơ bản thì trong phiên bản ECHBAY-VPSSIM mình chủ yếu cập nhật lại một số phiên bản phần mềm trong cài đặt mặc định lên bản mới và ổn định nhất cho phù hợp với thời điểm 2020.
 
+### Phiên bản hệ điều hành khuyên dùng:
+#### Khuyên dùng CentOS 7 x64 để cho hiệu suất tốt nhất.
+#### CentOS 8 x64 (MỚI và đang thử nghiệm).
+#### VPSSIM được phát triển trên phiên bản CentOS 6 x64, do ECHBAY-VPSSIM kế thừa mã nguồn của VPSSIM nên ECHBAY-VPSSIM cũng hoạt động tốt trên CentOS 6 x64. Tuy nhiên, về lâu dài thì các phiên bản cũ sẽ trờ nên lỗi thời, nên ECHBAY-VPSSIM chỉ phát triển từ CentOS 7 & 8.
+
+----------------------------------------------
+
+### Danh sách các phiên bản đã qua thử nghiệm và có kết quả thành công:
+#### 2020/09/11: CentOS-7 Nginx-1.18.0 OpenSSL-1.1.1g PHP-7.2 MariaDB-10.1: DONE
+
 ### Lệnh Cài Đặt ECHBAY-VPSSIM Trên Centos 6 & 7 & 8:
-### Khuyên dùng CentOS 8 để cho hiệu suất tốt nhất.
 ```
 curl -sO https://raw.githubusercontent.com/itvn9online/vpssim-free/master/install && bash install
 ```
@@ -17,17 +26,6 @@ curl -sO https://vpssim.echbay.com/install && bash install
 ```
 yum -y install wget ; wget --no-check-certificate https://vpssim.echbay.com/install ; chmod +x install ; bash install
 ```
-
-----------------------------------------------
-
-### Danh sách các phiên bản đã qua thử nghiệm và có kết quả thành công:
-#### 2020/09/11: CentOS-7 Nginx-1.18.0 OpenSSL-1.1.1g PHP-7.2 MariaDB-10.1: DONE
-
-----------------------------------------------
-
-### Phiên bản hệ điều hành khuyên dùng: CentOS 7 x64 (ổn định).
-### Phiên bản hệ điều hành khuyên dùng: CentOS 8 x64 (MỚI và đang thử nghiệm).
-#### VPSSIM được phát triển trên phiên bản CentOS 6 x64, do ECHBAY-VPSSIM kế thừa mã nguồn của VPSSIM nên ECHBAY-VPSSIM cũng hoạt động tốt trên CentOS 6 x64. Tuy nhiên, về lâu dài thì các phiên bản cũ sẽ trờ nên lỗi thời, nên ECHBAY-VPSSIM chỉ phát triển từ CentOS 7 & 8.
 
 ----------------------------------------------
 
