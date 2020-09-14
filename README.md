@@ -5,9 +5,9 @@ ECHBAY-VPSSIM là bản chỉnh sửa lại từ VPSSIM-3.8.1, đây là phiên 
 Cơ bản thì trong phiên bản ECHBAY-VPSSIM mình chủ yếu cập nhật lại một số phiên bản phần mềm trong cài đặt mặc định lên bản mới và ổn định nhất cho phù hợp với thời điểm 2020.
 
 ### Phiên bản hệ điều hành khuyên dùng:
-#### Khuyên dùng CentOS 7 x64 để cho hiệu suất tốt nhất.
-#### CentOS 8 x64 (MỚI và đang thử nghiệm).
-#### VPSSIM được phát triển trên phiên bản CentOS 6 x64, do ECHBAY-VPSSIM kế thừa mã nguồn của VPSSIM nên ECHBAY-VPSSIM cũng hoạt động tốt trên CentOS 6 x64. Tuy nhiên, về lâu dài thì các phiên bản cũ sẽ trờ nên lỗi thời, nên ECHBAY-VPSSIM chỉ phát triển từ CentOS 7 & 8.
+#### - CentOS 7 x64: Khuyên dùng để cho hiệu suất tốt nhất. Mã nguồn ECHBAY-VPSSIM hiện tại đang phát triển chính trên CentOS 7 x64.
+#### - CentOS 8 x64: MỚI và đang thử nghiệm. Tương lai gần ECHBAY-VPSSIM cũng sẽ phát triển song song cả trên CentOS 8 x64, hiện tại mới đang thử nghiệm.
+#### - CentOS 6 x64: VPSSIM được phát triển trên phiên bản CentOS 6 x64, do ECHBAY-VPSSIM kế thừa mã nguồn của VPSSIM nên ECHBAY-VPSSIM cũng hoạt động tốt trên CentOS 6 x64. Tuy nhiên, về lâu dài thì các phiên bản cũ sẽ trờ nên lỗi thời, nên ECHBAY-VPSSIM chỉ phát triển từ CentOS 7 & 8.
 
 ----------------------------------------------
 
