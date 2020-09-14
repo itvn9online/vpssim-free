@@ -104,3 +104,4 @@ Brotli là một thuật toán nén mã nguồn mở mới được Google phát
 #### Facebok: https://www.facebook.com/ech.bay/
 #### Email: itvn9online@yahoo.com
 #### Website: https://echbay.com/
+#### [Mã HTML cho tệp README.md](https://docs.github.com/en/github/writing-on-github/basic-writing-and-formatting-syntax)
