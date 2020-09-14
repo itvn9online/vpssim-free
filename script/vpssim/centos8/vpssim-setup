@@ -90,7 +90,7 @@ bash /root/vpssim-setup
 exit
 fi
 prompt="Nhap lua chon cua ban: "
-options=("MariaDB 10.3" "MariaDB 10.4" "MariaDB 10.5")
+options=("MariaDB 10.3 (Recommendations)" "MariaDB 10.4" "MariaDB 10.5")
 echo "=========================================================================="
 echo "Lua Chon Cai Dat Phien Ban MariaDB  "
 echo "=========================================================================="
