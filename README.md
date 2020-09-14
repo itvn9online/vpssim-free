@@ -27,7 +27,7 @@ yum -y install wget ; wget --no-check-certificate https://vpssim.echbay.com/inst
 ----------------------------------------------
 
 ### Danh sách các phiên bản kết hợp đã qua quá trình cài đặt thử nghiệm thành công:
-> Với `CentOS 6 x64` đã chạy thực nghiệm từ nhiều năm nay và cho kết quả ổn định, nên ở mục này chủ yếu thống kê cho phiên bản CentOS 7 & 8.
+> Với `CentOS 6 x64` đã chạy thực nghiệm từ nhiều năm nay và cho kết quả ổn định, nên ở mục này chủ yếu thống kê cho phiên bản CentOS 7 & 8
 
 > 2020/09/11
 - [x] CentOS-7 x64
