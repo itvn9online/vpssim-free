@@ -406,6 +406,7 @@ sleep 30
 #exit
 
 ############################
+#sudo yum makecache fast
 sudo yum -y install exim syslog-ng cronie cronie-anacron
 sudo yum -y install MariaDB-client MariaDB-common MariaDB-compat MariaDB-devel MariaDB-server MariaDB-shared perl-DBD-MySQL
 #yum-config-manager --enable remi-php56

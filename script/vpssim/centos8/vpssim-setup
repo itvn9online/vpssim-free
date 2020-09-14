@@ -373,6 +373,7 @@ cd
 #sleep 30
 #exit
 
+sudo yum makecache fast
 sudo yum search mariadb
 sudo yum info mariadb
 #sudo dnf -y install MariaDB-client MariaDB-common MariaDB-compat MariaDB-devel MariaDB-server MariaDB-shared perl-DBD-MySQL
