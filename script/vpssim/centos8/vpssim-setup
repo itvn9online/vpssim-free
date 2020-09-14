@@ -101,11 +101,14 @@ case "$REPLY" in
 	1) mariadbversion="10.3"; break;;
 	2) mariadbversion="10.4"; break;;
 	3) mariadbversion="10.5"; break;;
+	0) mariadbversion="10.3"; break;;
 	*) echo "Ban nhap sai ! Ban vui long chon so trong danh sach";continue;;
 	esac  
 done
 
-if [ "$mariadbversion" = "10.4" ]; then
+if [ "$mariadbversion" = "10.3" ]; then
+phienbanmariadb=10.3
+elif [ "$mariadbversion" = "10.4" ]; then
 phienbanmariadb=10.4
 elif [ "$mariadbversion" = "10.5" ]; then
 phienbanmariadb=10.5
