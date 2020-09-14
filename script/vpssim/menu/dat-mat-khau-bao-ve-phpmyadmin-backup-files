@@ -1,9 +1,11 @@
 #!/bin/sh
 . /home/vpssim.conf
 . /etc/vpssim/pwprotect.default
+
 if [ ! -d /etc/nginx/pwprotect ]; then
 mkdir -p /etc/nginx/pwprotect
 fi
+
 if [ ! -f /etc/nginx/.htpasswd ]; then
 clear
 echo "========================================================================="

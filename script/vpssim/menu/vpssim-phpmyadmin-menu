@@ -53,7 +53,7 @@ select opt in "${options[@]}" ; do
     3) /etc/vpssim/menu/tienich/vpssim-dong-phpmyadmin-port;;
     4) /etc/vpssim/menu/tienich/vpssim-change-port-bi-mat;;
     #5) /etc/vpssim/menu/vpssim-hien-link-phpmyadmin;;
-    5) /etc/vpssim/menu/vpssim-dat-mat-khau-bao-ve-phpmyadmin-backup-files;;
+    5) /etc/vpssim/menu/dat-mat-khau-bao-ve-phpmyadmin-backup-files;;
     6) clear && /bin/vpssim;;
     0) clear && vpssim;;
     
