@@ -27,7 +27,7 @@ yum -y install wget ; wget --no-check-certificate https://vpssim.echbay.com/inst
 ----------------------------------------------
 
 ### Danh sách các phiên bản đã qua thử nghiệm và có kết quả thành công:
-#### 2020/09/11:
+> 2020/09/11
 - [x] CentOS-7 x64
 - [x] Nginx-1.18.0 + OpenSSL-1.1.1g + Prce-8.44 + Zlib-1.2.11
 - [x] PHP-7.2
@@ -51,8 +51,8 @@ Brotli là một thuật toán nén mã nguồn mở mới được Google phát
 
 ----------------------------------------------
 
-> 2020/09/11
 ### Varnish Cache
+> 2020/09/11
 #### Thêm chức năng cài đặt Varnish Cache: https://packagecloud.io/varnishcache/
 #### Ngoài việc sử dụng ECHBAY-VPSSIM làm VPS chạy website thông thường, giờ đây bạn cũng có thể sử dụng để làm VPS chạy Varnish Cache rất tiện dụng. Hiện tại mình đang chạy thành công trên Varnish 4.1, bản 6.xx mới hơn chút xíu nhưng mình chưa thử nghiệm ngon lành, nên khuyên dùng vẫn là Varnish 4.1
 #### Mã thực thi: https://github.com/itvn9online/vpssim-free/tree/master/script/vpssim/menu/varnish
@@ -61,16 +61,16 @@ Brotli là một thuật toán nén mã nguồn mở mới được Google phát
 
 ----------------------------------------------
 
-### 2020/09/01:
 ### OpenSSL
+> 2020/09/01
 #### Cập nhật OpenSSL lên bản mới nhất và build nginx từ bản này: https://linuxscriptshub.com/update-openssl-1-1-0-centos-6-9-7-0/
 #### Mã thực thi: https://github.com/itvn9online/vpssim-free/blob/master/script/vpssim/menu/nang-cap-openssl
 #### Cách sử dụng: Trong VPSSIM menu -> 26) Update System -> 7) Thay phien phien ban OpenSSL
 
 ----------------------------------------------
 
-### 2020/09/01:
 ### nginx
+> 2020/09/01
 #### Nguồn cài đặt: https://github.com/itvn9online/vpssim-free/blob/master/script/vpssim/nginx-setup.conf
 #### - Cài đặt nginx-1.18.0, đây là phiên bản ổn định và mới nhất của nginx tính đến thời điểm hiện tại, kết hợp với openssl-1.1.1g thay cho bản openssl cũ của VPSSIM, phiên bản này mới hỗ trợ đầy đủ HTTP/2.
 ##### + Phiên bản nginx được xem và cập nhật tại: http://nginx.org/en/download.html . Mặc định mình chỉ chọn phiên bản Stable version, các bản Mainline là đang phát triển nên không chọn.
@@ -80,12 +80,12 @@ Brotli là một thuật toán nén mã nguồn mở mới được Google phát
 
 ----------------------------------------------
 
-### 2020/08/29:
+> 2020/08/29
 #### Loại bỏ phiên bản MariaDB 5 do có vẻ nó đã lỗi thời, với lại mấy năm nay mình dùng bản MariaDB 10 thấy rất ổn định nên cũng khuyên dùng.
 
 ----------------------------------------------
 
-### 2020/08/27:
+> 2020/08/27
 #### - Cho bạn lựa chọn MariaDB phiên bản 10.3, 10.2, 10.1, 10.0 và bản 5.5 thay vì bản 10.0 và 5.5 mặc định của VPSSIM. Tự động config phù hợp với cấu hình server.
 #### - Lựa chọn 6 phiên bản PHP : 7.2, 7.1, 7.0, 5.6, 5.5 hoặc 5.4 . VPSSIM tự động config tối ưu PHP tùy theo cấu hình VPS và thay bạn có thể thay đổi PHP version thoải mái trong quá trình sử dụng.
 #### - Loại bỏ memcached trong quá trình cài đặt mặc định, cái này ai thấy cần thiết thì cài thêm là được. Giờ Server/ VPS thường thuê là hàng chạy ổ SSD cũng rất nhanh, nên mình dùng Cache trên ổ cứng cho nó kinh tế hơn nhiều mà tốc độ tải không chậm hơn so với RAM là bao nhiêu.
