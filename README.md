@@ -25,6 +25,12 @@ yum -y install wget ; wget --no-check-certificate https://vpssim.echbay.com/inst
 
 ----------------------------------------------
 
+### Phiên bản hệ điều hành khuyên dùng: CentOS 7 x64 (ổn định).
+### Phiên bản hệ điều hành khuyên dùng: CentOS 8 x64 (MỚI và đang thử nghiệm).
+#### VPSSIM được phát triển trên phiên bản CentOS 6 x64, do ECHBAY-VPSSIM kế thừa mã nguồn của VPSSIM nên ECHBAY-VPSSIM cũng hoạt động tốt trên CentOS 6 x64. Tuy nhiên, về lâu dài thì các phiên bản cũ sẽ trờ nên lỗi thời, nên ECHBAY-VPSSIM chỉ phát triển từ CentOS 7 & 8.
+
+----------------------------------------------
+
 ### Lỗi chưa xử lý được (CentOS 8)
 #### htpasswd.py -c -b /etc/nginx/.htpasswd $username $matkhau
 
