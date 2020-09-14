@@ -416,6 +416,7 @@ cd
 #exit
 
 
+sudo yum makecache fast
 sudo yum -y install MariaDB-client MariaDB-common MariaDB-compat MariaDB-devel MariaDB-server MariaDB-shared perl-DBD-MySQL
 sudo yum -y install exim syslog-ng cronie cronie-anacron
 #yum-config-manager --enable remi-php56
@@ -462,8 +463,17 @@ cd /home/vpssim.demo/public_html
 yes | cp -rf /opt/echbay_vpssim/script/vpssim/html/install/vietnam/index.html index.html
 cd
 mkdir /home/vpssim.demo/private_html
-mkdir /home/vpssim.demo/logs
+
+# tao thu muc log va cac file log de phong truong hop cac ung dung khong the tu tao
+mkdir -p /home/vpssim.demo/logs
 chmod 777 /home/vpssim.demo/logs
+touch /home/vpssim.demo/logs/mysql-slow.log
+touch /home/vpssim.demo/logs/mysql.log
+touch /home/vpssim.demo/logs/php-fpm-error.log
+touch /home/vpssim.demo/logs/php-fpm-slow.log
+touch /home/vpssim.demo/logs/php-fpm.log
+chmod 777 /home/vpssim.demo/logs/*
+
 mkdir -p /var/log/nginx
 chown -R nginx:nginx /var/log/nginx
 chown -R nginx:nginx /var/lib/php/session
@@ -967,6 +977,9 @@ END
 rm -f /var/lib/mysql/ib_logfile0
 rm -f /var/lib/mysql/ib_logfile1
 rm -f /var/lib/mysql/ibdata1
+if [ "$phienbanmariadb" = "10.4" ] ; then
+sudo systemctl enable --now mariadb
+fi
 service mysql start
 # Download mysql_secure_installation
 rm -f /bin/mysql_secure_installation
