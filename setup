@@ -101,6 +101,8 @@ yourlanguage="vietnamese"
 current_os_version=$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))
 #echo $current_os_version
 
+cd ~
+
 if [ "$yourlanguage" = "english" ]; then
 echo "----------------------------------------------------------------------------"
 echo "Please wait ..."
@@ -108,17 +110,21 @@ sleep 2
 #wget -q --no-check-certificate https://vpssim.com/script/vpssim/centos${current_os_version}/vpssim-setup && chmod +x vpssim-setup && clear && ./vpssim-setup
 #wget -q --no-check-certificate https://vpssim.echbay.com/script/vpssim/centos${current_os_version}/vpssim-setup && chmod +x vpssim-setup && clear && ./vpssim-setup
 cd /opt/echbay_vpssim/script/vpssim/centos${current_os_version} ; chmod +x vpssim-setup ; clear ; bash vpssim-setup
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/centos${current_os_version}/vpssim-setup ~/vpssim-setup ; chmod +x vpssim-setup ; clear ; bash vpssim-setup
 elif [ "$yourlanguage" = "vietnamese" ]; then
 echo "----------------------------------------------------------------------------"
 echo "Please wait ..."
 sleep 2
 #wget -q --no-check-certificate https://vpssim.echbay.com/script/vpssim/centos${current_os_version}/vpssim-setup && chmod +x vpssim-setup && clear && ./vpssim-setup
 if [ "$current_os_version" == "6" ]; then
-cd /opt/echbay_vpssim/script/vpssim/centos6 ; chmod +x vpssim-setup ; clear ; bash vpssim-setup
+#cd /opt/echbay_vpssim/script/vpssim/centos6 ; chmod +x vpssim-setup ; clear ; bash vpssim-setup
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/centos6/vpssim-setup ~/vpssim-setup ; chmod +x vpssim-setup ; clear ; bash vpssim-setup
 elif [ "$current_os_version" == "7" ]; then
-cd /opt/echbay_vpssim/script/vpssim/centos7 ; chmod +x vpssim-setup ; clear ; bash vpssim-setup
+#cd /opt/echbay_vpssim/script/vpssim/centos7 ; chmod +x vpssim-setup ; clear ; bash vpssim-setup
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/centos7/vpssim-setup ~/vpssim-setup ; chmod +x vpssim-setup ; clear ; bash vpssim-setup
 else
-cd /opt/echbay_vpssim/script/vpssim/centos8 ; chmod +x vpssim-setup ; clear ; bash vpssim-setup
+#cd /opt/echbay_vpssim/script/vpssim/centos8 ; chmod +x vpssim-setup ; clear ; bash vpssim-setup
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/centos8/vpssim-setup ~/vpssim-setup ; chmod +x vpssim-setup ; clear ; bash vpssim-setup
 fi
 else 
 rm -rf /root/install* && rm -rf /root/vpssim* && clear
