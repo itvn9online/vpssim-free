@@ -1,0 +1,107 @@
+
+server {
+server_name www.vpssim.demo;
+rewrite ^(.*) http://vpssim.demo$1 permanent;
+}
+server {
+listen   80 default_server;
+
+access_log off;
+error_log off;
+# error_log /home/vpssim.demo/logs/error.log;
+root /home/vpssim.demo/public_html;
+include /etc/nginx/conf/ddos2.conf;
+index index.php index.html index.htm;
+server_name vpssim.demo;   
+
+
+#///////////////////////////////////////////////////////
+#Run all the websites,if you use your rule, comment or delete the line below (AAA)
+include /etc/nginx/conf/all.conf;
+
+#If you use your rule, comment or delete above line, and  Uncoment 3 lines belows and set your rule within it..
+#location / {
+#Uncomment 3 lines and set your rules here!
+#} 
+
+#security, sql injection Propeller ....(uncoment if you want to use). Because some website plugins do not run with this config, so vpssim to turn off default
+#include /etc/nginx/conf/block.conf;
+
+# Error Page
+#error_page 403 /errorpage_html/403.html;
+#error_page 404 /errorpage_html/404.html;
+#error_page 405 /errorpage_html/405.html;
+#error_page 502 /errorpage_html/502.html;
+#error_page 503 /errorpage_html/503.html;
+#error_page 504 /errorpage_html/504.html;
+#location ^~ /errorpage_html/ {
+#   internal;
+#    root /home/vpssim.demo;
+#    access_log              off;
+#}
+location ~ \.php$ {
+fastcgi_split_path_info ^(.+\.php)(/.+)$;
+include /etc/nginx/fastcgi_params;
+fastcgi_pass 127.0.0.1:9000;
+fastcgi_index index.php;
+fastcgi_connect_timeout 120;
+fastcgi_send_timeout 180;
+fastcgi_read_timeout 180;
+fastcgi_buffer_size 256k;
+fastcgi_buffers 4 256k;
+fastcgi_busy_buffers_size 256k;
+fastcgi_temp_file_write_size 256k;
+fastcgi_intercept_errors on;
+fastcgi_param SCRIPT_FILENAME /home/vpssim.demo/public_html$fastcgi_script_name;
+}
+
+include /etc/nginx/conf/staticfiles.conf;
+#include /etc/nginx/conf/phpstatus.conf;
+include /etc/nginx/conf/drop.conf;
+
+}
+
+server {
+#listen   $svport;
+tmp_listen_svport;
+access_log        off;
+log_not_found     off;
+error_log         off;
+root /home/vpssim.demo/private_html;
+auth_basic "Authorization Required ( Get User & Password at /home/VPSSIM-manage-info.txt or Create new one by : ECHBAY-VPSSIM menu ->  User & Password Mac Dinh )";
+auth_basic_user_file  /etc/nginx/.htpasswd;
+index index.php index.html index.htm;
+server_name vpssim.demo;
+
+location / {
+try_files $uri $uri/ /index.php;
+}
+location /nginx_status {
+stub_status on;
+access_log   off;
+}
+location /php_status {
+fastcgi_pass 127.0.0.1:9000;
+fastcgi_index index.php;
+fastcgi_param SCRIPT_FILENAME  /home/vpssim.demo/public_html$fastcgi_script_name;
+include /etc/nginx/fastcgi_params;
+}
+location ~ \.php$ {
+fastcgi_split_path_info ^(.+\.php)(/.+)$;
+include /etc/nginx/fastcgi_params;
+fastcgi_pass 127.0.0.1:9000;
+fastcgi_index index.php;
+fastcgi_connect_timeout 1000;
+fastcgi_send_timeout 1000;
+fastcgi_read_timeout 1000;
+fastcgi_buffer_size 256k;
+fastcgi_buffers 4 256k;
+fastcgi_busy_buffers_size 256k;
+fastcgi_temp_file_write_size 256k;
+fastcgi_intercept_errors on;
+fastcgi_param SCRIPT_FILENAME /home/vpssim.demo/private_html$fastcgi_script_name;
+}
+location ~* \.(bak|back|bk)$ {
+deny all;
+}
+}

@@ -465,116 +465,24 @@ mkdir -p /var/log/nginx
 chown -R nginx:nginx /var/log/nginx
 chown -R nginx:nginx /var/lib/php/session
 
+vpssim_setup_cleanup_config_file () {
+# remove blank in last line
+sed -i -e "s/\s*$//" $1
+# remove blank in first line
+sed -i -e "s/^\s*//" $1
+# remove blank line
+sed -i -e "/^$/d" $1
+sed -i -e '/^\s*$/d' $1
+# remove comment line
+sed -i -e '/^\s*#.*$/d' $1
+}
+
 rm -rf /etc/nginx/conf.d
 mkdir -p /etc/nginx/conf.d
-    cat > "/etc/nginx/conf.d/vpssim.demo.conf" <<END
-server {
-	    server_name www.vpssim.demo;
-	    rewrite ^(.*) http://vpssim.demo\$1 permanent;
-    	}
-server {
-	    listen   80 default_server;
-
-    	access_log off;
-    	error_log off;
-    	# error_log /home/vpssim.demo/logs/error.log;
-    	root /home/vpssim.demo/public_html;
-include /etc/nginx/conf/ddos2.conf;
-	index index.php index.html index.htm;
-    	server_name vpssim.demo;   
-
-
-#///////////////////////////////////////////////////////
-#Run all the websites,if you use your rule, comment or delete the line below (AAA)
-include /etc/nginx/conf/all.conf;
-
-#If you use your rule, comment or delete above line, and  Uncoment 3 lines belows and set your rule within it..
-#location / {
-#Uncomment 3 lines and set your rules here!
-#}
-
-#security, sql injection Propeller ....(uncoment if you want to use). Because some website plugins do not run with this config, so ECHBAY-VPSSIM to turn off default
-#include /etc/nginx/conf/block.conf;
-
-# Error Page
-#error_page 403 /errorpage_html/403.html;
-#error_page 404 /errorpage_html/404.html;
-#error_page 405 /errorpage_html/405.html;
-#error_page 502 /errorpage_html/502.html;
-#error_page 503 /errorpage_html/503.html;
-#error_page 504 /errorpage_html/504.html;
-#location ^~ /errorpage_html/ {
-#   internal;
-#    root /home/vpssim.demo;
-#    access_log              off;
-#}
-    	location ~ \.php$ {
-		fastcgi_split_path_info ^(.+\.php)(/.+)$;
-        	include /etc/nginx/fastcgi_params;
-        	fastcgi_pass 127.0.0.1:9000;
-        	fastcgi_index index.php;
-		fastcgi_connect_timeout 120;
-		fastcgi_send_timeout 180;
-		fastcgi_read_timeout 180;
-		fastcgi_buffer_size 256k;
-		fastcgi_buffers 4 256k;
-		fastcgi_busy_buffers_size 256k;
-		fastcgi_temp_file_write_size 256k;
-		fastcgi_intercept_errors on;
-        	fastcgi_param SCRIPT_FILENAME /home/vpssim.demo/public_html\$fastcgi_script_name;
-    	}
-
-include /etc/nginx/conf/staticfiles.conf;
-#include /etc/nginx/conf/phpstatus.conf;
-include /etc/nginx/conf/drop.conf;
-
-}
-	
-server {
-	    listen   $svport;
-	 	access_log        off;
-		log_not_found     off;
-	 	error_log         off;
-    	root /home/vpssim.demo/private_html;
-    	auth_basic "Authorization Required ( Get User & Password at /home/VPSSIM-manage-info.txt or Create new one by : ECHBAY-VPSSIM menu ->  User & Password Mac Dinh )";
-		auth_basic_user_file  /etc/nginx/.htpasswd;
-	    index index.php index.html index.htm;
-    	server_name vpssim.demo;
-
-     	location / {
-		try_files \$uri \$uri/ /index.php;
-   	    }
-        location /nginx_status {
-  		stub_status on;
-  		access_log   off;
-		}
-    	location /php_status {
-            	fastcgi_pass 127.0.0.1:9000;
-            	fastcgi_index index.php;
-            	fastcgi_param SCRIPT_FILENAME  /home/vpssim.demo/public_html\$fastcgi_script_name;
-            	include /etc/nginx/fastcgi_params;
-    	}
-    	location ~ \.php$ {
-		fastcgi_split_path_info ^(.+\.php)(/.+)$;
-        	include /etc/nginx/fastcgi_params;
-        	fastcgi_pass 127.0.0.1:9000;
-        	fastcgi_index index.php;
-			fastcgi_connect_timeout 1000;
-			fastcgi_send_timeout 1000;
-			fastcgi_read_timeout 1000;
-			fastcgi_buffer_size 256k;
-			fastcgi_buffers 4 256k;
-			fastcgi_busy_buffers_size 256k;
-			fastcgi_temp_file_write_size 256k;
-			fastcgi_intercept_errors on;
-        	fastcgi_param SCRIPT_FILENAME /home/vpssim.demo/private_html\$fastcgi_script_name;
-    	}
-        location ~* \.(bak|back|bk)$ {
-		deny all;
-	}
-}
-
-END
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/vpssim.demo.txt /etc/nginx/conf.d/vpssim.demo.conf
+# config
+sed -i 's/tmp_listen_svport/listen $svport/g' /etc/nginx/conf.d/vpssim.demo.conf
+vpssim_setup_cleanup_config_file "/etc/nginx/conf.d/vpssim.demo.conf"
 
 
 if [[ $svram -ge 32 && $svram -le 449  ]] ; then 
@@ -625,252 +533,23 @@ fi
 
 
 rm -f /etc/php-fpm.d/www.conf
-    cat > "/etc/php-fpm.d/www.conf" <<END
-[www]
-listen = 127.0.0.1:9000
-listen.allowed_clients = 127.0.0.1
-user = nginx
-group = nginx
-pm = dynamic
-pm.max_children = $pmmaxchildren
-pm.start_servers = $pmstartservers
-; Defaul: pm.min_spare_servers + (pm.max_spare_servers - pm.min_spare_servers) / 2
-pm.min_spare_servers = $pmminspareservers
-pm.max_spare_servers = $pmmaxspareservers
-pm.max_requests = $pmmaxrequests
-
-pm.status_path = /php_status
-request_terminate_timeout = 100s
-pm.process_idle_timeout = 10s;
-request_slowlog_timeout = 4s
-slowlog = /home/vpssim.demo/logs/php-fpm-slow.log
-rlimit_files = 131072
-rlimit_core = unlimited
-catch_workers_output = yes
-env[HOSTNAME] = \$HOSTNAME
-env[PATH] = /usr/local/bin:/usr/bin:/bin
-env[TMP] = /tmp
-env[TMPDIR] = /tmp
-env[TEMP] = /tmp
-php_admin_value[error_log] = /home/vpssim.demo/logs/php-fpm-error.log
-php_admin_flag[log_errors] = on
-php_value[session.save_handler] = files
-php_value[session.save_path] = /var/lib/php/session
-END
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/www.txt /etc/php-fpm.d/www.conf
+# config
+sed -i 's/tmp_pmmaxchildren/$pmmaxchildren/g' /etc/php-fpm.d/www.conf
+sed -i 's/tmp_pmstartservers/$pmstartservers/g' /etc/php-fpm.d/www.conf
+sed -i 's/tmp_pmminspareservers/$pmminspareservers/g' /etc/php-fpm.d/www.conf
+sed -i 's/tmp_pmmaxspareservers/$pmmaxspareservers/g' /etc/php-fpm.d/www.conf
+sed -i 's/tmp_pmmaxrequests/$pmmaxrequests/g' /etc/php-fpm.d/www.conf
+vpssim_setup_cleanup_config_file "/etc/php-fpm.d/www.conf"
 
 
-rm -rf /etc/php.d/*opcache*
-    cat > "/etc/php.ini" <<END
-[PHP]
-engine = On
-short_open_tag = On
-asp_tags = Off
-precision = 14
-output_buffering = 4096
-zlib.output_compression = Off
-implicit_flush = Off
-unserialize_callback_func =
-serialize_precision = 17
-disable_functions = escapeshellarg,escapeshellcmd,exec,ini_alter,passthru,pcntl_exec,popen,proc_close,proc_get_status,proc_nice,proc_open,proc_terminate,show_source,shell_exec,symlink,system
-disable_classes =
-zend.enable_gc = On
-expose_php = Off
-max_execution_time = 120
-max_input_time = 120
-memory_limit = $memory_limit
-max_input_vars = 6000
-realpath_cache_size = 4096k
-realpath_cache_ttl = 360
-error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT
-display_errors = On
-display_startup_errors = Off
-log_errors = On
-log_errors_max_len = 1024
-ignore_repeated_errors = Off
-ignore_repeated_source = Off
-report_memleaks = On
-track_errors = Off
-html_errors = On
-variables_order = "GPCS"
-request_order = "GP"
-register_argc_argv = Off
-auto_globals_jit = On
-post_max_size = 120M
-auto_prepend_file =
-auto_append_file =
-default_mimetype = "text/html"
-default_charset = "UTF-8"
-doc_root =
-user_dir =
-enable_dl = Off
-cgi.fix_pathinfo=0
-file_uploads = On
-upload_max_filesize = 120M
-max_file_uploads = 20
-allow_url_fopen = On
-allow_url_include = Off
-default_socket_timeout = 60
-cli_server.color = On
+rm -rf /etc/php.ini
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/php.ini /etc/php.ini
+# config
+sed -i 's/tmp_memory_limit/$memory_limit/g' /etc/php.ini
+vpssim_setup_cleanup_config_file "/etc/php.ini"
 
-[Date]
-date.timezone = Asia/Bangkok
 
-[filter]
-
-[iconv]
-
-[intl]
-
-[sqlite]
-
-[sqlite3]
-
-[Pcre]
-
-[Pdo]
-
-[Pdo_mysql]
-pdo_mysql.cache_size = 2000
-pdo_mysql.default_socket=
-
-[Phar]
-
-[mail function]
-SMTP = localhost
-smtp_port = 25
-sendmail_path = /usr/sbin/sendmail -t -i
-mail.add_x_header = On
-
-[SQL]
-sql.safe_mode = Off
-
-[ODBC]
-odbc.allow_persistent = On
-odbc.check_persistent = On
-odbc.max_persistent = -1
-odbc.max_links = -1
-odbc.defaultlrl = 4096
-odbc.defaultbinmode = 1
-
-[Interbase]
-ibase.allow_persistent = 1
-ibase.max_persistent = -1
-ibase.max_links = -1
-ibase.timestampformat = "%Y-%m-%d %H:%M:%S"
-ibase.dateformat = "%Y-%m-%d"
-ibase.timeformat = "%H:%M:%S"
-
-[MySQL]
-mysql.allow_local_infile = On
-mysql.allow_persistent = On
-mysql.cache_size = 2000
-mysql.max_persistent = -1
-mysql.max_links = -1
-mysql.default_port =
-mysql.default_socket =
-mysql.default_host =
-mysql.default_user =
-mysql.default_password =
-mysql.connect_timeout = 60
-mysql.trace_mode = Off
-
-[MySQLi]
-mysqli.max_persistent = -1
-mysqli.allow_persistent = On
-mysqli.max_links = -1
-mysqli.cache_size = 2000
-mysqli.default_port = 3306
-mysqli.default_socket =
-mysqli.default_host =
-mysqli.default_user =
-mysqli.default_pw =
-mysqli.reconnect = Off
-
-[mysqlnd]
-mysqlnd.collect_statistics = On
-mysqlnd.collect_memory_statistics = Off
-
-[OCI8]
-
-[PostgreSQL]
-pgsql.allow_persistent = On
-pgsql.auto_reset_persistent = Off
-pgsql.max_persistent = -1
-pgsql.max_links = -1
-pgsql.ignore_notice = 0
-pgsql.log_notice = 0
-
-[Sybase-CT]
-sybct.allow_persistent = On
-sybct.max_persistent = -1
-sybct.max_links = -1
-sybct.min_server_severity = 10
-sybct.min_client_severity = 10
-
-[bcmath]
-bcmath.scale = 0
-
-[browscap]
-
-[Session]
-session.save_handler = files
-session.use_cookies = 1
-session.use_only_cookies = 1
-session.name = PHPSESSID
-session.auto_start = 0
-session.cookie_lifetime = 0
-session.cookie_path = /
-session.cookie_domain =
-session.cookie_httponly =
-session.serialize_handler = php
-session.gc_probability = 1
-session.gc_divisor = 1000
-session.gc_maxlifetime = 1440
-session.bug_compat_42 = Off
-session.bug_compat_warn = Off
-session.referer_check =
-session.cache_limiter = nocache
-session.cache_expire = 180
-session.use_trans_sid = 0
-session.hash_function = 0
-session.hash_bits_per_character = 5
-url_rewriter.tags = "a=href,area=href,frame=src,input=src,form=fakeentry"
-
-[MSSQL]
-mssql.allow_persistent = On
-mssql.max_persistent = -1
-mssql.max_links = -1
-mssql.min_error_severity = 10
-mssql.min_message_severity = 10
-mssql.compatability_mode = Off
-
-[Assertion]
-
-[mbstring]
-
-[gd]
-
-[exif]
-
-[Tidy]
-tidy.clean_output = Off
-
-[soap]
-soap.wsdl_cache_enabled=1
-soap.wsdl_cache_dir="/tmp"
-soap.wsdl_cache_ttl=86400
-soap.wsdl_cache_limit = 5
-
-[sysvshm]
-
-[ldap]
-ldap.max_links = -1
-
-[mcrypt]
-
-[dba]
-
-END
 if [ ! -d /home/0-VPSSIM-SHORTCUT ];then
 #wget --no-check-certificate -q https://vpssim.echbay.com/script/vpssim/check-imagick.php.zip -O /home/vpssim.demo/private_html/check-imagick.php
 yes | cp -rf /opt/echbay_vpssim/script/vpssim/check-imagick.php.zip /home/vpssim.demo/private_html/check-imagick.php
@@ -881,59 +560,21 @@ ln -s /etc/nginx/conf.d /home/0-VPSSIM-SHORTCUT/Vhost\ \(Vitual\ Host\)
 echo "This is shortcut to Backup ( Code & Database ) and Vitual Host in VPS" > /home/0-VPSSIM-SHORTCUT/readme.txt
 echo "Please do not delete it" >>  /home/0-VPSSIM-SHORTCUT/readme.txt
 fi
+
 rm -f /etc/php.d/*opcache*
-cat > "/etc/php.d/opcache.ini" <<END
-zend_extension=opcache.so
-opcache.enable=1
-opcache.enable_cli=1
-opcache.memory_consumption=120
-opcache.interned_strings_buffer=16
-opcache.max_accelerated_files=5000
-opcache.max_wasted_percentage=5
-opcache.use_cwd=1
-opcache.validate_timestamps=1
-opcache.revalidate_freq=120
-opcache.fast_shutdown=1
-END
-rm -f /etc/sysctl.conf
-    cat > "/etc/sysctl.conf" <<END
-net.ipv4.ip_forward = 0
-net.ipv4.conf.default.rp_filter = 1
-net.ipv4.conf.default.accept_source_route = 0
-kernel.sysrq = 0
-net.ipv4.tcp_synack_retries = 2
-kernel.core_uses_pid = 1
-net.ipv4.tcp_syncookies = 1
-kernel.msgmnb = 65536
-kernel.msgmax = 65536
-kernel.shmmax = 68719476736
-kernel.shmall = 4294967296
-kernel.panic = 10
-net.core.netdev_max_backlog = 4000
-net.ipv4.tcp_max_syn_backlog = 10240
-net.ipv4.tcp_fin_timeout = 30
-net.ipv4.tcp_keepalive_time = 1800
-vm.swappiness = 10
-vm.dirty_ratio = 80
-vm.dirty_background_ratio = 10
-kernel.core_uses_pid = 0
-kernel.core_pattern = /dev/null
-fs.suid_dumpable = 0
-net.ipv4.tcp_challenge_ack_limit = 999999999
-END
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/opcache.ini /etc/php.d/opcache.ini
+vpssim_setup_cleanup_config_file "/etc/php.d/opcache.ini"
 
-rm -f /etc/php-fpm.conf
-    cat > "/etc/php-fpm.conf" <<END
-include=/etc/php-fpm.d/*.conf
 
-[global]
-pid = /var/run/php-fpm/php-fpm.pid
-error_log = /home/vpssim.demo/logs/php-fpm.log
-emergency_restart_threshold = 10
-emergency_restart_interval = 1m
-process_control_timeout = 10s
-events.mechanism = epoll
-END
+rm -rf /etc/sysctl.conf
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/sysctl.txt /etc/sysctl.conf
+vpssim_setup_cleanup_config_file "/etc/sysctl.conf"
+
+
+rm -rf /etc/php-fpm.conf
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/php-fpm.txt /etc/php-fpm.conf
+vpssim_setup_cleanup_config_file "/etc/php-fpm.conf"
+
 
 if [[ $svram -ge 32 && $svram -le 449  ]] ; then 
 heso1=1
@@ -948,6 +589,7 @@ heso1=8
 else
 heso1=10
 fi
+
 if [[ $svram -ge 32 && $svram -le 449  ]] ; then 
 heso2=1
 elif [[ $svram -ge 450 && $svram -le 1099  ]] ; then
@@ -961,6 +603,7 @@ heso2=6
 else
 heso2=10
 fi
+
 if [[ $svram -ge 32 && $svram -le 449  ]] ; then 
 heso3=1
 elif [[ $svram -ge 450 && $svram -le 1099  ]] ; then
@@ -974,6 +617,7 @@ heso3=5
 else
 heso3=6
 fi
+
 if [[ $svram -ge 32 && $svram -le 449  ]] ; then 
 heso4=1
 elif [[ $svram -ge 450 && $svram -le 1099  ]] ; then
@@ -987,9 +631,11 @@ heso4=3
 else
 heso4=4
 fi
+
 if ! [[ $cpucores =~ $checktruenumber ]] ; then
 cpucores=1
 fi 
+
 rm -f /etc/my.cnf.d/server.cnf
     cat > "/etc/my.cnf.d/server.cnf" <<END
 
@@ -1125,6 +771,7 @@ write_buffer = $(calc 128*$heso4)K
 [mysqlhotcopy]
 interactive-timeout
 END
+
 if [ "$phienbanmariadb" = "10.0" ] ; then
 cat >> "/etc/my.cnf.d/server.cnf" <<END
 
@@ -1140,6 +787,7 @@ log_slow_filter =admin,filesort,filesort_on_disk,full_join,full_scan,query_cache
 
 END
 fi
+
 if [ "$phienbanmariadb" = "10.1" ] ; then
 cat >> "/etc/my.cnf.d/server.cnf" <<END
 
@@ -1155,6 +803,7 @@ log_slow_filter =admin,filesort,filesort_on_disk,full_join,full_scan,query_cache
 
 END
 fi
+
 if [ "$phienbanmariadb" = "10.2" ] ; then
 cat >> "/etc/my.cnf.d/server.cnf" <<END
 
@@ -1170,6 +819,7 @@ log_slow_filter =admin,filesort,filesort_on_disk,full_join,full_scan,query_cache
 
 END
 fi
+
 if [ "$phienbanmariadb" = "10.3" ] ; then
 cat >> "/etc/my.cnf.d/server.cnf" <<END
 
@@ -1207,26 +857,32 @@ mainsite="vpssim.demo"
 priport="$svport"
 serverip="$svip"
 END
+
 cat > "/etc/vpssim/nginx.version" <<END
 ${Nginx_VERSION}
 END
+
 cat > "/etc/vpssim/vpssim.version" <<END
 ${vpssim_version}
 END
+
 cat > "/etc/vpssim/phpmyadmin.version" <<END
 ${phpmyadmin_version}
 END
+
 mkdir -p /etc/redis
 cat > "/etc/redis/redis.conf" <<END
 maxmemory 40mb
 maxmemory-policy allkeys-lru
 END
+
 if [ ! "$(grep LANG=en_US.utf-8 /etc/environment)" == "LANG=en_US.utf-8" ]; then
 cat > "/etc/environment" <<END
 LANG=en_US.utf-8
 LC_ALL=en_US.utf-8
 END
 fi
+
 rm -f /var/lib/mysql/ib_logfile0
 rm -f /var/lib/mysql/ib_logfile1
 rm -f /var/lib/mysql/ibdata1

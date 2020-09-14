@@ -16,4 +16,5 @@ mysql -u root -p"$DATABASE_PASS" -e "FLUSH PRIVILEGES"
 mariadbpass="$DATABASE_PASS"
 END
 rm -rf /tmp/passrootmysql
-wget --no-check-certificate -q https://vpssim.echbay.com/script/vpssim/mysql_secure_installation.bak -O /bin/mysql_secure_installation
+#wget --no-check-certificate -q https://vpssim.echbay.com/script/vpssim/mysql_secure_installation.bak -O /bin/mysql_secure_installation
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/mysql_secure_installation.bak /bin/mysql_secure_installation && chmod +x /bin/mysql_secure_installation
