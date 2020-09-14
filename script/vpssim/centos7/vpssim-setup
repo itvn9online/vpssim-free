@@ -816,7 +816,7 @@ END
 
 
 # fixed ERROR for MariaDB config (xu ly loi config tren cac phien ban MariaDB khac nhau)
-if [ "$phienbanmariadb" = "10.3" ] || [ "$phienbanmariadb" = "10.4" ] ; then
+if [ "$phienbanmariadb" = "10.3" ] || [ "$phienbanmariadb" = "10.4" ] || [ "$phienbanmariadb" = "10.5" ] ; then
 # https://mariadb.com/kb/en/upgrading-from-mariadb-102-to-mariadb-103/
 cat > "/tmp/vpssimSetConfigFile" <<END
 #!/bin/bash 
@@ -914,7 +914,7 @@ cat >> "/etc/my.cnf.d/server.cnf" <<END
 [mariadb-10.5]
 innodb_buffer_pool_dump_at_shutdown=1
 innodb_buffer_pool_load_at_startup=1
-innodb_buffer_pool_populate=0
+#innodb_buffer_pool_populate=0
 performance_schema=OFF
 innodb_stats_on_metadata=OFF
 innodb_sort_buffer_size=1M
