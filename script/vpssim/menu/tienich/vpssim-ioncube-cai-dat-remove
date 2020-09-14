@@ -63,18 +63,11 @@ case $response in
 sleep 1
 	php_version=$(php -r "echo PHP_MAJOR_VERSION.'.'.PHP_MINOR_VERSION;")
 	
-arch=`uname -m`
-if [ "$arch" = "x86_64" ]; then
 wget -q -O - http://downloads3.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz | tar -xzf - -C /usr/local
 rm -rf /root/ioncube_loaders_lin_x86-64.tar.gz
 rm -rf /etc/php.d/*.ioncube.*
 rm -rf /etc/php.d/ioncube.*
-else
-wget -q -O - http://downloads3.ioncube.com/loader_downloads/ioncube_loaders_lin_x86.tar.gz | tar -xzf - -C /usr/local
-rm -rf /root/ioncube_loaders_lin_x86.tar.gz
-rm -rf /etc/php.d/*.ioncube.*
-rm -rf /etc/php.d/ioncube.*
-fi
+
 cat > "/etc/php.d/ioncube.ini" <<END
 zend_extension=/usr/local/ioncube/ioncube_loader_lin_${php_version}.so
 END

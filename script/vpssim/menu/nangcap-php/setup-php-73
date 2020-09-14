@@ -98,11 +98,10 @@ fi
 ######################
 ## Ioncube 
 if [ "$ioncubestatus" = "1" ]; then
-arch=`uname -m`
 if [ ! -d /usr/local/ioncube ]; then
 mkdir -p /usr/local/ioncube
 fi
-if [ "$arch" = "x86_64" ]; then
+
 #Beta for PHP 7.3
 #wget -q -O - https://vpssim.com/script/vpssim/Softwear/ioncube/ioncube_loaders_lin_x86-64_BETA.tar.gz | tar -xzf - -C /usr/local/ioncube
 wget --no-check-certificate -q -O - https://github.com/itvn9online/echbay-vpssim-software/raw/master/ioncube_loaders_lin_x86-64_BETA.tar.gz | tar -xzf - -C /usr/local/ioncube
@@ -112,18 +111,6 @@ rm -r -f /root/ioncube_loaders_lin_x86-64_BETA.tar.gz
 #rm -r -f /root/ioncube_loaders_lin_x86-64.tar.gz
 rm -r -f /etc/php.d/*.ioncube.*
 rm -r -f /etc/php.d/ioncube.*
-else
-#Beta for PHP 7.3
-#wget -q -O - https://vpssim.com/script/vpssim/Softwear/ioncube/ioncube_loaders_lin_x86_BETA.tar.gz | tar -xzf - -C /usr/local/ioncube
-wget --no-check-certificate -q -O - https://github.com/itvn9online/echbay-vpssim-software/raw/master/ioncube_loaders_lin_x86_BETA.tar.gz | tar -xzf - -C /usr/local/ioncube
-rm -r -f /root/ioncube_loaders_lin_x86_BETA.tar.gz
-
-#wget -q -O - http://downloads3.ioncube.com/loader_downloads/ioncube_loaders_lin_x86.tar.gz | tar -xzf - -C /usr/local
-#rm -r -f /root/ioncube_loaders_lin_x86.tar.gz
-
-rm -r -f /etc/php.d/*.ioncube.*
-rm -r -f /etc/php.d/ioncube.*
-fi
 #ioncube
 
 cat > "/etc/php.d/ioncube.ini" <<END

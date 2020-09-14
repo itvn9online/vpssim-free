@@ -51,8 +51,6 @@ service mysql stop
 rm -rf /etc/yum.repos.d/mariadb*
 rm -rf /etc/yum.repos.d/MariaDB*
 if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
-arch=`uname -m`
-	if [ "$arch" = "x86_64" ]; then
 cat > "/etc/yum.repos.d/mariadb.repo" <<END
 # MariaDB 10.0 CentOS repository list
 # http://downloads.mariadb.org/mariadb/repositories/
@@ -62,18 +60,6 @@ baseurl = http://yum.mariadb.org/10.0/centos6-amd64
 gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
 gpgcheck=1
 END
-	fi
-	if [ ! "$arch" = "x86_64" ]; then	
-cat > "/etc/yum.repos.d/mariadb.repo" <<END
-# MariaDB 10.0 CentOS repository list
-# http://downloads.mariadb.org/mariadb/repositories/
-[mariadb]
-name = MariaDB
-baseurl = http://yum.mariadb.org/10.0/centos6-x86
-gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
-gpgcheck=1
-END
-	fi	
 
 if [ "$(grep mariadb /tmp/checkmariadb)" = "" ]; then
 yum -y remove MariaDB-client MariaDB-common MariaDB-compat MariaDB-devel MariaDB-server MariaDB-shared perl-DBD-MySQL

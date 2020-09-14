@@ -3,14 +3,8 @@
 
 if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then
 
-arch=`uname -m`
-if [ "$arch" = "x86_64" ]; then
 XXX=x86_64
 YYY=x86_64
-else
-XXX=i686
-YYY=i386
-fi
 
 if [ ! -d /etc/vpssim/.tmp ]; then
 mkdir -p /etc/vpssim/.tmp

@@ -256,6 +256,7 @@ echo "$svport" > /tmp/priport.txt
 if [ -s /etc/selinux/config ]; then
 sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
 fi
+
 sudo dnf -y install epel-release
 rpm -Uvh http://rpms.famillecollet.com/enterprise/remi-release-8.rpm
 if [ -f /etc/yum.repos.d/epel.repo ]; then
@@ -650,7 +651,7 @@ max_input_vars = 6000
 realpath_cache_size = 4096k
 realpath_cache_ttl = 360
 error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT
-display_errors = Off
+display_errors = On
 display_startup_errors = Off
 log_errors = On
 log_errors_max_len = 1024
@@ -854,13 +855,13 @@ cat > "/etc/php.d/opcache.ini" <<END
 zend_extension=opcache.so
 opcache.enable=1
 opcache.enable_cli=1
-opcache.memory_consumption=40
+opcache.memory_consumption=120
 opcache.interned_strings_buffer=16
-opcache.max_accelerated_files=3000
+opcache.max_accelerated_files=5000
 opcache.max_wasted_percentage=5
 opcache.use_cwd=1
 opcache.validate_timestamps=1
-opcache.revalidate_freq=60
+opcache.revalidate_freq=120
 opcache.fast_shutdown=1
 END
 rm -f /etc/sysctl.conf
@@ -954,6 +955,7 @@ heso4=3
 else
 heso4=4
 fi
+
 if ! [[ $cpucores =~ $checktruenumber ]] ; then
 cpucores=1
 fi 
