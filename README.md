@@ -11,11 +11,6 @@ Cơ bản thì trong phiên bản ECHBAY-VPSSIM mình chủ yếu cập nhật l
 
 ----------------------------------------------
 
-### Danh sách các phiên bản đã qua thử nghiệm và có kết quả thành công:
-#### 2020/09/11: CentOS-7 Nginx-1.18.0 OpenSSL-1.1.1g PHP-7.2 MariaDB-10.1: DONE
-
-----------------------------------------------
-
 ### Lệnh Cài Đặt ECHBAY-VPSSIM Trên Centos 6 & 7 & 8:
 ```
 curl -sO https://raw.githubusercontent.com/itvn9online/vpssim-free/master/install && bash install
@@ -28,6 +23,16 @@ curl -sO https://vpssim.echbay.com/install && bash install
 ```
 yum -y install wget ; wget --no-check-certificate https://vpssim.echbay.com/install ; chmod +x install ; bash install
 ```
+
+----------------------------------------------
+
+### Danh sách các phiên bản đã qua thử nghiệm và có kết quả thành công:
+#### 2020/09/11:
+CentOS-7 x64
+Nginx-1.18.0
+OpenSSL-1.1.1g
+PHP-7.2
+MariaDB-10.1
 
 ----------------------------------------------
 
