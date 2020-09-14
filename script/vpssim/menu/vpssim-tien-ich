@@ -36,7 +36,7 @@ select opt in "${options[@]}" ; do
 	21) clear && /etc/vpssim/menu/tienich/vpssim-restart-service;;
 	22) clear && /etc/vpssim/menu/tienich/toc-do-dot-net;;
 	23) clear && /etc/vpssim/menu/varnish/install-varnish;;
-	24) /etc/vpssim/menu/vpssim-go-bo-scripts;;
+	24) /etc/vpssim/menu/go-bo-scripts;;
 #	23) clear && vpssim;;
 	0) clear && vpssim;;
 
