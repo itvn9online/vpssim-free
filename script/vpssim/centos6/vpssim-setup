@@ -796,6 +796,20 @@ write_buffer = $(calc 128*$heso4)K
 interactive-timeout
 END
 
+
+# fixed ERROR for MariaDB config (xu ly loi config tren cac phien ban MariaDB khac nhau)
+if [ "$phienbanmariadb" = "10.3" ] ; then
+# https://mariadb.com/kb/en/upgrading-from-mariadb-102-to-mariadb-103/
+cat > "/tmp/vpssimSetConfigFile" <<END
+#!/bin/bash 
+sed -i 's/innodb_support_xa=/\#innodb_support_xa=/g' /etc/my.cnf.d/server.cnf
+END
+chmod +x /tmp/vpssimSetConfigFile
+sh /tmp/vpssimSetConfigFile
+rm -f /tmp/vpssimSetConfigFile
+fi
+
+
 if [ "$phienbanmariadb" = "10.0" ] ; then
 cat >> "/etc/my.cnf.d/server.cnf" <<END
 
@@ -850,7 +864,7 @@ cat >> "/etc/my.cnf.d/server.cnf" <<END
 [mariadb-10.3]
 innodb_buffer_pool_dump_at_shutdown=1
 innodb_buffer_pool_load_at_startup=1
-innodb_buffer_pool_populate=0
+#innodb_buffer_pool_populate=0
 performance_schema=OFF
 innodb_stats_on_metadata=OFF
 innodb_sort_buffer_size=1M
