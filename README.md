@@ -22,7 +22,7 @@ yum -y install wget ; wget --no-check-certificate https://vpssim.echbay.com/inst
 
 ### Chức Năng, Tiện Ích Và Tối Ưu VPS Của ECHBAY-VPSSIM:
 #### 1. Nginx-1.18.0
-#### 2. OpenSSL-1.1.1g (Hỗ trợ TLS 1.3 trên CentOS 8, các phiên bản Centos 7-- sẽ là TLS 1.2)
+#### 2. OpenSSL-1.1.1g
 #### 3. PHP-7.2
 #### 4. MariaDB-10.x
 
@@ -37,6 +37,11 @@ Brotli là một thuật toán nén mã nguồn mở mới được Google phát
 
 ### Dự kiến:
 #### Có thể tham khảo thêm zlib của cloudflare: https://github.com/cloudflare/zlib - thấy ở đây cập nhật cũng mới hơn nhưng chả rõ như nào! để rảnh thì test xem có hay ho gì không.
+
+----------------------------------------------
+
+### 2020/09/11:
+#### TEST: CentOS-7 Nginx-1.18.0 OpenSSL-1.1.1g PHP-7.2 MariaDB-10.1: 
 
 ----------------------------------------------
 
