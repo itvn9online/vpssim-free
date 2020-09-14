@@ -373,8 +373,10 @@ cd
 #sleep 30
 #exit
 
-
-sudo dnf -y install MariaDB-client MariaDB-common MariaDB-compat MariaDB-devel MariaDB-server MariaDB-shared perl-DBD-MySQL
+sudo yum search mariadb
+sudo yum info mariadb
+#sudo dnf -y install MariaDB-client MariaDB-common MariaDB-compat MariaDB-devel MariaDB-server MariaDB-shared perl-DBD-MySQL
+sudo dnf -y install mariadb-server
 sudo dnf -y install exim syslog-ng cronie cronie-anacron
 #yum-config-manager --enable remi-php56
 yum-config-manager --enable remi-php72
