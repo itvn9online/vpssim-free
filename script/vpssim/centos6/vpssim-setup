@@ -481,7 +481,14 @@ rm -rf /etc/nginx/conf.d
 mkdir -p /etc/nginx/conf.d
 yes | cp -rf /opt/echbay_vpssim/script/vpssim/vpssim.demo.txt /etc/nginx/conf.d/vpssim.demo.conf
 # config
+cat > "/tmp/vpssimSetConfigFile" <<END
+#!/bin/bash 
 sed -i 's/tmp_listen_svport/listen $svport/g' /etc/nginx/conf.d/vpssim.demo.conf
+END
+chmod +x /tmp/vpssimSetConfigFile
+sh /tmp/vpssimSetConfigFile
+rm -f /tmp/vpssimSetConfigFile
+# cleanup
 vpssim_setup_cleanup_config_file "/etc/nginx/conf.d/vpssim.demo.conf"
 
 
@@ -535,18 +542,32 @@ fi
 rm -f /etc/php-fpm.d/www.conf
 yes | cp -rf /opt/echbay_vpssim/script/vpssim/www.txt /etc/php-fpm.d/www.conf
 # config
+cat > "/tmp/vpssimSetConfigFile" <<END
+#!/bin/bash 
 sed -i 's/tmp_pmmaxchildren/$pmmaxchildren/g' /etc/php-fpm.d/www.conf
 sed -i 's/tmp_pmstartservers/$pmstartservers/g' /etc/php-fpm.d/www.conf
 sed -i 's/tmp_pmminspareservers/$pmminspareservers/g' /etc/php-fpm.d/www.conf
 sed -i 's/tmp_pmmaxspareservers/$pmmaxspareservers/g' /etc/php-fpm.d/www.conf
 sed -i 's/tmp_pmmaxrequests/$pmmaxrequests/g' /etc/php-fpm.d/www.conf
+END
+chmod +x /tmp/vpssimSetConfigFile
+sh /tmp/vpssimSetConfigFile
+rm -f /tmp/vpssimSetConfigFile
+# cleanup
 vpssim_setup_cleanup_config_file "/etc/php-fpm.d/www.conf"
 
 
 rm -rf /etc/php.ini
 yes | cp -rf /opt/echbay_vpssim/script/vpssim/php.ini /etc/php.ini
 # config
+cat > "/tmp/vpssimSetConfigFile" <<END
+#!/bin/bash 
 sed -i 's/tmp_memory_limit/$memory_limit/g' /etc/php.ini
+END
+chmod +x /tmp/vpssimSetConfigFile
+sh /tmp/vpssimSetConfigFile
+rm -f /tmp/vpssimSetConfigFile
+# cleanup
 vpssim_setup_cleanup_config_file "/etc/php.ini"
 
 
@@ -563,16 +584,19 @@ fi
 
 rm -f /etc/php.d/*opcache*
 yes | cp -rf /opt/echbay_vpssim/script/vpssim/opcache.ini /etc/php.d/opcache.ini
+# cleanup
 vpssim_setup_cleanup_config_file "/etc/php.d/opcache.ini"
 
 
 rm -rf /etc/sysctl.conf
 yes | cp -rf /opt/echbay_vpssim/script/vpssim/sysctl.txt /etc/sysctl.conf
+# cleanup
 vpssim_setup_cleanup_config_file "/etc/sysctl.conf"
 
 
 rm -rf /etc/php-fpm.conf
 yes | cp -rf /opt/echbay_vpssim/script/vpssim/php-fpm.txt /etc/php-fpm.conf
+# cleanup
 vpssim_setup_cleanup_config_file "/etc/php-fpm.conf"
 
 
