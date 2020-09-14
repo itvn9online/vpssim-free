@@ -31,7 +31,7 @@ if [ "$luachonacction" = "taomatkhau" ]; then
 /etc/vpssim/menu/vpssim-dat-mat-khau-bao-ve-folder-website
 ###################################
 elif [ "$luachonacction" = "taomatkhaumacdinh" ]; then
-/etc/vpssim/menu/vpssim-dat-mat-khau-bao-ve-folder-mac-dinh
+/etc/vpssim/menu/dat-mat-khau-bao-ve-folder-mac-dinh
 ###################################
 else 
 clear && /etc/vpssim/menu/vpssim-tien-ich

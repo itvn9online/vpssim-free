@@ -13,9 +13,21 @@ echo "========================================================================= 
 echo "Chuan bi cai dat FTP Server... "
 sleep 3
 yum -y install pure-ftpd
+
+# Chinh lai cau hinh
 sed -i 's/ChrootEveryone/#ChrootEveryone/g' /etc/pure-ftpd/pure-ftpd.conf
 sed -i 's/VerboseLog/#VerboseLog/g' /etc/pure-ftpd/pure-ftpd.conf
 sed -i 's/NoAnonymous/#NoAnonymous/g' /etc/pure-ftpd/pure-ftpd.conf
+
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then
+echo "Not Remove UseFtpUsers in CentOS 6"
+elif [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then
+echo "Not Remove UseFtpUsers in CentOS 7"
+else
+echo "Remove UseFtpUsers in CentOS 8"
+sed -i -e "/UseFtpUsers/d" /etc/pure-ftpd/pure-ftpd.conf
+fi
+
 echo "
 ChrootEveryone yes
 UnixAuthentication yes

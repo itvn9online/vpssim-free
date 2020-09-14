@@ -15,13 +15,13 @@ PS3="$prompt"
 select opt in "${options[@]}" "Thoat"; do 
 
     case "$REPLY" in
-    1 ) /etc/vpssim/menu/opcache/vpssim-bat-opcache;;
-    2 ) /etc/vpssim/menu/opcache/vpssim-opcache-change-size;;
-    3) /etc/vpssim/menu/opcache/vpssim-them-website-vao-blacklist;;
-    4) /etc/vpssim/menu/opcache/vpssim-xoa-website-khoi-blacklist;;
-    5) /etc/vpssim/menu/opcache/vpssim-clear-opcache;;
-    
-    $(( ${#options[@]}+1 )) ) echo "";  clear && /bin/vpssim;;
+	1 ) /etc/vpssim/menu/opcache/vpssim-bat-opcache;;
+	2 ) /etc/vpssim/menu/opcache/vpssim-opcache-change-size;;
+	3) /etc/vpssim/menu/opcache/vpssim-them-website-vao-blacklist;;
+	4) /etc/vpssim/menu/opcache/vpssim-xoa-website-khoi-blacklist;;
+	5) /etc/vpssim/menu/opcache/vpssim-clear-opcache;;
+	$(( ${#options[@]}+1 )) ) echo "";  clear && /bin/vpssim;;
+	0) echo "";  clear && /bin/vpssim;;
     *) echo "Ban nhap sai, vui long nhap theo so thu tu tren menu";continue;;
 
     esac

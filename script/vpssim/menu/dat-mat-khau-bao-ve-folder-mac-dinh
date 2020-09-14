@@ -75,6 +75,8 @@ echo "VPSSIM se config dang nhap mac dinh moi theo thong tin nay "
 echo "-------------------------------------------------------------------------"
 echo "please wait ...."; sleep 3
 rm -rf /etc/nginx/.htpasswd
+#touch /etc/nginx/.htpasswd
+#chmod -R 755 /etc/nginx/.htpasswd
 htpasswd.py -c -b /etc/nginx/.htpasswd $username $matkhau
 chmod -R 644 /etc/nginx/.htpasswd
 cat > "/etc/vpssim/pwprotect.default" <<END
