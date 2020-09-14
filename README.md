@@ -21,10 +21,10 @@ yum -y install wget ; wget --no-check-certificate https://vpssim.echbay.com/inst
 ----------------------------------------------
 
 ### Chức Năng, Tiện Ích Và Tối Ưu VPS Của ECHBAY-VPSSIM:
-#### Nginx-1.18.0
-#### OpenSSL-1.1.1g (Hỗ trợ TLS 1.3 trên CentOS 8, các phiên bản Centos 7-- sẽ là TLS 1.2)
-#### PHP-7.2
-#### MariaDB-10.x
+#### 1. Nginx-1.18.0
+#### 2. OpenSSL-1.1.1g (Hỗ trợ TLS 1.3 trên CentOS 8, các phiên bản Centos 7-- sẽ là TLS 1.2)
+#### 3. PHP-7.2
+#### 4. MariaDB-10.x
 
 ### Lỗi chưa xử lý được (CentOS 8)
 #### htpasswd.py -c -b /etc/nginx/.htpasswd $username $matkhau
