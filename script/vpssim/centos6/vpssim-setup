@@ -813,6 +813,18 @@ END
 
 
 # fixed ERROR for MariaDB config (xu ly loi config tren cac phien ban MariaDB khac nhau)
+if [ "$phienbanmariadb" = "10.2" ] ; then
+# ERROR: Field doesn't have a default value -> Loi sql_mode trong phien ban 10.2++
+cat > "/tmp/vpssimSetConfigFile" <<END
+#!/bin/bash 
+sed -i -e "/sql_mode=/d" /etc/my.cnf.d/server.cnf
+sed -i '/^skip-character-set-client-handshake.*/a sql_mode=NO_ENGINE_SUBSTITUTION' /etc/my.cnf.d/server.cnf
+END
+chmod +x /tmp/vpssimSetConfigFile
+sh /tmp/vpssimSetConfigFile
+rm -f /tmp/vpssimSetConfigFile
+fi
+
 if [ "$phienbanmariadb" = "10.3" ] ; then
 # https://mariadb.com/kb/en/upgrading-from-mariadb-102-to-mariadb-103/
 cat > "/tmp/vpssimSetConfigFile" <<END
