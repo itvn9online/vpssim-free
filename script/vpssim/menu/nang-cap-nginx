@@ -39,9 +39,14 @@ echo "========================================================================="
 echo "NEW nginx version: "${Nginx_VERSION}
 echo "========================================================================="
 
-# test
+# neu truoc do hoi nguoi dung ve viec cap nhat git, nguoi dung chon y roi thi o buoc nay dat y luon, do phai hoi lai
+if [ "$okResetGit" = "y" ]; then
+selectNginxVersion="y"
+else
 echo -n "Ban that su muon thay doi sang phien ban "${Nginx_VERSION}" ? [y/N] "
 read selectNginxVersion
+fi
+
 if [ "$selectNginxVersion" = "y" ]; then
 echo "Ok ! please wait install nginx-"${Nginx_VERSION}" ...."
 sleep 1

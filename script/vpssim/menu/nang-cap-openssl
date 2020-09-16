@@ -45,8 +45,14 @@ echo "========================================================================="
 echo "NEW openssl version: "${opensslversion}
 echo "========================================================================="
 
+# neu truoc do hoi nguoi dung ve viec cap nhat git, nguoi dung chon y roi thi o buoc nay dat y luon, do phai hoi lai
+if [ "$okResetGit" = "y" ]; then
+selectOpenSSL="y"
+else
 echo -n "Ban that su muon thay doi sang phien ban "${opensslversion}" ? [y/N] "
 read selectOpenSSL
+fi
+
 if [ "$selectOpenSSL" = "y" ]; then
 echo "Ok ! please wait update "${opensslversion}" ...."
 sleep 1
