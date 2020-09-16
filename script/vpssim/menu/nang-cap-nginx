@@ -12,7 +12,7 @@ read resetGit
 if [ "$resetGit" = "y" ]; then
 okResetGit="y"
 echo "Ok ok! Chuan bi cap nhat lai code tu github..."
-sleep 10
+sleep 3
 else
 okResetGit="n"
 fi
