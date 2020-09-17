@@ -136,5 +136,7 @@ cd ngx_brotli
 git submodule update --init --recursive
 fi
 
+mkdir -p /usr/share/nginx/modules
+
 
 

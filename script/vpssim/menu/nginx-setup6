@@ -100,7 +100,6 @@ cd /usr/local/vpssim/nginx-${Nginx_VERSION}
 --with-http_realip_module \
 --with-http_stub_status_module \
 --with-cc=/opt/rh/devtoolset-2/root/usr/bin/gcc \
---with-compat --add-dynamic-module=/root/ngx_brotli \
 --add-module=$moduledir/ngx_http_concat \
 --add-module=$moduledir/ngx_cache_purge-master \
 --add-module=$moduledir/ngx_devel_kit-master \
@@ -123,3 +122,6 @@ cd /usr/local/vpssim/nginx-${Nginx_VERSION}
 #
 make
 make install
+
+
+
