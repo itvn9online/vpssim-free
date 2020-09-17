@@ -10,10 +10,11 @@ PS3="$prompt"
 select opt in "${options[@]}" "Thoat"; do 
 
     case "$REPLY" in
-    1 ) /etc/vpssim/menu/checkddos/vpssim-so-ket-noi;;
-    2 ) /etc/vpssim/menu/checkddos/vpssim-so-rysync;;
-    3 ) netstat -an|grep :80 |awk '{print $5}'|cut -d":" -f1|sort|uniq -c|sort -rn;;
-    4 ) /etc/vpssim/menu/vpssim-chan-ip-ddos;;
+    1 ) /etc/vpssim/menu/checkddos/auto-check-block-ip-ddos;;
+    2 ) /etc/vpssim/menu/checkddos/vpssim-so-ket-noi;;
+    3 ) /etc/vpssim/menu/checkddos/vpssim-so-rysync;;
+    4 ) netstat -an|grep :80 |awk '{print $5}'|cut -d":" -f1|sort|uniq -c|sort -rn;;
+    5 ) /etc/vpssim/menu/vpssim-chan-ip-ddos;;
     0) clear && vpssim;;
       
     $(( ${#options[@]}+1 )) ) echo "Tam biet!";  clear && /bin/vpssim;;

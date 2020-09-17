@@ -1,0 +1,69 @@
+#!/bin/bash
+
+centOsVersion=$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release));
+
+# kiem tra va block ip neu connect qua nhieu
+check_and_block_ip () {
+	LIMIT=$1
+	
+	for ip in `cat /root/ebiplist |awk '{print $2}'`; do
+		
+		# kiem tra IP ket noi nhieu
+		if [ `grep $ip /root/ebiplist | awk '{print $1}'` -gt $LIMIT ]; then
+			
+			# thong bao
+			echo "Qua nhieu ket noi tu $ip... Auto block";
+			
+			# keu csf block IP nay luon
+			if [ -f /etc/csf/csf.conf ]; then
+				csf -d "$ip"
+				csf -r
+			else
+				iptables -A INPUT -s $ip -j DROP
+				/sbin/service iptables save
+				if [ "$centOsVersion" == "6" ]; then
+					/sbin/service iptables restart
+				else
+					/bin/systemctl restart iptables.service
+				fi
+			fi
+			
+			# tam dung mot luc de giam so ket noi xuong da
+			sleep 30
+			
+		fi
+		
+	done
+}
+
+# tao file luu danh sach ip
+if [ ! -f /root/ebiplist ]; then
+touch /root/ebiplist ; chmod 644 /root/ebiplist
+fi
+
+#Limit the no of connections
+LIMIT=250;
+
+# bat csf firewall neu co
+if [ -f /etc/csf/csf.conf ]; then
+csf -e
+csf -r
+fi
+
+
+#Collecting list of ip addresses connected to port 80
+netstat -plan|grep :80|awk {'print $5'}|cut -d: -f 1|sort|uniq -c|sort -nr|head > /root/ebiplist
+
+check_and_block_ip $LIMIT
+
+
+#Collecting list of ip addresses connected to port 443
+netstat -plan|grep :443|awk {'print $5'}|cut -d: -f 1|sort|uniq -c|sort -nr|head > /root/ebiplist
+
+check_and_block_ip $LIMIT
+
+
+echo "check and blog IP DDos";
+sleep 5;
+
+/etc/vpssim/menu/vpssim-kiem-tra-ddos
