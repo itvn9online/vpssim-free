@@ -127,3 +127,14 @@ rm -rf libatomic_ops.zip
 #rm -rf nginx_module_vts.tar.gz
 
 
+
+# thu nghiem voi ngx_brotli
+if [ ! -d /usr/local/vpssim/ngx_brotli ]; then
+#mkdir -p /usr/local/vpssim/ngx_brotli
+git clone https://github.com/google/ngx_brotli.git
+cd ngx_brotli
+git submodule update --init --recursive
+fi
+
+
+
