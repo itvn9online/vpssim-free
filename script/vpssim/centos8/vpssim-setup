@@ -1021,9 +1021,9 @@ mkdir -p /etc/nginx/conf ; chmod 755 /etc/nginx/conf
 yes | cp -rf /opt/echbay_vpssim/script/vpssim/conf/. /etc/nginx/conf/
 }
 download_etc_nginx_conf
-if [ ! -f /etc/nginx/conf/staticfiles.conf ]; then
-download_etc_nginx_conf
-fi
+#if [ ! -f /etc/nginx/conf/staticfiles.conf ]; then
+#download_etc_nginx_conf
+#fi
 find /etc/nginx/conf -type f -exec chmod 644 {} \;
 cd
 
