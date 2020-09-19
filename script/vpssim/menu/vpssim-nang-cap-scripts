@@ -54,7 +54,7 @@ echo "Xem ECHBAY-VPSSIM update Log tai: https://github.com/itvn9online/vpssim-fr
 echo -n "Ban van muon cap nhat lai ECHBAY-VPSSIM chu? [y/N] "
 read vanCapNhat
 if [ "$vanCapNhat" = "y" ]; then
-echo "OK! tien trinh cap nhat se duoc tiep tuc..."
+echo "OK baby! tien trinh cap nhat se duoc tiep tuc..."
 sleep 3
 chuaCoBanMoi="y"
 else
