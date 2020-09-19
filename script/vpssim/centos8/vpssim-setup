@@ -417,12 +417,16 @@ systemctl enable nginx.service
 systemctl start nginx.service 
 systemctl enable php-fpm.service 
 systemctl start php-fpm.service
-#systemctl enable mariadb.service
-#systemctl start mariadb.service 
+
+systemctl enable mariadb.service
+systemctl start mariadb.service 
+chkconfig --add mariadb
+chkconfig --levels 235 mariadb on
 chkconfig --add mysql
 chkconfig --levels 235 mysql on
 systemctl enable mysql
 service mysql start
+
 #systemctl enable redis.service
 #systemctl start redis.service
 mkdir -p /home/vpssim.demo/public_html
@@ -1040,20 +1044,8 @@ rm -rf /etc/nginx/.htpasswd
 matkhaubv=`date |md5sum |cut -c '1-6'`
 usernamebv=`echo "${vpssimemail};" | sed 's/\([^@]*\)@\([^;.]*\)\.[^;]*;[ ]*/\1 \2\n/g' | awk 'NR==1 {print $1}'`
 
-checkOsVersion=$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release));
-if [ "$checkOsVersion" == "6" ] || [ "$checkOsVersion" == "7" ]; then
-	centOsVersion=$checkOsVersion
-else
-	centOsVersion=8
-fi
-#echo $centOsVersion;
-
-if [ "$centOsVersion" == "8" ]; then
 sudo yum install -y httpd-tools
 sudo htpasswd -c -b /etc/nginx/.htpasswd $usernamebv $matkhaubv
-else
-htpasswd.py -c -b /etc/nginx/.htpasswd $usernamebv $matkhaubv
-fi
 
 chmod -R 644 /etc/nginx/.htpasswd
 cat > "/etc/vpssim/pwprotect.default" <<END
