@@ -41,6 +41,8 @@ LOCALVER=`cat /etc/vpssim/vpssim.version`
 REMOVER=`cat /etc/vpssim/vpssim.newversion`
 fi
 
+
+chuaCoBanMoi="n"
 if [ "$LOCALVER" == "$REMOVER" ]; then
 clear
 rm -rf /etc/vpssim/vpssim.newversion
@@ -54,6 +56,7 @@ read vanCapNhat
 if [ "$vanCapNhat" = "y" ]; then
 echo "OK! tien trinh cap nhat se duoc tiep tuc..."
 sleep 3
+chuaCoBanMoi="y"
 else
 /etc/vpssim/menu/vpssim-update-upgrade-service-menu
 exit
@@ -70,7 +73,12 @@ echo "-------------------------------------------------------------------------"
 printf "Phien ban ban moi nhat tai thoi diem hien tai: $REMOVER\n"
 printf "=========================================================================\n"
 
+if [ "$chuaCoBanMoi" = "y" ]; then
+response="y"
+else
 read -r -p "Ban chac chan muon update ECHBAY-VPSSIM ? [y/N] " response
+fi
+
 case $response in
 [yY][eE][sS]|[yY])
 echo "-------------------------------------------------------------------------" 
