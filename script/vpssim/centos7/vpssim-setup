@@ -270,6 +270,7 @@ fi
 #if [ "$phienbanmariadb" = "10.0" ] || [ "$phienbanmariadb" = "10.1" ] || [ "$phienbanmariadb" = "10.2" ] || [ "$phienbanmariadb" = "10.3" ] || [ "$phienbanmariadb" = "10.4" ] || [ "$phienbanmariadb" = "10.5" ]; then
 #fi
 
+# https://mariadb.com/resources/blog/installing-mariadb-10-on-centos-7-rhel-7/
 #if [ "$phienbanmariadb" = "10.4" ] || [ "$phienbanmariadb" = "10.5" ]; then
 if [ "$phienbanmariadb" = "10.6" ]; then
 cat > "/etc/yum.repos.d/mariadb.repo" <<END
