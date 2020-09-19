@@ -278,27 +278,32 @@ gpgcheck=1
 END
 fi
 
-if [ "$phienbanmariadb" = "10.4" ]; then
+# https://mariadb.com/resources/blog/how-to-install-mariadb-on-rhel8-centos8/
+if [ "$phienbanmariadb" = "10.4" ] || [ "$phienbanmariadb" = "10.5" ]; then
 cat > "/etc/yum.repos.d/mariadb.repo" <<END
-# MariaDB 10.4 CentOS repository list 
-# http://downloads.mariadb.org/mariadb/repositories/
-[mariadb]
-name = MariaDB
-baseurl = http://yum.mariadb.org/10.4/centos8-amd64
-gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
-gpgcheck=1
-END
-fi
+[mariadb-main]
+name = MariaDB Server
+baseurl = https://downloads.mariadb.com/MariaDB/mariadb-$phienbanmariadb/yum/rhel/$releasever/$basearch
+gpgkey = file:///etc/pki/rpm-gpg/MariaDB-Server-GPG-KEY
+gpgcheck = 1
+enabled = 1
+module_hotfixes = 1
 
-if [ "$phienbanmariadb" = "10.5" ]; then
-cat > "/etc/yum.repos.d/mariadb.repo" <<END
-# MariaDB 10.5 CentOS repository list 
-# http://downloads.mariadb.org/mariadb/repositories/
-[mariadb]
-name = MariaDB
-baseurl = http://yum.mariadb.org/10.5/centos8-amd64
-gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
-gpgcheck=1
+[mariadb-maxscale]
+# To use the latest stable release of MaxScale, use "latest" as the version
+# To use the latest beta (or stable if no current beta) release of MaxScale, use "beta" as the version
+name = MariaDB MaxScale
+baseurl = https://downloads.mariadb.com/MaxScale/2.4/centos/$releasever/$basearch
+gpgkey = file:///etc/pki/rpm-gpg/MariaDB-MaxScale-GPG-KEY
+gpgcheck = 1
+enabled = 1
+
+[mariadb-tools]
+name = MariaDB Tools
+baseurl = https://downloads.mariadb.com/Tools/rhel/$releasever/$basearch
+gpgkey = file:///etc/pki/rpm-gpg/MariaDB-Enterprise-GPG-KEY
+gpgcheck = 1
+enabled = 1
 END
 fi
 
@@ -381,7 +386,12 @@ sudo yum makecache fast
 sudo yum search mariadb
 sudo yum info mariadb
 #sudo dnf -y install MariaDB-client MariaDB-common MariaDB-compat MariaDB-devel MariaDB-server MariaDB-shared perl-DBD-MySQL
-sudo dnf -y install mariadb-server
+sudo yum -y install perl-DBI libaio libsepol lsof boost-program-options
+if [ "$phienbanmariadb" = "10.3" ]; then
+sudo dnf -y install --repo="mariadb" mariadb-server
+else
+sudo dnf -y install --repo="mariadb-main" MariaDB-server
+fi
 
 sudo dnf -y install exim syslog-ng cronie cronie-anacron
 
