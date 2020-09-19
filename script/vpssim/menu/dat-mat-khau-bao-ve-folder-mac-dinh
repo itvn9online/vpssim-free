@@ -1,8 +1,19 @@
 #!/bin/sh
+
 . /etc/vpssim/pwprotect.default
+
 if [ ! -d /etc/nginx/pwprotect ]; then
 mkdir -p /etc/nginx/pwprotect
 fi
+
+checkOsVersion=$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release));
+if [ "$checkOsVersion" == "6" ] || [ "$checkOsVersion" == "7" ]; then
+	centOsVersion=$checkOsVersion
+else
+	centOsVersion=8
+fi
+#echo $centOsVersion;
+
 if [ -f /etc/nginx/.htpasswd ]; then
 echo "========================================================================="
 echo "Su dung User & Password mac dinh de bao ve: phpMyAdmin, NetData, Net2FTP"
@@ -17,11 +28,11 @@ prompt="Nhap lua chon cua ban: "
 options=("Thay Thong Tin Dang Nhap Mac Dinh" "Giu Nguyen Thong Tin Hien Tai (Thoat)")
 PS3="$prompt"
 select opt in "${options[@]}"; do 
-    case "$REPLY" in
-    1) chooseacction="thaythongtindangnhapmacdinh"; break;;
-    2) chooseacction="thoat"; break;;
-    *) echo "Ban nhap sai ! Ban vui long chon so trong danh sach";continue;;
-    esac  
+case "$REPLY" in
+1) chooseacction="thaythongtindangnhapmacdinh"; break;;
+2) chooseacction="thoat"; break;;
+*) echo "Ban nhap sai ! Ban vui long chon so trong danh sach";continue;;
+esac  
 done
 ###################################
 #Thay Thong Tin Dang Nhap
@@ -66,6 +77,7 @@ echo "Ban chi duoc dung chu cai va so de dat mat khau."
 vpssim
 exit
 fi
+
 echo "-------------------------------------------------------------------------"
 echo "Thong tin ban nhap: "
 echo "-------------------------------------------------------------------------"
@@ -74,10 +86,18 @@ echo "-------------------------------------------------------------------------"
 echo "VPSSIM se config dang nhap mac dinh moi theo thong tin nay "
 echo "-------------------------------------------------------------------------"
 echo "please wait ...."; sleep 3
+
 rm -rf /etc/nginx/.htpasswd
 #touch /etc/nginx/.htpasswd
 #chmod -R 755 /etc/nginx/.htpasswd
+
+if [ "$centOsVersion" == "8" ]; then
+sudo yum install -y httpd-tools
+sudo htpasswd -c -b /etc/nginx/.htpasswd $username $matkhau
+else
 htpasswd.py -c -b /etc/nginx/.htpasswd $username $matkhau
+fi
+
 chmod -R 644 /etc/nginx/.htpasswd
 cat > "/etc/vpssim/pwprotect.default" <<END
 userdefault="$username"
@@ -89,11 +109,13 @@ define('ADMIN_USERNAME','$username');   // Admin Username
 define('ADMIN_PASSWORD','$matkhau');    // Admin Password
 ?>
 END
+
 if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
 service nginx reload
 else
 systemctl reload nginx
 fi
+
 clear
 echo "========================================================================="
 echo "Thay thong tin dang nhap mac dinh thanh cong."
@@ -120,6 +142,7 @@ echo "Ban chua nhap username"
 vpssim
 exit
 fi
+
 checkpass="^[a-zA-Z0-9_][-a-zA-Z0-9_]{0,61}[a-zA-Z0-9_]$";
 if [[ ! "$username" =~ $checkpass ]]; then
 clear
@@ -128,6 +151,7 @@ echo "Ban chi duoc dung chu cai va so de dat Username."
 vpssim
 exit
 fi
+
 echo "-------------------------------------------------------------------------"
 echo -n "Nhap mat khau: "
 read matkhau
@@ -138,6 +162,7 @@ echo "Ban chua nhap mat khau"
 vpssim
 exit
 fi
+
 checkpass="^[a-zA-Z0-9_][-a-zA-Z0-9_]{0,61}[a-zA-Z0-9_]$";
 if [[ ! "$matkhau" =~ $checkpass ]]; then
 clear
@@ -166,7 +191,14 @@ define('ADMIN_PASSWORD','$matkhau');    // Admin Password
 ?>
 END
 rm -rf /etc/nginx/.htpasswd
+
+if [ "$centOsVersion" == "8" ]; then
+sudo yum install -y httpd-tools
+sudo htpasswd -c -b /etc/nginx/.htpasswd $username $matkhau
+else
 htpasswd.py -c -b /etc/nginx/.htpasswd $username $matkhau
+fi
+
 chmod -R 644 /etc/nginx/.htpasswd
 clear
 echo "========================================================================="

@@ -125,7 +125,22 @@ sleep 1
 
 
 rm -rf /etc/nginx/pwprotect/$website/.htpasswd_wp_login
+
+checkOsVersion=$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release));
+if [ "$checkOsVersion" == "6" ] || [ "$checkOsVersion" == "7" ]; then
+	centOsVersion=$checkOsVersion
+else
+	centOsVersion=8
+fi
+#echo $centOsVersion;
+
+if [ "$centOsVersion" == "8" ]; then
+sudo yum install -y httpd-tools
+sudo htpasswd -c -b /etc/nginx/pwprotect/$website/.htpasswd_wp_login $username $matkhau
+else
 htpasswd.py -c -b /etc/nginx/pwprotect/$website/.htpasswd_wp_login $username $matkhau
+fi
+
 chmod -R 644 /etc/nginx/pwprotect/$website/.htpasswd_wp_login
 if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
 service nginx restart
@@ -281,7 +296,22 @@ mkdir -p /etc/nginx/pwprotect/$website
 fi
 
 rm -rf /etc/nginx/pwprotect/$website/.htpasswd_wp_login
+
+checkOsVersion=$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release));
+if [ "$checkOsVersion" == "6" ] || [ "$checkOsVersion" == "7" ]; then
+	centOsVersion=$checkOsVersion
+else
+	centOsVersion=8
+fi
+#echo $centOsVersion;
+
+if [ "$centOsVersion" == "8" ]; then
+sudo yum install -y httpd-tools
+sudo htpasswd -c -b /etc/nginx/pwprotect/$website/.htpasswd_wp_login $username $matkhau
+else
 htpasswd.py -c -b /etc/nginx/pwprotect/$website/.htpasswd_wp_login $username $matkhau
+fi
+
 chmod -R 644 /etc/nginx/pwprotect/$website/.htpasswd_wp_login
 cat > "/tmp/abcdfrfrf.sh" <<END
 #!/bin/sh
@@ -435,7 +465,22 @@ if [ ! -d /etc/nginx/pwprotect/$website ]; then
 mkdir -p /etc/nginx/pwprotect/$website
 fi
 rm -rf /etc/nginx/pwprotect/$website/.htpasswd_wp_login
+
+checkOsVersion=$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release));
+if [ "$checkOsVersion" == "6" ] || [ "$checkOsVersion" == "7" ]; then
+	centOsVersion=$checkOsVersion
+else
+	centOsVersion=8
+fi
+#echo $centOsVersion;
+
+if [ "$centOsVersion" == "8" ]; then
+sudo yum install -y httpd-tools
+sudo htpasswd -c -b /etc/nginx/pwprotect/$website/.htpasswd_wp_login $username $matkhau
+else
 htpasswd.py -c -b /etc/nginx/pwprotect/$website/.htpasswd_wp_login $username $matkhau
+fi
+
 chmod -R 644 /etc/nginx/pwprotect/$website/.htpasswd_wp_login
 
 cat > "/etc/nginx/pwprotect/$website/wp_login.conf" <<END

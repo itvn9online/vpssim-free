@@ -146,7 +146,22 @@ random32=`date |md5sum |cut -c '1-32'`
 username=`cat /tmp/vpssimtmp.txt | sed "s/\_//" | sed "s/\_//" | sed "s/\_//" | sed "s/\_//" | cut -c1-10`$random
 password=`date |md5sum |cut -c '14-29'`
 rm -rf /tmp/vpssimtmp.txt
+
+checkOsVersion=$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release));
+if [ "$checkOsVersion" == "6" ] || [ "$checkOsVersion" == "7" ]; then
+	centOsVersion=$checkOsVersion
+else
+	centOsVersion=8
+fi
+#echo $centOsVersion;
+
+if [ "$centOsVersion" == "8" ]; then
+sudo yum install -y httpd-tools
+sudo htpasswd -c -b /home/$website/.htpasswd_temp $username $password
+else
 htpasswd.py -c -b /home/$website/.htpasswd_temp $username $password
+fi
+
 echo "If you want to access to http://$website/temp" > /home/$website/readme.txt
 echo "You must use the infomation: Username: $username || Password: $password" >> /home/$website/readme.txt
 echo "And maybe, you do not need this infomation :)" >> /home/$website/readme.txt

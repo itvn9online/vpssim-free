@@ -1078,7 +1078,22 @@ chmod 755 /usr/local/bin/htpasswd.py
 rm -rf /etc/nginx/.htpasswd
 matkhaubv=`date |md5sum |cut -c '1-6'`
 usernamebv=`echo "${vpssimemail};" | sed 's/\([^@]*\)@\([^;.]*\)\.[^;]*;[ ]*/\1 \2\n/g' | awk 'NR==1 {print $1}'`
+
+checkOsVersion=$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release));
+if [ "$checkOsVersion" == "6" ] || [ "$checkOsVersion" == "7" ]; then
+	centOsVersion=$checkOsVersion
+else
+	centOsVersion=8
+fi
+#echo $centOsVersion;
+
+if [ "$centOsVersion" == "8" ]; then
+sudo yum install -y httpd-tools
+sudo htpasswd -c -b /etc/nginx/.htpasswd $usernamebv $matkhaubv
+else
 htpasswd.py -c -b /etc/nginx/.htpasswd $usernamebv $matkhaubv
+fi
+
 chmod -R 644 /etc/nginx/.htpasswd
 cat > "/etc/vpssim/pwprotect.default" <<END
 userdefault="$usernamebv"
