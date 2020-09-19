@@ -8,6 +8,7 @@ printf "========================================================================
 printf "                            Server Status \n"
 printf "=========================================================================\n"
 echo "IP: $serverip - Disc Free: $(calc $(df $PWD | awk '/[0-9]%/{print $(NF-2)}')/1024) MB"
+echo "OS: "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))
 echo "-------------------------------------------------------------------------"
 if [ -f /etc/csf/csf.deny ]; then
 if [ "$(cat /etc/csf/csf.deny | awk 'NR==2 {print $2}')" == "Copyright" ]; then
