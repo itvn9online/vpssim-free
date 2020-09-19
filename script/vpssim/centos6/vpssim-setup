@@ -278,61 +278,13 @@ if [ -f /etc/yum.repos.d/epel.repo ]; then
 sudo sed -i "s/mirrorlist=https/mirrorlist=http/" /etc/yum.repos.d/epel.repo
 fi
 
-if [ "$phienbanmariadb" = "10.0" ]; then
+if [ "$phienbanmariadb" = "10.0" ] || [ "$phienbanmariadb" = "10.1" ] || [ "$phienbanmariadb" = "10.2" ] || [ "$phienbanmariadb" = "10.3" ] || [ "$phienbanmariadb" = "5.5" ]; then
 cat > "/etc/yum.repos.d/mariadb.repo" <<END
-# MariaDB 10.0 CentOS repository list
+# MariaDB $phienbanmariadb CentOS repository list 
 # http://downloads.mariadb.org/mariadb/repositories/
 [mariadb]
 name = MariaDB
-baseurl = http://yum.mariadb.org/10.0/centos6-amd64
-gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
-gpgcheck=1
-END
-fi
-
-if [ "$phienbanmariadb" = "10.1" ]; then
-cat > "/etc/yum.repos.d/mariadb.repo" <<END
-# MariaDB 10.1 CentOS repository list
-# http://downloads.mariadb.org/mariadb/repositories/
-[mariadb]
-name = MariaDB
-baseurl = http://yum.mariadb.org/10.1/centos6-amd64
-gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
-gpgcheck=1
-END
-fi
-
-if [ "$phienbanmariadb" = "10.2" ]; then
-cat > "/etc/yum.repos.d/mariadb.repo" <<END
-# MariaDB 10.2 CentOS repository list
-# http://downloads.mariadb.org/mariadb/repositories/
-[mariadb]
-name = MariaDB
-baseurl = http://yum.mariadb.org/10.2/centos6-amd64
-gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
-gpgcheck=1
-END
-fi
-
-if [ "$phienbanmariadb" = "10.3" ]; then
-cat > "/etc/yum.repos.d/mariadb.repo" <<END
-# MariaDB 10.3 CentOS repository list
-# http://downloads.mariadb.org/mariadb/repositories/
-[mariadb]
-name = MariaDB
-baseurl = http://yum.mariadb.org/10.3/centos6-amd64
-gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
-gpgcheck=1
-END
-fi
-
-if [ "$phienbanmariadb" = "5.5" ]; then
-cat > "/etc/yum.repos.d/mariadb.repo" <<END
-# MariaDB 5.5 CentOS repository list 
-# http://downloads.mariadb.org/mariadb/repositories/
-[mariadb]
-name = MariaDB
-baseurl = http://yum.mariadb.org/5.5/centos6-amd64
+baseurl = http://yum.mariadb.org/$phienbanmariadb/centos6-amd64
 gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
 gpgcheck=1
 END
@@ -837,42 +789,10 @@ rm -f /tmp/vpssimSetConfigFile
 fi
 
 
-if [ "$phienbanmariadb" = "10.0" ] ; then
+if [ "$phienbanmariadb" = "10.0" ] || [ "$phienbanmariadb" = "10.1" ] || [ "$phienbanmariadb" = "10.2" ] ; then
 cat >> "/etc/my.cnf.d/server.cnf" <<END
 
-[mariadb-10.0]
-innodb_buffer_pool_dump_at_shutdown=1
-innodb_buffer_pool_load_at_startup=1
-innodb_buffer_pool_populate=0
-performance_schema=OFF
-innodb_stats_on_metadata=OFF
-innodb_sort_buffer_size=1M
-query_cache_strip_comments=0
-log_slow_filter =admin,filesort,filesort_on_disk,full_join,full_scan,query_cache,query_cache_miss,tmp_table,tmp_table_on_disk
-
-END
-fi
-
-if [ "$phienbanmariadb" = "10.1" ] ; then
-cat >> "/etc/my.cnf.d/server.cnf" <<END
-
-[mariadb-10.1]
-innodb_buffer_pool_dump_at_shutdown=1
-innodb_buffer_pool_load_at_startup=1
-innodb_buffer_pool_populate=0
-performance_schema=OFF
-innodb_stats_on_metadata=OFF
-innodb_sort_buffer_size=1M
-query_cache_strip_comments=0
-log_slow_filter =admin,filesort,filesort_on_disk,full_join,full_scan,query_cache,query_cache_miss,tmp_table,tmp_table_on_disk
-
-END
-fi
-
-if [ "$phienbanmariadb" = "10.2" ] ; then
-cat >> "/etc/my.cnf.d/server.cnf" <<END
-
-[mariadb-10.2]
+[mariadb-$phienbanmariadb]
 innodb_buffer_pool_dump_at_shutdown=1
 innodb_buffer_pool_load_at_startup=1
 innodb_buffer_pool_populate=0

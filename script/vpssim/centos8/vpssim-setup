@@ -266,18 +266,6 @@ if [ -f /etc/yum.repos.d/epel.repo ]; then
 sudo sed -i "s/mirrorlist=https/mirrorlist=http/" /etc/yum.repos.d/epel.repo
 fi
 
-if [ "$phienbanmariadb" = "10.3" ]; then
-cat > "/etc/yum.repos.d/mariadb.repo" <<END
-# MariaDB 10.3 CentOS repository list 
-# http://downloads.mariadb.org/mariadb/repositories/
-[mariadb]
-name = MariaDB
-baseurl = http://yum.mariadb.org/10.3/centos8-amd64
-gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
-gpgcheck=1
-END
-fi
-
 # https://mariadb.com/resources/blog/how-to-install-mariadb-on-rhel8-centos8/
 if [ "$phienbanmariadb" = "10.4" ] || [ "$phienbanmariadb" = "10.5" ]; then
 cat > "/etc/yum.repos.d/mariadb.repo" <<END
@@ -304,6 +292,16 @@ baseurl = https://downloads.mariadb.com/Tools/rhel/$releasever/$basearch
 gpgkey = file:///etc/pki/rpm-gpg/MariaDB-Enterprise-GPG-KEY
 gpgcheck = 1
 enabled = 1
+END
+else
+cat > "/etc/yum.repos.d/mariadb.repo" <<END
+# MariaDB $phienbanmariadb CentOS repository list 
+# http://downloads.mariadb.org/mariadb/repositories/
+[mariadb]
+name = MariaDB
+baseurl = http://yum.mariadb.org/$phienbanmariadb/centos8-amd64
+gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
+gpgcheck=1
 END
 fi
 
@@ -388,7 +386,7 @@ sudo yum info mariadb
 #sudo dnf -y install MariaDB-client MariaDB-common MariaDB-compat MariaDB-devel MariaDB-server MariaDB-shared perl-DBD-MySQL
 sudo yum -y install perl-DBI libaio libsepol lsof boost-program-options
 if [ "$phienbanmariadb" = "10.3" ]; then
-sudo dnf -y install --repo="mariadb" mariadb-server
+sudo dnf -y install --repo="mariadb" MariaDB-server
 else
 sudo dnf -y install --repo="mariadb-main" MariaDB-server
 fi
@@ -798,19 +796,6 @@ interactive-timeout
 END
 
 
-# fixed ERROR for MariaDB config (xu ly loi config tren cac phien ban MariaDB khac nhau)
-if [ "$phienbanmariadb" = "10.2" ] ; then
-# ERROR: Field doesn't have a default value -> Loi sql_mode trong phien ban 10.2++
-cat > "/tmp/vpssimSetConfigFile" <<END
-#!/bin/bash 
-sed -i -e "/sql_mode=/d" /etc/my.cnf.d/server.cnf
-sed -i '/^skip-character-set-client-handshake.*/a sql_mode=NO_ENGINE_SUBSTITUTION' /etc/my.cnf.d/server.cnf
-END
-chmod +x /tmp/vpssimSetConfigFile
-sh /tmp/vpssimSetConfigFile
-rm -f /tmp/vpssimSetConfigFile
-fi
-
 if [ "$phienbanmariadb" = "10.3" ] || [ "$phienbanmariadb" = "10.4" ] || [ "$phienbanmariadb" = "10.5" ] ; then
 # https://mariadb.com/kb/en/upgrading-from-mariadb-102-to-mariadb-103/
 cat > "/tmp/vpssimSetConfigFile" <<END
@@ -823,42 +808,10 @@ rm -f /tmp/vpssimSetConfigFile
 fi
 
 
-if [ "$phienbanmariadb" = "10.3" ] ; then
+if [ "$phienbanmariadb" = "10.3" ] || [ "$phienbanmariadb" = "10.4" ] || [ "$phienbanmariadb" = "10.5" ] ; then
 cat >> "/etc/my.cnf.d/server.cnf" <<END
 
-[mariadb-10.3]
-innodb_buffer_pool_dump_at_shutdown=1
-innodb_buffer_pool_load_at_startup=1
-#innodb_buffer_pool_populate=0
-performance_schema=OFF
-innodb_stats_on_metadata=OFF
-innodb_sort_buffer_size=1M
-query_cache_strip_comments=0
-log_slow_filter =admin,filesort,filesort_on_disk,full_join,full_scan,query_cache,query_cache_miss,tmp_table,tmp_table_on_disk
-
-END
-fi
-
-if [ "$phienbanmariadb" = "10.4" ] ; then
-cat >> "/etc/my.cnf.d/server.cnf" <<END
-
-[mariadb-10.4]
-innodb_buffer_pool_dump_at_shutdown=1
-innodb_buffer_pool_load_at_startup=1
-#innodb_buffer_pool_populate=0
-performance_schema=OFF
-innodb_stats_on_metadata=OFF
-innodb_sort_buffer_size=1M
-query_cache_strip_comments=0
-log_slow_filter =admin,filesort,filesort_on_disk,full_join,full_scan,query_cache,query_cache_miss,tmp_table,tmp_table_on_disk
-
-END
-fi
-
-if [ "$phienbanmariadb" = "10.5" ] ; then
-cat >> "/etc/my.cnf.d/server.cnf" <<END
-
-[mariadb-10.5]
+[mariadb-$phienbanmariadb]
 innodb_buffer_pool_dump_at_shutdown=1
 innodb_buffer_pool_load_at_startup=1
 #innodb_buffer_pool_populate=0

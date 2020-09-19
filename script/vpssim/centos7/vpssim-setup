@@ -267,75 +267,43 @@ if [ -f /etc/yum.repos.d/epel.repo ]; then
 sudo sed -i "s/mirrorlist=https/mirrorlist=http/" /etc/yum.repos.d/epel.repo
 fi
 
-if [ "$phienbanmariadb" = "10.0" ]; then
+if [ "$phienbanmariadb" = "10.0" ] || [ "$phienbanmariadb" = "10.1" ] || [ "$phienbanmariadb" = "10.2" ] || [ "$phienbanmariadb" = "10.3" ]; then
 cat > "/etc/yum.repos.d/mariadb.repo" <<END
-# MariaDB 10.0 CentOS repository list 
+# MariaDB $phienbanmariadb CentOS repository list 
 # http://downloads.mariadb.org/mariadb/repositories/
 [mariadb]
 name = MariaDB
-baseurl = http://yum.mariadb.org/10.0/centos7-amd64
+baseurl = http://yum.mariadb.org/$phienbanmariadb/centos7-amd64
 gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
 gpgcheck=1
 END
 fi
 
-if [ "$phienbanmariadb" = "10.1" ]; then
+if [ "$phienbanmariadb" = "10.4" ] || [ "$phienbanmariadb" = "10.5" ]; then
 cat > "/etc/yum.repos.d/mariadb.repo" <<END
-# MariaDB 10.1 CentOS repository list 
-# http://downloads.mariadb.org/mariadb/repositories/
-[mariadb]
-name = MariaDB
-baseurl = http://yum.mariadb.org/10.1/centos7-amd64
-gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
-gpgcheck=1
-END
-fi
+[mariadb-main]
+name = MariaDB Server
+baseurl = https://downloads.mariadb.com/MariaDB/mariadb-$phienbanmariadb/yum/rhel/\$releasever/\$basearch
+gpgkey = file:///etc/pki/rpm-gpg/MariaDB-Server-GPG-KEY
+gpgcheck = 1
+enabled = 1
 
-if [ "$phienbanmariadb" = "10.2" ]; then
-cat > "/etc/yum.repos.d/mariadb.repo" <<END
-# MariaDB 10.2 CentOS repository list 
-# http://downloads.mariadb.org/mariadb/repositories/
-[mariadb]
-name = MariaDB
-baseurl = http://yum.mariadb.org/10.2/centos7-amd64
-gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
-gpgcheck=1
-END
-fi
 
-if [ "$phienbanmariadb" = "10.3" ]; then
-cat > "/etc/yum.repos.d/mariadb.repo" <<END
-# MariaDB 10.3 CentOS repository list 
-# http://downloads.mariadb.org/mariadb/repositories/
-[mariadb]
-name = MariaDB
-baseurl = http://yum.mariadb.org/10.3/centos7-amd64
-gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
-gpgcheck=1
-END
-fi
+[mariadb-maxscale]
+# To use the latest stable release of MaxScale, use "latest" as the version
+# To use the latest beta (or stable if no current beta) release of MaxScale, use "beta" as the version
+name = MariaDB MaxScale
+baseurl = https://downloads.mariadb.com/MaxScale/2.4/centos/\$releasever/\$basearch
+gpgkey = file:///etc/pki/rpm-gpg/MariaDB-MaxScale-GPG-KEY
+gpgcheck = 1
+enabled = 1
 
-if [ "$phienbanmariadb" = "10.4" ]; then
-cat > "/etc/yum.repos.d/mariadb.repo" <<END
-# MariaDB 10.4 CentOS repository list 
-# http://downloads.mariadb.org/mariadb/repositories/
-[mariadb]
-name = MariaDB
-baseurl = http://yum.mariadb.org/10.4/centos7-amd64
-gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
-gpgcheck=1
-END
-fi
-
-if [ "$phienbanmariadb" = "10.5" ]; then
-cat > "/etc/yum.repos.d/mariadb.repo" <<END
-# MariaDB 10.5 CentOS repository list 
-# http://downloads.mariadb.org/mariadb/repositories/
-[mariadb]
-name = MariaDB
-baseurl = http://yum.mariadb.org/10.5/centos7-amd64
-gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
-gpgcheck=1
+[mariadb-tools]
+name = MariaDB Tools
+baseurl = https://downloads.mariadb.com/Tools/rhel/\$releasever/\$basearch
+gpgkey = file:///etc/pki/rpm-gpg/MariaDB-Enterprise-GPG-KEY
+gpgcheck = 1
+enabled = 1
 END
 fi
 
@@ -411,7 +379,13 @@ cd
 
 
 sudo yum makecache fast
+if [ "$phienbanmariadb" = "10.4" ] || [ "$phienbanmariadb" = "10.5" ]; then
+sudo yum -y install perl-DBI libaio libsepol lsof boost-program-options
+sudo yum -y install --repo="mariadb-main" MariaDB-server
+else
+#sudo yum -y install --repo="mariadb" MariaDB-server
 sudo yum -y install MariaDB-client MariaDB-common MariaDB-compat MariaDB-devel MariaDB-server MariaDB-shared perl-DBD-MySQL
+fi
 
 sudo yum -y install exim syslog-ng cronie cronie-anacron
 
@@ -840,10 +814,10 @@ rm -f /tmp/vpssimSetConfigFile
 fi
 
 
-if [ "$phienbanmariadb" = "10.0" ] ; then
+if [ "$phienbanmariadb" = "10.0" ] || [ "$phienbanmariadb" = "10.1" ] || [ "$phienbanmariadb" = "10.2" ] ; then
 cat >> "/etc/my.cnf.d/server.cnf" <<END
 
-[mariadb-10.0]
+[mariadb-$phienbanmariadb]
 innodb_buffer_pool_dump_at_shutdown=1
 innodb_buffer_pool_load_at_startup=1
 innodb_buffer_pool_populate=0
@@ -856,74 +830,10 @@ log_slow_filter =admin,filesort,filesort_on_disk,full_join,full_scan,query_cache
 END
 fi
 
-if [ "$phienbanmariadb" = "10.1" ] ; then
+if [ "$phienbanmariadb" = "10.3" ] || [ "$phienbanmariadb" = "10.4" ] || [ "$phienbanmariadb" = "10.5" ] ; then
 cat >> "/etc/my.cnf.d/server.cnf" <<END
 
-[mariadb-10.1]
-innodb_buffer_pool_dump_at_shutdown=1
-innodb_buffer_pool_load_at_startup=1
-innodb_buffer_pool_populate=0
-performance_schema=OFF
-innodb_stats_on_metadata=OFF
-innodb_sort_buffer_size=1M
-query_cache_strip_comments=0
-log_slow_filter =admin,filesort,filesort_on_disk,full_join,full_scan,query_cache,query_cache_miss,tmp_table,tmp_table_on_disk
-
-END
-fi
-
-if [ "$phienbanmariadb" = "10.2" ] ; then
-cat >> "/etc/my.cnf.d/server.cnf" <<END
-
-[mariadb-10.2]
-innodb_buffer_pool_dump_at_shutdown=1
-innodb_buffer_pool_load_at_startup=1
-innodb_buffer_pool_populate=0
-performance_schema=OFF
-innodb_stats_on_metadata=OFF
-innodb_sort_buffer_size=1M
-query_cache_strip_comments=0
-log_slow_filter =admin,filesort,filesort_on_disk,full_join,full_scan,query_cache,query_cache_miss,tmp_table,tmp_table_on_disk
-
-END
-fi
-
-if [ "$phienbanmariadb" = "10.3" ] ; then
-cat >> "/etc/my.cnf.d/server.cnf" <<END
-
-[mariadb-10.3]
-innodb_buffer_pool_dump_at_shutdown=1
-innodb_buffer_pool_load_at_startup=1
-#innodb_buffer_pool_populate=0
-performance_schema=OFF
-innodb_stats_on_metadata=OFF
-innodb_sort_buffer_size=1M
-query_cache_strip_comments=0
-log_slow_filter =admin,filesort,filesort_on_disk,full_join,full_scan,query_cache,query_cache_miss,tmp_table,tmp_table_on_disk
-
-END
-fi
-
-if [ "$phienbanmariadb" = "10.4" ] ; then
-cat >> "/etc/my.cnf.d/server.cnf" <<END
-
-[mariadb-10.4]
-innodb_buffer_pool_dump_at_shutdown=1
-innodb_buffer_pool_load_at_startup=1
-#innodb_buffer_pool_populate=0
-performance_schema=OFF
-innodb_stats_on_metadata=OFF
-innodb_sort_buffer_size=1M
-query_cache_strip_comments=0
-log_slow_filter =admin,filesort,filesort_on_disk,full_join,full_scan,query_cache,query_cache_miss,tmp_table,tmp_table_on_disk
-
-END
-fi
-
-if [ "$phienbanmariadb" = "10.5" ] ; then
-cat >> "/etc/my.cnf.d/server.cnf" <<END
-
-[mariadb-10.5]
+[mariadb-$phienbanmariadb]
 innodb_buffer_pool_dump_at_shutdown=1
 innodb_buffer_pool_load_at_startup=1
 #innodb_buffer_pool_populate=0
