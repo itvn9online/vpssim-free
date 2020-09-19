@@ -267,7 +267,7 @@ if [ -f /etc/yum.repos.d/epel.repo ]; then
 sudo sed -i "s/mirrorlist=https/mirrorlist=http/" /etc/yum.repos.d/epel.repo
 fi
 
-if [ "$phienbanmariadb" = "10.0" ] || [ "$phienbanmariadb" = "10.1" ] || [ "$phienbanmariadb" = "10.2" ] || [ "$phienbanmariadb" = "10.3" ]; then
+if [ "$phienbanmariadb" = "10.0" ] || [ "$phienbanmariadb" = "10.1" ] || [ "$phienbanmariadb" = "10.2" ] || [ "$phienbanmariadb" = "10.3" ] || [ "$phienbanmariadb" = "10.4" ] || [ "$phienbanmariadb" = "10.5" ]; then
 cat > "/etc/yum.repos.d/mariadb.repo" <<END
 # MariaDB $phienbanmariadb CentOS repository list 
 # http://downloads.mariadb.org/mariadb/repositories/
@@ -279,7 +279,8 @@ gpgcheck=1
 END
 fi
 
-if [ "$phienbanmariadb" = "10.4" ] || [ "$phienbanmariadb" = "10.5" ]; then
+#if [ "$phienbanmariadb" = "10.4" ] || [ "$phienbanmariadb" = "10.5" ]; then
+if [ "$phienbanmariadb" = "10.6" ]; then
 cat > "/etc/yum.repos.d/mariadb.repo" <<END
 [mariadb-main]
 name = MariaDB Server
@@ -379,13 +380,13 @@ cd
 
 
 sudo yum makecache fast
-if [ "$phienbanmariadb" = "10.4" ] || [ "$phienbanmariadb" = "10.5" ]; then
-sudo yum -y install perl-DBI libaio libsepol lsof boost-program-options
-sudo yum -y install --repo="mariadb-main" MariaDB-server
-else
+#if [ "$phienbanmariadb" = "10.4" ] || [ "$phienbanmariadb" = "10.5" ]; then
+#sudo yum -y install perl-DBI libaio libsepol lsof boost-program-options
+#sudo yum -y install --repo="mariadb-main" MariaDB-server
+#else
 #sudo yum -y install --repo="mariadb" MariaDB-server
 sudo yum -y install MariaDB-client MariaDB-common MariaDB-compat MariaDB-devel MariaDB-server MariaDB-shared perl-DBD-MySQL
-fi
+#fi
 
 sudo yum -y install exim syslog-ng cronie cronie-anacron
 

@@ -33,31 +33,31 @@ yum -y install wget ; wget --no-check-certificate https://vpssim.echbay.com/inst
 - [x] CentOS-7 x64
 - [x] Nginx-1.18.0 + OpenSSL-1.1.1g + Prce-8.44 + Zlib-1.2.11
 - [x] PHP-7.2
-- [x] **MariaDB-10.1**
+- [ ] **MariaDB-10.1**
 
 > 2020/09/14
 - [x] CentOS-7 x64
 - [x] Nginx-1.18.0 + OpenSSL-1.1.1g + Prce-8.44 + Zlib-1.2.11
 - [x] PHP-7.2
-- [x] **MariaDB-10.2**
+- [ ] **MariaDB-10.2**
 
 > 2020/09/14
 - [x] CentOS-7 x64
 - [x] Nginx-1.18.0 + OpenSSL-1.1.1g + Prce-8.44 + Zlib-1.2.11
 - [x] PHP-7.2
-- [x] **MariaDB-10.3**
+- [ ] **MariaDB-10.3**
 
 > 2020/09/15
 - [x] CentOS-7 x64
 - [x] Nginx-1.18.0 + OpenSSL-1.1.1g + Prce-8.44 + Zlib-1.2.11
 - [x] PHP-7.2
-- [x] **MariaDB-10.4**
+- [ ] **MariaDB-10.4**
 
 > 2020/09/15
 - [x] CentOS-7 x64
 - [x] Nginx-1.18.0 + OpenSSL-1.1.1g + Prce-8.44 + Zlib-1.2.11
 - [x] PHP-7.2
-- [x] **MariaDB-10.5**
+- [ ] **MariaDB-10.5**
 
 ----------------------------------------------
 
