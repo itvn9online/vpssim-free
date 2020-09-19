@@ -61,12 +61,6 @@ yum -y install wget ; wget --no-check-certificate https://vpssim.echbay.com/inst
 
 ----------------------------------------------
 
-> 2020/09/13
-### Lỗi chưa xử lý được (CentOS 8)
-#### htpasswd.py -c -b /etc/nginx/.htpasswd $username $matkhau
-
-----------------------------------------------
-
 ### Dự kiến:
 #### Nghiên cứu thêm về Brotli: https://github.com/google/ngx_brotli
 https://nguyenhongson.net/cai-dat-brotli-cho-nginx-tren-centos-7/
