@@ -267,7 +267,8 @@ sudo sed -i "s/mirrorlist=https/mirrorlist=http/" /etc/yum.repos.d/epel.repo
 fi
 
 # https://mariadb.com/resources/blog/how-to-install-mariadb-on-rhel8-centos8/
-if [ "$phienbanmariadb" = "10.4" ] || [ "$phienbanmariadb" = "10.5" ]; then
+#if [ "$phienbanmariadb" = "10.4" ] || [ "$phienbanmariadb" = "10.5" ]; then
+if [ "$phienbanmariadb" = "10.6" ]; then
 cat > "/etc/yum.repos.d/mariadb.repo" <<END
 [mariadb-main]
 name = MariaDB Server
