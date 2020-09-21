@@ -96,31 +96,32 @@ clear
 bash /root/vpssim-setup
 exit
 fi
+
 prompt="Nhap lua chon cua ban: "
-options=("MariaDB 10.0" "MariaDB 10.1" "MariaDB 10.2 (Recommendations)" "MariaDB 10.3" "MariaDB 5.5")
+options=("MariaDB 10.1" "MariaDB 10.2 (Recommendations)" "MariaDB 10.3" "MariaDB 10.0" "MariaDB 5.5")
 echo "=========================================================================="
 echo "Lua Chon Cai Dat Phien Ban MariaDB  "
 echo "=========================================================================="
 
 PS3="$prompt"
 select opt in "${options[@]}"; do 
-	case "$REPLY" in
-	1) mariadbversion="10.0"; break;;
-	2) mariadbversion="10.1"; break;;
-	3) mariadbversion="10.2"; break;;
-	4) mariadbversion="10.3"; break;;
-	5) mariadbversion="5.5"; break;;
-	0) mariadbversion="10.2"; break;;
-	*) echo "Ban nhap sai ! Ban vui long chon so trong danh sach";continue;;
-	esac  
+case "$REPLY" in
+1) mariadbversion="10.1"; break;;
+2) mariadbversion="10.2"; break;;
+3) mariadbversion="10.3"; break;;
+4) mariadbversion="10.0"; break;;
+5) mariadbversion="5.5"; break;;
+#0) mariadbversion="10.2"; break;;
+*) echo "Ban nhap sai ! Ban vui long chon so trong danh sach";continue;;
+esac  
 done
 
 if [ "$mariadbversion" = "10.0" ]; then
 phienbanmariadb=10.0
 elif [ "$mariadbversion" = "10.1" ]; then
 phienbanmariadb=10.1
-elif [ "$mariadbversion" = "10.2" ]; then
-phienbanmariadb=10.2
+#elif [ "$mariadbversion" = "10.2" ]; then
+#phienbanmariadb=10.2
 elif [ "$mariadbversion" = "10.3" ]; then
 phienbanmariadb=10.3
 elif [ "$mariadbversion" = "5.5" ]; then

@@ -89,6 +89,7 @@ clear
 bash /root/vpssim-setup
 exit
 fi
+
 prompt="Nhap lua chon cua ban: "
 options=("MariaDB 10.3 (Recommendations)" "MariaDB 10.4" "MariaDB 10.5")
 echo "=========================================================================="
@@ -98,12 +99,12 @@ PS3="$prompt"
 select opt in "${options[@]}"; do 
 
 case "$REPLY" in
-	1) mariadbversion="10.3"; break;;
-	2) mariadbversion="10.4"; break;;
-	3) mariadbversion="10.5"; break;;
-	0) mariadbversion="10.3"; break;;
-	*) echo "Ban nhap sai ! Ban vui long chon so trong danh sach";continue;;
-	esac  
+1) mariadbversion="10.3"; break;;
+2) mariadbversion="10.4"; break;;
+3) mariadbversion="10.5"; break;;
+0) mariadbversion="10.3"; break;;
+*) echo "Ban nhap sai ! Ban vui long chon so trong danh sach";continue;;
+esac  
 done
 
 if [ "$mariadbversion" = "10.3" ]; then
