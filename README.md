@@ -63,13 +63,13 @@ curl -sO https://raw.githubusercontent.com/itvn9online/vpssim-free/master/instal
 - [x] CentOS-**8** x64
 - [x] Nginx-1.18.0 + OpenSSL-1.1.1g + Prce-8.44 + Zlib-1.2.11
 - [x] PHP-7.2
-- [ ] **MariaDB-10.4** 139.162.73.26
+- [ ] **MariaDB-10.4**
 
 > 2020/09/19
 - [x] CentOS-**8** x64
 - [x] Nginx-1.18.0 + OpenSSL-1.1.1g + Prce-8.44 + Zlib-1.2.11
 - [x] PHP-7.2
-- [ ] **MariaDB-10.5** 139.162.124.62
+- [ ] **MariaDB-10.5**
 
 ----------------------------------------------
 
