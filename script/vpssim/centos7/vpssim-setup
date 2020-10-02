@@ -62,7 +62,8 @@ read -p "Nhan [Enter] de tiep tuc ..."
 clear
 bash /root/vpssim-setup
 exit
-fi 
+fi
+
 echo "--------------------------------------------------------------------------"
 echo -n "Nhap dia chi email quan ly [ENTER]: " 
 read vpssimemail
@@ -104,7 +105,8 @@ case "$REPLY" in
 4) mariadbversion="10.4"; break;;
 5) mariadbversion="10.5"; break;;
 #0) mariadbversion="10.2"; break;;
-*) echo "Ban nhap sai ! Ban vui long chon so trong danh sach";continue;;
+*) mariadbversion="10.2"; break;;
+#*) echo "Ban nhap sai ! Ban vui long chon so trong danh sach";continue;;
 esac  
 done
 
@@ -122,38 +124,44 @@ else
 phienbanmariadb=10.2
 fi
 
-echo "-------------------------------------------------------------------------"
-echo "Mat khau root MySQL toi thieu 8 ki tu va chi su dung chu cai va so."
-echo "-------------------------------------------------------------------------"
-echo -n "Nhap mat khau root MySQL [ENTER]: " 
-read passrootmysql
-if [[ ! ${#passrootmysql} -ge 8 ]]; then
-clear
-echo "========================================================================="
-echo "Mat khau tai khoan root MySQL toi thieu phai co 8 ki tu."
-echo "-------------------------------------------------------------------------"
-echo "Ban vui long thu lai !"
-echo "-------------------------------------------------------------------------"
-read -p "Nhan [Enter] de tiep tuc ..."
-clear
-bash /root/vpssim-setup
-exit
-fi  
+# auto mysql root password
+passrootmysql=`date |md5sum |cut -c '1-12'`
+#echo $passrootmysql
 
-checkpass="^[a-zA-Z0-9_][-a-zA-Z0-9_]{0,61}[a-zA-Z0-9_]$";
-if [[ ! "$passrootmysql" =~ $checkpass ]]; then
-clear
-echo "========================================================================="
-echo "Ban chi duoc dung chu cai va so de dat mat khau MySQL !"
-echo "-------------------------------------------------------------------------"
-echo "Ban vui long thu lai !"
-echo "-------------------------------------------------------------------------"
-read -p "Nhan [Enter] de tiep tuc ..."
-clear
-bash /root/vpssim-setup
-exit
-fi  
+# v1
+#echo "-------------------------------------------------------------------------"
+#echo "Mat khau root MySQL toi thieu 8 ki tu va chi su dung chu cai va so."
+#echo "-------------------------------------------------------------------------"
+#echo -n "Nhap mat khau root MySQL [ENTER]: " 
+#read passrootmysql
+#if [[ ! ${#passrootmysql} -ge 8 ]]; then
+#clear
+#echo "========================================================================="
+#echo "Mat khau tai khoan root MySQL toi thieu phai co 8 ki tu."
+#echo "-------------------------------------------------------------------------"
+#echo "Ban vui long thu lai !"
+#echo "-------------------------------------------------------------------------"
+#read -p "Nhan [Enter] de tiep tuc ..."
+#clear
+#bash /root/vpssim-setup
+#exit
+#fi  
+
+#checkpass="^[a-zA-Z0-9_][-a-zA-Z0-9_]{0,61}[a-zA-Z0-9_]$";
+#if [[ ! "$passrootmysql" =~ $checkpass ]]; then
+#clear
+#echo "========================================================================="
+#echo "Ban chi duoc dung chu cai va so de dat mat khau MySQL !"
+#echo "-------------------------------------------------------------------------"
+#echo "Ban vui long thu lai !"
+#echo "-------------------------------------------------------------------------"
+#read -p "Nhan [Enter] de tiep tuc ..."
+#clear
+#bash /root/vpssim-setup
+#exit
+#fi  
 echo "$passrootmysql" > /tmp/passrootmysql
+
 ###############################################################################
 #Download Nginx, VPSSIM & phpMyadmin Version
 cd /tmp
@@ -244,6 +252,8 @@ clear
 rm -rf /root/install && bash /root/vpssim-setup
 exit
 fi
+
+
 download_nginx_conf () {
 #wget --no-check-certificate -q https://hostingaz.vn/script/vpssim/nginx.conf -O /tmp/nginx.conf
 yes | cp -rf /opt/echbay_vpssim/script/vpssim/nginx.conf /tmp/nginx.conf
@@ -253,6 +263,7 @@ checkdownload_nginx_conf=`cat /tmp/nginx.conf`
 if [ -z "$checkdownload_nginx_conf" ]; then
 download_nginx_conf
 fi
+
 cat >> "/root/.bash_profile" <<END
 IPvpssimcheck="\$(echo \$SSH_CONNECTION | cut -d " " -f 1)"
 timeloginvpssimcheck=\$(date +"%e %b %Y, %a %r")
@@ -941,8 +952,9 @@ cd /home/vpssim.demo/private_html/
 wget -q https://gist.githubusercontent.com/ck-on/4959032/raw/0b871b345fd6cfcd6d2be030c1f33d1ad6a475cb/ocp.php
 #wget --no-check-certificate -q https://vpssim.com/script/vpssim/memcache.php.zip -O /home/vpssim.demo/private_html/memcache.php
 yes | cp -rf /opt/echbay_vpssim/script/vpssim/memcache.php.zip /home/vpssim.demo/private_html/memcache.php
+
 wget -q https://files.phpmyadmin.net/phpMyAdmin/${phpmyadmin_version}/phpMyAdmin-${phpmyadmin_version}-all-languages.zip
-unzip -q phpMyAdmin-*.zip
+unzip -q phpMyAdmin-*.zip > /dev/null 2>&1
 yes | cp -rf phpMyAdmin-*/* .
 rm -rf phpMyAdmin-*
 randomblow=`date |md5sum |cut -c '1-32'`;
@@ -1117,7 +1129,9 @@ fi
 #if [ -f /root/.bash_profile ]; then
 #sed -i "/.*#\ .bash_profile.*/acd /home" /root/.bash_profile
 #fi
-   cat > "/tmp/finishedemail.sh" <<END
+
+
+cat > "/tmp/finishedemail.sh" <<END
 #!/bin/bash 
 echo -e 'Subject: ECHBAY-VPSSIM - Chuc mung cai dat thanh cong $svip!
 

@@ -102,53 +102,59 @@ case "$REPLY" in
 1) mariadbversion="10.3"; break;;
 2) mariadbversion="10.4"; break;;
 3) mariadbversion="10.5"; break;;
-0) mariadbversion="10.3"; break;;
-*) echo "Ban nhap sai ! Ban vui long chon so trong danh sach";continue;;
+*) mariadbversion="10.3"; break;;
+#*) echo "Ban nhap sai ! Ban vui long chon so trong danh sach";continue;;
 esac  
 done
 
-if [ "$mariadbversion" = "10.3" ]; then
-phienbanmariadb=10.3
-elif [ "$mariadbversion" = "10.4" ]; then
+if [ "$mariadbversion" = "10.4" ]; then
 phienbanmariadb=10.4
+#elif [ "$mariadbversion" = "10.3" ]; then
+#phienbanmariadb=10.3
 elif [ "$mariadbversion" = "10.5" ]; then
 phienbanmariadb=10.5
 else 
 phienbanmariadb=10.3
 fi
 
-echo "-------------------------------------------------------------------------"
-echo "Mat khau root MySQL toi thieu 8 ki tu va chi su dung chu cai va so."
-echo "-------------------------------------------------------------------------"
-echo -n "Nhap mat khau root MySQL [ENTER]: " 
-read passrootmysql
-if [[ ! ${#passrootmysql} -ge 8 ]]; then
-clear
-echo "========================================================================="
-echo "Mat khau tai khoan root MySQL toi thieu phai co 8 ki tu."
-echo "-------------------------------------------------------------------------"
-echo "Ban vui long thu lai !"
-echo "-------------------------------------------------------------------------"
-read -p "Nhan [Enter] de tiep tuc ..."
-clear
-bash /root/vpssim-setup
-exit
-fi  
+# auto mysql root password
+passrootmysql=`date |md5sum |cut -c '1-12'`
+#echo $passrootmysql
 
-checkpass="^[a-zA-Z0-9_][-a-zA-Z0-9_]{0,61}[a-zA-Z0-9_]$";
-if [[ ! "$passrootmysql" =~ $checkpass ]]; then
-clear
-echo "========================================================================="
-echo "Ban chi duoc dung chu cai va so de dat mat khau MySQL !"
-echo "-------------------------------------------------------------------------"
-echo "Ban vui long thu lai !"
-echo "-------------------------------------------------------------------------"
-read -p "Nhan [Enter] de tiep tuc ..."
-clear
-bash /root/vpssim-setup
-exit
-fi  
+# v1
+#echo "-------------------------------------------------------------------------"
+#echo "Mat khau root MySQL toi thieu 8 ki tu va chi su dung chu cai va so."
+#echo "-------------------------------------------------------------------------"
+#echo -n "Nhap mat khau root MySQL [ENTER]: " 
+#read passrootmysql
+#if [[ ! ${#passrootmysql} -ge 8 ]]; then
+#clear
+#echo "========================================================================="
+#echo "Mat khau tai khoan root MySQL toi thieu phai co 8 ki tu."
+#echo "-------------------------------------------------------------------------"
+#echo "Ban vui long thu lai !"
+#echo "-------------------------------------------------------------------------"
+#read -p "Nhan [Enter] de tiep tuc ..."
+#clear
+#bash /root/vpssim-setup
+#exit
+#fi
+
+#checkpass="^[a-zA-Z0-9_][-a-zA-Z0-9_]{0,61}[a-zA-Z0-9_]$";
+#if [[ ! "$passrootmysql" =~ $checkpass ]]; then
+#clear
+#echo "========================================================================="
+#echo "Ban chi duoc dung chu cai va so de dat mat khau MySQL !"
+#echo "-------------------------------------------------------------------------"
+#echo "Ban vui long thu lai !"
+#echo "-------------------------------------------------------------------------"
+#read -p "Nhan [Enter] de tiep tuc ..."
+#clear
+#bash /root/vpssim-setup
+#exit
+#fi
 echo "$passrootmysql" > /tmp/passrootmysql
+
 ###############################################################################
 #Download Nginx, VPSSIM & phpMyadmin Version
 cd /tmp
