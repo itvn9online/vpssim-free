@@ -6,7 +6,7 @@ echo $opensslversion
 echo $withopensslopt
 echo $zlibversion
 echo $pcreVersionInstall
-#Nginx_VERSION="1.16.1"
+Nginx_VERSION="1.16.1"
 echo $Nginx_VERSION
 #exit
 echo "Install after 3s"
@@ -19,7 +19,8 @@ sleep 3
 cd
 cd /usr/local/vpssim
 #cai dat  nginx
-wget -q http://nginx.org/download/nginx-${Nginx_VERSION}.tar.gz
+#wget -q http://nginx.org/download/nginx-${Nginx_VERSION}.tar.gz
+curl -O https://nginx.org/download/nginx-${Nginx_VERSION}.tar.gz
 tar -xzf nginx-${Nginx_VERSION}.tar.gz
 rm -rf /usr/local/vpssim/nginx-${Nginx_VERSION}.tar.gz 
 cd /usr/local/vpssim/nginx-${Nginx_VERSION}
@@ -89,3 +90,20 @@ patch -p01 < $moduledir/quiche/extras/nginx/nginx-1.16.patch
 #
 make
 make install
+
+#if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+if [ ! "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
+systemctl restart nginx.service
+else
+service nginx restart
+fi
+
+#rm -rf /opt/echbay_vpssim/*
+#rm -rf /opt/echbay_vpssim
+sleep 1
+
+clear
+echo "========================================================================="
+nginx -V
+echo "Cai dat Nginx phien ban $Nginx_VERSION thanh cong !"
+/etc/vpssim/menu/vpssim-update-upgrade-service-menu
