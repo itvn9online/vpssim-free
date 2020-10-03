@@ -2,7 +2,7 @@
 prompt="Lua chon cua ban (8-Thoat):" 
 #options=( "Update System" "Update VPSSIM" "Change Nginx Version" "Change phpMyAdmin Version" "Upgrade MariaDB to 10.0 Version" "Change PHP Version" "Change VPSSIM Language" "Thoat")
 #options=( "Update System" "Update VPSSIM" "Update Nginx" "Change phpMyAdmin Version" "Change PHP Version" "Change VPSSIM Language" "Update OpenSSL version" "Reset code form git" "List soft version")
-options=( "Update System" "Update VPSSIM" "Update Nginx" "Change phpMyAdmin Version" "Change PHP Version" "Update OpenSSL version" "Reset code form git" "List soft version")
+options=( "Update System" "Update VPSSIM" "Update Nginx" "Change phpMyAdmin Version" "Change PHP Version" "Update OpenSSL version" "Reset code form git" "List soft version" "Nginx quiche")
 printf "=========================================================================\n"
 printf "                VPSSIM - Quan Ly VPS/Server by WebGiaRe.org \n"
 printf "=========================================================================\n"
@@ -27,6 +27,7 @@ select opt in "${options[@]}" ; do
 	6) clear && /etc/vpssim/menu/nang-cap-openssl;;
 	7) clear && /etc/vpssim/menu/git-reset;;
 	8) clear && /etc/vpssim/menu/list-all-soft-version;;
+	9) clear && /etc/vpssim/menu/nginx-quiche;;
 	0) clear && vpssim;;
         *) echo "Ban nhap sai, vui long nhap theo so thu tu tren menu !";continue;;
 

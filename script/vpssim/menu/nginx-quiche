@@ -6,6 +6,7 @@ echo $opensslversion
 echo $withopensslopt
 echo $zlibversion
 echo $pcreVersionInstall
+#Nginx_VERSION="1.16.1"
 echo $Nginx_VERSION
 #exit
 echo "Install after 3s"
@@ -22,6 +23,9 @@ wget -q http://nginx.org/download/nginx-${Nginx_VERSION}.tar.gz
 tar -xzf nginx-${Nginx_VERSION}.tar.gz
 rm -rf /usr/local/vpssim/nginx-${Nginx_VERSION}.tar.gz 
 cd /usr/local/vpssim/nginx-${Nginx_VERSION}
+
+patch -p01 < $moduledir/quiche/extras/nginx/nginx-1.16.patch
+
 #sed -i 's/"Server: nginx"/"Server: Nginx-VPSSIM"/g' /usr/local/vpssim/nginx-${Nginx_VERSION}/src/http/ngx_http_header_filter_module.c
 #sed -i 's/"Server: "/"Server: Nginx-VPSSIM"/g' /usr/local/vpssim/nginx-${Nginx_VERSION}/src/http/ngx_http_header_filter_module.c
 ./configure --group=nginx --user=nginx \
@@ -29,6 +33,7 @@ cd /usr/local/vpssim/nginx-${Nginx_VERSION}
 --prefix=/usr/share/nginx \
 --sbin-path=/usr/sbin/nginx \
 --with-http_v2_module \
+--with-http_v3_module \
 --with-http_ssl_module \
 --with-ipv6 \
 --with-http_flv_module \
@@ -53,7 +58,8 @@ cd /usr/local/vpssim/nginx-${Nginx_VERSION}
 --with-google_perftools_module \
 --with-debug \
 --with-zlib=$moduledir/${zlibversion} \
---with-openssl=$moduledir/${opensslversion} \
+--with-openssl=$moduledir/quiche/deps/boringssl \
+--with-quiche=$moduledir/quiche \
 --conf-path=/etc/nginx/nginx.conf \
 --with-http_gzip_static_module \
 --with-threads \
@@ -77,6 +83,7 @@ cd /usr/local/vpssim/nginx-${Nginx_VERSION}
 #--add-module=$moduledir/echo-nginx-module-master \
 #--add-module=$moduledir/memc-nginx-module-master \
 #--with-openssl-opt=$withopensslopt \
+#--with-openssl=$moduledir/${opensslversion} \
 #
 
 #
