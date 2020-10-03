@@ -1,0 +1,5 @@
+#!/bin/bash
+
+sudo yum -y install psmisc bc gawk gcc
+sudo yum -y -q install virt-what unzip sudo net-tools iproute iproute2 curl deltarpm yum-utils tar
+sudo yum -y install epel-release

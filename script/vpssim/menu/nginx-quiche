@@ -1,0 +1,84 @@
+#!/bin/bash
+
+. /opt/echbay_vpssim/script/vpssim/nginx-setup.conf
+echo $moduledir
+echo $opensslversion
+echo $withopensslopt
+echo $zlibversion
+echo $pcreVersionInstall
+echo $Nginx_VERSION
+#exit
+echo "Install after 3s"
+sleep 3
+
+
+/opt/echbay_vpssim/script/vpssim/menu/nginx-setup-download
+
+
+cd
+cd /usr/local/vpssim
+#cai dat  nginx
+wget -q http://nginx.org/download/nginx-${Nginx_VERSION}.tar.gz
+tar -xzf nginx-${Nginx_VERSION}.tar.gz
+rm -rf /usr/local/vpssim/nginx-${Nginx_VERSION}.tar.gz 
+cd /usr/local/vpssim/nginx-${Nginx_VERSION}
+#sed -i 's/"Server: nginx"/"Server: Nginx-VPSSIM"/g' /usr/local/vpssim/nginx-${Nginx_VERSION}/src/http/ngx_http_header_filter_module.c
+#sed -i 's/"Server: "/"Server: Nginx-VPSSIM"/g' /usr/local/vpssim/nginx-${Nginx_VERSION}/src/http/ngx_http_header_filter_module.c
+./configure --group=nginx --user=nginx \
+--pid-path=/var/run/nginx.pid \
+--prefix=/usr/share/nginx \
+--sbin-path=/usr/sbin/nginx \
+--with-http_v2_module \
+--with-http_ssl_module \
+--with-ipv6 \
+--with-http_flv_module \
+--with-http_mp4_module \
+--with-http_random_index_module \
+--with-http_secure_link_module \
+--with-http_stub_status_module \
+--with-http_sub_module \
+--with-http_xslt_module \
+--with-http_addition_module \
+--with-http_dav_module \
+--with-http_geoip_module \
+--with-http_image_filter_module \
+--with-http_perl_module \
+--with-ld-opt="-Wl,-E" \
+--with-mail \
+--with-mail_ssl_module \
+--with-http_gunzip_module \
+--with-file-aio \
+--with-pcre=$moduledir/${pcreVersionInstall} \
+--with-pcre-jit \
+--with-google_perftools_module \
+--with-debug \
+--with-zlib=$moduledir/${zlibversion} \
+--with-openssl=$moduledir/${opensslversion} \
+--conf-path=/etc/nginx/nginx.conf \
+--with-http_gzip_static_module \
+--with-threads \
+--with-stream \
+--with-stream_ssl_module \
+--with-http_realip_module \
+--add-module=$moduledir/ngx_http_concat \
+--add-module=$moduledir/ngx_cache_purge-master \
+--add-module=$moduledir/ngx_devel_kit-master \
+--add-module=$moduledir/set-misc-nginx-module-master \
+--add-module=$moduledir/srcache-nginx-module-master \
+--add-module=$moduledir/ngx_http_substitutions_filter_module-master \
+--add-module=$moduledir/headers-more-nginx-module-master \
+--add-module=$moduledir/ngx_http_redis-0.3.8 
+
+#
+# cac module bi loi khi cai voi nginx
+#--with-openssl-opt="enable-ec_nistp_64_gcc_128" \
+#--with-openssl-opt="enable-tls1_3" \
+#--add-module=$moduledir/redis2-nginx-module-master \
+#--add-module=$moduledir/echo-nginx-module-master \
+#--add-module=$moduledir/memc-nginx-module-master \
+#--with-openssl-opt=$withopensslopt \
+#
+
+#
+make
+make install

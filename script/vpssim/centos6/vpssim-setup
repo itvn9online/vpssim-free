@@ -278,7 +278,8 @@ if [ -s /etc/selinux/config ]; then
 sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
 fi
 
-sudo yum -y install epel-release
+/opt/echbay_vpssim/script/vpssim/menu/yum-first-install
+
 rpm -Uvh http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
 
 if [ -f /etc/yum.repos.d/epel.repo ]; then

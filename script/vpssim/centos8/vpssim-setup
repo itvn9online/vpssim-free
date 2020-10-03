@@ -267,7 +267,8 @@ if [ -s /etc/selinux/config ]; then
 sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
 fi
 
-sudo dnf -y install epel-release
+/opt/echbay_vpssim/script/vpssim/menu/yum-first-install
+
 rpm -Uvh http://rpms.famillecollet.com/enterprise/remi-release-8.rpm
 if [ -f /etc/yum.repos.d/epel.repo ]; then
 sudo sed -i "s/mirrorlist=https/mirrorlist=http/" /etc/yum.repos.d/epel.repo
@@ -392,7 +393,7 @@ sudo yum makecache fast
 sudo yum search mariadb
 sudo yum info mariadb
 #sudo dnf -y install MariaDB-client MariaDB-common MariaDB-compat MariaDB-devel MariaDB-server MariaDB-shared perl-DBD-MySQL
-sudo yum -y install perl-DBI libaio libsepol lsof boost-program-options
+sudo dnf -y install perl-DBI libaio libsepol lsof boost-program-options
 if [ "$phienbanmariadb" = "10.3" ]; then
 sudo dnf -y install --repo="mariadb" MariaDB-server
 else

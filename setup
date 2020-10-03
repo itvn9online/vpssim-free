@@ -66,8 +66,6 @@ fi
 
 #wget -q https://vpssim.echbay.com/script/vpssim/calc -O /bin/calc && chmod +x /bin/calc
 yes | cp -rf /opt/echbay_vpssim/script/vpssim/calc /bin/calc && chmod +x /bin/calc
-sudo yum -y install psmisc bc gawk gcc
-sudo yum -y -q install virt-what unzip sudo net-tools iproute iproute2 curl deltarpm yum-utils tar
 clear  
 rm -rf /root/vpssim*
 
