@@ -17,13 +17,29 @@ sleep 3
 
 
 cd
-cd /usr/local/vpssim
+cd $moduledir
+
+#
+if [ ! -d $moduledir/quiche ]; then
+git clone --recursive https://github.com/cloudflare/quiche
+else
+cd ~ ; cd $moduledir/quiche && git pull ; cd ~
+fi
+
+#
+if [ ! -d $moduledir/boringssl ]; then
+git clone --recursive https://github.com/google/boringssl
+else
+cd ~ ; cd $moduledir/boringssl && git pull ; cd ~
+fi
+
 #cai dat  nginx
-#wget -q http://nginx.org/download/nginx-${Nginx_VERSION}.tar.gz
-curl -O https://nginx.org/download/nginx-${Nginx_VERSION}.tar.gz
+cd $moduledir
+wget -q http://nginx.org/download/nginx-${Nginx_VERSION}.tar.gz
+#curl -O https://nginx.org/download/nginx-${Nginx_VERSION}.tar.gz
 tar -xzf nginx-${Nginx_VERSION}.tar.gz
-rm -rf /usr/local/vpssim/nginx-${Nginx_VERSION}.tar.gz 
-cd /usr/local/vpssim/nginx-${Nginx_VERSION}
+rm -rf $moduledir/nginx-${Nginx_VERSION}.tar.gz 
+cd $moduledir/nginx-${Nginx_VERSION}
 
 patch -p01 < $moduledir/quiche/extras/nginx/nginx-1.16.patch
 
