@@ -20,18 +20,24 @@ cd
 cd $moduledir
 
 #
-if [ ! -d $moduledir/quiche ]; then
-git clone --recursive https://github.com/cloudflare/quiche
-else
-cd ~ ; cd $moduledir/quiche && git pull ; cd ~
+if [ -d $moduledir/quiche ]; then
+rm -rf $moduledir/quiche/*
 fi
+#if [ ! -d $moduledir/quiche ]; then
+git clone --recursive https://github.com/cloudflare/quiche
+#else
+#cd ~ ; cd $moduledir/quiche && git pull ; cd ~
+#fi
 
 #
-if [ ! -d $moduledir/boringssl ]; then
-git clone --recursive https://github.com/google/boringssl
-else
-cd ~ ; cd $moduledir/boringssl && git pull ; cd ~
+if [ -d $moduledir/boringssl ]; then
+rm -rf $moduledir/boringssl/*
 fi
+#if [ ! -d $moduledir/boringssl ]; then
+git clone --recursive https://github.com/google/boringssl
+#else
+#cd ~ ; cd $moduledir/boringssl && git pull ; cd ~
+#fi
 
 #cai dat  nginx
 cd $moduledir
@@ -75,7 +81,7 @@ patch -p01 < $moduledir/quiche/extras/nginx/nginx-1.16.patch
 --with-google_perftools_module \
 --with-debug \
 --with-zlib=$moduledir/${zlibversion} \
---with-openssl=$moduledir/quiche/deps/boringssl \
+--with-openssl=$moduledir/boringssl \
 --with-quiche=$moduledir/quiche \
 --conf-path=/etc/nginx/nginx.conf \
 --with-http_gzip_static_module \
@@ -101,6 +107,7 @@ patch -p01 < $moduledir/quiche/extras/nginx/nginx-1.16.patch
 #--add-module=$moduledir/memc-nginx-module-master \
 #--with-openssl-opt=$withopensslopt \
 #--with-openssl=$moduledir/${opensslversion} \
+#--with-openssl=$moduledir/quiche/deps/boringssl \
 #
 
 #
