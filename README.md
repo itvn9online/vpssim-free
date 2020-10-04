@@ -6,7 +6,7 @@ Cơ bản thì trong phiên bản ECHBAY-VPSSIM mình chủ yếu cập nhật l
 
 ### Lệnh Cài Đặt ECHBAY-VPSSIM Trên Centos 6 & 7 & 8:
 ```
-curl -sO https://raw.githubusercontent.com/itvn9online/vpssim-free/master/install && bash install
+bash <( curl -k https://raw.githubusercontent.com/itvn9online/vpssim-free/master/install )
 ```
 
 ----------------------------------------------
