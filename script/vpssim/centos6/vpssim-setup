@@ -98,7 +98,8 @@ exit
 fi
 
 prompt="Nhap lua chon cua ban: "
-options=("MariaDB 10.1" "MariaDB 10.2 (Recommendations)" "MariaDB 10.3" "MariaDB 10.0" "MariaDB 5.5")
+#options=("MariaDB 10.1" "MariaDB 10.2 (Recommendations)" "MariaDB 10.3" "MariaDB 10.0" "MariaDB 5.5")
+options=("MariaDB 10.1" "MariaDB 10.2 (Recommendations)" "MariaDB 10.3")
 echo "=========================================================================="
 echo "Lua Chon Cai Dat Phien Ban MariaDB  "
 echo "=========================================================================="
@@ -109,8 +110,8 @@ case "$REPLY" in
 1) mariadbversion="10.1"; break;;
 2) mariadbversion="10.2"; break;;
 3) mariadbversion="10.3"; break;;
-4) mariadbversion="10.0"; break;;
-5) mariadbversion="5.5"; break;;
+#4) mariadbversion="10.0"; break;;
+#5) mariadbversion="5.5"; break;;
 *) mariadbversion="10.2"; break;;
 #*) echo "Ban nhap sai ! Ban vui long chon so trong danh sach";continue;;
 esac  
