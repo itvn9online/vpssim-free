@@ -125,7 +125,16 @@ sleep 10
     mkdir -p "/home/$website/public_html"
     mkdir -p "/home/$website/logs"
     cd /home/$website/public_html
-wget --no-check-certificate -q https://hostingaz.vn/script/vpssim/eXtplorer/eXtplorer_2.1.9.zip
+#wget --no-check-certificate -q https://hostingaz.vn/script/vpssim/eXtplorer/eXtplorer_2.1.9.zip
+wget --no-check-certificate -q https://github.com/itvn9online/echbay-vpssim-software/raw/master/eXtplorer_2.1.9.zip
+
+if [ ! -f eXtplorer_2.1.9.zip ]; then
+echo "========================================================================="
+echo "Loi download file cai dat, vui long bao loi voi chung toi"
+echo "-------------------------------------------------------------------------"
+/etc/vpssim/menu/vpssim-web-upload-menu
+fi
+
 unzip -q eXtplorer_2.1.9.zip
 rm -rf eXtplorer_2.1.9.zip
 echo "please wait... "; sleep 2
