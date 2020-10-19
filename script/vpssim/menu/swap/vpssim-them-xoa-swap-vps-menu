@@ -1,6 +1,6 @@
 #!/bin/bash
 
-prompt="Nhap lua chon cua ban (8-Thoat):"
+prompt="Nhap lua chon cua ban (0-Thoat):"
 options=("Swap 512 MB" "Swap 1 GB" "Swap 2 GB" "Swap 3 GB" "Swap 4 GB" "Swap 6 GB" "Xoa Swap" )
 printf "=========================================================================\n"
 printf "                VPSSIM - Quan Ly VPS/Server by HostingAZ.VN \n"
@@ -23,6 +23,7 @@ select opt in "${options[@]}" "Thoat"; do
     7 ) /etc/vpssim/menu/swap/vpssim-xoa-swap-vps;;
         
 $(( ${#options[@]}+1 )) ) echo "BYE!";  clear && /bin/vpssim;;
+0 ) echo "BYE!";  clear && /bin/vpssim;;
      *) echo "Ban nhap sai, vui long nhap cac so trong list tren";continue;;
 
     esac

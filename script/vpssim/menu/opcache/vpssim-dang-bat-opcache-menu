@@ -3,7 +3,7 @@
 ramzenduse=$(grep opcache.memory_consumption /etc/php.d/opcache.ini | grep -o '[0-9]*')
 maxphpzen=$(grep opcache.max_accelerated_files /etc/php.d/opcache.ini | grep -o '[0-9]*')
 cleartime=$(grep opcache.revalidate_freq /etc/php.d/opcache.ini | grep -o '[0-9]*')
-prompt="Nhap lua chon cua ban (6-Thoat):"
+prompt="Nhap lua chon cua ban (0-Thoat):"
 options=("Tat Opcache" "Cau Hinh Zend Opcache" "Them Website Vao BlackList" "Xoa Website Khoi Blacklist" "Clear Zend OPcache")
 printf "=========================================================================\n"
 printf "                VPSSIM - Quan Ly VPS/Server by HostingAZ.VN \n"

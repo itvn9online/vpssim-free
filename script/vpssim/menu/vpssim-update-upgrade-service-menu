@@ -1,5 +1,5 @@
 #!/bin/bash
-prompt="Lua chon cua ban (8-Thoat):" 
+prompt="Lua chon cua ban (0-Thoat):" 
 #options=( "Update System" "Update VPSSIM" "Change Nginx Version" "Change phpMyAdmin Version" "Upgrade MariaDB to 10.0 Version" "Change PHP Version" "Change VPSSIM Language" "Thoat")
 #options=( "Update System" "Update VPSSIM" "Update Nginx" "Change phpMyAdmin Version" "Change PHP Version" "Change VPSSIM Language" "Update OpenSSL version" "Reset code form git" "List soft version")
 options=( "Update System" "Update VPSSIM" "Update Nginx" "Change phpMyAdmin Version" "Change PHP Version" "Update OpenSSL version" "Reset code form git" "List soft version" "Nginx quiche")

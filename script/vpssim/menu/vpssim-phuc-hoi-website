@@ -63,14 +63,15 @@ echo "File backup duoc tao vao: $(date -r /home/$mainsite/private_html/backup/$w
 echo "========================================================================="
 echo "LUA CHON CACH PHUC HOI $websiteTO"
 echo "========================================================================="
-prompt="Nhap vao lua chon cua ban (3-Thoat): "
-options=("Giu Nguyen Du Lieu Hien Tai Va Ghi De Du Lieu Tu File Backup" "Xoa Hoan Toan Du Lieu Hien Tai Va Phuc Hoi Backup" "Thoat")
+prompt="Nhap vao lua chon cua ban (0-Thoat): "
+options=("Giu Nguyen Du Lieu Hien Tai Va Ghi De Du Lieu Tu File Backup" "Xoa Hoan Toan Du Lieu Hien Tai Va Phuc Hoi Backup")
 PS3="$prompt"
 select opt in "${options[@]}"; do 
 case "$REPLY" in
 1) luachon="restore1"; break;;
 2) luachon="restore2"; break;;
 3) clear && /etc/vpssim/menu/vpssim-sao-luu;;  
+0) clear && /etc/vpssim/menu/vpssim-sao-luu;;  
 *) echo "Ban nhap sai, vui long nhap theo so thu tu tren menu !";continue;;
 esac   
 done

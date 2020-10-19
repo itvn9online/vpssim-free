@@ -81,8 +81,8 @@ eximlogsize=$(du -ch $(cat /tmp/eximlog.list) | tail -1 | cut -f 1)
 else
 eximlogsize=0KB
 fi
-prompt="Lua chon cua ban (10-Thoat):"
-options=( "Nginx Log" "PHP-FPM Log" "MySQL Log" "PHP-FPM Error Log" "Secure Log" "Exim Log" "PHP-FPM Slow Log" "MySQL Slow Log" "Xoa Tat Ca Log" "Thoat")
+prompt="Lua chon cua ban (0-Thoat):"
+options=( "Nginx Log" "PHP-FPM Log" "MySQL Log" "PHP-FPM Error Log" "Secure Log" "Exim Log" "PHP-FPM Slow Log" "MySQL Slow Log" "Xoa Tat Ca Log")
 printf "=========================================================================\n"
 printf "                ECHBAY-VPSSIM - Quan Ly VPS/Server by HostingAZ.VN              \n"
 printf "=========================================================================\n"
@@ -109,7 +109,8 @@ select opt in "${options[@]}" ; do
     7) chooseclearcase="phpfpmslowlog"; break;;
     8) chooseclearcase="mysqlslowlog"; break;;
     9) chooseclearcase="clearalllog"; break;;
-    10) chooseclearcase="cancle"; break;;
+    #10) chooseclearcase="cancle"; break;;
+    0) chooseclearcase="cancle"; break;;
     *) echo "Ban nhap sai, Vui long nhap theo danh sach trong list";continue;;
     esac  
 done

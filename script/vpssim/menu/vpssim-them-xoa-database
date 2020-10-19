@@ -43,8 +43,8 @@ else
 databasesize=0KB
 fi
 rm -rf /tmp/*vpssim*
-prompt="Lua chon cua ban (14-Thoat):"
-options=("Tao Database" "Xoa Database" "Backup 1 Database" "Backup Tat Ca Database" "Auto Backup Database" "Phuc Hoi (Restore) Database" "Auto re-Start MySQL Server" "Xem Mat Khau User Root MySQL" "Thay Doi Pass User Root MySQL" "Re-config MySQL" "Lay Link File Backup" "Xoa Tat Ca File Backup" "Danh Sach Database" "Thoat")
+prompt="Lua chon cua ban (0-Thoat):"
+options=("Tao Database" "Xoa Database" "Backup 1 Database" "Backup Tat Ca Database" "Auto Backup Database" "Phuc Hoi (Restore) Database" "Auto re-Start MySQL Server" "Xem Mat Khau User Root MySQL" "Thay Doi Pass User Root MySQL" "Re-config MySQL" "Lay Link File Backup" "Xoa Tat Ca File Backup" "Danh Sach Database")
 printf "=========================================================================\n"
 printf "                VPSSIM - Quan Ly VPS/Server by HostingAZ.VN \n"
 printf "=========================================================================\n"

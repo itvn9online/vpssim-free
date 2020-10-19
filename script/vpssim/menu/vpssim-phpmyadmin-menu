@@ -8,11 +8,11 @@ if [ ! -f /etc/vpssim/pwprotect.default ]; then
 echo "" > /etc/vpssim/pwprotect.default
 fi
 chmod 777 /var/lib/php/session/
-prompt="Lua chon cua ban (6-Thoat):"
+prompt="Lua chon cua ban (0-Thoat):"
 if [ -f /home/$mainsite/private_html/index.php ]; then 
-options=("TAT phpMyAdmin" "Open phpMyAdmin Port" "Close phpMyAdmin Port" "Thay Doi phpMyAdmin Port" "BAT/TAT Bao Ve phpMyAdmin" "Thoat")
+options=("TAT phpMyAdmin" "Open phpMyAdmin Port" "Close phpMyAdmin Port" "Thay Doi phpMyAdmin Port" "BAT/TAT Bao Ve phpMyAdmin")
 else
-options=("BAT phpMyAdmin" "Open phpMyAdmin Port" "Close phpMyAdmin Port" "Thay Doi phpMyAdmin Port" "BAT/TAT Bao Ve phpMyAdmin" "Thoat")
+options=("BAT phpMyAdmin" "Open phpMyAdmin Port" "Close phpMyAdmin Port" "Thay Doi phpMyAdmin Port" "BAT/TAT Bao Ve phpMyAdmin")
 fi
 if [ -f /etc/vpssim/phpmyadmin.version ]; then
 phpmyadminversion=`cat /etc/vpssim/phpmyadmin.version`

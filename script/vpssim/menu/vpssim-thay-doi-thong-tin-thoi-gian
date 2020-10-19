@@ -1,6 +1,6 @@
 #!/bin/sh
-prompt="Lua chon cua ban (26-Thoat): "
-options=("GMT" "GMT+1" "GMT+2" "GMT+3" "GMT+4" "GMT+5" "GMT+6" "GMT+7" "GMT+8" "GMT+9" "GMT+10" "GMT+11" "GMT+12" "GMT-1" "GMT-2" "GMT-3" "GMT-4" "GMT-5" "GMT-6" "GMT-7" "GMT-8" "GMT-9" "GMT-10" "GMT-11" "GMT-12" "Thoat")
+prompt="Lua chon cua ban (0-Thoat): "
+options=("GMT" "GMT+1" "GMT+2" "GMT+3" "GMT+4" "GMT+5" "GMT+6" "GMT+7" "GMT+8" "GMT+9" "GMT+10" "GMT+11" "GMT+12" "GMT-1" "GMT-2" "GMT-3" "GMT-4" "GMT-5" "GMT-6" "GMT-7" "GMT-8" "GMT-9" "GMT-10" "GMT-11" "GMT-12")
 printf "=========================================================================\n"
 printf "           VPSSIM - Quan Ly VPS/Server by HostingAZ.VN \n"
 printf "=========================================================================\n"
@@ -38,6 +38,7 @@ select opt in "${options[@]}"; do
     24) muigio="GMT-11"; break;;
     25) muigio="GMT-12"; break;;
     26) clear && /etc/vpssim/menu/vpssim-tien-ich;;
+    0) clear && /etc/vpssim/menu/vpssim-tien-ich;;
 
   
     *) echo "Ban nhap sai, vui long nhap theo so thu tu tren menu !";continue;;

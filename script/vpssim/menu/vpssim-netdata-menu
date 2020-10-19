@@ -22,7 +22,7 @@ echo "1.2" > /etc/vpssim/netdata.version
 fi
 show_menu_netdata () {
 	
-prompt="Lua chon cua ban (6-Thoat):"
+prompt="Lua chon cua ban (0-Thoat):"
 options=("Setup NetData" "Tat / Bat NetData" "Thay Domain NetData" "Bao Ve Domain NetData      " "Nang Cap NetData")
 printf "=========================================================================\n"
 printf "                VPSSIM - Quan Ly VPS/Server by HostingAZ.VN \n"

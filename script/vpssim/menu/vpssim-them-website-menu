@@ -2,8 +2,8 @@
 if [ ! -f /etc/cron.d/vpssim.code.cron ]; then
 touch /etc/cron.d/vpssim.code.cron
 fi
-prompt="Lua chon cua ban (10-Thoat):"
-options=( "Them Website" "Them Park & Redirect Domain" "Them website + Wordpress (Auto Setup)" "Them website + Forum Code (Auto Setup)" "Them Website + Opencart (Auto Setup)" "Them website + Wordpress (Download Code)" "Them Website + Joomla (Download Code)" "Them Website + Drupal (Download Code)" "List Website Tren Server" "Thoat")
+prompt="Lua chon cua ban (0-Thoat):"
+options=( "Them Website" "Them Park & Redirect Domain" "Them website + Wordpress (Auto Setup)" "Them website + Forum Code (Auto Setup)" "Them Website + Opencart (Auto Setup)" "Them website + Wordpress (Download Code)" "Them Website + Joomla (Download Code)" "Them Website + Drupal (Download Code)" "List Website Tren Server")
 printf "=========================================================================\n"
 printf "                VPSSIM - Quan Ly VPS/Server by HostingAZ.VN \n"
 printf "=========================================================================\n"

@@ -1,6 +1,6 @@
 #!/bin/sh
-prompt="Lua chon cua ban (4-Thoat):"
-options=("Full Backup Database" "Link download backup file" "Restore Databases" "Thoat" )
+prompt="Lua chon cua ban (0-Thoat):"
+options=("Full Backup Database" "Link download backup file" "Restore Databases" )
 printf "=========================================================================\n"
 printf "               VPSSIM - Quan Ly VPS/Server by HostingAZ.VN \n"
 printf "=========================================================================\n"

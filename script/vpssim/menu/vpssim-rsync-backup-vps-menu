@@ -9,8 +9,8 @@ if [ -f /etc/cron.d/vpssim.rsync.cron ]; then
 	rm -rf /etc/cron.d/vpssim.rsync.cron
 	fi
 fi
-options=("Ket Noi VPS Backup" "Cau Hinh Thoi Gian Dong Bo" "Backup VPS Ngay Lap Tuc" "Setup CSF Firewall" "Thay Mat Khau User Root" "Disable Sync To VPS Backup" "Thoat")
-prompt="Nhap lua chon cua ban (7-Thoat): "
+options=("Ket Noi VPS Backup" "Cau Hinh Thoi Gian Dong Bo" "Backup VPS Ngay Lap Tuc" "Setup CSF Firewall" "Thay Mat Khau User Root" "Disable Sync To VPS Backup")
+prompt="Nhap lua chon cua ban (0-Thoat): "
 #prompt="Type in your choice (7-Exit):"
 printf "=========================================================================\n"
 printf "               VPSSIM - Quan Ly VPS/Server by HostingAZ.VN \n"

@@ -1,6 +1,6 @@
 #!/bin/bash
-prompt="Lua chon cua ban (4-Thoat):"
-options=( "Tao domain key & Sign SSL certificate" "Tai Domain CSR va Vhost Mau " "Fix Khong the download files" "Thoat")
+prompt="Lua chon cua ban (0-Thoat):"
+options=( "Tao domain key & Sign SSL certificate" "Tai Domain CSR va Vhost Mau " "Fix Khong the download files")
 printf "=========================================================================\n"
 printf "                VPSSIM - Quan Ly VPS/Server by HostingAZ.VN \n"
 printf "=========================================================================\n"

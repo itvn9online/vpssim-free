@@ -1,5 +1,5 @@
 #!/bin/sh
-prompt="Nhap lua chon cua ban (5-Thoat):"
+prompt="Nhap lua chon cua ban (0-Thoat):"
 options=( "Thoat")
 printf "=========================================================================\n"
 printf "               VPSSIM - Manage VPS/Server by HostingAZ.VN \n"

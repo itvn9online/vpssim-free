@@ -1,10 +1,10 @@
 #!/bin/sh
 . /home/vpssim.conf
-prompt="Nhap lua chon cua ban (14-Thoat):"
+prompt="Nhap lua chon cua ban (0-Thoat):"
 if [ -f /etc/csf/csf.conf ]; then
-options=("Block IP" "Unblock IP" "Unblock Tat Ca IP" "Them IP Vao CSF.Allow" "Remove IP Khoi CSF.Allow" "Block Countries By CSF" "Unblock All Countries" "Restart (Enable) CSF Firewall" "Disable CSF Firewall" "Remove CSF Firewall" "View IP Blocked List" "Update CSF Firewall" "Tat/Bat Canh Bao Tren Menu" "Thoat")
+options=("Block IP" "Unblock IP" "Unblock Tat Ca IP" "Them IP Vao CSF.Allow" "Remove IP Khoi CSF.Allow" "Block Countries By CSF" "Unblock All Countries" "Restart (Enable) CSF Firewall" "Disable CSF Firewall" "Remove CSF Firewall" "View IP Blocked List" "Update CSF Firewall" "Tat/Bat Canh Bao Tren Menu")
 else
-options=("Block IP" "Unblock IP" "Unblock Tat Ca IP" "Them IP Vao CSF.Allow" "Remove IP Khoi CSF.Allow" "Block Countries By CSF" "Unblock All Countries"  "Restart (Enable) CSF Firewall" "Disable CSF Firewall" "Remove CSF Firewall" "View IP Blocked List" "Cai dat CSF Firewall" "Tat/Bat Canh Bao Tren Menu" "Thoat")
+options=("Block IP" "Unblock IP" "Unblock Tat Ca IP" "Them IP Vao CSF.Allow" "Remove IP Khoi CSF.Allow" "Block Countries By CSF" "Unblock All Countries"  "Restart (Enable) CSF Firewall" "Disable CSF Firewall" "Remove CSF Firewall" "View IP Blocked List" "Cai dat CSF Firewall" "Tat/Bat Canh Bao Tren Menu")
 fi
 printf "=========================================================================\n"
 printf "                ECHBAY-VPSSIM - Quan Ly VPS/Server by HostingAZ.VN \n"
@@ -59,7 +59,8 @@ select opt in "${options[@]}" ; do
     11) /etc/vpssim/menu/CSF-Fiwall/vpssim-download-csf-denny;;
     12) /etc/vpssim/menu/CSF-Fiwall/vpssim-cai-dat-csf-csf-before;;
     13) /etc/vpssim/menu/CSF-Fiwall/vpssim-tat-bat-canh-bao-cai-dat-csf;;
-    14) clear && vpssim;;  
+    #14) clear && vpssim;;  
+    0) clear && vpssim;;  
     *) echo "Ban nhap sai, vui long nhap theo so thu tu tren menu";continue;;
 
     esac

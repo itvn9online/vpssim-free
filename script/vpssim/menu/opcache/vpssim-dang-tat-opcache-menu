@@ -1,6 +1,6 @@
 #!/bin/sh
 . /home/vpssim.conf
-prompt="Lua chon cua ban (6-Thoat):"
+prompt="Lua chon cua ban (0-Thoat):"
 options=("Bat Zend Opcache" "Cau Hinh Zend Opcache" "Them Website Vao BlackList" "Xoa Website Khoi Blacklist" "Clear Zend OPcache")
 printf "=========================================================================\n"
 printf "                VPSSIM - Quan Ly VPS/Server by HostingAZ.VN \n"

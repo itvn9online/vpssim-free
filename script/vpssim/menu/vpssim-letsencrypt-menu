@@ -32,8 +32,8 @@ echo "Bay gio ban co the su dung chuc nang cai dat SSL cho website cua minh."
 fi
 version=`/root/.acme.sh/acme.sh --version | awk 'NR==2' | sed 's/v//'`
 show_menu_lets-encrypt () {
-prompt="Lua chon cua ban (8-Thoat):"
-options=("Cai Dat SSL Cho Domain" "Kiem Tra SSL Cua Domain " "Auto Renew SSL" "Renew SSL Cho Domain" "List Domain Cai Dat SSL" "Remove SSL (Back to HTTP)" "Upgrade Acme.sh" "Thoat")
+prompt="Lua chon cua ban (0-Thoat):"
+options=("Cai Dat SSL Cho Domain" "Kiem Tra SSL Cua Domain " "Auto Renew SSL" "Renew SSL Cho Domain" "List Domain Cai Dat SSL" "Remove SSL (Back to HTTP)" "Upgrade Acme.sh")
 printf "=========================================================================\n"
 printf "                VPSSIM - Quan Ly VPS/Server by HostingAZ.VN \n"
 printf "=========================================================================\n"

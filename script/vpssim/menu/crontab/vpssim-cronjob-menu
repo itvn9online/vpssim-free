@@ -1,6 +1,6 @@
 #!/bin/sh
-prompt="Nhap lua chon cua ban (5-Thoat):"
-options=("Them Crontab" "Xoa 1 Crontab" "Xoa Tat Ca Crontab" "List Crontab" "Thoat")
+prompt="Nhap lua chon cua ban (0-Thoat):"
+options=("Them Crontab" "Xoa 1 Crontab" "Xoa Tat Ca Crontab" "List Crontab")
 printf "=========================================================================\n"
 printf "                ECHBAY-VPSSIM - Quan Ly VPS/Server by HostingAZ.VN \n"
 printf "=========================================================================\n"
@@ -22,7 +22,7 @@ select opt in "${options[@]}" ; do
     2 ) /etc/vpssim/menu/crontab/vpssim-xoa-mot-crontab;;
     3 ) /etc/vpssim/menu/crontab/vpssim-befor-xoa-het-cronjob;;
     4 ) /etc/vpssim/menu/crontab/vpssim-crontab-hien-tai;;
-    5 ) clear && /bin/vpssim;;
+    #5 ) clear && /bin/vpssim;;
     0 ) clear && /bin/vpssim;;
     
     *) echo "Ban nhap sai, vui long nhap theo so thu tu tren menu";continue;;

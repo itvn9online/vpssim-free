@@ -1,9 +1,9 @@
 #!/bin/bash
-prompt="Nhap lua chon cua ban (5-Thoat):"
+prompt="Nhap lua chon cua ban (0-Thoat):"
 if [ ! -f /usr/local/maldetect/conf.maldet ]; then
-options=( "Scan 1 website" "Scan All websites" "View Last Scan Report" "Cai Dat Linux Malware Detect" "Thoat")
+options=( "Scan 1 website" "Scan All websites" "View Last Scan Report" "Cai Dat Linux Malware Detect")
 else
-options=( "Scan 1 website" "Scan All websites" "View Last Scan Report" "Remove Linux Malware Detect" "Thoat")
+options=( "Scan 1 website" "Scan All websites" "View Last Scan Report" "Remove Linux Malware Detect")
 fi
 printf "=========================================================================\n"
 printf "               VPSSIM - Quan Ly VPS/Server by HostingAZ.VN \n"
