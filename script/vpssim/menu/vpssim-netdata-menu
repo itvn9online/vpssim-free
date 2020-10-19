@@ -23,7 +23,7 @@ fi
 show_menu_netdata () {
 	
 prompt="Lua chon cua ban (6-Thoat):"
-options=("Setup NetData" "Tat / Bat NetData" "Thay Domain NetData" "Bao Ve Domain NetData      " "Nang Cap NetData" "Thoat")
+options=("Setup NetData" "Tat / Bat NetData" "Thay Domain NetData" "Bao Ve Domain NetData      " "Nang Cap NetData")
 printf "=========================================================================\n"
 printf "                VPSSIM - Quan Ly VPS/Server by HostingAZ.VN \n"
 printf "=========================================================================\n"
@@ -72,7 +72,7 @@ select opt in "${options[@]}" ; do
     3) /etc/vpssim/menu/vpssim-thay-domain-netdata;;
     4) /etc/vpssim/menu/vpssim-mat-khau-bao-ve-netdata;;
     5) /etc/vpssim/menu/vpssim-nang-cap-netdata;;
-    6) clear && /bin/vpssim;;
+    #6) clear && /bin/vpssim;;
     0) clear && vpssim;;
     
   *) echo "Ban nhap sai, vui long nhap theo so thu tu tren menu !";continue;;
