@@ -20,7 +20,7 @@ fi
 
 show_menu_filemanager () {
 prompt="Lua chon cua ban (7-Thoat):"
-options=("Setup File Manager" "Cau hinh Upload Max Filesize" "Bao Ve File Manager" "Thay User & Password Admin" "Thay Domain File Manager" "Remove File Manager" "Thoat")
+options=("Setup File Manager" "Cau hinh Upload Max Filesize" "Bao Ve File Manager" "Thay User & Password Admin" "Thay Domain File Manager" "Remove File Manager")
 printf "=========================================================================\n"
 printf "                VPSSIM - Quan Ly VPS/Server by HostingAZ.VN \n"
 printf "=========================================================================\n"
@@ -50,7 +50,8 @@ select opt in "${options[@]}" ; do
     4) /etc/vpssim/menu/vpssim-thay-mat-khau-web-file-manage;;
     5) /etc/vpssim/menu/vpssim-thay-domain-web-file-manage;;
     6) /etc/vpssim/menu/vpssim-xoa-website-upload-site;;
-    7) clear && /bin/vpssim;;
+    #7) clear && /bin/vpssim;;
+    0) clear && /bin/vpssim;;
     
   *) echo "Ban nhap sai, vui long nhap theo so thu tu tren menu !";continue;;
 
