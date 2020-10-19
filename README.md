@@ -74,6 +74,10 @@ Brotli là một thuật toán nén mã nguồn mở mới được Google phát
 
 ----------------------------------------------
 
+### Loại bỏ phiên bản MariaDB 10.0 và MariaDB 5.5
+> 2020/10/19
+Lâu không dùng 2 bản cũ kia, mà nọ có việc nên xem lại câu lệnh từ phiên bản đó thấy nó cổ lỗ sĩ hơn cả MySQL nên mình quyết định loại bỏ thẳng tay luôn
+
 ### Varnish Cache
 > 2020/09/11
 #### Thêm chức năng cài đặt Varnish Cache: https://packagecloud.io/varnishcache/
