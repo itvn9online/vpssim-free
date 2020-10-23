@@ -57,23 +57,6 @@ bash <( curl -k https://raw.githubusercontent.com/itvn9online/vpssim-free/master
 
 ----------------------------------------------
 
-### Dự kiến:
-#### Cài đặt nginx quiche - HTTP/3: https://blog.cloudflare.com/experiment-with-http-3-using-nginx-and-quiche/
-
-----------------------------------------------
-
-### Dự kiến:
-#### Nghiên cứu thêm về Brotli: https://github.com/google/ngx_brotli
-https://nguyenhongson.net/cai-dat-brotli-cho-nginx-tren-centos-7/
-Brotli là một thuật toán nén mã nguồn mở mới được Google phát triển như là một sự thay thế cho Gzip, Zopfli và Deflate. Theo Google việc nén bằng Brotli đã cho thấy file được nén có dung lượng nhỏ hơn tới 26% so với các phương pháp nén hiện tại, điều này đồng nghĩa với việc các website khi được nén bởi Brotli sẽ giúp người dùng truy cập website nhanh hơn và đồng thời giảm tải cho Server.
-
-----------------------------------------------
-
-### Dự kiến:
-#### Có thể tham khảo thêm zlib của cloudflare: https://github.com/cloudflare/zlib - thấy ở đây cập nhật cũng mới hơn nhưng chả rõ như nào! để rảnh thì test xem có hay ho gì không.
-
-----------------------------------------------
-
 ### Loại bỏ phiên bản MariaDB 10.0 và MariaDB 5.5
 > 2020/10/19
 Lâu không dùng 2 bản cũ kia, mà nọ có việc nên xem lại câu lệnh từ phiên bản đó thấy nó cổ lỗ sĩ hơn cả MySQL nên mình quyết định loại bỏ thẳng tay luôn
