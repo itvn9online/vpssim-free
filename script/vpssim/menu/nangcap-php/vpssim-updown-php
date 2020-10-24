@@ -2,6 +2,9 @@
 . /home/vpssim.conf
 
 nang_cap_php_fpm_check () {
+/etc/vpssim/menu/nangcap-php/change-php-version-menu
+}
+nang_cap_php_fpm_check_xoa () {
 php_version=$(php -r "echo PHP_MAJOR_VERSION.'.'.PHP_MINOR_VERSION;")
 if [ "$php_version" == "7.0" ]; then
 /etc/vpssim/menu/nangcap-php/change-php-version-menu
