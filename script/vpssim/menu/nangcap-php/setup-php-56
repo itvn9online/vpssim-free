@@ -16,12 +16,7 @@ echo "-------------------------------------------------------------------------"
 echo "Ok ! please wait ...."
 sleep 1
 /etc/vpssim/menu/vpssim-enable-tat-ca-cac-ham-php-php.ini
-if [ -f /etc/php.d/ioncube.ini ]; then
-ioncubestatus=1
-rm -rf /etc/php.d/*.ioncube.*
-rm -rf /etc/php.d/ioncube.*
-rm -rf /usr/local/ioncube
-fi
+
 mkdir -p /root/updown
 yes | cp -rf /etc/php-fpm.conf /root/updown/
 if [ -f /etc/php.d/opcache.bak ]; then
@@ -80,25 +75,8 @@ echo "zend_extension=/usr/lib64/php/modules/opcache.so" >> /etc/php.d/opcache.*
 echo "extension=imagick.so" > /etc/php.d/imagick.ini
 fi
 
-if [ "$ioncubestatus" = "1" ]; then
-if [ ! -d /usr/local/ioncube ]; then
-mkdir -p /usr/local/ioncube
-fi
-
-#wget --no-check-certificate -q -O - https://github.com/itvn9online/echbay-vpssim-software/raw/master/ioncube_loaders_lin_x86-64_BETA.tar.gz | tar -xzf - -C /usr/local/ioncube
-#rm -r -f /root/ioncube_loaders_lin_x86-64_BETA.tar.gz
-
-wget --no-check-certificate -q -O - https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz | tar -xzf - -C /usr/local/ioncube
-rm -r -f /root/ioncube_loaders_lin_x86-64.tar.gz
-
-rm -r -f /etc/php.d/*.ioncube.*
-rm -r -f /etc/php.d/ioncube.*
-#ioncube
-
-cat > "/etc/php.d/ioncube.ini" <<END
-zend_extension=/usr/local/ioncube/ioncube_loader_lin_${php_version}.so
-END
-fi
+## Ioncube
+/etc/vpssim/menu/nangcap-php/setup-ioncube
 
 sed -i '/extension=zip.so/d' /etc/php.ini
 /etc/vpssim/menu/vpssim-re-config-cac-ham-php-disable-php.ini

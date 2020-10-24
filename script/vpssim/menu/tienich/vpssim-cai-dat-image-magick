@@ -47,7 +47,13 @@ if [ "$php_version" == "5.4" ]; then
 duongdanimagick=$(find / -name 'imagick.so' | grep php/modules/imagick.so)
 echo "extension=$duongdanimagick" >> /etc/php.d/imagick.ini
 else
+# neu cai dat thanh cong imagick -> include vao
+if [ -f /usr/lib64/php/modules/imagick.so ]; then
 echo "extension=imagick.so" > /etc/php.d/imagick.ini
+else
+rm -rf /etc/php.d/imagick.ini
+fi
+
 fi
 wget -q http://vpssim.com/script/vpssim/check-imagick.php.zip -O /home/$mainsite/private_html/check-imagick.php
 if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 

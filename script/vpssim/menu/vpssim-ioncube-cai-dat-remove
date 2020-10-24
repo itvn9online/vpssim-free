@@ -61,16 +61,15 @@ case $response in
 		sleep 1
 /etc/vpssim/menu/vpssim-enable-tat-ca-cac-ham-php-php.ini
 sleep 1
-	php_version=$(php -r "echo PHP_MAJOR_VERSION.'.'.PHP_MINOR_VERSION;")
-	
-wget -q -O - http://downloads3.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz | tar -xzf - -C /usr/local
-rm -rf /root/ioncube_loaders_lin_x86-64.tar.gz
-rm -rf /etc/php.d/*.ioncube.*
-rm -rf /etc/php.d/ioncube.*
 
+# tao file nay de goi toi file cai dat ioncube thi no moi cai
 cat > "/etc/php.d/ioncube.ini" <<END
-zend_extension=/usr/local/ioncube/ioncube_loader_lin_${php_version}.so
+#zend_extension=/usr/local/ioncube/
 END
+
+## Ioncube
+/etc/vpssim/menu/nangcap-php/setup-ioncube
+
 /etc/vpssim/menu/vpssim-re-config-cac-ham-php-disable-php.ini
 if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
 service php-fpm restart
