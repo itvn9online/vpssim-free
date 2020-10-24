@@ -110,7 +110,8 @@ echo "zend_extension=$duongdanopcache" >> /etc/php.d/opcache.*
 duongdanimagick=$(find / -name 'imagick.so' | grep php/modules/imagick.so)
 echo "extension=$duongdanimagick" >> /etc/php.d/imagick.ini
 else
-echo "zend_extension=opcache.so" >> /etc/php.d/opcache.*
+#echo "zend_extension=opcache.so" >> /etc/php.d/opcache.*
+echo "zend_extension=/usr/lib64/php/modules/opcache.so" >> /etc/php.d/opcache.*
 echo "extension=imagick.so" > /etc/php.d/imagick.ini
 fi
 

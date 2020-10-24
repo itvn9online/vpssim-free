@@ -98,7 +98,8 @@ fi
 duongdanopcache=$(find / -name 'opcache.so' | grep php/modules/opcache.so)
 echo "zend_extension=$duongdanopcache" >> /etc/php.d/opcache.*
 else
-echo "zend_extension=opcache.so" >> /etc/php.d/opcache.*
+#echo "zend_extension=opcache.so" >> /etc/php.d/opcache.*
+echo "zend_extension=/usr/lib64/php/modules/opcache.so" >> /etc/php.d/opcache.*
 fi
 ######################
 ## Ioncube 
