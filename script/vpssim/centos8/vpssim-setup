@@ -403,7 +403,8 @@ fi
 sudo dnf -y install exim syslog-ng cronie cronie-anacron
 
 #yum-config-manager --enable remi-php56
-yum-config-manager --enable remi-php72
+#yum-config-manager --enable remi-php72
+yum-config-manager --enable remi-php73
 #sudo dnf -y install php php-curl php-soap php-cli php-snmp php-pspell redis php-pecl-redis php-gmp php-ldap php-bcmath php-intl php-imap perl-libwww-perl perl-LWP-Protocol-https php-pear-Net-SMTP php-enchant php-common php-fpm php-gd php-devel php-mysql php-pear php-pecl-memcached php-pecl-memcache php-opcache php-pdo php-zlib php-xml php-mbstring php-mcrypt php-xmlrpc php-tidy
 #sudo dnf -y install php php-curl php-soap php-cli php-snmp php-pspell php-pecl-redis php-gmp php-ldap php-bcmath php-intl php-imap perl-libwww-perl perl-LWP-Protocol-https php-pear-Net-SMTP php-enchant php-common php-fpm php-gd php-devel php-mysql php-pear php-pecl-memcached php-pecl-memcache php-opcache php-pdo php-zlib php-xml php-mbstring php-mcrypt php-xmlrpc php-tidy
 sudo dnf -y install php php-curl php-pecl-zip php-zip php-soap php-cli php-snmp php-gmp php-ldap php-bcmath php-intl perl-libwww-perl perl-LWP-Protocol-https php-pear-Net-SMTP php-enchant php-common php-fpm php-gd php-devel php-pear php-opcache php-pdo php-zlib php-xml php-mbstring php-xmlrpc
@@ -415,7 +416,13 @@ sudo dnf -y install php-json php-mysqli
 
 sudo dnf -y install ImageMagick ImageMagick-devel ImageMagick-c++ ImageMagick-c++-devel 
 yes "" | pecl install imagick
+# neu cai dat thanh cong imagick -> include vao
+if [ -f /usr/lib64/php/modules/imagick.so ]; then
 echo "extension=imagick.so" > /etc/php.d/imagick.ini
+else
+rm -rf /etc/php.d/imagick.ini
+fi
+
 clear
 echo "=========================================================================="
 echo "Cai Dat Hoan Tat, Bat Dau Qua Trinh Cau Hinh...... "
