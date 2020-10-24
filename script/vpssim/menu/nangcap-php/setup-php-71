@@ -34,6 +34,7 @@ fi
 yes | cp -rf /etc/php.ini /root/updown/
 yes | cp -rf /etc/php-fpm.d/www.conf /root/updown
 
+imagickstatus=0
 if [ -f /etc/php.d/imagick.ini ]; then
 imagickstatus=1
 rm -rf /etc/php.d/imagick.ini 
@@ -90,7 +91,14 @@ if [ "$php_version" == "5.4" ]; then
 duongdanimagick=$(find / -name 'imagick.so' | grep php/modules/imagick.so)
 echo "extension=$duongdanimagick" >> /etc/php.d/imagick.ini
 else
+
+# neu cai dat thanh cong imagick -> include vao
+if [ -f /usr/lib64/php/modules/imagick.so ]; then
 echo "extension=imagick.so" > /etc/php.d/imagick.ini
+else
+rm -rf /etc/php.d/imagick.ini
+fi
+
 fi
 fi
 
