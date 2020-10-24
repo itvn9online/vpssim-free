@@ -33,12 +33,23 @@ rm -rf /usr/local/ioncube
 fi
 
 if [ "$ioncubestatus" = "1" ]; then
-clear
-echo "========================================================================="
-echo "ioncube hien chua ho tro PHP 7.0 ."
-echo "-------------------------------------------------------------------------"
-echo "VPSSIM se remove inoncube va se khong cai dat no nua."
-sleep 6
+if [ ! -d /usr/local/ioncube ]; then
+mkdir -p /usr/local/ioncube
+fi
+
+#wget --no-check-certificate -q -O - https://github.com/itvn9online/echbay-vpssim-software/raw/master/ioncube_loaders_lin_x86-64_BETA.tar.gz | tar -xzf - -C /usr/local/ioncube
+#rm -r -f /root/ioncube_loaders_lin_x86-64_BETA.tar.gz
+
+wget --no-check-certificate -q -O - https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz | tar -xzf - -C /usr/local/ioncube
+rm -r -f /root/ioncube_loaders_lin_x86-64.tar.gz
+
+rm -r -f /etc/php.d/*.ioncube.*
+rm -r -f /etc/php.d/ioncube.*
+#ioncube
+
+cat > "/etc/php.d/ioncube.ini" <<END
+zend_extension=/usr/local/ioncube/ioncube_loader_lin_${php_version}.so
+END
 fi
 
 mkdir -p /root/updown

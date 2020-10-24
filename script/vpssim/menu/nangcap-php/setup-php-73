@@ -104,13 +104,12 @@ if [ ! -d /usr/local/ioncube ]; then
 mkdir -p /usr/local/ioncube
 fi
 
-#Beta for PHP 7.3
-#wget -q -O - https://vpssim.com/script/vpssim/Softwear/ioncube/ioncube_loaders_lin_x86-64_BETA.tar.gz | tar -xzf - -C /usr/local/ioncube
-wget --no-check-certificate -q -O - https://github.com/itvn9online/echbay-vpssim-software/raw/master/ioncube_loaders_lin_x86-64_BETA.tar.gz | tar -xzf - -C /usr/local/ioncube
-rm -r -f /root/ioncube_loaders_lin_x86-64_BETA.tar.gz
+#wget --no-check-certificate -q -O - https://github.com/itvn9online/echbay-vpssim-software/raw/master/ioncube_loaders_lin_x86-64_BETA.tar.gz | tar -xzf - -C /usr/local/ioncube
+#rm -r -f /root/ioncube_loaders_lin_x86-64_BETA.tar.gz
 
-#wget -q -O - http://downloads3.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz | tar -xzf - -C /usr/local
-#rm -r -f /root/ioncube_loaders_lin_x86-64.tar.gz
+wget --no-check-certificate -q -O - https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz | tar -xzf - -C /usr/local/ioncube
+rm -r -f /root/ioncube_loaders_lin_x86-64.tar.gz
+
 rm -r -f /etc/php.d/*.ioncube.*
 rm -r -f /etc/php.d/ioncube.*
 #ioncube
@@ -119,6 +118,7 @@ cat > "/etc/php.d/ioncube.ini" <<END
 zend_extension=/usr/local/ioncube/ioncube_loader_lin_${php_version}.so
 END
 fi
+
 #Install Zip Module
 #yes "" | pecl install zip
 #if [ "`grep extension=zip.so /etc/php.ini`" == "" ];then
