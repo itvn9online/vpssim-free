@@ -9,6 +9,7 @@ echo "Phien ban PHP hien tai: $(php -i | grep 'PHP Version' | awk 'NR==1 {print 
 /etc/vpssim/menu/nangcap-php/change-php-version-menu
 exit
 fi
+
 echo "========================================================================="
 read -r -p "Ban muon su dung PHP phien ban 7.3 ? [y/N] " response
 case $response in

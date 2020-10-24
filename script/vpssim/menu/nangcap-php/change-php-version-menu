@@ -1,28 +1,28 @@
 #!/bin/bash 
 
 . /home/vpssim.conf
-prompt="Nhap lua chon cua ban: "
+prompt="Nhap lua chon cua ban: (0-Thoat)"
 php_version=$(php -r "echo PHP_MAJOR_VERSION.'.'.PHP_MINOR_VERSION;")
 
 if [ "$php_version" == "7.2" ]; then
-options=( "PHP 7.4" "PHP 7.3" "PHP 7.2 (Current)" "PHP 7.1" "PHP 7.0" "PHP 5.6" "PHP 5.5" "PHP 5.4" "Thoat")
+options=( "PHP 7.4" "PHP 7.3" "PHP 7.2 (Current)" "PHP 7.1" "PHP 7.0" "PHP 5.6" "PHP 5.5" "PHP 5.4")
 elif [ "$php_version" == "7.4" ]; then
-options=( "PHP 7.4 (Current)" "PHP 7.3" "PHP 7.2" "PHP 7.1" "PHP 7.0" "PHP 5.6" "PHP 5.5" "PHP 5.4" "Thoat")
+options=( "PHP 7.4 (Current)" "PHP 7.3" "PHP 7.2" "PHP 7.1" "PHP 7.0" "PHP 5.6" "PHP 5.5" "PHP 5.4")
 elif [ "$php_version" == "7.3" ]; then
-options=( "PHP 7.4" "PHP 7.3 (Current)" "PHP 7.2" "PHP 7.1" "PHP 7.0" "PHP 5.6" "PHP 5.5" "PHP 5.4" "Thoat")
+options=( "PHP 7.4" "PHP 7.3 (Current)" "PHP 7.2" "PHP 7.1" "PHP 7.0" "PHP 5.6" "PHP 5.5" "PHP 5.4")
 elif [ "$php_version" == "7.1" ]; then
-options=( "PHP 7.4" "PHP 7.3" "PHP 7.2" "PHP 7.1 (Current)" "PHP 7.0" "PHP 5.6" "PHP 5.5" "PHP 5.4" "Thoat")
+options=( "PHP 7.4" "PHP 7.3" "PHP 7.2" "PHP 7.1 (Current)" "PHP 7.0" "PHP 5.6" "PHP 5.5" "PHP 5.4")
 elif [ "$php_version" == "7.0" ]; then
-options=( "PHP 7.4" "PHP 7.3" "PHP 7.2" "PHP 7.1" "PHP 7.0 (Current)" "PHP 5.6" "PHP 5.5" "PHP 5.4" "Thoat")
+options=( "PHP 7.4" "PHP 7.3" "PHP 7.2" "PHP 7.1" "PHP 7.0 (Current)" "PHP 5.6" "PHP 5.5" "PHP 5.4")
 elif [ "$php_version" == "5.6" ]; then
-options=( "PHP 7.4" "PHP 7.3" "PHP 7.2" "PHP 7.1" "PHP 7.0" "PHP 5.6 (Current)" "PHP 5.5" "PHP 5.4" "Thoat")
+options=( "PHP 7.4" "PHP 7.3" "PHP 7.2" "PHP 7.1" "PHP 7.0" "PHP 5.6 (Current)" "PHP 5.5" "PHP 5.4")
 elif [ "$php_version" == "5.5" ]; then
-options=( "PHP 7.4" "PHP 7.3" "PHP 7.2" "PHP 7.1" "PHP 7.0" "PHP 5.6" "PHP 5.5 (Current)" "PHP 5.4" "Thoat")
+options=( "PHP 7.4" "PHP 7.3" "PHP 7.2" "PHP 7.1" "PHP 7.0" "PHP 5.6" "PHP 5.5 (Current)" "PHP 5.4")
 elif [ "$php_version" == "5.4" ]; then
-options=( "PHP 7.4" "PHP 7.3" "PHP 7.2" "PHP 7.1" "PHP 7.0" "PHP 5.6" "PHP 5.5" "PHP 5.4 (Current)" "Thoat")
+options=( "PHP 7.4" "PHP 7.3" "PHP 7.2" "PHP 7.1" "PHP 7.0" "PHP 5.6" "PHP 5.5" "PHP 5.4 (Current)")
 else
 echo "Phien ban PHP hien tai: "$php_version
-options=( "PHP 7.4" "PHP 7.3" "PHP 7.2" "PHP 7.1" "PHP 7.0" "PHP 5.6" "PHP 5.5" "PHP 5.4" "Thoat")
+options=( "PHP 7.4" "PHP 7.3" "PHP 7.2" "PHP 7.1" "PHP 7.0" "PHP 5.6" "PHP 5.5" "PHP 5.4")
 fi
 printf "=========================================================================\n"
 printf "                VPSSIM - Quan Ly VPS/Server by HostingAZ.VN \n"
