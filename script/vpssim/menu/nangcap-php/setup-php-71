@@ -45,20 +45,10 @@ if [ -f /etc/php.d/*suhosin*.ini ]; then
 suhosin=1
 fi
 
-if [ -f /etc/redis/redis.conf ]; then
-phppeclredis=php-pecl-redis
-fi
-
-if [ -f /etc/sysconfig/memcached ]; then
-memcachedinstall=$(echo "php-pecl-memcached php-pecl-memcache")
-fi
-
 yum -y remove php\*
 yum-config-manager --disable remi-php$phphientai 
-yum-config-manager --enable remi-php71 
-yum -y install php php-common php-fpm php-gd php-devel php-json
-yum -y install php-curl php-pecl-zip $phppeclredis php-zip php-soap php-cli php-ldap php-mysqlnd php-pear-Net-SMTP php-enchant php-mysql php-pgsql php-pear $memcachedinstall php-opcache php-pdo php-zlib php-xml php-mbstring php-mcrypt
-clear
+yum-config-manager --enable remi-php71
+/etc/vpssim/menu/nangcap-php/install-php
 
 #edit php.ini va Zend opcache
 rm -rf /etc/php.ini  

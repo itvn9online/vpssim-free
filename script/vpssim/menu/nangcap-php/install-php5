@@ -1,0 +1,15 @@
+#!/bin/bash
+
+yum -y install php php-curl php-soap php-cli php-snmp php-pspell php-ldap php-gmp php-bcmath php-intl php-imap php-pear-Net-SMTP php-enchant php-common php-fpm php-gd php-devel php-mysql php-pear php-opcache php-pdo php-zlib php-xml php-mbstring php-mcrypt php-xmlrpc php-tidy
+
+if [ -f /etc/redis/redis.conf ]; then
+#phppeclredis=php-pecl-redis
+sudo yum -y install php-pecl-redis
+fi
+
+if [ -f /etc/sysconfig/memcached ]; then
+#memcachedinstall=$(echo "php-pecl-memcached php-pecl-memcache")
+sudo yum -y install php-pecl-memcached php-pecl-memcache
+fi
+
+clear
