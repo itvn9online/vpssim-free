@@ -1,6 +1,6 @@
 #!/bin/sh
 
-sudo yum -y install git
+sudo yum -y install git > /dev/null 2>&1
 
 # update code
 if [ -d /opt/echbay_vpssim ]; then
