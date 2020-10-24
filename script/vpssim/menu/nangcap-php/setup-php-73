@@ -34,11 +34,15 @@ yes | cp -rf /etc/php.d/opcache.ini /root/updown/
 fi
 yes | cp -rf /etc/php.ini /root/updown/
 yes | cp -rf /etc/php-fpm.d/www.conf /root/updown
+
+# php 7.3 chua ho tro imagick
+imagickstatus=0
 if [ -f /etc/php.d/imagick.ini ]; then
 imagickstatus=1
 rm -rf /etc/php.d/imagick.ini 
 pecl uninstall imagick
 fi
+
 if [ -f /etc/php.d/*suhosin*.ini ]; then
 suhosin=1
 fi
@@ -74,6 +78,7 @@ if [ "$suhosin" = "1" ]; then
 yum -y install php-suhosin
 fi
 ###########################
+
 ###Imagick & Zend Opcache
 if [ "$imagickstatus" == "1" ]; then
 yum -y install ImageMagick ImageMagick-devel ImageMagick-c++ ImageMagick-c++-devel 
@@ -85,9 +90,17 @@ if [ "$php_version" == "5.4" ]; then
 duongdanimagick=$(find / -name 'imagick.so' | grep php/modules/imagick.so)
 echo "extension=$duongdanimagick" >> /etc/php.d/imagick.ini
 else
+
+# neu cai dat thanh cong imagick -> include vao
+if [ -f /usr/lib64/php/modules/imagick.so ]; then
 echo "extension=imagick.so" > /etc/php.d/imagick.ini
+else
+rm -rf /etc/php.d/imagick.ini
+fi
+
 fi
 fi
+
 if [ "$php_version" == "5.4" ]; then
 if [ "$(find / -name 'opcache.so')" == "0" ]; then
 pecl install channel://pecl.php.net/ZendOpcache-7.0.5
@@ -98,6 +111,8 @@ else
 echo "zend_extension=opcache.so" >> /etc/php.d/opcache.*
 fi
 ######################
+
+
 ## Ioncube 
 if [ "$ioncubestatus" = "1" ]; then
 if [ ! -d /usr/local/ioncube ]; then
@@ -124,6 +139,7 @@ fi
 #if [ "`grep extension=zip.so /etc/php.ini`" == "" ];then
 #sed -i "/.*default_socket_timeout.*/aextension=zip.so" /etc/php.ini
 #fi
+
 /etc/vpssim/menu/vpssim-re-config-cac-ham-php-disable-php.ini
 rm -rf /root/updown/
 if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
