@@ -8,14 +8,22 @@ opcache_include=$(grep zend_extension= /etc/php.d/opcache.ini)
 #echo $opcache_include
 if [ "$opcache_include" = "" ]; then
 #echo "null"
+
+# tao gian cach de phong file bi trim
+echo "" >> /etc/php.d/opcache.*
+
+# them file .so vao
 if [ -f /usr/lib64/php/modules/opcache.so ]; then
 echo "zend_extension=/usr/lib64/php/modules/opcache.so" >> /etc/php.d/opcache.*
 else
+
 duongdanopcache=$(find / -name 'opcache.so' | grep php/modules/opcache.so)
 if [ ! "$duongdanopcache" = "" ]; then
 echo "zend_extension=$duongdanopcache" >> /etc/php.d/opcache.*
 fi
+
 fi
+
 fi
 
 prompt="Nhap lua chon cua ban (0-Thoat):"

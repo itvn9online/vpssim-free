@@ -62,8 +62,14 @@ else
 duongdanopcache=$(find / -name 'opcache.so' | grep php/modules/opcache.so)
 if [ ! "$duongdanopcache" = "" ]; then
 echo "zend_extension=$duongdanopcache" >> /etc/php.d/opcache.*
-#else
+else
+
+if [ -f /etc/php.d/opcache.ini ]; then
+rm -rf /etc/php.d/opcache.bak
+mv /etc/php.d/opcache.ini /etc/php.d/opcache.bak
+fi
 #rm -rf /etc/php.d/opcache.*
+
 fi
 fi
 ######################
