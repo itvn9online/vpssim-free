@@ -27,7 +27,7 @@ yes | cp -rf /opt/echbay_vpssim/script/vpssim/errorpage_html/. /home/vpssim.demo
 #yes | cp -rf /opt/echbay_vpssim/script/vpssim/menu/. /etc/vpssim/menu/
 
 # Chmod 755 Menu
-/opt/echbay_vpssim/script/vpssim/menu/chmod-755-menu
+#/opt/echbay_vpssim/script/vpssim/menu/chmod-755-menu
 # END update ECHBAY-VPSSIM menu
 
 
