@@ -104,8 +104,3 @@ esac
 
 clear && /etc/vpssim/menu/vpssim-update-upgrade-service-menu
 
-
-
-
-
-
