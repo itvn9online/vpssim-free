@@ -13,7 +13,8 @@ exit
 fi
 
 echo "========================================================================="
-read -r -p "Ban muon su dung PHP phien ban ${new_php_version} ? [y/N] " response
+echo "Ban muon su dung PHP phien ban $new_php_version ?"
+read -r -p "Please select [y/N] " response
 case $response in
 [yY][eE][sS]|[yY]) 
 echo "-------------------------------------------------------------------------"
@@ -45,7 +46,6 @@ sed --in-place '/zend_extension/d' /etc/php.d/opcache.*
 /etc/vpssim/menu/nangcap-php/setup-suhosin
 /etc/vpssim/menu/nangcap-php/setup-ioncube
 /etc/vpssim/menu/nangcap-php/setup-imagick
-rm -rf /tmp/change_php_config
 
 
 if [ "$php_version" == "5.4" ]; then
@@ -106,6 +106,9 @@ echo "Phien ban PHP hien tai: $(php -i | grep 'PHP Version' | awk 'NR==1 {print 
 /etc/vpssim/menu/nangcap-php/change-php-version-menu
 ;;
 esac
+
+rm -rf /tmp/change_php_config
+
 clear
 
 echo "========================================================================="
