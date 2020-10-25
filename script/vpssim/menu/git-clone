@@ -7,7 +7,8 @@ rm -rf /opt/echbay_vpssim
 sleep 5
 fi
 
-sudo yum -y install git
+echo "Install git..."
+sudo yum -y install git > /dev/null 2>&1
 
 # update code
 if [ -d /opt/echbay_vpssim ]; then
