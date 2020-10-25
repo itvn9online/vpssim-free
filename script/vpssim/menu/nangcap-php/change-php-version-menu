@@ -1,7 +1,7 @@
 #!/bin/bash 
 
 . /home/vpssim.conf
-prompt="Nhap lua chon cua ban: (0-Thoat)"
+prompt="Nhap lua chon cua ban (0-Thoat):"
 php_version=$(php -r "echo PHP_MAJOR_VERSION.'.'.PHP_MINOR_VERSION;")
 
 if [ "$php_version" == "7.2" ]; then
@@ -28,8 +28,14 @@ printf "========================================================================
 printf "                VPSSIM - Quan Ly VPS/Server by HostingAZ.VN \n"
 printf "=========================================================================\n"
 printf "                       Chon PHP Version Cho Server\n"
-printf "                   Phien ban on dinh cao nhat la PHP 7.2\n"
-printf "              Phien ban 7.3 va 7.4 hien tai chua hoat dong on dinh\n"
+
+if [ ! "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then
+printf "                      Phien ban PHP khuyen dung: 7.4\n"
+else
+printf "                      Phien ban PHP khuyen dung: 7.2\n"
+fi
+#printf "              Phien ban 7.3 va 7.4 hien tai chua hoat dong on dinh\n"
+
 printf "=========================================================================\n"
 PS3="$prompt"
 select opt in "${options[@]}"; do 
@@ -43,7 +49,7 @@ select opt in "${options[@]}"; do
     6) chonphpversion="56"; break;;
     7) chonphpversion="55"; break;;
     8) chonphpversion="54"; break;;
-    9) chonphpversion="cancle"; break;;
+    #9) chonphpversion="cancle"; break;;
     0) chonphpversion="cancle"; break;;
     *) echo "Ban nhap sai, vui long nhap theo so thu tu trong danh sach";continue;;
   
