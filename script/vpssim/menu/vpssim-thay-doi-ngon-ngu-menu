@@ -19,9 +19,9 @@ REMOVER=`cat /tmp/vpssim.newversion`
 if [ ! "$LOCALVER" == "$REMOVER" ]; then
 clear
 printf "=========================================================================\n"
-echo "Ban phai update VPSSIM len phien ban moi nhat de su dung chuc nang nay"
+echo "Ban phai update ECHBAY-VPSSIM len phien ban moi nhat de su dung chuc nang nay"
 echo "-------------------------------------------------------------------------"
-echo "(You must update VPSSIM to latest version to use this function)"
+echo "(You must update ECHBAY-VPSSIM to latest version to use this function)"
 /etc/vpssim/menu/vpssim-update-upgrade-service-menu
 fi
 fi

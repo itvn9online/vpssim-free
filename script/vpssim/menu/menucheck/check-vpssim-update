@@ -28,7 +28,7 @@ checksize=$(du -sb /tmp/vpssim.newversion | awk 'NR==1 {print $1}')
 			echo "-------------------------------------------------------------------------"
 			echo "Your Version: $LOCALVER   |   Newest version: $REMOVER"
 			echo "-------------------------------------------------------------------------"
-			echo "How to update: VPSSIM menu => Update System => Update VPSSIM "
+			echo "How to update: ECHBAY-VPSSIM menu => Update System => Update ECHBAY-VPSSIM "
 			
 		fi
 END
