@@ -1,4 +1,5 @@
 #!/bin/bash
+. /home/vpssim.conf
 . /tmp/change_php_config
 
 ###Imagick & Zend Opcache
@@ -7,9 +8,13 @@ echo "install imagick..."
 yum -y install ImageMagick ImageMagick-devel ImageMagick-c++ ImageMagick-c++-devel > /dev/null 2>&1
 echo "pecl install imagick..."
 yes "" | pecl install imagick > /dev/null 2>&1
+
 if [ ! -f /home/$mainsite/private_html/check-imagick.php ]; then
 cp -r /etc/vpssim/menu/inc/check-imagick.php.zip /home/$mainsite/private_html/check-imagick.php
 fi
+
+php_version=$(php -r "echo PHP_MAJOR_VERSION.'.'.PHP_MINOR_VERSION;")
+
 if [ "$php_version" == "5.4" ]; then
 duongdanimagick=$(find / -name 'imagick.so' | grep php/modules/imagick.so)
 echo "extension=$duongdanimagick" >> /etc/php.d/imagick.ini
