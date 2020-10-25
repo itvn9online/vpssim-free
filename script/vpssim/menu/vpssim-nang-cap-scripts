@@ -1,5 +1,4 @@
 ﻿#!/bin/bash
-
 . /home/vpssim.conf
 
 if [ ! -f /etc/vpssim/vpssim.version ]; then
