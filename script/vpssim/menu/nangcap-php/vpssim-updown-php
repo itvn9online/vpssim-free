@@ -4,6 +4,7 @@
 nang_cap_php_fpm_check () {
 /etc/vpssim/menu/nangcap-php/change-php-version-menu
 }
+
 nang_cap_php_fpm_check_xoa () {
 php_version=$(php -r "echo PHP_MAJOR_VERSION.'.'.PHP_MINOR_VERSION;")
 if [ "$php_version" == "7.0" ]; then
@@ -30,6 +31,7 @@ echo "Sorry, VPSSIM can not check your PHP version"
 exit
 fi
 }
+
 if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
 	if [ "$(/sbin/service php-fpm status | awk 'NR==1 {print $5}')" == "running..." ]; then
 nang_cap_php_fpm_check

@@ -63,9 +63,7 @@ case $response in
 sleep 1
 
 # tao file nay de goi toi file cai dat ioncube thi no moi cai
-cat > "/etc/php.d/ioncube.ini" <<END
-#zend_extension=/usr/local/ioncube/
-END
+echo "ioncubestatus=1" > /tmp/change_php_config
 
 ## Ioncube
 /etc/vpssim/menu/nangcap-php/setup-ioncube
