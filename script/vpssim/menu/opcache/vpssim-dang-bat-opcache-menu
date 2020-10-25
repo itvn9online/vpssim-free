@@ -3,6 +3,21 @@
 ramzenduse=$(grep opcache.memory_consumption /etc/php.d/opcache.ini | grep -o '[0-9]*')
 maxphpzen=$(grep opcache.max_accelerated_files /etc/php.d/opcache.ini | grep -o '[0-9]*')
 cleartime=$(grep opcache.revalidate_freq /etc/php.d/opcache.ini | grep -o '[0-9]*')
+
+opcache_include=$(grep zend_extension= /etc/php.d/opcache.ini)
+#echo $opcache_include
+if [ "$opcache_include" = "" ]; then
+#echo "null"
+if [ -f /usr/lib64/php/modules/opcache.so ]; then
+echo "zend_extension=/usr/lib64/php/modules/opcache.so" >> /etc/php.d/opcache.*
+else
+duongdanopcache=$(find / -name 'opcache.so' | grep php/modules/opcache.so)
+if [ ! "$duongdanopcache" = "" ]; then
+echo "zend_extension=$duongdanopcache" >> /etc/php.d/opcache.*
+fi
+fi
+fi
+
 prompt="Nhap lua chon cua ban (0-Thoat):"
 options=("Tat Opcache" "Cau Hinh Zend Opcache" "Them Website Vao BlackList" "Xoa Website Khoi Blacklist" "Clear Zend OPcache")
 printf "=========================================================================\n"
@@ -41,7 +56,7 @@ printf "Blacklist: `cat /tmp/check_zendblacklist | wc -l` | Link View: http://$s
 printf "=========================================================================\n"
 rm -rf /tmp/check_zendblacklist
 PS3="$prompt"
-select opt in "${options[@]}" "Thoat"; do 
+select opt in "${options[@]}"; do 
 
     case "$REPLY" in
 	1 ) /etc/vpssim/menu/opcache/vpssim-tat-opcache;;
@@ -49,7 +64,7 @@ select opt in "${options[@]}" "Thoat"; do
 	3) /etc/vpssim/menu/opcache/vpssim-them-website-vao-blacklist;;
 	4) /etc/vpssim/menu/opcache/vpssim-xoa-website-khoi-blacklist;;
 	5) /etc/vpssim/menu/opcache/vpssim-clear-opcache;;
-	$(( ${#options[@]}+1 )) ) echo "";  clear && /bin/vpssim;;
+	#$(( ${#options[@]}+1 )) ) echo "";  clear && /bin/vpssim;;
 	0) echo "";  clear && /bin/vpssim;;
     *) echo "Ban nhap sai, vui long nhap theo so thu tu tren menu";continue;;
 
