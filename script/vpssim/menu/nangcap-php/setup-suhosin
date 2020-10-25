@@ -3,5 +3,5 @@
 
 if [ "$suhosin" = "1" ]; then
 echo "install suhosin..."
-yum -y install php-suhosin > /dev/null 2>&1
+yum -y install php-suhosin
 fi

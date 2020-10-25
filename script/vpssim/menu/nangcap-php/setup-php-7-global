@@ -51,7 +51,7 @@ sed --in-place '/zend_extension/d' /etc/php.d/opcache.*
 if [ "$php_version" == "5.4" ]; then
 if [ "$(find / -name 'opcache.so')" == "0" ]; then
 echo "pecl install ZendOpcache..."
-pecl install channel://pecl.php.net/ZendOpcache-7.0.5 > /dev/null 2>&1
+pecl install channel://pecl.php.net/ZendOpcache-7.0.5
 fi
 duongdanopcache=$(find / -name 'opcache.so' | grep php/modules/opcache.so)
 echo "zend_extension=$duongdanopcache" >> /etc/php.d/opcache.*

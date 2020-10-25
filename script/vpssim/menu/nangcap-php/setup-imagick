@@ -5,9 +5,9 @@
 ###Imagick & Zend Opcache
 if [ "$imagickstatus" == "1" ]; then
 echo "install imagick..."
-yum -y install ImageMagick ImageMagick-devel ImageMagick-c++ ImageMagick-c++-devel > /dev/null 2>&1
+yum -y install ImageMagick ImageMagick-devel ImageMagick-c++ ImageMagick-c++-devel
 echo "pecl install imagick..."
-yes "" | pecl install imagick > /dev/null 2>&1
+yes "" | pecl install imagick
 
 if [ ! -f /home/$mainsite/private_html/check-imagick.php ]; then
 cp -r /etc/vpssim/menu/inc/check-imagick.php.zip /home/$mainsite/private_html/check-imagick.php
