@@ -410,7 +410,11 @@ sudo yum -y install exim syslog-ng cronie cronie-anacron
 yum-config-manager --enable remi-php$numPHPmacdinh
 #sudo yum -y install php php-curl php-soap php-cli php-snmp php-pspell redis php-pecl-redis php-gmp php-ldap php-bcmath php-intl php-imap perl-libwww-perl perl-LWP-Protocol-https php-pear-Net-SMTP php-enchant php-common php-fpm php-gd php-devel php-mysql php-pear php-pecl-memcached php-pecl-memcache php-opcache php-pdo php-zlib php-xml php-mbstring php-mcrypt php-xmlrpc php-tidy
 #sudo yum -y install php php-curl php-pecl-zip php-zip php-soap php-cli php-snmp php-pspell php-pecl-redis php-gmp php-ldap php-bcmath php-intl php-imap perl-libwww-perl perl-LWP-Protocol-https php-pear-Net-SMTP php-enchant php-common php-fpm php-gd php-devel php-mysql php-pear php-pecl-memcached php-pecl-memcache php-opcache php-pdo php-zlib php-xml php-mbstring php-mcrypt php-xmlrpc php-tidy
+if [ -f /etc/vpssim/menu/nangcap-php/install-php ]; then
+/etc/vpssim/menu/nangcap-php/install-php
+else
 sudo yum -y install php php-curl php-pecl-zip php-zip php-soap php-cli php-snmp php-pspell php-gmp php-ldap php-bcmath php-intl php-imap perl-libwww-perl perl-LWP-Protocol-https php-pear-Net-SMTP php-enchant php-common php-fpm php-gd php-devel php-mysql php-pear php-opcache php-pdo php-zlib php-xml php-mbstring php-mcrypt php-xmlrpc php-tidy
+fi
 
 #sudo yum -y install memcached
 
@@ -1005,10 +1009,10 @@ download_vpssim_data () {
 mkdir -p /etc/vpssim/menu ; chmod 755 /etc/vpssim/menu
 yes | cp -rf /opt/echbay_vpssim/script/vpssim/menu/. /etc/vpssim/menu/
 }
-download_vpssim_data
-if [ ! -f /etc/vpssim/menu/vpssim-tien-ich ]; then
-download_vpssim_data
-fi
+#download_vpssim_data
+#if [ ! -f /etc/vpssim/menu/vpssim-tien-ich ]; then
+#download_vpssim_data
+#fi
 
 #wget --no-check-certificate -q https://vpssim.com/script/vpssim/errorpage_html.zip
 #unzip -q errorpage_html.zip
@@ -1022,7 +1026,7 @@ mkdir -p /home/vpssim.demo/private_html/tmp ; chmod 777 /home/vpssim.demo/privat
 
 cd
 # Chmod 755 Menu
-/opt/echbay_vpssim/script/vpssim/menu/chmod-755-menu
+#/opt/echbay_vpssim/script/vpssim/menu/chmod-755-menu
 
 # Download /etc/nginx/conf
 cd /etc/nginx/
