@@ -79,6 +79,12 @@ echo "Install rsync"
 yum -y install rsync > /dev/null 2>&1
 fi
 
+rsync -ah /tmp/test_rsync_for_wp_all_update /root
+if [ ! -f /root/test_rsync_for_wp_all_update ]; then
+echo "Rsync ERROR......."
+exit
+fi
+
 
 # cap nhat cho cac file download
 curTime=$(date +%d)
@@ -309,11 +315,14 @@ if [ $2 -lt $3 ]; then
 					
 					if [ ! "$4" = "" ]; then
 						echo "chown user: "$4
+						
+						# voi DirectAdmin -> chuyen quyen cho user
 						if [ -f /etc/init.d/directadmin ]; then
 							chown -R $4:$4 $d
 							chown -R $4:$4 $d/*
 						else
 							id -u nginx
+							# voi VPSSIM, HOCVPS -> phan quyen cho user va nginx
 							if [ $? -eq 0 ]; then
 								chown -R $4:nginx $d
 								chown -R $4:nginx $d/*
