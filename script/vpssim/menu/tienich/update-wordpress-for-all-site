@@ -309,8 +309,19 @@ if [ $2 -lt $3 ]; then
 					
 					if [ ! "$4" = "" ]; then
 						echo "chown user: "$4
-						chown -R $4:nginx $d
-						chown -R $4:nginx $d/*
+						if [ -f /etc/init.d/directadmin ]; then
+							chown -R $4:$4 $d
+							chown -R $4:$4 $d/*
+						else
+							id -u nginx
+							if [ $? -eq 0 ]; then
+								chown -R $4:nginx $d
+								chown -R $4:nginx $d/*
+							else
+								chown -R $4:$4 $d
+								chown -R $4:$4 $d/*
+							fi
+						fi
 					fi
 					
 				else
