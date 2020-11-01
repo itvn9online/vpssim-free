@@ -239,7 +239,10 @@ fi
 fi
 
 # phan quyen cho nginx quan ly
-chown -R nginx:nginx /root/wp-all-update
+id -u nginx
+if [ $? -eq 0 ]; then
+	chown -R nginx:nginx /root/wp-all-update
+fi
 
 
 
@@ -314,22 +317,27 @@ if [ $2 -lt $3 ]; then
 					echo "Rsync all DONE!"
 					
 					if [ ! "$4" = "" ]; then
-						echo "chown user: "$4
-						
-						# voi DirectAdmin -> chuyen quyen cho user
-						if [ -f /etc/init.d/directadmin ]; then
-							chown -R $4:$4 $d
-							chown -R $4:$4 $d/*
-						else
-							id -u nginx
-							# voi VPSSIM, HOCVPS -> phan quyen cho user va nginx
-							if [ $? -eq 0 ]; then
-								chown -R $4:nginx $d
-								chown -R $4:nginx $d/*
-							else
+						id -u $4
+						if [ $? -eq 0 ]; then
+							echo "chown user: "$4
+							
+							# voi DirectAdmin -> chuyen quyen cho user
+							if [ -f /etc/init.d/directadmin ]; then
 								chown -R $4:$4 $d
 								chown -R $4:$4 $d/*
+							else
+								# voi VPSSIM, HOCVPS -> phan quyen cho user va nginx
+								id -u nginx
+								if [ $? -eq 0 ]; then
+									chown -R $4:nginx $d
+									chown -R $4:nginx $d/*
+								else
+									chown -R $4:$4 $d
+									chown -R $4:$4 $d/*
+								fi
 							fi
+						else
+							echo "user "$4" not exist"
 						fi
 					fi
 					
