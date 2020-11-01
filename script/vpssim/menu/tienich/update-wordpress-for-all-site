@@ -232,79 +232,81 @@ get_all_dir_in_dir(){
 if [ $2 -lt $3 ]; then
 	for d in $1
 	do
-		# neu la shortcut thi bo qua
-		if [ -L $d ]; then
-			echo $d
-			echo "---------------------------- It is a symlink!"
 		# neu la thu muc thi kiem tra tiep
-		elif [ -d $d ]; then
-			# tim it nhat 3 file bat buoc phai co cua wp
-			if [ -f $d/wp-config.php ] && [ -f $d/wp-settings.php ] && [ -f $d/wp-blog-header.php ]; then
+		if [ -d $d ]; then
+			# neu la shortcut thi bo qua
+			if [ -L $d ]; then
 				echo $d
-				# tim duoc website wp
-				echo "++++++++++++++++++++++++++++ It is a wordpress website"
-				
-				echo "Begin rsync! Please wait..."
-				
-				# wordpres core
-				if [ -d /root/wp-all-update/wordpress ]; then
-					echo "rsync wordpress CORE..."
-					rsync -avzhe /root/wp-all-update/wordpress/* $d/ > /dev/null 2>&1
-				fi
-				
-				# echbaydotcom
-				if [ -d /root/wp-all-update/echbaydotcom-master ] && [ -d "$d/wp-content/echbaydotcom" ]; then
-					echo "rsync echbaydotcom..."
-					rsync -avzhe /root/wp-all-update/echbaydotcom-master/* $d/wp-content/echbaydotcom/ > /dev/null 2>&1
-					#chown -R nginx:nginx $d/wp-content/echbaydotcom
-					
-					# chinh lai thoi gian cap nhat
-					if [ -f $d/wp-content/echbaydotcom/readme.txt ]; then
-						touch -d "$(date)" $d/wp-content/echbaydotcom/readme.txt
-					fi
-				fi
-				
-				# echbaytwo
-				if [ -d /root/wp-all-update/echbaytwo-master ] && [ -d "$d/wp-content/themes/echbaytwo" ]; then
-					echo "rsync echbaytwo..."
-					rsync -avzhe /root/wp-all-update/echbaytwo-master/* $d/wp-content/themes/echbaytwo/ > /dev/null 2>&1
-					#chown -R nginx:nginx $d/wp-content/themes/echbaytwo
-					
-					# chinh lai thoi gian cap nhat
-					if [ -f $d/wp-content/themes/echbaytwo/index.php ]; then
-						touch -d "$(date)" $d/wp-content/themes/echbaytwo/index.php
-					fi
-				fi
-				
-				# wordpres plugin
-				rsync_wp_plugin "classic-editor" $d
-				rsync_wp_plugin "tinymce-advanced" $d
-				rsync_wp_plugin "contact-form-7" $d
-				rsync_wp_plugin "flamingo" $d
-				rsync_wp_plugin "wordpress-seo" $d
-				rsync_wp_plugin "elementor" $d
-				rsync_wp_plugin "post-duplicator" $d
-				rsync_wp_plugin "widget-shortcode" $d
-				rsync_wp_plugin "wp-mail-smtp" $d
-				rsync_wp_plugin "wp-smtp" $d
-				rsync_wp_plugin "redirection" $d
-				rsync_wp_plugin "really-simple-ssl"
-
-				rsync_wp_plugin "echbay-admin-security" $d
-				rsync_wp_plugin "echbay-facebook-messenger" $d
-				rsync_wp_plugin "echbay-optimize-images" $d
-				rsync_wp_plugin "echbay-phonering-alo" $d
-				rsync_wp_plugin "echbay-search-everything" $d
-				rsync_wp_plugin "echbay-tag-manager" $d
-				
-				echo "Rsync all DONE!"
-				
+				echo "---------------------------- It is a symlink!"
 			else
-				#echo $d
-				stt=$2
-				let "stt+=1"
-				#echo $stt
-				get_all_dir_in_dir $d"/*" $stt $3
+				# tim it nhat 3 file bat buoc phai co cua wp
+				if [ -f $d/wp-config.php ] && [ -f $d/wp-settings.php ] && [ -f $d/wp-blog-header.php ]; then
+					echo $d
+					# tim duoc website wp
+					echo "++++++++++++++++++++++++++++ It is a wordpress website"
+					
+					echo "Begin rsync! Please wait..."
+					
+					# wordpres core
+					if [ -d /root/wp-all-update/wordpress ]; then
+						echo "rsync wordpress CORE..."
+						rsync -avzhe /root/wp-all-update/wordpress/* $d/ > /dev/null 2>&1
+					fi
+					
+					# echbaydotcom
+					if [ -d /root/wp-all-update/echbaydotcom-master ] && [ -d "$d/wp-content/echbaydotcom" ]; then
+						echo "rsync echbaydotcom..."
+						rsync -avzhe /root/wp-all-update/echbaydotcom-master/* $d/wp-content/echbaydotcom/ > /dev/null 2>&1
+						#chown -R nginx:nginx $d/wp-content/echbaydotcom
+						
+						# chinh lai thoi gian cap nhat
+						if [ -f $d/wp-content/echbaydotcom/readme.txt ]; then
+							touch -d "$(date)" $d/wp-content/echbaydotcom/readme.txt
+						fi
+					fi
+					
+					# echbaytwo
+					if [ -d /root/wp-all-update/echbaytwo-master ] && [ -d "$d/wp-content/themes/echbaytwo" ]; then
+						echo "rsync echbaytwo..."
+						rsync -avzhe /root/wp-all-update/echbaytwo-master/* $d/wp-content/themes/echbaytwo/ > /dev/null 2>&1
+						#chown -R nginx:nginx $d/wp-content/themes/echbaytwo
+						
+						# chinh lai thoi gian cap nhat
+						if [ -f $d/wp-content/themes/echbaytwo/index.php ]; then
+							touch -d "$(date)" $d/wp-content/themes/echbaytwo/index.php
+						fi
+					fi
+					
+					# wordpres plugin
+					rsync_wp_plugin "classic-editor" $d
+					rsync_wp_plugin "tinymce-advanced" $d
+					rsync_wp_plugin "contact-form-7" $d
+					rsync_wp_plugin "flamingo" $d
+					rsync_wp_plugin "wordpress-seo" $d
+					rsync_wp_plugin "elementor" $d
+					rsync_wp_plugin "post-duplicator" $d
+					rsync_wp_plugin "widget-shortcode" $d
+					rsync_wp_plugin "wp-mail-smtp" $d
+					rsync_wp_plugin "wp-smtp" $d
+					rsync_wp_plugin "redirection" $d
+					rsync_wp_plugin "really-simple-ssl"
+
+					rsync_wp_plugin "echbay-admin-security" $d
+					rsync_wp_plugin "echbay-facebook-messenger" $d
+					rsync_wp_plugin "echbay-optimize-images" $d
+					rsync_wp_plugin "echbay-phonering-alo" $d
+					rsync_wp_plugin "echbay-search-everything" $d
+					rsync_wp_plugin "echbay-tag-manager" $d
+					
+					echo "Rsync all DONE!"
+					
+				else
+					#echo $d
+					stt=$2
+					let "stt+=1"
+					#echo $stt
+					get_all_dir_in_dir $d"/*" $stt $3
+				fi
 			fi
 		fi
 	done
