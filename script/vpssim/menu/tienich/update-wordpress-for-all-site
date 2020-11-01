@@ -1,5 +1,5 @@
 #!/bin/bash
-if [ -f /home/vpssim.conf ]; then
+if [ ! -f /tmp/server_wp_all_update ] && [ -f /home/vpssim.conf ]; then
 . /home/vpssim.conf
 fi
 
@@ -41,6 +41,11 @@ echo -n "Dir for check and update (default /home): "
 read DirSetup
 if [ "$DirSetup" = "" ]; then
 DirSetup="/home"
+fi
+
+if [ ~ -d $DirSetup ]; then
+echo $DirSetup" not exist!"
+exit
 fi
 
 echo -n "Max dir for foreah (maximum 10, default 3): "
@@ -322,7 +327,7 @@ done
 cd ~
 
 
-if [ -f /home/vpssim.conf ]; then
+if [ ! -f /tmp/server_wp_all_update ] && [ -f /home/vpssim.conf ]; then
 /etc/vpssim/menu/vpssim-tien-ich
 fi
 
