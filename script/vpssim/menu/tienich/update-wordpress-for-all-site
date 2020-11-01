@@ -196,6 +196,9 @@ rm -rf /root/wp-all-update/echbaytwo-master/.gitattributes
 rm -rf /root/wp-all-update/echbaytwo-master/.gitignore
 fi
 
+chown -R nginx:nginx /root/wp-all-update
+
+
 
 #exit
 cd ~
@@ -233,6 +236,7 @@ if [ $2 -lt $3 ]; then
 				if [ -d /root/wp-all-update/echbaydotcom-master ] && [ -d "$d/wp-content/echbaydotcom" ]; then
 					echo "rsync echbaydotcom..."
 					rsync -avzhe /root/wp-all-update/echbaydotcom-master/* $d/wp-content/echbaydotcom/ > /dev/null 2>&1
+					chown -R nginx:nginx $d/wp-content/echbaydotcom
 					
 					# chinh lai thoi gian cap nhat
 					if [ -f $d/wp-content/echbaydotcom/readme.txt ]; then
@@ -244,6 +248,7 @@ if [ $2 -lt $3 ]; then
 				if [ -d /root/wp-all-update/echbaytwo-master ] && [ -d "$d/wp-content/themes/echbaytwo" ]; then
 					echo "rsync echbaytwo..."
 					rsync -avzhe /root/wp-all-update/echbaytwo-master/* $d/wp-content/themes/echbaytwo/ > /dev/null 2>&1
+					chown -R nginx:nginx $d/wp-content/echbaytwo
 					
 					# chinh lai thoi gian cap nhat
 					if [ -f $d/wp-content/themes/echbaytwo/index.php ]; then
