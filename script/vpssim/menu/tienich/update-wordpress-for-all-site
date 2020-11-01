@@ -96,7 +96,8 @@ check_and_remmove_file_download $2
 cd /root/wp-all-update
 
 if [ ! -f $2 ]; then
-echo "Download: "$1
+#echo "Download: "$1
+echo "Download: "$2
 wget --no-check-certificate -q $1 -O $2 && chmod 755 $2
 
 # khong download duoc -> thoat
