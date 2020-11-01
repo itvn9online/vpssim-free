@@ -163,7 +163,7 @@ rsync_wp_plugin(){
 #echo $2/wp-content/plugins/$1
 if [ -d "$2/wp-content/plugins/$1" ] && [ -d "/root/wp-all-update/$1" ]; then
 echo "rsync "$1"..."
-rsync -avzhe  "ssh -p 31141" --exclude="cache/*" --exclude="ebcache/*" /root/wp-all-update/$1/* $2/wp-content/plugins/$1/ > /dev/null 2>&1
+rsync -avzhe /root/wp-all-update/$1/* $2/wp-content/plugins/$1/ > /dev/null 2>&1
 fi
 }
 
@@ -225,13 +225,13 @@ if [ $2 -lt $3 ]; then
 				# wordpres core
 				if [ -d /root/wp-all-update/wordpress ]; then
 					echo "rsync wordpress CORE..."
-					rsync -avzhe  "ssh -p 31141" --exclude="cache/*" --exclude="ebcache/*" /root/wp-all-update/wordpress/* $d/ > /dev/null 2>&1
+					rsync -avzhe /root/wp-all-update/wordpress/* $d/ > /dev/null 2>&1
 				fi
 				
 				# echbaydotcom
 				if [ -d /root/wp-all-update/echbaydotcom-master ] && [ -d "$d/wp-content/echbaydotcom" ]; then
 					echo "rsync echbaydotcom..."
-					rsync -avzhe  "ssh -p 31141" --exclude="cache/*" --exclude="ebcache/*" /root/wp-all-update/echbaydotcom-master/* $d/wp-content/echbaydotcom/
+					rsync -avzhe /root/wp-all-update/echbaydotcom-master/* $d/wp-content/echbaydotcom/ > /dev/null 2>&1
 					
 					# chinh lai thoi gian cap nhat
 					if [ -f $d/wp-content/echbaydotcom/readme.txt ]; then
@@ -242,7 +242,7 @@ if [ $2 -lt $3 ]; then
 				# echbaytwo
 				if [ -d /root/wp-all-update/echbaytwo-master ] && [ -d "$d/wp-content/themes/echbaytwo" ]; then
 					echo "rsync echbaytwo..."
-					rsync -avzhe  "ssh -p 31141" --exclude="cache/*" --exclude="ebcache/*" /root/wp-all-update/echbaytwo-master/* $d/wp-content/themes/echbaytwo/
+					rsync -avzhe /root/wp-all-update/echbaytwo-master/* $d/wp-content/themes/echbaytwo/ > /dev/null 2>&1
 					
 					# chinh lai thoi gian cap nhat
 					if [ -f $d/wp-content/themes/echbaytwo/index.php ]; then
