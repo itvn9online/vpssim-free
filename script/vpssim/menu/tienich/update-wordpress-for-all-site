@@ -142,6 +142,7 @@ download_wordpress_plugin "post-duplicator"
 download_wordpress_plugin "widget-shortcode"
 download_wordpress_plugin "wp-mail-smtp"
 download_wordpress_plugin "wp-smtp"
+download_wordpress_plugin "redirection"
 
 download_wordpress_plugin "echbay-admin-security"
 download_wordpress_plugin "echbay-facebook-messenger"
@@ -268,6 +269,7 @@ if [ $2 -lt $3 ]; then
 				rsync_wp_plugin "widget-shortcode" $d
 				rsync_wp_plugin "wp-mail-smtp" $d
 				rsync_wp_plugin "wp-smtp" $d
+				rsync_wp_plugin "redirection" $d
 
 				rsync_wp_plugin "echbay-admin-security" $d
 				rsync_wp_plugin "echbay-facebook-messenger" $d
