@@ -1,0 +1,254 @@
+#!/bin/bash
+if [ -f /home/vpssim.conf ]; then
+. /home/vpssim.conf
+fi
+
+
+
+# chuc nang cap nhat wordress cho toan bo website tren server
+
+
+
+# TEST Only
+test () {
+/etc/vpssim/menu/tienich/update-wordpress-for-all-site
+
+if [ -L /home/user25575/domains/cabki.vn/public_html ]; then
+echo "dir"
+fi
+if [ -L /home/user25575/domains/cabki.vn/private_html ]; then
+echo "a"
+fi
+}
+# END TEST
+
+
+
+
+cd ~
+
+
+echo -n "Dir for check and update (default /home): "
+read DirSetup
+if [ "$DirSetup" = "" ]; then
+DirSetup="/home"
+fi
+
+echo -n "Max dir for foreah (maximum 10, default 3): "
+read MaxCheck
+if [ "$MaxCheck" = "" ]; then
+MaxCheck=3
+elif [ "$MaxCheck" -gt 10 ]; then
+MaxCheck=10
+fi
+
+echo "OK OK, check and update wordpres website in: "$DirSetup
+echo "Max for: "$MaxCheck
+echo "Will begin after 3s..."
+#sleep 3
+#exit
+
+
+
+#
+echo "Install rsync"
+yum -y install rsync > /dev/null 2>&1
+
+
+# cap nhat cho cac file download
+curTime=$(date +%d)
+echo "curTime: "$curTime
+
+# kiem tra va xoa cac file download cu
+check_and_remmove_file_download(){
+cd /root/wp-all-update
+
+# kiem tra xem file download wordress co chua
+if [ -f $1 ]; then
+fileTime2=$(date -r $1 +%d)
+echo "fileTime2: "$fileTime2
+
+# neu file duoc download lau roi -> cap nhat lai
+if [ ! "$fileTime2" == "$curTime" ]; then
+rm -rf $1
+else
+echo "download "$1" exist"
+fi
+
+fi
+
+cd ~
+}
+
+
+#
+mkdir -p /root/wp-all-update
+#cd /root/wp-all-update
+
+# timestamp
+#timest=$(date +%s)
+#echo "timest: "$timest
+
+
+download_and_unzip_file(){
+check_and_remmove_file_download $2
+
+cd /root/wp-all-update
+
+if [ ! -f $2 ]; then
+echo "Download: "$1
+wget --no-check-certificate -q $1 -O $2 && chmod 755 $2
+
+# khong download duoc -> thoat
+if [ ! -f $2 ]; then
+echo $2" not exist"
+exit
+fi
+
+# thay doi thoi gian tao file cung voi server, de con kiem tra cap nhat lai code
+echo "Set timestamp: "$2
+touch -d "$(date)" $2
+
+# giai nen
+unzip -o $2 > /dev/null 2>&1
+#else
+#echo $2" exist"
+fi
+
+cd ~
+
+}
+
+
+# wordpres
+download_and_unzip_file "https://wordpress.org/latest.zip" "wp.zip"
+
+# echbaydotcom
+download_and_unzip_file "https://github.com/itvn9online/echbaydotcom/archive/master.zip" "echbaydotcom.zip"
+download_and_unzip_file "https://github.com/itvn9online/echbaytwo/archive/master.zip" "echbaytwo.zip"
+
+# download wordpress plugin hay dung nhat
+download_wordpress_plugin(){
+download_and_unzip_file "https://downloads.wordpress.org/plugin/"$1".zip" $1".zip"
+}
+download_wordpress_plugin "classic-editor"
+download_wordpress_plugin "tinymce-advanced"
+download_wordpress_plugin "contact-form-7"
+#download_wordpress_plugin "aaaaaaaaaaa"
+#download_wordpress_plugin "aaaaaaaaaaa"
+#download_wordpress_plugin "aaaaaaaaaaa"
+#download_wordpress_plugin "aaaaaaaaaaa"
+#download_wordpress_plugin "aaaaaaaaaaa"
+#download_wordpress_plugin "aaaaaaaaaaa"
+#download_wordpress_plugin "aaaaaaaaaaa"
+#download_wordpress_plugin "aaaaaaaaaaa"
+#download_wordpress_plugin "aaaaaaaaaaa"
+#download_wordpress_plugin "aaaaaaaaaaa"
+#exit
+
+
+# don dep code sau khi download
+cd ~
+
+# xoa thu muc wp-content
+if [ -d /root/wp-all-update/wordpress/wp-content ]; then
+rm -rf /root/wp-all-update/wordpress/wp-content/*
+rm -rf /root/wp-all-update/wordpress/wp-content
+fi
+
+# khong ton tai wordpress -> thoat
+if [ ! -d /root/wp-all-update/wordpress ]; then
+echo "wordpress not exist"
+exit
+fi
+
+#
+if [ -d /root/wp-all-update/echbaydotcom-master ]; then
+rm -rf /root/wp-all-update/echbaydotcom-master/.gitattributes
+rm -rf /root/wp-all-update/echbaydotcom-master/.gitignore
+fi
+
+#
+if [ -d /root/wp-all-update/echbaytwo-master ]; then
+rm -rf /root/wp-all-update/echbaytwo-master/.gitattributes
+rm -rf /root/wp-all-update/echbaytwo-master/.gitignore
+fi
+
+
+rsync_wp_plugin(){
+#echo $1
+#echo $2
+echo $2/wp-content/plugins/$1
+if [ -d $2/wp-content/plugins/$1 ]; then
+echo "rsync "$1
+fi
+}
+
+
+#exit
+cd ~
+
+
+# tim tat ca thu muc trong home
+get_all_dir_in_dir(){
+#echo $2
+
+# do sau toi da se kiem tra
+if [ $2 -lt $3 ]; then
+	for d in $1
+	do
+		# neu la shortcut thi bo qua
+		if [ -L $d ]; then
+			echo $d
+			echo "---------------------------- It is a symlink!"
+		# neu la thu muc thi kiem tra tiep
+		elif [ -d $d ]; then
+			# tim it nhat 3 file bat buoc phai co cua wp
+			if [ -f $d/wp-config.php ] && [ -f $d/wp-settings.php ] && [ -f $d/wp-blog-header.php ]; then
+				echo $d
+				# tim duoc website wp
+				echo "++++++++++++++++++++++++++++ It is a wordpress website"
+				
+				echo "Begin rsync. Please wait..."
+				
+				# wordpres core
+				rsync -avzhe  "ssh -p 31141" --exclude="cache/*" --exclude="ebcache/*" /root/wp-all-update/wordpress/* $d/ > /dev/null 2>&1
+				
+				# wordpres plugin
+				rsync_wp_plugin "contact-form-7" $d
+				
+				echo "Rsync DONE!"
+				
+			else
+				#echo $d
+				stt=$2
+				let "stt+=1"
+				#echo $stt
+				get_all_dir_in_dir $d"/*" $stt $3
+			fi
+		fi
+	done
+fi
+}
+
+
+
+# lap tim cac website trong thu muc home
+for d in $DirSetup/*
+do
+	# neu la thu muc -> tim cac file wp trong nay
+	if [ -d $d ]; then
+		echo $d
+		get_all_dir_in_dir $d"/*" 0 $MaxCheck
+		echo "========================================"
+	fi
+done
+
+cd ~
+
+
+#if [ -f /home/vpssim.conf ]; then
+#/etc/vpssim/menu/vpssim-tien-ich
+#fi
+
+
