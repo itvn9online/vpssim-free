@@ -337,7 +337,7 @@ cd
 #if [ ! "$(cat /tmp/gitversion)" = "253" ]; then
 #sudo yum -y remove git
 #cd /usr/src
-#wget -q --no-check-certificate https://vpssim.echbay.com/script/vpssim/git-2.5.3.tar.gz
+#wget -q --no-check-certificate https://github.com/itvn9online/echbay-vpssim-software/raw/master/git-2.5.3.tar.gz
 #tar xzf git-2.5.3.tar.gz
 #cd /usr/src/git-2.5.3
 #make prefix=/usr/local/git all
@@ -348,7 +348,7 @@ cd
 #fi
 #else
 #cd /usr/src
-#wget -q --no-check-certificate https://vpssim.echbay.com/script/vpssim/git-2.5.3.tar.gz
+#wget -q --no-check-certificate https://github.com/itvn9online/echbay-vpssim-software/raw/master/git-2.5.3.tar.gz
 #tar xzf git-2.5.3.tar.gz
 #cd /usr/src/git-2.5.3
 #make prefix=/usr/local/git all
@@ -905,7 +905,8 @@ fi
 
 
 #wget --no-check-certificate -q https://vpssim.echbay.com/script/vpssim/Softwear/wp-cli.phar
-yes | cp -rf /opt/echbay_vpssim/script/vpssim/Softwear/wp-cli.phar wp-cli.phar
+#yes | cp -rf /opt/echbay_vpssim/script/vpssim/Softwear/wp-cli.phar wp-cli.phar
+wget -q --no-check-certificate https://github.com/itvn9online/echbay-vpssim-software/raw/master/wp-cli.phar
 chmod +x wp-cli.phar
 mv wp-cli.phar /usr/local/bin/wp
 #clear
