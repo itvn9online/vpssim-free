@@ -28,9 +28,13 @@ fi
 cd ~
 
 
+# cau hinh linh dong theo tung loai host
 if [ -f /tmp/server_wp_all_update ]; then
-DirSetup="/home"
-MaxCheck=3
+
+#DirSetup="/home"
+#MaxCheck=3
+. /tmp/server_wp_all_update
+
 else
 
 echo -n "Dir for check and update (default /home): "
