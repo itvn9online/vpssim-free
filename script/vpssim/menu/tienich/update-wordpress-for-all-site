@@ -27,6 +27,7 @@ fi
 
 cd ~
 
+chmodUser=""
 
 # cau hinh linh dong theo tung loai host
 if [ -f /tmp/server_wp_all_update ]; then
@@ -54,6 +55,13 @@ if [ "$MaxCheck" = "" ]; then
 MaxCheck=3
 elif [ "$MaxCheck" -gt 10 ]; then
 MaxCheck=10
+fi
+
+#if [ -f /etc/init.d/directadmin ] && [ ! "$DirSetup" = "/home" ]; then
+if [ ! "$DirSetup" = "/home" ]; then
+echo -n "chmod to user (default: auto detect): "
+read chUser
+chmodUser=$chUser
 fi
 
 fi
@@ -362,7 +370,13 @@ do
 	# neu la thu muc -> tim cac file wp trong nay
 	if [ -d $d ]; then
 		echo $d
-		host_user=$(basename $d)
+		
+		# tai khoan de chmod file sau khi update
+		if [ "$chmodUser" = "" ]; then
+			host_user=$(basename $d)
+		else
+			host_user=$chmodUser
+		fi
 		#echo $host_user
 		
 		get_all_dir_in_dir $d"/*" 0 $MaxCheck $host_user
