@@ -67,8 +67,16 @@ echo "Will begin after 3s..."
 
 
 #
+current_os_version=$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))
+
+#
 echo "Install rsync"
-yum -y install rsync > /dev/null 2>&1
+#if [ "$current_os_version" == "6" ]; then
+#	if [ ! -f /etc/init.d/rsync ]; then
+		yum -y install rsync > /dev/null 2>&1
+#	fi
+#else
+#fi
 
 
 # cap nhat cho cac file download
