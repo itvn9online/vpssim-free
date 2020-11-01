@@ -28,6 +28,11 @@ fi
 cd ~
 
 
+if [ -f /tmp/server_wp_all_update ]; then
+DirSetup="/home"
+MaxCheck=3
+else
+
 echo -n "Dir for check and update (default /home): "
 read DirSetup
 if [ "$DirSetup" = "" ]; then
@@ -40,6 +45,8 @@ if [ "$MaxCheck" = "" ]; then
 MaxCheck=3
 elif [ "$MaxCheck" -gt 10 ]; then
 MaxCheck=10
+fi
+
 fi
 
 echo "OK OK, check and update wordpres website in: "$DirSetup
@@ -143,6 +150,7 @@ download_wordpress_plugin "widget-shortcode"
 download_wordpress_plugin "wp-mail-smtp"
 download_wordpress_plugin "wp-smtp"
 download_wordpress_plugin "redirection"
+download_wordpress_plugin "really-simple-ssl"
 
 download_wordpress_plugin "echbay-admin-security"
 download_wordpress_plugin "echbay-facebook-messenger"
@@ -151,6 +159,7 @@ download_wordpress_plugin "echbay-phonering-alo"
 download_wordpress_plugin "echbay-search-everything"
 download_wordpress_plugin "echbay-tag-manager"
 
+#download_wordpress_plugin "aaaaaaaaaaa"
 #download_wordpress_plugin "aaaaaaaaaaa"
 
 #exit
@@ -270,6 +279,7 @@ if [ $2 -lt $3 ]; then
 				rsync_wp_plugin "wp-mail-smtp" $d
 				rsync_wp_plugin "wp-smtp" $d
 				rsync_wp_plugin "redirection" $d
+				rsync_wp_plugin "really-simple-ssl"
 
 				rsync_wp_plugin "echbay-admin-security" $d
 				rsync_wp_plugin "echbay-facebook-messenger" $d
