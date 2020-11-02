@@ -191,6 +191,17 @@ download_wordpress_plugin "echbay-phonering-alo"
 download_wordpress_plugin "echbay-search-everything"
 download_wordpress_plugin "echbay-tag-manager"
 
+download_wordpress_plugin "woocommerce"
+download_wordpress_plugin "wordpress-importer"
+download_wordpress_plugin "wordfence"
+download_wordpress_plugin "wpforms-lite"
+download_wordpress_plugin "duplicate-post"
+download_wordpress_plugin "all-in-one-wp-migration"
+download_wordpress_plugin "google-sitemap-generator"
+download_wordpress_plugin "wp-super-cache"
+download_wordpress_plugin "w3-total-cache"
+download_wordpress_plugin "litespeed-cache"
+download_wordpress_plugin "wp-fastest-cache"
 #download_wordpress_plugin "aaaaaaaaaaa"
 #download_wordpress_plugin "aaaaaaaaaaa"
 
@@ -273,8 +284,8 @@ if [ $2 -lt $3 ]; then
 				echo $d
 				echo "---------------------------- It is a symlink!"
 			else
-				# tim it nhat 3 file bat buoc phai co cua wp
-				if [ -f $d/wp-config.php ] && [ -f $d/wp-settings.php ] && [ -f $d/wp-blog-header.php ]; then
+				# tim it nhat 3 file va 3 thu muc bat buoc phai co cua wp
+				if [ -f $d/wp-config.php ] && [ -f $d/wp-settings.php ] && [ -f $d/wp-blog-header.php ] && [ -d $d/wp-admin ] && [ -d $d/wp-content ] && [ -d $d/wp-includes ]; then
 					echo $d
 					# tim duoc website wp
 					echo "++++++++++++++++++++++++++++ It is a wordpress website"
@@ -284,20 +295,26 @@ if [ $2 -lt $3 ]; then
 					# wordpres core
 					if [ -d /root/wp-all-update/wordpress ]; then
 						echo "rsync wordpress CORE..."
+						if [ -d /root/wp-all-update/wordpress/wp-admin ]; then
+							rsync -ah --delete /root/wp-all-update/wordpress/wp-admin/* $d/wp-admin/ > /dev/null 2>&1
+						fi
+						if [ -d /root/wp-all-update/wordpress/wp-includes ]; then
+							rsync -ah --delete /root/wp-all-update/wordpress/wp-includes/* $d/wp-includes/ > /dev/null 2>&1
+						fi
 						rsync -ah /root/wp-all-update/wordpress/* $d/ > /dev/null 2>&1
 					fi
 					
 					# echbaydotcom
 					if [ -d /root/wp-all-update/echbaydotcom-master ] && [ -d "$d/wp-content/echbaydotcom" ]; then
 						echo "rsync echbaydotcom..."
-						rsync -ah /root/wp-all-update/echbaydotcom-master/* $d/wp-content/echbaydotcom/ > /dev/null 2>&1
+						rsync -ah --delete /root/wp-all-update/echbaydotcom-master/* $d/wp-content/echbaydotcom/ > /dev/null 2>&1
 						#chown -R nginx:nginx $d/wp-content/echbaydotcom
 					fi
 					
 					# echbaytwo
 					if [ -d /root/wp-all-update/echbaytwo-master ] && [ -d "$d/wp-content/themes/echbaytwo" ]; then
 						echo "rsync echbaytwo..."
-						rsync -ah /root/wp-all-update/echbaytwo-master/* $d/wp-content/themes/echbaytwo/ > /dev/null 2>&1
+						rsync -ah --delete /root/wp-all-update/echbaytwo-master/* $d/wp-content/themes/echbaytwo/ > /dev/null 2>&1
 						#chown -R nginx:nginx $d/wp-content/themes/echbaytwo
 					fi
 					
@@ -321,6 +338,18 @@ if [ $2 -lt $3 ]; then
 					rsync_wp_plugin "echbay-phonering-alo" $d
 					rsync_wp_plugin "echbay-search-everything" $d
 					rsync_wp_plugin "echbay-tag-manager" $d
+					
+					rsync_wp_plugin "woocommerce" $d
+					rsync_wp_plugin "wordpress-importer" $d
+					rsync_wp_plugin "wordfence" $d
+					rsync_wp_plugin "wpforms-lite" $d
+					rsync_wp_plugin "duplicate-post" $d
+					rsync_wp_plugin "all-in-one-wp-migration" $d
+					rsync_wp_plugin "google-sitemap-generator" $d
+					rsync_wp_plugin "wp-super-cache" $d
+					rsync_wp_plugin "w3-total-cache" $d
+					rsync_wp_plugin "litespeed-cache" $d
+					rsync_wp_plugin "wp-fastest-cache" $d
 					
 					echo "Rsync all DONE!"
 					
