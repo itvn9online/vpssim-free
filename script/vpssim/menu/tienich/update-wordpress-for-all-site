@@ -207,7 +207,7 @@ download_wordpress_plugin "wp-super-cache"
 download_wordpress_plugin "w3-total-cache"
 download_wordpress_plugin "litespeed-cache"
 download_wordpress_plugin "wp-fastest-cache"
-#download_wordpress_plugin "aaaaaaaaaaa"
+download_wordpress_plugin "autoptimize"
 #download_wordpress_plugin "aaaaaaaaaaa"
 
 #exit
