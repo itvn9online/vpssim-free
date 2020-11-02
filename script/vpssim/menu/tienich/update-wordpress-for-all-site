@@ -132,7 +132,12 @@ mkdir -p /root/wp-all-update
 download_and_unzip_file(){
 check_and_remmove_file_download $2
 
+if [ ! "$3" = "" ]; then
+mkdir -p /root/wp-all-update$3
+cd /root/wp-all-update$3
+else
 cd /root/wp-all-update
+fi
 
 if [ ! -f $2 ]; then
 #echo "Download: "$1
@@ -161,15 +166,15 @@ cd ~
 
 
 # wordpres
-download_and_unzip_file "https://wordpress.org/latest.zip" "wp.zip"
+download_and_unzip_file "https://wordpress.org/latest.zip" "wp.zip" ""
 
 # echbaydotcom
-download_and_unzip_file "https://github.com/itvn9online/echbaydotcom/archive/master.zip" "echbaydotcom.zip"
-download_and_unzip_file "https://github.com/itvn9online/echbaytwo/archive/master.zip" "echbaytwo.zip"
+download_and_unzip_file "https://github.com/itvn9online/echbaydotcom/archive/master.zip" "echbaydotcom.zip" ""
+download_and_unzip_file "https://github.com/itvn9online/echbaytwo/archive/master.zip" "echbaytwo.zip" ""
 
 # download wordpress plugin hay dung nhat
 download_wordpress_plugin(){
-download_and_unzip_file "https://downloads.wordpress.org/plugin/"$1".zip" $1".zip"
+download_and_unzip_file "https://downloads.wordpress.org/plugin/"$1".zip" $1".zip" "/plugins"
 }
 download_wordpress_plugin "classic-editor"
 download_wordpress_plugin "tinymce-advanced"
@@ -215,9 +220,9 @@ rsync_wp_plugin(){
 #download_wordpress_plugin $1
 
 #echo $2/wp-content/plugins/$1
-if [ -d "$2/wp-content/plugins/$1" ] && [ -d "/root/wp-all-update/$1" ]; then
+if [ -d "$2/wp-content/plugins/$1" ] && [ -d "/root/wp-all-update/plugins/$1" ]; then
 echo "rsync "$1"..."
-rsync -ah --delete /root/wp-all-update/$1/* $2/wp-content/plugins/$1/ > /dev/null 2>&1
+rsync -ah --delete /root/wp-all-update/plugins/$1/* $2/wp-content/plugins/$1/ > /dev/null 2>&1
 fi
 }
 
@@ -318,38 +323,15 @@ if [ $2 -lt $3 ]; then
 						#chown -R nginx:nginx $d/wp-content/themes/echbaytwo
 					fi
 					
-					# wordpres plugin
-					rsync_wp_plugin "classic-editor" $d
-					rsync_wp_plugin "tinymce-advanced" $d
-					rsync_wp_plugin "contact-form-7" $d
-					rsync_wp_plugin "flamingo" $d
-					rsync_wp_plugin "wordpress-seo" $d
-					rsync_wp_plugin "elementor" $d
-					rsync_wp_plugin "post-duplicator" $d
-					rsync_wp_plugin "widget-shortcode" $d
-					rsync_wp_plugin "wp-mail-smtp" $d
-					rsync_wp_plugin "wp-smtp" $d
-					rsync_wp_plugin "redirection" $d
-					rsync_wp_plugin "really-simple-ssl"
-
-					rsync_wp_plugin "echbay-admin-security" $d
-					rsync_wp_plugin "echbay-facebook-messenger" $d
-					rsync_wp_plugin "echbay-optimize-images" $d
-					rsync_wp_plugin "echbay-phonering-alo" $d
-					rsync_wp_plugin "echbay-search-everything" $d
-					rsync_wp_plugin "echbay-tag-manager" $d
-					
-					rsync_wp_plugin "woocommerce" $d
-					rsync_wp_plugin "wordpress-importer" $d
-					rsync_wp_plugin "wordfence" $d
-					rsync_wp_plugin "wpforms-lite" $d
-					rsync_wp_plugin "duplicate-post" $d
-					rsync_wp_plugin "all-in-one-wp-migration" $d
-					rsync_wp_plugin "google-sitemap-generator" $d
-					rsync_wp_plugin "wp-super-cache" $d
-					rsync_wp_plugin "w3-total-cache" $d
-					rsync_wp_plugin "litespeed-cache" $d
-					rsync_wp_plugin "wp-fastest-cache" $d
+					# wordpres plugin -> chay vong lap va update tat ca neu co
+					for d_plugins in /root/wp-all-update/plugins/*
+					do
+						if [ -d $d_plugins ]; then
+							d_pl=$(basename $d_plugins)
+							#echo $d_pl
+							rsync_wp_plugin $d_pl $d
+						fi
+					done
 					
 					echo "Rsync all DONE!"
 					
@@ -392,23 +374,22 @@ fi
 }
 
 
-
 # lap tim cac website trong thu muc home
-for d in $DirSetup/*
+for d_home in $DirSetup/*
 do
 	# neu la thu muc -> tim cac file wp trong nay
-	if [ -d $d ]; then
-		echo $d
+	if [ -d $d_home ]; then
+		echo $d_home
 		
 		# tai khoan de chmod file sau khi update
 		if [ "$chmodUser" = "" ]; then
-			host_user=$(basename $d)
+			host_user=$(basename $d_home)
 		else
 			host_user=$chmodUser
 		fi
 		#echo $host_user
 		
-		get_all_dir_in_dir $d"/*" 0 $MaxCheck $host_user
+		get_all_dir_in_dir $d_home"/*" 0 $MaxCheck $host_user
 		
 		echo "========================================"
 	fi
