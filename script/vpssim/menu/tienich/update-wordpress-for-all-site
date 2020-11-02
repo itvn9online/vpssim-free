@@ -324,14 +324,16 @@ if [ $2 -lt $3 ]; then
 					fi
 					
 					# wordpres plugin -> chay vong lap va update tat ca neu co
-					for d_plugins in /root/wp-all-update/plugins/*
-					do
-						if [ -d $d_plugins ]; then
-							d_pl=$(basename $d_plugins)
-							#echo $d_pl
-							rsync_wp_plugin $d_pl $d
-						fi
-					done
+					if [ -d /root/wp-all-update/plugins ]; then
+						for d_plugins in /root/wp-all-update/plugins/*
+						do
+							if [ -d $d_plugins ]; then
+								d_pl=$(basename $d_plugins)
+								#echo $d_pl
+								rsync_wp_plugin $d_pl $d
+							fi
+						done
+					fi
 					
 					echo "Rsync all DONE!"
 					
