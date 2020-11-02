@@ -10,7 +10,7 @@ fi
 
 
 # TEST Only
-test () {
+for_test_only () {
 /etc/vpssim/menu/tienich/update-wordpress-for-all-site
 
 if [ -L /home/user25575/domains/cabki.vn/public_html ]; then
@@ -100,7 +100,16 @@ echo "curTime: "$curTime
 
 # kiem tra va xoa cac file download cu
 check_and_remmove_file_download(){
+
+# $1 -> ten file can kiem tra -> thuong la .zip
+# $2 -> thu muc con (neu co)
+
+if [ ! "$2" = "" ]; then
+mkdir -p /root/wp-all-update$2
+cd /root/wp-all-update$2
+else
 cd /root/wp-all-update
+fi
 
 # kiem tra xem file download wordress co chua
 if [ -f $1 ]; then
@@ -117,6 +126,7 @@ fi
 fi
 
 cd ~
+
 }
 
 
@@ -130,7 +140,13 @@ mkdir -p /root/wp-all-update
 
 
 download_and_unzip_file(){
-check_and_remmove_file_download $2
+
+# $1 -> URL file download
+# $2 -> ten file download xong con luu lai -> thuong la .zip
+# $3 -> luu vao thu muc con (neu co)
+# $4 -> xoa thu muc cu (neu co)
+
+check_and_remmove_file_download $2 $3
 
 if [ ! "$3" = "" ]; then
 mkdir -p /root/wp-all-update$3
@@ -214,6 +230,10 @@ download_wordpress_plugin "autoptimize"
 
 
 rsync_wp_plugin(){
+
+# $1 -> thu muc nguon
+# $2 -> thu muc dich
+
 #echo $1
 #echo $2
 
