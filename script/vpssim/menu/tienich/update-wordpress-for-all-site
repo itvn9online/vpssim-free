@@ -210,42 +210,42 @@ download_and_unzip_file "https://wordpress.org/latest.zip" "wp.zip" ""
 download_and_unzip_file "https://github.com/itvn9online/echbaydotcom/archive/master.zip" "echbaydotcom.zip" ""
 download_and_unzip_file "https://github.com/itvn9online/echbaytwo/archive/master.zip" "echbaytwo.zip" ""
 
-# download wordpress plugin hay dung nhat
+# download wordpress plugin hay dung nhat -> moi cap nhat chuc nang tim va download tu dong -> khong can phai thiet lap thu cong nua
 download_wordpress_plugin(){
 download_and_unzip_file "https://downloads.wordpress.org/plugin/"$1".zip" $1".zip" "/plugins"
 }
-download_wordpress_plugin "classic-editor"
-download_wordpress_plugin "tinymce-advanced"
-download_wordpress_plugin "contact-form-7"
-download_wordpress_plugin "flamingo"
-download_wordpress_plugin "wordpress-seo"
-download_wordpress_plugin "elementor"
-download_wordpress_plugin "post-duplicator"
-download_wordpress_plugin "widget-shortcode"
-download_wordpress_plugin "wp-mail-smtp"
-download_wordpress_plugin "wp-smtp"
-download_wordpress_plugin "redirection"
-download_wordpress_plugin "really-simple-ssl"
+#download_wordpress_plugin "classic-editor"
+#download_wordpress_plugin "tinymce-advanced"
+#download_wordpress_plugin "contact-form-7"
+#download_wordpress_plugin "flamingo"
+#download_wordpress_plugin "wordpress-seo"
+#download_wordpress_plugin "elementor"
+#download_wordpress_plugin "post-duplicator"
+#download_wordpress_plugin "widget-shortcode"
+#download_wordpress_plugin "wp-mail-smtp"
+#download_wordpress_plugin "wp-smtp"
+#download_wordpress_plugin "redirection"
+#download_wordpress_plugin "really-simple-ssl"
 
-download_wordpress_plugin "echbay-admin-security"
-download_wordpress_plugin "echbay-facebook-messenger"
-download_wordpress_plugin "echbay-optimize-images"
-download_wordpress_plugin "echbay-phonering-alo"
-download_wordpress_plugin "echbay-search-everything"
-download_wordpress_plugin "echbay-tag-manager"
+#download_wordpress_plugin "echbay-admin-security"
+#download_wordpress_plugin "echbay-facebook-messenger"
+#download_wordpress_plugin "echbay-optimize-images"
+#download_wordpress_plugin "echbay-phonering-alo"
+#download_wordpress_plugin "echbay-search-everything"
+#download_wordpress_plugin "echbay-tag-manager"
 
-download_wordpress_plugin "woocommerce"
-download_wordpress_plugin "wordpress-importer"
-download_wordpress_plugin "wordfence"
-download_wordpress_plugin "wpforms-lite"
-download_wordpress_plugin "duplicate-post"
-download_wordpress_plugin "all-in-one-wp-migration"
-download_wordpress_plugin "google-sitemap-generator"
-download_wordpress_plugin "wp-super-cache"
-download_wordpress_plugin "w3-total-cache"
-download_wordpress_plugin "litespeed-cache"
-download_wordpress_plugin "wp-fastest-cache"
-download_wordpress_plugin "autoptimize"
+#download_wordpress_plugin "woocommerce"
+#download_wordpress_plugin "wordpress-importer"
+#download_wordpress_plugin "wordfence"
+#download_wordpress_plugin "wpforms-lite"
+#download_wordpress_plugin "duplicate-post"
+#download_wordpress_plugin "all-in-one-wp-migration"
+#download_wordpress_plugin "google-sitemap-generator"
+#download_wordpress_plugin "wp-super-cache"
+#download_wordpress_plugin "w3-total-cache"
+#download_wordpress_plugin "litespeed-cache"
+#download_wordpress_plugin "wp-fastest-cache"
+#download_wordpress_plugin "autoptimize"
 
 #download_wordpress_plugin "aaaaaaaaaaa"
 
@@ -274,6 +274,7 @@ if [ ! -f /root/wp-all-update/plugins/$1.txt ]; then
 # kiem tra xem plugin nay co tren wordpress khong
 ketnoi=$(curl -o /dev/null --silent --head --write-out '%{http_code}' "https://downloads.wordpress.org/plugin/"$1".zip")
 #echo $ketnoi
+# neu co thi download ve de cap nhat cho website
 if [ "$ketnoi" = "200" ]; then
 echoY "- - - - - - - - - Download new plugin: "$1
 download_wordpress_plugin $1
@@ -281,6 +282,7 @@ sleep 1
 rsync_wp_plugin $1 $2 "no"
 else
 
+# neu khong thi bao loi, thuong thi nhung plugin pro se khong co tren wordpress
 echoR "- - - - - - - - - "$ketnoi" WARNING! plugin not exist: "$1
 # tao file de qua trinh kiem tra ket noi khong dien ra lien tuc
 echo $(date) > /root/wp-all-update/plugins/$1.txt
