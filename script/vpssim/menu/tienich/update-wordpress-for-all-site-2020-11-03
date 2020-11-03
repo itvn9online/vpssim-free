@@ -22,17 +22,6 @@ fi
 }
 # END TEST
 
-echoY() {
-    echo -e "\033[38;5;148m${1}\033[39m"
-}
-echoG() {
-    echo -e "\033[38;5;71m${1}\033[39m"
-}
-echoR()
-{
-    echo -e "\033[38;5;203m${1}\033[39m"
-}
-
 
 
 
@@ -56,7 +45,7 @@ DirSetup="/home"
 fi
 
 if [ ! -d $DirSetup ]; then
-echoR $DirSetup" not exist!"
+echo $DirSetup" not exist!"
 exit
 fi
 
@@ -77,9 +66,9 @@ fi
 
 fi
 
-echoG "OK OK, check and update wordpres website in: "$DirSetup
+echo "OK OK, check and update wordpres website in: "$DirSetup
 echo "Max for: "$MaxCheck
-echoY "Will begin after 3s..."
+echo "Will begin after 3s..."
 #sleep 3
 #exit
 
@@ -94,20 +83,20 @@ rsync -ah /tmp/test_rsync_for_wp_all_update /root
 
 #
 if [ ! -f /root/test_rsync_for_wp_all_update ]; then
-echoY "Install rsync"
+echo "Install rsync"
 yum -y install rsync > /dev/null 2>&1
 fi
 
 rsync -ah /tmp/test_rsync_for_wp_all_update /root
 if [ ! -f /root/test_rsync_for_wp_all_update ]; then
-echoR "Rsync ERROR......."
+echo "Rsync ERROR......."
 exit
 fi
 
 
 # cap nhat cho cac file download
 curTime=$(date +%d)
-#echo "curTime: "$curTime
+echo "curTime: "$curTime
 
 
 
@@ -129,18 +118,11 @@ fi
 # kiem tra xem file download wordress co chua
 if [ -f $1 ]; then
 fileTime2=$(date -r $1 +%d)
-#echo "fileTime2: "$fileTime2
+echo "fileTime2: "$fileTime2
 
 # neu file duoc download lau roi -> cap nhat lai
 if [ ! "$fileTime2" == "$curTime" ]; then
-
-# xoa ca thu muc neu la file wp.zip
-if [ "$1" = "wp.zip" ]; then
-rm -rf /root/wp-all-update/*
-else
 rm -rf $1
-fi
-
 else
 echo "download "$1" exist"
 fi
@@ -246,7 +228,6 @@ download_wordpress_plugin "w3-total-cache"
 download_wordpress_plugin "litespeed-cache"
 download_wordpress_plugin "wp-fastest-cache"
 download_wordpress_plugin "autoptimize"
-
 #download_wordpress_plugin "aaaaaaaaaaa"
 
 #exit
@@ -256,7 +237,6 @@ rsync_wp_plugin(){
 
 # $1 -> thu muc nguon
 # $2 -> thu muc dich
-# $3 -> lap lai hay khong, chi cho lap lai 1 lan
 
 #echo $1
 #echo $2
@@ -265,34 +245,8 @@ rsync_wp_plugin(){
 
 #echo $2/wp-content/plugins/$1
 if [ -d "$2/wp-content/plugins/$1" ] && [ -d "/root/wp-all-update/plugins/$1" ]; then
-echoG "rsync - - - "$1
+echo "rsync "$1"..."
 rsync -ah --delete /root/wp-all-update/plugins/$1/* $2/wp-content/plugins/$1/ > /dev/null 2>&1
-elif [ "$3" = "" ]; then
-
-if [ ! -f /root/wp-all-update/plugins/$1.txt ]; then
-
-# kiem tra xem plugin nay co tren wordpress khong
-ketnoi=$(curl -o /dev/null --silent --head --write-out '%{http_code}' "https://downloads.wordpress.org/plugin/"$1".zip")
-#echo $ketnoi
-if [ "$ketnoi" = "200" ]; then
-echoY "- - - - - - - - - Download new plugin: "$1
-download_wordpress_plugin $1
-sleep 1
-rsync_wp_plugin $1 $2 "no"
-else
-
-echoR "- - - - - - - - - "$ketnoi" WARNING! plugin not exist: "$1
-# tao file de qua trinh kiem tra ket noi khong dien ra lien tuc
-echo $(date) > /root/wp-all-update/plugins/$1.txt
-
-fi
-
-else
-echoR "- - - - - - - - - WARNING! plugin not re-check status: "$1
-fi
-
-else
-echoR "Re-download plugin faild..."
 fi
 }
 
@@ -363,13 +317,13 @@ if [ $2 -lt $3 ]; then
 				if [ -f $d/wp-config.php ] && [ -f $d/wp-settings.php ] && [ -f $d/wp-blog-header.php ] && [ -d $d/wp-admin ] && [ -d $d/wp-content ] && [ -d $d/wp-includes ]; then
 					echo $d
 					# tim duoc website wp
-					echoY "++++++++++++++++++++++++++++ It is a wordpress website"
+					echo "++++++++++++++++++++++++++++ It is a wordpress website"
 					
 					echo "Begin rsync! Please wait..."
 					
 					# wordpres core
 					if [ -d /root/wp-all-update/wordpress ]; then
-						echoG "rsync wordpress CORE..."
+						echo "rsync wordpress CORE..."
 						if [ -d /root/wp-all-update/wordpress/wp-admin ]; then
 							rsync -ah --delete /root/wp-all-update/wordpress/wp-admin/* $d/wp-admin/ > /dev/null 2>&1
 						fi
@@ -381,28 +335,26 @@ if [ $2 -lt $3 ]; then
 					
 					# echbaydotcom
 					if [ -d /root/wp-all-update/echbaydotcom-master ] && [ -d "$d/wp-content/echbaydotcom" ]; then
-						echoY "rsync echbaydotcom..."
+						echo "rsync echbaydotcom..."
 						rsync -ah --delete /root/wp-all-update/echbaydotcom-master/* $d/wp-content/echbaydotcom/ > /dev/null 2>&1
 						#chown -R nginx:nginx $d/wp-content/echbaydotcom
 					fi
 					
 					# echbaytwo
 					if [ -d /root/wp-all-update/echbaytwo-master ] && [ -d "$d/wp-content/themes/echbaytwo" ]; then
-						echoY "rsync echbaytwo..."
+						echo "rsync echbaytwo..."
 						rsync -ah --delete /root/wp-all-update/echbaytwo-master/* $d/wp-content/themes/echbaytwo/ > /dev/null 2>&1
 						#chown -R nginx:nginx $d/wp-content/themes/echbaytwo
 					fi
 					
 					# wordpres plugin -> chay vong lap va update tat ca neu co
-					#if [ -d /root/wp-all-update/plugins ]; then
-					if [ -d "$d/wp-content/plugins" ]; then
-						#for d_plugins in /root/wp-all-update/plugins/*
-						for d_plugins in $d/wp-content/plugins/*
+					if [ -d /root/wp-all-update/plugins ]; then
+						for d_plugins in /root/wp-all-update/plugins/*
 						do
 							if [ -d $d_plugins ]; then
 								d_pl=$(basename $d_plugins)
 								#echo $d_pl
-								rsync_wp_plugin $d_pl $d ""
+								rsync_wp_plugin $d_pl $d
 							fi
 						done
 					fi
