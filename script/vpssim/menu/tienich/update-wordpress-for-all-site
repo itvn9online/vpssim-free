@@ -287,7 +287,7 @@ else
 # neu khong thi bao loi, thuong thi nhung plugin pro se khong co tren wordpress
 echoR "- - - - - - - - - "$ketnoi" WARNING! plugin not exist: "$1
 # tao file de qua trinh kiem tra ket noi khong dien ra lien tuc
-echo $(date) > /root/wp-all-update/plugins/$1.txt
+echo $ketnoi > /root/wp-all-update/plugins/$1.txt
 
 fi
 
