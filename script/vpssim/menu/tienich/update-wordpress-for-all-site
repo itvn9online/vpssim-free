@@ -272,7 +272,9 @@ elif [ "$3" = "" ]; then
 if [ ! -f /root/wp-all-update/plugins/$1.txt ]; then
 
 # kiem tra xem plugin nay co tren wordpress khong
-ketnoi=$(curl -o /dev/null --silent --head --write-out '%{http_code}' "https://downloads.wordpress.org/plugin/"$1".zip")
+ketnoi="https://downloads.wordpress.org/plugin/"$1".zip"
+ketnoi=$(curl -o /dev/null --silent --head --write-out '%{http_code}' $ketnoi)
+#ketnoi=$(curl -o /dev/null --silent --head --write-out '%{http_code}' "https://downloads.wordpress.org/plugin/"$1".zip")
 #echo $ketnoi
 # neu co thi download ve de cap nhat cho website
 if [ "$ketnoi" = "200" ]; then
