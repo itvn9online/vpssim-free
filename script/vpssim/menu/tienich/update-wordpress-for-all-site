@@ -269,7 +269,8 @@ echoG "rsync - - - "$1
 rsync -ah --delete /root/wp-all-update/plugins/$1/* $2/wp-content/plugins/$1/ > /dev/null 2>&1
 elif [ "$3" = "" ]; then
 
-if [ ! -f /root/wp-all-update/plugins/$1.txt ]; then
+file404=/root/wp-all-update/plugins/---$1
+if [ ! -f $file404 ]; then
 
 # kiem tra xem plugin nay co tren wordpress khong
 ketnoi="https://downloads.wordpress.org/plugin/"$1".zip"
@@ -287,7 +288,7 @@ else
 # neu khong thi bao loi, thuong thi nhung plugin pro se khong co tren wordpress
 echoR "- - - - - - - - - "$ketnoi" WARNING! plugin not exist: "$1
 # tao file de qua trinh kiem tra ket noi khong dien ra lien tuc
-echo $ketnoi > /root/wp-all-update/plugins/$1.txt
+echo $ketnoi > $file404
 
 fi
 
