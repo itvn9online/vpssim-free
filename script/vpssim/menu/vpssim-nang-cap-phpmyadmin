@@ -2,7 +2,7 @@
 . /home/vpssim.conf
 php_version1=$(php -r "echo PHP_MAJOR_VERSION.'.'.PHP_MINOR_VERSION;")
 rm -rf /tmp/checktmp
-echo "Check /tmp by VPSSIM" > /tmp/checktmp
+echo "Check /tmp by ECHBAY-VPSSIM" > /tmp/checktmp
 if [ ! -f /tmp/checktmp ]; then
 clear
 echo "========================================================================="
@@ -67,7 +67,7 @@ echo "Recommended version: "$new_phpmyadmin_version
 echo "-------------------------------------------------------------------------"
 fi
 
-echo -n "Nhap phien ban phpMyAdmin ban muon su dung (y="$new_phpmyadmin_version") [ENTER]: " 
+echo -n "Nhap phien ban phpMyAdmin ban muon su dung (y = "$new_phpmyadmin_version") [ENTER]: " 
 read phpmyadmin_version
 
 if [ "$phpmyadmin_version" = "y" ]; then
@@ -142,7 +142,7 @@ echo "Tim thay phpMyAdmin phien ban $phpmyadmin_version tren phpmyadmin.net"
 echo "-------------------------------------------------------------------------"
 echo "Phien ban phpMyAdmin ban dang su dung: $phpmyadinhientai"
 echo "-------------------------------------------------------------------------"
-echo "VPSSIM se thay the phien ban $phpmyadinhientai bang phien ban $phpmyadmin_version"
+echo "ECHBAY-VPSSIM se thay the phien ban $phpmyadinhientai bang phien ban $phpmyadmin_version"
 echo "-------------------------------------------------------------------------"
 echo "Please wait ..."
 sleep 3
@@ -157,7 +157,10 @@ service php-fpm restart
 fi
 clear
 echo "========================================================================="
-echo "Cai dat phpMyAdmin phien ban $phpmyadmin_version thanh cong !"
+echo "Cai dat phpMyAdmin phien ban $phpmyadmin_version thanh cong!"
+echo "Please login phpMyAdmin now and check ERROR if you want"
+echo "http://"$serverip":"$priport
+echo "root/"$mariadbpass
 /etc/vpssim/menu/vpssim-update-upgrade-service-menu
 exit
 
