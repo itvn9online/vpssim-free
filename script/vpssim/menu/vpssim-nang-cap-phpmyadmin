@@ -26,13 +26,54 @@ cd
 chown -R nginx:nginx /home/$mainsite/private_html
 echo "${phpmyadmin_version}" > /etc/vpssim/phpmyadmin.version
 }
+
+curTime=$(date +%d)
+fileTime2=""
+if [ -f /tmp/00-all-phpmyadmin-version.txt ]; then
+fileTime2=$(date -r /tmp/00-all-phpmyadmin-version.txt +%d)
+fi
+#echo $curTime
+#echo $fileTime2
+
+if [ ! "$curTime" = "$fileTime2" ]; then
+echo "Download 0-all-phpmyadmin-version.txt..."
+cd /tmp
+rm -rf 00-all-phpmyadmin-version*
+wget --no-check-certificate -q https://raw.githubusercontent.com/itvn9online/vpssim-free/master/script/vpssim/00-all-phpmyadmin-version.txt
+fi
+
+cd ~
+
+new_phpmyadmin_version=""
+if [ -f /tmp/00-all-phpmyadmin-version.txt ]; then
+new_phpmyadmin_version=`cat /tmp/00-all-phpmyadmin-version.txt | awk 'NR==2 {print $1}' | sed 's/|//' | sed 's/|//'`
+#echo $new_phpmyadmin_version
+fi
+
 echo "========================================================================="
 echo "Su dung chuc nang nay de cai dat phpMyAdmin phien ban tuy chon"
 echo "-------------------------------------------------------------------------"
+
+if [ -f /etc/vpssim/phpmyadmin.version ]; then
+echo "Current phpmyadmin version: "$(cat /etc/vpssim/phpmyadmin.version)
+echo "-------------------------------------------------------------------------"
+fi
+
 echo "Xem list cac phien ban phpMyAdmin tai: http://phpmyadmin.net/files/"
 echo "-------------------------------------------------------------------------"
-echo -n "Nhap phien ban phpMyAdmin ban muon su dung [ENTER]: " 
+
+if [ ! "$new_phpmyadmin_version" = "" ]; then
+echo "Recommended version: "$new_phpmyadmin_version
+echo "-------------------------------------------------------------------------"
+fi
+
+echo -n "Nhap phien ban phpMyAdmin ban muon su dung (y="$new_phpmyadmin_version") [ENTER]: " 
 read phpmyadmin_version
+
+if [ "$phpmyadmin_version" = "y" ]; then
+phpmyadmin_version=$new_phpmyadmin_version
+fi
+
 if [ "$phpmyadmin_version" = "" ]; then
 clear
 echo "========================================================================="
