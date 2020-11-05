@@ -13,6 +13,7 @@ fi
 /etc/vpssim/menu/menucheck/check-vpssim-update
 # Check nginx Update
 /etc/vpssim/menu/menucheck/check-nginx-update
+/etc/vpssim/menu/menucheck/check-phpmyadmin-update
 #/etc/vpssim/menu/menucheck/check-csf-on
 # kiem tra dung luong dia con lai
 /etc/vpssim/menu/menucheck/check-disk-usage

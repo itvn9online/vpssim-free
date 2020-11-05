@@ -28,7 +28,7 @@ cat >> "/tmp/vpssim_check_nginx" <<END
 			echo "-------------------------------------------------------------------------"
 			echo "Your Version: $Nginx1   |   Newest version: $Nginx3"
 			echo "-------------------------------------------------------------------------"
-			echo "How to update: VPSSIM menu => Update System => Change Nginx Version "
+			echo "How to update: ECHBAY-VPSSIM menu => Update System => Change Nginx Version "
 			
 			fi
 		fi
