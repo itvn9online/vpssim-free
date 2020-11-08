@@ -293,7 +293,7 @@ echo $ketnoi > $file404
 fi
 
 else
-echoR "- - - - - - - - - WARNING! plugin not re-check status: "$1
+echoR "- - - - - - - - - WARNING! plugin not exist (re-check): "$1
 fi
 
 else
