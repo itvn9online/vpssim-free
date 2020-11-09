@@ -126,6 +126,15 @@ else
 cd /root/wp-all-update
 fi
 
+# kiem tra file size
+if [ -f $1 ]; then
+downloadSize=$(du -h $1 | awk 'NR==1 {print $1}')
+if [ "$downloadSize" = "0" ]; then
+echoR "Remove file! Filesize zero: "$1
+rm -rf $1
+fi
+fi
+
 # kiem tra xem file download wordress co chua
 if [ -f $1 ]; then
 fileTime2=$(date -r $1 +%d)
@@ -142,7 +151,7 @@ rm -rf $1
 fi
 
 else
-echo "download "$1" exist"
+echo "download exist: "$1
 fi
 
 fi
@@ -179,12 +188,19 @@ fi
 
 if [ ! -f $2 ]; then
 #echo "Download: "$1
-echo "Download: "$2
+echo "Start download: "$2
 wget --no-check-certificate -q $1 -O $2 && chmod 755 $2
 
 # khong download duoc -> thoat
 if [ ! -f $2 ]; then
-echo $2" not exist"
+echoR "Download faild! File not exist: "$2
+exit
+fi
+
+# kiem tra file size
+downloadSize=$(du -h $2 | awk 'NR==1 {print $1}')
+if [ "$downloadSize" = "0" ]; then
+echoR "Download faild! Filesize zero: "$2
 exit
 fi
 
@@ -270,6 +286,7 @@ rsync -ah --delete /root/wp-all-update/plugins/$1/* $2/wp-content/plugins/$1/ > 
 elif [ "$3" = "" ]; then
 
 file404=/root/wp-all-update/plugins/---$1
+file500=/root/wp-all-update/plugins/-$1
 if [ ! -f $file404 ]; then
 
 # kiem tra xem plugin nay co tren wordpress khong
@@ -283,21 +300,28 @@ echoY "- - - - - - - - - Download new plugin: "$1
 download_wordpress_plugin $1
 sleep 1
 rsync_wp_plugin $1 $2 "no"
-else
+elif [ "$ketnoi" = "404" ]; then
 
 # neu khong thi bao loi, thuong thi nhung plugin pro se khong co tren wordpress
-echoR "- - - - - - - - - "$ketnoi" WARNING! plugin not exist: "$1
+echoR "- - - - - - - - - WARNING! plugin not exist ("$ketnoi"): "$1
 # tao file de qua trinh kiem tra ket noi khong dien ra lien tuc
 echo $ketnoi > $file404
 
+else
+
+# neu khong thi bao loi, thuong thi nhung plugin pro se khong co tren wordpress
+echoY "- - - - - - - - - WARNING! plugin connect error "$ketnoi": "$1
+# tao file de qua trinh kiem tra ket noi khong dien ra lien tuc
+echo $ketnoi > $file500
+
 fi
 
 else
-echoR "- - - - - - - - - WARNING! plugin not exist (re-check): "$1
+echoR "- - - - - - - - - WARNING! plugin not exist (cache): "$1
 fi
 
 else
-echoR "Re-download plugin faild..."
+echoR "Re-download plugin faild: "$1
 fi
 }
 
@@ -374,7 +398,7 @@ if [ $2 -lt $3 ]; then
 					
 					# wordpres core
 					if [ -d /root/wp-all-update/wordpress ]; then
-						echoG "rsync wordpress CORE..."
+						echoG "rsync - - - wordpress CORE..."
 						if [ -d /root/wp-all-update/wordpress/wp-admin ]; then
 							rsync -ah --delete /root/wp-all-update/wordpress/wp-admin/* $d/wp-admin/ > /dev/null 2>&1
 						fi
@@ -386,14 +410,14 @@ if [ $2 -lt $3 ]; then
 					
 					# echbaydotcom
 					if [ -d /root/wp-all-update/echbaydotcom-master ] && [ -d "$d/wp-content/echbaydotcom" ]; then
-						echoY "rsync echbaydotcom..."
+						echoY "rsync - - - echbaydotcom..."
 						rsync -ah --delete /root/wp-all-update/echbaydotcom-master/* $d/wp-content/echbaydotcom/ > /dev/null 2>&1
 						#chown -R nginx:nginx $d/wp-content/echbaydotcom
 					fi
 					
 					# echbaytwo
 					if [ -d /root/wp-all-update/echbaytwo-master ] && [ -d "$d/wp-content/themes/echbaytwo" ]; then
-						echoY "rsync echbaytwo..."
+						echoY "rsync - - - echbaytwo..."
 						rsync -ah --delete /root/wp-all-update/echbaytwo-master/* $d/wp-content/themes/echbaytwo/ > /dev/null 2>&1
 						#chown -R nginx:nginx $d/wp-content/themes/echbaytwo
 					fi
@@ -454,6 +478,7 @@ fi
 
 
 # lap tim cac website trong thu muc home
+WP_update_main(){
 for d_home in $DirSetup/*
 do
 	# neu la thu muc -> tim cac file wp trong nay
@@ -473,6 +498,10 @@ do
 		echo "========================================"
 	fi
 done
+}
+WP_update_main
+sleep 5
+WP_update_main
 
 cd ~
 
