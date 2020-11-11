@@ -500,7 +500,8 @@ do
 done
 }
 WP_update_main
-sleep 5
+echoY "Re-update after 10s"
+sleep 10
 WP_update_main
 
 cd ~
