@@ -267,6 +267,7 @@ download_and_unzip_file "https://downloads.wordpress.org/plugin/"$1".zip" $1".zi
 
 #exit
 
+re_download_plugin=""
 
 rsync_wp_plugin(){
 
@@ -313,6 +314,9 @@ else
 echoY "- - - - - - - - - WARNING! plugin connect error "$ketnoi": "$1
 # tao file de qua trinh kiem tra ket noi khong dien ra lien tuc
 echo $ketnoi > $file500
+
+# download lai lan nua neu phat hien ra file khong ket noi duoc
+re_download_plugin="1"
 
 fi
 
@@ -479,6 +483,15 @@ fi
 
 # lap tim cac website trong thu muc home
 WP_update_main(){
+echoG "Check WP update in: "$DirSetup
+#exit
+
+# voi cac thu muc khac, quet thang trong thu muc
+if [ ! "$DirSetup" = "/home" ]; then
+	get_all_dir_in_dir $DirSetup"/*" 0 $MaxCheck $host_user
+else
+
+# voi thu muc home thi moi can do theo host
 for d_home in $DirSetup/*
 do
 	# neu la thu muc -> tim cac file wp trong nay
@@ -498,11 +511,17 @@ do
 		echo "========================================"
 	fi
 done
+
+fi
+
 }
 WP_update_main
+
+if [ ! "$re_download_plugin" = "" ]; then
 echoY "Re-update after 10s"
 sleep 10
 WP_update_main
+fi
 
 cd ~
 
