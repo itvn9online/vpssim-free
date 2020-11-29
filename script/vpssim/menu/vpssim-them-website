@@ -94,6 +94,7 @@ echo __FILE__ . ':' . __LINE__;
 END
 
 }
+add_index_php
 
     cat > "/etc/nginx/conf.d/$website.conf" <<END
 server {
