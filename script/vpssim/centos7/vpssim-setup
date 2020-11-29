@@ -37,9 +37,9 @@ echo "==========================================================================
 echo -n "Nhap Phpmyadmin Port [ENTER]: " 
 read svport
 if [ "$svport" = "80" ] || [ "$svport" = "443" ] || [ "$svport" = "22" ] || [ "$svport" = "3306" ] || [ "$svport" = "25" ] || [ "$svport" = "465" ] || [ "$svport" = "587" ] || [ "$svport" = "21" ]; then
-	svport="2313"
+	svport="1241"
 echo "Phpmyadmin khong the trung voi port cua dich vu khac !"
-echo "VPSSIM se dat phpmyadmin port la 2313"
+echo "ECHBAY-VPSSIM se dat phpmyadmin port la "$svport
 fi
 if [ "$svport" = "" ] ; then
 clear
