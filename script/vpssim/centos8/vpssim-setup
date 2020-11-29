@@ -993,6 +993,8 @@ yes | cp -rf /opt/echbay_vpssim/script/vpssim/menu/. /etc/vpssim/menu/
 #cp -r /etc/vpssim/errorpage_html /home/vpssim.demo/
 mkdir -p /home/vpssim.demo/errorpage_html ; chmod 755 /home/vpssim.demo/errorpage_html
 yes | cp -rf /opt/echbay_vpssim/script/vpssim/errorpage_html/. /home/vpssim.demo/errorpage_html/
+mkdir -p /etc/vpssim/errorpage_html ; chmod 755 /etc/vpssim/errorpage_html
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/errorpage_html/. /etc/vpssim/errorpage_html/
 
 # tao thu muc cho phpmyadmin dung lam cache
 mkdir -p /home/vpssim.demo/private_html/tmp ; chmod 777 /home/vpssim.demo/private_html/tmp

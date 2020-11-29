@@ -159,6 +159,14 @@ include /etc/nginx/conf/drop.conf;
 
     }
 END
+
+if [ ! -d /etc/vpssim/errorpage_html ]; then
+	if [ -d /opt/echbay_vpssim/script/vpssim/errorpage_html ]; then
+		mkdir -p /etc/vpssim/errorpage_html ; chmod 755 /etc/vpssim/errorpage_html
+		yes | cp -rf /opt/echbay_vpssim/script/vpssim/errorpage_html/. /etc/vpssim/errorpage_html/
+	fi
+fi
+
 mkdir -p /home/$website/errorpage_html && cp -r /etc/vpssim/errorpage_html/*.html /home/$website/errorpage_html
 ############################################################################
 ############################################################################
