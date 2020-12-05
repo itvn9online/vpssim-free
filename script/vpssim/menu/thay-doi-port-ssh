@@ -66,13 +66,22 @@ echo "Ban hay lam lai"
 /etc/vpssim/menu/vpssim-tien-ich
 exit
 fi 
+
 if [[ ! ${portcu} =~ ^[0-9]+$ ]] ;then
- echo "Port $sshport" >> /etc/ssh/sshd_config
+
+# them dau cach truoc khi them port cho no an toan
+echo "" >> /etc/ssh/sshd_config
+# sau do moi them port
+echo "Port $sshport" >> /etc/ssh/sshd_config
+echo "" >> /etc/ssh/sshd_config
+
 echo "-------------------------------------------------------------------------"
 echo "please wait..."; sleep 1
 /etc/vpssim/menu/cai-dat-remove-csf-ssh-port
 
 iptables -I INPUT -p tcp --dport $sshport -j ACCEPT
+iptables -I INPUT -p udp --dport ${sshport} -j ACCEPT
+
 service iptables save
 if [ ! "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then
 systemctl restart iptables.service

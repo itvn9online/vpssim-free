@@ -1060,15 +1060,26 @@ systemctl start iptables
 systemctl start ip6tables
 systemctl start iptables.service
 
-iptables -I INPUT -p tcp --dport 80 -j ACCEPT
-iptables -I INPUT -p tcp --dport 22 -j ACCEPT
-iptables -I INPUT -p tcp --dport 21 -j ACCEPT
-iptables -I INPUT -p tcp --dport 25 -j ACCEPT
-iptables -I INPUT -p tcp --dport 443 -j ACCEPT
-iptables -I INPUT -p tcp --dport 465 -j ACCEPT
-iptables -I INPUT -p tcp --dport 587 -j ACCEPT
-iptables -I INPUT -p tcp --dport $svport -j ACCEPT
-iptables -I INPUT -p tcp --dport 11211 -j ACCEPT
+#iptables -I INPUT -p tcp --dport 80 -j ACCEPT
+#iptables -I INPUT -p tcp --dport 22 -j ACCEPT
+#iptables -I INPUT -p tcp --dport 21 -j ACCEPT
+#iptables -I INPUT -p tcp --dport 25 -j ACCEPT
+#iptables -I INPUT -p tcp --dport 443 -j ACCEPT
+#iptables -I INPUT -p tcp --dport 465 -j ACCEPT
+#iptables -I INPUT -p tcp --dport 587 -j ACCEPT
+#iptables -I INPUT -p tcp --dport $svport -j ACCEPT
+#iptables -I INPUT -p tcp --dport 11211 -j ACCEPT
+
+FIREWALLLIST="21 22 25 80 443 465 587 $svport 11211"
+#echo $FIREWALLLIST
+for PORT in ${FIREWALLLIST}; do
+	if [ ! "$(iptables -L -n | grep :$PORT | awk 'NR==1 {print $1}')" == "ACCEPT" ]; then
+		iptables -I INPUT -p tcp --dport ${PORT} -j ACCEPT
+		iptables -I INPUT -p udp --dport ${PORT} -j ACCEPT
+	else
+		echo $PORT
+	fi
+done 
 
 # add ca ssh port hien tai neu no khong phai port 22
 current_ssh_port=${SSH_CLIENT##* }
