@@ -1085,6 +1085,7 @@ systemctl enable ip6tables
 systemctl start iptables
 systemctl start ip6tables
 systemctl start iptables.service
+
 iptables -I INPUT -p tcp --dport 80 -j ACCEPT
 iptables -I INPUT -p tcp --dport 22 -j ACCEPT
 iptables -I INPUT -p tcp --dport 21 -j ACCEPT
@@ -1094,6 +1095,14 @@ iptables -I INPUT -p tcp --dport 465 -j ACCEPT
 iptables -I INPUT -p tcp --dport 587 -j ACCEPT
 iptables -I INPUT -p tcp --dport $svport -j ACCEPT
 iptables -I INPUT -p tcp --dport 11211 -j ACCEPT
+
+# add ca ssh port hien tai neu no khong phai port 22
+current_ssh_port=${SSH_CLIENT##* }
+echo "current_ssh_port: "$current_ssh_port
+if [ ! "$current_ssh_port" = "22" ]; then
+iptables -I INPUT -p tcp --dport $current_ssh_port -j ACCEPT
+fi
+
 service iptables save
 fi
 
