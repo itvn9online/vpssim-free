@@ -22,6 +22,25 @@ exit
 fi
 
 #
+install_yum_cron_update(){
+yum -y remove yum-updatesd
+yum -y install yum-cron
+
+current_os_version=$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))
+if [ "$current_os_version" == "6" ]; then
+service yum-cron start
+chkconfig yum-cron on
+else
+sudo systemctl enable yum-cron
+sudo systemctl start yum-cron
+systemctl restart yum-cron
+fi
+#cd /etc/yum
+cat /var/log/cron | grep yum-daily
+cat /var/log/yum.log | grep Updated
+}
+
+#
 rm -rf /etc/vpssim/.tmp/vpssim-update-*
 
 # update glibc

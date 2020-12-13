@@ -106,8 +106,8 @@ fi
 
 
 # cap nhat cho cac file download
-curTime=$(date +%d)
-#echo "curTime: "$curTime
+curTime=$(date +%d%H)
+echo "curTime: "$curTime
 
 
 
@@ -137,7 +137,8 @@ fi
 
 # kiem tra xem file download wordress co chua
 if [ -f $1 ]; then
-fileTime2=$(date -r $1 +%d)
+#fileTime2=$(date -r $1 +%d)
+fileTime2=$(date -r $1 +%d%H)
 #echo "fileTime2: "$fileTime2
 
 # neu file duoc download lau roi -> cap nhat lai
