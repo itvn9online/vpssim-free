@@ -139,7 +139,7 @@ fi
 if [ -f $1 ]; then
 #fileTime2=$(date -r $1 +%d)
 fileTime2=$(date -r $1 +%d%H)
-#echo "fileTime2: "$fileTime2
+echo "fileTime2: "$fileTime2
 
 # neu file duoc download lau roi -> cap nhat lai
 if [ ! "$fileTime2" == "$curTime" ]; then
@@ -223,9 +223,45 @@ cd ~
 # wordpres
 download_and_unzip_file "https://wordpress.org/latest.zip" "wp.zip" ""
 
+file_optimize(){
+f=$1
+echo $f
+# remove blank in first line
+sed -i -e "s/^\s*//" $f
+# remove blank in last line
+sed -i -e "s/\s*$//" $f
+# remove single comment line
+sed -i -e '/^\s*\/\/.*$/d' $f
+# remove blank in first line
+sed -i -e "s/^\s*//" $f
+# remove blank in last line
+sed -i -e "s/\s*$//" $f
+# remove blank line
+sed -i -e "/^$/d" $f
+sed -i -e '/^\s*$/d' $f
+}
+
+remove_single_comment_line(){
+if [ -d $1 ]; then
+	for d_optimize in $1/*
+	do
+		if [ -f $d_optimize ]; then
+			#echo $d_optimize
+			file_optimize $d_optimize
+		fi
+	done
+fi
+}
+
 # echbaydotcom
 download_and_unzip_file "https://github.com/itvn9online/echbaydotcom/archive/master.zip" "echbaydotcom.zip" ""
+remove_single_comment_line "/root/wp-all-update/echbaydotcom-master/javascript"
+remove_single_comment_line "/root/wp-all-update/echbaydotcom-master/css"
+
 download_and_unzip_file "https://github.com/itvn9online/echbaytwo/archive/master.zip" "echbaytwo.zip" ""
+remove_single_comment_line "/root/wp-all-update/echbaytwo-master/javascript"
+remove_single_comment_line "/root/wp-all-update/echbaytwo-master/css"
+#exit
 
 # download wordpress plugin hay dung nhat -> moi cap nhat chuc nang tim va download tu dong -> khong can phai thiet lap thu cong nua
 download_wordpress_plugin(){
