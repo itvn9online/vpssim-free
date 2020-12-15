@@ -207,7 +207,7 @@ clear
 echo "=========================================================================="
 echo "OS Version: "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))
 echo "--------------------------------------------------------------------------"
-echo "VPSSIM Se Cai Dat Server Theo Thong Tin:"
+echo "ECHBAY-VPSSIM Se Cai Dat Server Theo Thong Tin:"
 echo "=========================================================================="
 echo "eMail Quan Ly: $vpssimemail"
 echo "--------------------------------------------------------------------------"
@@ -223,7 +223,7 @@ echo "Nginx Version: $Nginx_VERSION"
 echo "--------------------------------------------------------------------------"
 echo "PHP Version: "$phpmacdinh
 echo "--------------------------------------------------------------------------"
-echo "VPSSIM Version: $vpssim_version"
+echo "ECHBAY-VPSSIM Version: $vpssim_version"
 echo "=========================================================================="
 prompt="Nhap lua chon cua ban: "
 options=( "Dong Y" "Khong Dong Y")
