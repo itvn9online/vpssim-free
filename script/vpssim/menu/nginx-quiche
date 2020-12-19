@@ -1,64 +1,82 @@
 #!/bin/bash
 
+# link huong dan cai dat
+# https://github.com/cloudflare/quiche/tree/master/extras/nginx#readme
+
+cd ~
+
+install_nginx_quiche(){
+cd ~ ; /etc/vpssim/menu/nginx-quiche
+}
+
+# cai dat cmake 3++ ####################################################################
+# https://gist.github.com/1duo/38af1abd68a2c7fe5087532ab968574e
+install_cmake(){
+cd ~
+cd /tmp
+wget https://cmake.org/files/v3.12/cmake-3.12.3.tar.gz
+tar zxvf cmake-3.*
+cd cmake-3.*
+./bootstrap --prefix=/usr/local
+make -j$(nproc)
+make install
+cmake --version
+}
+
+# cai dat rustup, cargo ####################################################################
+# https://doc.rust-lang.org/cargo/getting-started/installation.html
+# https://rustup.rs/
+install_rustup(){
+cd ~ ; curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+# can rebot sau khi cai dat
+}
+
+#
 . /opt/echbay_vpssim/script/vpssim/nginx-setup.conf
 echo $moduledir
-echo $opensslversion
-echo $withopensslopt
-echo $zlibversion
-echo $pcreVersionInstall
-Nginx_VERSION="1.16.1"
-echo $Nginx_VERSION
 #exit
 echo "Install after 3s"
 sleep 3
 
-
+#
 /opt/echbay_vpssim/script/vpssim/menu/nginx-setup-download
 
-
-cd
-cd $moduledir
-
 #
-if [ -d $moduledir/quiche ]; then
-rm -rf $moduledir/quiche/*
-fi
-#if [ ! -d $moduledir/quiche ]; then
-git clone --recursive https://github.com/cloudflare/quiche
-#else
-#cd ~ ; cd $moduledir/quiche && git pull ; cd ~
-#fi
+Nginx_VERSION="1.16.1"
 
-#
-if [ -d $moduledir/boringssl ]; then
-rm -rf $moduledir/boringssl/*
-fi
-#if [ ! -d $moduledir/boringssl ]; then
-git clone --recursive https://github.com/google/boringssl
-#else
-#cd ~ ; cd $moduledir/boringssl && git pull ; cd ~
-#fi
-
-#cai dat  nginx
-cd $moduledir
-wget -q http://nginx.org/download/nginx-${Nginx_VERSION}.tar.gz
-#curl -O https://nginx.org/download/nginx-${Nginx_VERSION}.tar.gz
-tar -xzf nginx-${Nginx_VERSION}.tar.gz
+rm -rf $moduledir/nginx-${Nginx_VERSION}
 rm -rf $moduledir/nginx-${Nginx_VERSION}.tar.gz 
+
+cd $moduledir
+curl -O https://nginx.org/download/nginx-${Nginx_VERSION}.tar.gz
+tar xzvf nginx-${Nginx_VERSION}.tar.gz
+
+#
+cd ~
+if [ ! -d $moduledir/quiche ]; then
+yum -y install git
+cd $moduledir
+git clone --recursive https://github.com/cloudflare/quiche
+cd ~
+else
+cd ~ ; cd $moduledir/quiche && git pull ; cd ~
+fi
+
+#
 cd $moduledir/nginx-${Nginx_VERSION}
 
-patch -p01 < $moduledir/quiche/extras/nginx/nginx-1.16.patch
+patch -p01 < ../quiche/extras/nginx/nginx-1.16.patch
 
-#sed -i 's/"Server: nginx"/"Server: Nginx-VPSSIM"/g' /usr/local/vpssim/nginx-${Nginx_VERSION}/src/http/ngx_http_header_filter_module.c
-#sed -i 's/"Server: "/"Server: Nginx-VPSSIM"/g' /usr/local/vpssim/nginx-${Nginx_VERSION}/src/http/ngx_http_header_filter_module.c
 ./configure --group=nginx --user=nginx \
 --pid-path=/var/run/nginx.pid \
---prefix=/usr/share/nginx \
+--prefix=$PWD \
 --sbin-path=/usr/sbin/nginx \
+--build="quiche-$(git --git-dir=../quiche/.git rev-parse --short HEAD)" \
+--with-http_ssl_module \
 --with-http_v2_module \
 --with-http_v3_module \
---with-http_ssl_module \
---with-ipv6 \
+--with-openssl=../quiche/deps/boringssl \
+--with-quiche=../quiche \
 --with-http_flv_module \
 --with-http_mp4_module \
 --with-http_random_index_module \
@@ -81,8 +99,6 @@ patch -p01 < $moduledir/quiche/extras/nginx/nginx-1.16.patch
 --with-google_perftools_module \
 --with-debug \
 --with-zlib=$moduledir/${zlibversion} \
---with-openssl=$moduledir/boringssl \
---with-quiche=$moduledir/quiche \
 --conf-path=/etc/nginx/nginx.conf \
 --with-http_gzip_static_module \
 --with-threads \
@@ -99,34 +115,20 @@ patch -p01 < $moduledir/quiche/extras/nginx/nginx-1.16.patch
 --add-module=$moduledir/ngx_http_redis-0.3.8 
 
 #
-# cac module bi loi khi cai voi nginx
-#--with-openssl-opt="enable-ec_nistp_64_gcc_128" \
-#--with-openssl-opt="enable-tls1_3" \
-#--add-module=$moduledir/redis2-nginx-module-master \
-#--add-module=$moduledir/echo-nginx-module-master \
-#--add-module=$moduledir/memc-nginx-module-master \
-#--with-openssl-opt=$withopensslopt \
-#--with-openssl=$moduledir/${opensslversion} \
-#--with-openssl=$moduledir/quiche/deps/boringssl \
-#
-
-#
 make
 make install
 
-#if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
 if [ ! "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
 systemctl restart nginx.service
 else
 service nginx restart
 fi
 
-#rm -rf /opt/echbay_vpssim/*
-#rm -rf /opt/echbay_vpssim
+cd ~
+
+#
 sleep 1
 
 clear
 echo "========================================================================="
 nginx -V
-echo "Cai dat Nginx phien ban $Nginx_VERSION thanh cong !"
-/etc/vpssim/menu/vpssim-update-upgrade-service-menu
