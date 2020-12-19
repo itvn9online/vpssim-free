@@ -41,16 +41,22 @@ rm -rf headers-more-nginx-module.zip
 # /usr/local/vpssim/openssl-1.0.2h
 rm -rf ${opensslversion}
 #wget -q --no-check-certificate https://vpssim.com/script/vpssim/module-nginx/${opensslversion}.tar.gz
-#wget -q --no-check-certificate https://www.openssl.org/source/${opensslversion}.tar.gz
+if [ -f /opt/echbay_vpssim/script/vpssim/module-nginx/${opensslversion}.tar.gz ]; then
 yes | cp -rf /opt/echbay_vpssim/script/vpssim/module-nginx/${opensslversion}.tar.gz ${opensslversion}.tar.gz
+else
+wget -q --no-check-certificate https://www.openssl.org/source/${opensslversion}.tar.gz
+fi
 tar -xzxf ${opensslversion}.tar.gz
 rm -rf ${opensslversion}.tar.gz
 
 # $moduledir/${zlibversion}
 rm -rf ${zlibversion}
 #wget -q --no-check-certificate https://vpssim.echbay.com/script/vpssim/module-nginx/${zlibversion}.tar.gz
-#wget -q --no-check-certificate https://www.zlib.net/${zlibversion}.tar.gz
+if [ -f /opt/echbay_vpssim/script/vpssim/module-nginx/${zlibversion}.tar.gz ]; then
 yes | cp -rf /opt/echbay_vpssim/script/vpssim/module-nginx/${zlibversion}.tar.gz ${zlibversion}.tar.gz
+else
+wget -q --no-check-certificate https://www.zlib.net/${zlibversion}.tar.gz
+fi
 tar -xzxf ${zlibversion}.tar.gz
 rm -rf ${zlibversion}.tar.gz
 
