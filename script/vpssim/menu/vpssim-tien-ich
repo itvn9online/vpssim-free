@@ -4,7 +4,7 @@ options=( "Thay Password Root" "Fix Loi Chmod, Chown" "Find Top Largest Files & 
 "File Size Converter " "Kiem Tra Thong Tin Server" "Cai Dat Server Timezone" "Install / Remove Imagick" "Install / Remove Ioncube" "Cai Dat Htop" \
 "Backup Config File & Vhost" "Thay Doi Port SSH Number" "Config SSH Timeout" "Block Exploits, SQL Injections" "Deny Run Script In Upload Folder" \
 "Dat Mat Khau Bao Ve Folder" "BAT/TAT Email Thong Bao Login" "BAT/TAT Auto Run VPSSIM" "Canh Bao Full Disc Tren Menu" "Restart Service" "TocDo.net" \
-"Varnish Cache" "Update All Website Wordpress" "Go Bo (Remove) VPSSIM" )
+"Varnish Cache" "Update All Website Wordpress" "Install Composer" "Go Bo (Remove) VPSSIM" )
 printf "=========================================================================\n"
 printf "                ECHBAY-VPSSIM - Quan Ly VPS/Server by HostingAZ.VN \n"
 printf "=========================================================================\n"
@@ -41,7 +41,8 @@ select opt in "${options[@]}" ; do
 	22) clear && /etc/vpssim/menu/tienich/toc-do-dot-net;;
 	23) clear && /etc/vpssim/menu/varnish/install-varnish;;
 	24) clear && /etc/vpssim/menu/tienich/update-wordpress-for-all-site;;
-	25) /etc/vpssim/menu/go-bo-scripts;;
+	25) clear && /etc/vpssim/menu/tienich/install-composer;;
+	26) /etc/vpssim/menu/go-bo-scripts;;
 #	23) clear && vpssim;;
 	0) clear && vpssim;;
 
