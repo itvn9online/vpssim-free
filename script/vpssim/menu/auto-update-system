@@ -1,0 +1,43 @@
+#!/bin/bash
+. /home/vpssim.conf
+
+#
+if [ -f /etc/yum/yum-cron.conf ]; then
+echo "========================================================================="
+echo "yum-cron has been install!"
+/etc/vpssim/menu/vpssim-update-upgrade-service-menu
+exit
+fi
+
+#
+chkconfig yum-updatesd off
+yum -y install yum-cron
+
+#
+if [ ! -f /etc/yum/yum-cron.conf ]; then
+echo "========================================================================="
+echo "ERROR! yum-cron can not install..."
+/etc/vpssim/menu/vpssim-update-upgrade-service-menu
+exit
+fi
+
+#
+curTime=$(date +%d%H%M)
+echo "curTime: "$curTime
+yes | cp /etc/yum/yum-cron.conf /etc/yum/yum-cron.conf-$curTime.bak
+
+#
+grep -o '^[^#]*' /etc/yum/yum-cron.conf > /etc/yum/yum-cron.conf.test
+if [ -f /etc/yum/yum-cron.conf.test ]; then
+rm -rf /etc/yum/yum-cron.conf
+mv /etc/yum/yum-cron.conf.test /etc/yum/yum-cron.conf
+fi
+
+#
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then
+service yum-cron start
+chkconfig yum-cron on
+else
+systemctl start yum-cron
+systemctl enable yum-cron
+fi
