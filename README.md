@@ -22,37 +22,37 @@ bash <( curl -k https://raw.githubusercontent.com/itvn9online/vpssim-free/master
 > Với `CentOS 6 x64` đã chạy thực nghiệm từ nhiều năm nay và cho kết quả ổn định, nên ở mục này chủ yếu thống kê cho phiên bản CentOS 7 & 8 và ECHBAY-VPSSIM cũng chỉ hỗ trợ phiên bản x64 chứ không hỗ trợ x32 như VPSSIM bản gốc.
 
 > 2020/09/14
-- [x] CentOS-**7** x64 && Nginx-1.18.0 + OpenSSL-1.1.1g + Prce-8.44 + Zlib-1.2.11 && PHP-7.4
+- [x] CentOS-**7** x64 && Nginx-1.18.0 + OpenSSL-1.1.1i + Prce-8.44 + Zlib-1.2.11 && PHP-7.4
 - [x] **MariaDB-10.2** --- Cấu hình khuyên dùng ---------------------------------------------------
 
 > 2020/09/15
-- [x] CentOS-**7** x64 && Nginx-1.18.0 + OpenSSL-1.1.1g + Prce-8.44 + Zlib-1.2.11 && PHP-7.4
+- [x] CentOS-**7** x64 && Nginx-1.18.0 + OpenSSL-1.1.1i + Prce-8.44 + Zlib-1.2.11 && PHP-7.4
 - [x] **MariaDB-10.4**
 
 > 2020/09/15
-- [x] CentOS-**7** x64 && Nginx-1.18.0 + OpenSSL-1.1.1g + Prce-8.44 + Zlib-1.2.11 && PHP-7.4
+- [x] CentOS-**7** x64 && Nginx-1.18.0 + OpenSSL-1.1.1i + Prce-8.44 + Zlib-1.2.11 && PHP-7.4
 - [ ] **MariaDB-10.5**
 
 > 2020/09/14
-- [x] CentOS-**7** x64 && Nginx-1.18.0 + OpenSSL-1.1.1g + Prce-8.44 + Zlib-1.2.11 && PHP-7.4
+- [x] CentOS-**7** x64 && Nginx-1.18.0 + OpenSSL-1.1.1i + Prce-8.44 + Zlib-1.2.11 && PHP-7.4
 - [x] **MariaDB-10.1**
 
 > 2020/09/14
-- [x] CentOS-**7** x64 && Nginx-1.18.0 + OpenSSL-1.1.1g + Prce-8.44 + Zlib-1.2.11 && PHP-7.4
+- [x] CentOS-**7** x64 && Nginx-1.18.0 + OpenSSL-1.1.1i + Prce-8.44 + Zlib-1.2.11 && PHP-7.4
 - [x] **MariaDB-10.3**
 
 ----------------------------------------------
 
 > 2020/09/19
-- [x] CentOS-**8** x64 && Nginx-1.18.0 + OpenSSL-1.1.1g + Prce-8.44 + Zlib-1.2.11 && PHP-7.4
+- [x] CentOS-**8** x64 && Nginx-1.18.0 + OpenSSL-1.1.1i + Prce-8.44 + Zlib-1.2.11 && PHP-7.4
 - [x] **MariaDB-10.3**
 
 > 2020/09/19
-- [x] CentOS-**8** x64 && Nginx-1.18.0 + OpenSSL-1.1.1g + Prce-8.44 + Zlib-1.2.11 && PHP-7.4
+- [x] CentOS-**8** x64 && Nginx-1.18.0 + OpenSSL-1.1.1i + Prce-8.44 + Zlib-1.2.11 && PHP-7.4
 - [ ] **MariaDB-10.4**
 
 > 2020/09/19
-- [x] CentOS-**8** x64 && Nginx-1.18.0 + OpenSSL-1.1.1g + Prce-8.44 + Zlib-1.2.11 && PHP-7.4
+- [x] CentOS-**8** x64 && Nginx-1.18.0 + OpenSSL-1.1.1i + Prce-8.44 + Zlib-1.2.11 && PHP-7.4
 - [ ] **MariaDB-10.5**
 
 ----------------------------------------------
@@ -82,9 +82,9 @@ Lâu không dùng 2 bản cũ kia, mà nọ có việc nên xem lại câu lện
 ### Nginx
 > 2020/09/01
 #### Nguồn cài đặt: https://github.com/itvn9online/vpssim-free/blob/master/script/vpssim/nginx-setup.conf
-- Cài đặt nginx-1.18.0, đây là phiên bản ổn định và mới nhất của nginx tính đến thời điểm hiện tại, kết hợp với openssl-1.1.1g thay cho bản openssl cũ của VPSSIM, phiên bản này mới hỗ trợ đầy đủ HTTP/2.
+- Cài đặt nginx-1.18.0, đây là phiên bản ổn định và mới nhất của nginx tính đến thời điểm hiện tại, kết hợp với OpenSSL-1.1.1i thay cho bản openssl cũ của VPSSIM, phiên bản này mới hỗ trợ đầy đủ HTTP/2.
 	- Phiên bản nginx được xem và cập nhật tại: http://nginx.org/en/download.html . Mặc định mình chỉ chọn phiên bản Stable version, các bản Mainline là đang phát triển nên không chọn.
-	- Chuyển sang sử dụng openssl-1.1.1g, đây cũng là bản openssl mới nhất hiện nay. Hỗ trợ HTTP/2 hoàn chỉnh, TLSv1.3 và rất nhiều cải tiến khác so với các bản tiền nhiệm. Các phiên bản OpenSSL khác có thể xem thêm tại đây: https://www.openssl.org/source/
+	- Chuyển sang sử dụng OpenSSL-1.1.1i, đây cũng là bản openssl mới nhất hiện nay. Hỗ trợ HTTP/2 hoàn chỉnh, TLSv1.3 và rất nhiều cải tiến khác so với các bản tiền nhiệm. Các phiên bản OpenSSL khác có thể xem thêm tại đây: https://www.openssl.org/source/
 	- https://ftp.pcre.org/pub/pcre/ -> dùng bản 8.44 thay cho bản 8.39 của VPSSIM.
 	- https://www.zlib.net/ -> dùng bản 1.2.11 thay cho bản 1.2.8 của VPSSIM.
 
