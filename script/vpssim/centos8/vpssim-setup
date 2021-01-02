@@ -336,9 +336,13 @@ sudo dnf -y remove postfix*
 sudo dnf -y remove rsyslog*
 mkdir -p /usr/local/vpssim
 cd /usr/local/vpssim
-groupadd nginx
+
+#groupadd nginx
+groupadd -r nginx
 #useradd -g nginx -d /dev/null -s /sbin/nologin nginx
 adduser nginx --system --no-create-home --shell /bin/false --user-group
+useradd -r -s /sbin/nologin -d /dev/null -g nginx nginx
+
 sudo dnf -y update
 sudo dnf -y groupinstall "Development Tools"
 #sudo dnf -y install gcc gcc-c++ pcre pcre-devel zlib zlib-devel mailx tar expect imake lsof autoconf nc ca-certificates libedit-devel make automake expat-devel perl-libwww-perl perl-Crypt-SSLeay perl-Net-SSLeay tree virt-what cmake openssl-devel net-tools systemd-devel libdb-devel libxml2-devel libxml2 libxslt-devel gd gd-devel perl-ExtUtils-Embed patch sysstat libtool bind-utils libXext-devel cyrus-sasl-devel glib2 glib2-devel openssl ncurses-devel bzip2 bzip2-devel flex bison libcurl-devel which libevent libevent-devel libgcj gettext-devel vim-minimal nano cairo-devel libpng-devel freetype freetype-devel libart_lgpl-devel  GeoIP-devel gperftools-devel libicu libicu-devel aspell gmp-devel aspell-devel libtidy libtidy-devel readline-devel iptables* coreutils libedit-devel enchant enchant-devel pam-devel git perl-ExtUtils perl-ExtUtils-MakeMaker perl-Time-HiRes openldap openldap-devel curl curl-devel diffutils libc-client libc-client-devel numactl lsof pkgconfig gdbm-devel tk-devel libatomic_ops-devel gperftools bluez-libs-devel

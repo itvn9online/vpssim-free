@@ -1,7 +1,11 @@
 #!/bin/bash
 . /home/vpssim.conf
+
+#
+echo "current_os_version="$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release)) >> /tmp/change_php_config
 . /tmp/change_php_config
 
+#
 phphientai=$(php -r "echo PHP_MAJOR_VERSION.''.PHP_MINOR_VERSION;")
 php_version1=$(php -r "echo PHP_MAJOR_VERSION.'.'.PHP_MINOR_VERSION;")
 if [ "$php_version1" == "$new_php_version" ]; then
@@ -24,9 +28,13 @@ sleep 1
 
 /etc/vpssim/menu/nangcap-php/before-setup-php
 
+if [ "$current_os_version" == "6" ] || [ "$current_os_version" == "7" ]; then 
 yum-config-manager --disable remi-php$phphientai
 yum-config-manager --enable remi-php$num_php_version
 /etc/vpssim/menu/nangcap-php/install-php
+else
+/etc/vpssim/menu/nangcap-php/install-php8
+fi
 
 #edit php.ini va Zend opcache
 rm -rf /etc/php.ini  
@@ -83,7 +91,7 @@ fi
 /etc/vpssim/menu/vpssim-re-config-cac-ham-php-disable-php.ini
 rm -rf /root/updown/
 
-if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
+if [ "$current_os_version" == "6" ]; then 
 chkconfig --add php-fpm
 chkconfig --levels 235 php-fpm on
 service php-fpm restart
@@ -93,7 +101,8 @@ systemctl start php-fpm.service
 systemctl restart php-fpm.service
 fi
 chmod 777 /var/lib/php/session/
-if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
+
+if [ "$current_os_version" == "6" ]; then 
 if [ ! "$(/sbin/service php-fpm status | awk 'NR==1 {print $5}')" == "running..." ]; then
 clear
 echo "========================================================================="
@@ -102,8 +111,8 @@ echo "Sorry, There's an error on changing PHP version."
 /etc/vpssim/menu/vpssim-update-upgrade-service-menu
 fi
 fi
-#if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
-if [ ! "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
+
+if [ ! "$current_os_version" == "6" ]; then
 if [ ! "`systemctl is-active php-fpm.service`" == "active" ]; then
 clear
 echo "========================================================================="
@@ -111,6 +120,7 @@ echo "Sorry, There's an error on changing PHP version."
 /etc/vpssim/menu/vpssim-update-upgrade-service-menu
 fi
 fi
+
 clear
 echo "========================================================================="
 echo "Hoan thanh thay doi PHP version. "
