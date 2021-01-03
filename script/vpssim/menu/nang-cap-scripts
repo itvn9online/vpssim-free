@@ -78,8 +78,7 @@ else
 read -r -p "Ban chac chan muon update ECHBAY-VPSSIM ? [y/N] " response
 fi
 
-case $response in
-[yY][eE][sS]|[yY])
+if [ "$response" = "y" ] || [ "$response" = "Y" ]; then
 echo "-------------------------------------------------------------------------" 
 echo "Chuan bi update ECHBAY-VPSSIM..... "
 sleep 1
@@ -90,17 +89,14 @@ wget --no-check-certificate -q https://raw.githubusercontent.com/itvn9online/vps
 chmod +x /etc/vpssim/vpssim-update
 bash /etc/vpssim/vpssim-update
 
-exit
+else
 
-;;
-*)
 clear
-
 printf "=========================================================================\n"
 echo "Ban da huy bo update ECHBAY-VPSSIM"
 /etc/vpssim/menu/vpssim-update-upgrade-service-menu
-;;
-esac
+
+fi
 
 # enable auto update system
 if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then
@@ -111,3 +107,4 @@ else
 clear && /etc/vpssim/menu/vpssim-update-upgrade-service-menu
 fi
 
+exit
