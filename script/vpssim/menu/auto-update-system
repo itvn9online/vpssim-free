@@ -2,12 +2,12 @@
 . /home/vpssim.conf
 
 #
-if [ -f /etc/yum/yum-cron.conf ]; then
-echo "========================================================================="
-echo "yum-cron has been install!"
-/etc/vpssim/menu/vpssim-update-upgrade-service-menu
-exit
-fi
+#if [ -f /etc/yum/yum-cron.conf ]; then
+#echo "========================================================================="
+#echo "yum-cron has been install!"
+#/etc/vpssim/menu/vpssim-update-upgrade-service-menu
+#exit
+#fi
 
 #
 chkconfig yum-updatesd off
@@ -33,11 +33,45 @@ rm -rf /etc/yum/yum-cron.conf
 mv /etc/yum/yum-cron.conf.test /etc/yum/yum-cron.conf
 fi
 
+# fixed config
+cat >> "/etc/yum/yum-cron.conf" <<END
+[commands]
+update_cmd = default
+update_messages = yes
+download_updates = yes
+# apply_updates = no
+apply_updates = yes
+# random_sleep = 360
+random_sleep = 0
+[emitters]
+system_name = None
+# emit_via = stdio
+emit_via = email
+output_width = 80
+[email]
+email_from = root@localhost
+# email_to = root
+email_to = $emailmanage
+email_host = localhost
+[groups]
+group_list = None
+group_package_types = mandatory, default
+[base]
+debuglevel = -2
+mdpolicy = group:main
+END
+
 #
 if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then
-service yum-cron start
+service yum-cron restart
 chkconfig yum-cron on
 else
-systemctl start yum-cron
+/bin/systemctl restart yum-cron.service
 systemctl enable yum-cron
 fi
+
+# xem log
+sudo tail -50 /var/log/yum.log
+
+#
+/etc/vpssim/menu/vpssim-update-upgrade-service-menu
