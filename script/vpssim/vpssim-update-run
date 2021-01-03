@@ -39,7 +39,14 @@ yes | cp -rf /opt/echbay_vpssim/version /etc/vpssim/vpssim.version
 #rm -rf /opt/echbay_vpssim
 sleep 1
 
-
+# enable auto update system
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then
+if [ -f /etc/vpssim/menu/auto-update-system ]; then
+clear && bash /etc/vpssim/menu/auto-update-system
+fi
+else
+echo "Auto update system in CentOS 7 only"
 /etc/vpssim/menu/vpssim-update-upgrade-service-menu
+fi
 
 #exit
