@@ -105,7 +105,7 @@ esac
 # enable auto update system
 if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then
 if [ -f /etc/vpssim/menu/auto-update-system ]; then
-clear && /etc/vpssim/menu/auto-update-system;;
+clear && /etc/vpssim/menu/auto-update-system
 fi
 else
 clear && /etc/vpssim/menu/vpssim-update-upgrade-service-menu
