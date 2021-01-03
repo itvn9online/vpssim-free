@@ -71,6 +71,7 @@ systemctl enable yum-cron
 fi
 
 # xem log
+echo "Update system log:"
 sudo tail -50 /var/log/yum.log
 
 #
