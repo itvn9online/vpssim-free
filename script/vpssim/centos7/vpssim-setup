@@ -1119,6 +1119,11 @@ fi
 service iptables save
 fi
 
+
+# auto update system
+/etc/vpssim/menu/auto-update-system "first-setup"
+
+
 clear
 #echo "=========================================================================="
 #echo "Setup CSF Firewall ... "
