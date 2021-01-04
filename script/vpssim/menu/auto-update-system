@@ -42,6 +42,7 @@ fi
 
 
 # fixed config
+echo "Config for: /etc/yum/yum-cron.conf"
 cat >> "/etc/yum/yum-cron.conf" <<END
 [commands]
 update_cmd = default
