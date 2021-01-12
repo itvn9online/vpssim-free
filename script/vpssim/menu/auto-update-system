@@ -66,6 +66,8 @@ email_host = localhost
 group_list = None
 group_package_types = mandatory, default
 [base]
+#exclude = kernel* owncloud* php* httpd*
+exclude = php*
 debuglevel = -2
 mdpolicy = group:main
 END
