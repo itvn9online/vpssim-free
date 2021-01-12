@@ -22,7 +22,7 @@ yum -y install yum-cron
 if [ ! -f /etc/yum/yum-cron.conf ]; then
 echo "========================================================================="
 echo "ERROR! yum-cron can not install..."
-if [ ! "$firstSetup" = "" ]; then
+if [ "$firstSetup" = "" ]; then
 /etc/vpssim/menu/vpssim-update-upgrade-service-menu
 exit
 fi
@@ -87,6 +87,6 @@ echo "Update system log:"
 sudo tail -50 /var/log/yum.log
 
 #
-if [ ! "$firstSetup" = "" ]; then
+if [ "$firstSetup" = "" ]; then
 /etc/vpssim/menu/vpssim-update-upgrade-service-menu
 fi
