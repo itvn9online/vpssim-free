@@ -1,0 +1,73 @@
+#!/bin/bash 
+
+. /home/vpssim.conf
+
+#
+cd ~
+dir_install="/home/user26126/dfea22860915215cb76e09557237856c"
+echo $dir_install
+
+if [ ! -d $dir_install ]; then
+echo "dir not exist: "$dir_install
+
+/etc/vpssim/menu/vpssim-them-website-menu
+
+exit
+fi
+
+#
+#laravel_version="5"
+#laravel_version="6"
+#laravel_version="7"
+#laravel_version="8"
+
+prompt="Nhap lua chon cua ban (0 - Huy bo): "
+options=( "Laravel 5" "Laravel 6" "Laravel 7" "Laravel 8" "Cancel")
+printf "=========================================================================\n"
+printf "LUA CHON PHIEN BAN LARAVEL  \n"
+printf "=========================================================================\n"
+PS3="$prompt"
+select opt in "${options[@]}"; do 
+    case "$REPLY" in
+    1) laravel_version="5"; break;;
+    2) laravel_version="6"; break;;
+    3) laravel_version="7"; break;;
+    4) laravel_version="8"; break;;
+	
+    5) laravel_version="5"; break;;
+    6) laravel_version="6"; break;;
+    7) laravel_version="7"; break;;
+    8) laravel_version="8"; break;;
+	
+    0) laravel_version="cancel"; break;;
+    *) echo "Ban nhap sai! Ban vui long chon so trong danh sach"; continue;;
+    esac  
+done
+echo $laravel_version
+
+dir_sub_install=$dir_install"/___EB_laravel"$laravel_version"_install"
+echo $dir_sub_install
+
+# cleanup
+if [ -d $dir_sub_install ]; then
+rm -rf $dir_sub_install/*
+rm -rf $dir_sub_install/*.*
+fi
+
+# install laravel (phien ban on dinh)
+composer create-project --prefer-dist laravel/laravel:^$laravel_version $dir_sub_install
+# install laravel with last version
+#composer create-project --prefer-dist laravel/laravel:$laravel_version.* $dir_sub_install
+
+#
+chown -R root:nginx $dir_sub_install
+chown -R root:nginx $dir_sub_install/*
+chown -R root:nginx $dir_sub_install/*.*
+
+laravel_storage=$dir_sub_install"/storage"
+chmod -R 777 $laravel_storage
+chmod -R 777 $laravel_storage/*
+#chmod -R 777 $laravel_storage/*.*
+
+#
+/etc/vpssim/menu/vpssim-them-website-menu
