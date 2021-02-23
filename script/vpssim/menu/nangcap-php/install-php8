@@ -1,29 +1,69 @@
 #!/bin/bash
 
+
+
 #
+echo "current_os_version="$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release)) >> /tmp/change_php_config
+. /tmp/change_php_config
+
+
+
+#
+echo "Uninstall php..."
+yum -y remove php\* > /dev/null 2>&1
+
 sudo yum -y module reset php
-sudo yum -y module enable php:remi-$new_php_version
 
-echo "Install php module..."
-#yum -y install php php-common php-fpm php-gd php-devel php-json
-#yum -y install php-curl php-pecl-zip $phppeclredis php-zip php-soap php-cli php-ldap php-mysqlnd php-pear-Net-SMTP php-enchant php-mysql php-pear $memcachedinstall php-opcache php-pdo php-zlib php-xml php-mbstring php-mcrypt
-sudo yum -y install php php-curl php-pecl-zip php-zip php-soap php-cli php-snmp php-gmp php-ldap php-bcmath php-intl perl-libwww-perl perl-LWP-Protocol-https php-pear-Net-SMTP php-enchant php-common php-fpm php-gd php-devel php-pear php-opcache php-pdo php-zlib php-xml php-mbstring php-xmlrpc
-#sudo yum -y install php-pspell php-imap php-mysql php-mcrypt php-tidy
 
-if [ -f /etc/redis/redis.conf ]; then
-echo "Install php redis..."
-#sudo yum search php-pecl-redis5
-#phppeclredis=php-pecl-redis
-#sudo yum -y install php-pecl-redis
-#sudo yum -y install php-pecl-redis5
+
+# Step 1: Enable EPEL and Remi Repository on CentOS/RHEL
+
+if [ "$current_os_version" == "7" ]; then
+
+# CentOS/RHEL 7
+sudo dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+sudo dnf install -y https://rpms.remirepo.net/enterprise/remi-release-7.rpm
+
+else
+
+# CentOS/RHEL 8
+sudo dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+sudo dnf install -y https://rpms.remirepo.net/enterprise/remi-release-8.rpm
+
 fi
 
-if [ -f /etc/sysconfig/memcached ]; then
-echo "Install php memcache..."
-#sudo yum search php-pecl-memcached
-#sudo yum search php-pecl-memcache
-#memcachedinstall=$(echo "php-pecl-memcached php-pecl-memcache")
-#sudo yum -y install php-pecl-memcached php-pecl-memcache
-fi
 
-clear
+
+# Step 2: Install PHP 8 on CentOS/RHEL
+
+# Right at the bottom, be sure to notice the remi-8.0 php module.
+sudo dnf module list PHP
+
+# We need to enable this module before installing PHP 8.0. To enable php:remi-8.0, execute:
+sudo dnf module enable php:remi-8.0 -y
+
+# Install PHP 8.0 for Nginx
+sudo dnf -y install php php-cli php-common php-fpm
+
+
+
+
+# Step 3: Verify PHP 8.0 on CentOS/RHEL
+php -v
+
+
+
+# Step 4: Install PHP 8.0 Extensions in CentOS/RHEL
+sudo dnf -y install php-mysql
+#sudo dnf -y install php-mysqlnd
+sudo dnf -y install php-curl php-pecl-zip php-zip php-soap php-snmp php-gmp php-ldap php-bcmath php-intl perl-libwww-perl perl-LWP-Protocol-https php-pear-Net-SMTP php-enchant php-gd php-devel php-pear php-opcache php-pdo php-zlib php-xml php-mbstring php-xmlrpc
+
+# Finally, you can verify the installed extensions using the command:
+php -m
+# or
+php -m | grep mysql
+#php -m | grep mysqlnd
+
+
+
+#clear
