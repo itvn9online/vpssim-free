@@ -1123,6 +1123,9 @@ fi
 # auto update system
 /etc/vpssim/menu/auto-update-system "first-setup"
 
+#
+sudo yum -y install certbot-nginx
+
 
 clear
 #echo "=========================================================================="

@@ -1095,6 +1095,11 @@ fi
 service iptables save
 fi
 
+
+#
+sudo yum -y install certbot-nginx
+
+
 clear
 #echo "=========================================================================="
 #echo "Setup CSF Firewall ... "
