@@ -712,6 +712,7 @@ session.cookie_lifetime = 0
 session.cookie_path = /
 session.cookie_domain =
 session.cookie_httponly = 1
+session.cookie_secure = 1
 session.serialize_handler = php
 session.gc_probability = 1
 session.gc_divisor = 1000
