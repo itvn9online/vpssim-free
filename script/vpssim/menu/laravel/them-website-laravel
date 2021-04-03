@@ -2,9 +2,24 @@
 
 . /home/vpssim.conf
 
+# vi du
+# /etc/vpssim/menu/laravel/them-website-laravel "/home/user26126/dfea22860915215cb76e09557237856c" "8" "user26126"
+# $1 -> thu muc cai dat
+# $2 -> phien ban laravel
+# $3 -> user cai dat
+
 #
 cd ~
-dir_install="/home/user26126/dfea22860915215cb76e09557237856c"
+#dir_install="/home/user26126/dfea22860915215cb76e09557237856c"
+dir_install=$1
+laravel_version=$2
+user_chown=$3
+
+# mac dinh cho vao home
+if [ "$dir_install" = "" ]; then
+dir_install="/home"
+user_chown="root"
+fi
 echo $dir_install
 
 if [ ! -d $dir_install ]; then
@@ -21,6 +36,8 @@ fi
 #laravel_version="7"
 #laravel_version="8"
 
+#
+if [ "$laravel_version" = "" ]; then
 prompt="Nhap lua chon cua ban (0 - Huy bo): "
 options=( "Laravel 5" "Laravel 6" "Laravel 7" "Laravel 8" "Cancel")
 printf "=========================================================================\n"
@@ -43,8 +60,10 @@ select opt in "${options[@]}"; do
     *) echo "Ban nhap sai! Ban vui long chon so trong danh sach"; continue;;
     esac  
 done
+fi
 echo $laravel_version
 
+# tu dong them thu muc vao de cho an toan
 dir_sub_install=$dir_install"/___EB_laravel"$laravel_version"_install"
 echo $dir_sub_install
 
@@ -52,7 +71,9 @@ echo $dir_sub_install
 if [ -d $dir_sub_install ]; then
 rm -rf $dir_sub_install/*
 rm -rf $dir_sub_install/*.*
+rm -rf $dir_sub_install
 fi
+mkdir -p $dir_sub_install
 
 # install laravel (phien ban on dinh)
 composer create-project --prefer-dist laravel/laravel:^$laravel_version $dir_sub_install
@@ -60,14 +81,22 @@ composer create-project --prefer-dist laravel/laravel:^$laravel_version $dir_sub
 #composer create-project --prefer-dist laravel/laravel:$laravel_version.* $dir_sub_install
 
 #
-chown -R root:nginx $dir_sub_install
-chown -R root:nginx $dir_sub_install/*
-chown -R root:nginx $dir_sub_install/*.*
+if [ "$user_chown" = "" ]; then
+user_chown="root"
+fi
+chown -R $user_chown:nginx $dir_sub_install
+chown -R $user_chown:nginx $dir_sub_install/*
+chown -R $user_chown:nginx $dir_sub_install/*.*
 
+#
 laravel_storage=$dir_sub_install"/storage"
 chmod -R 777 $laravel_storage
 chmod -R 777 $laravel_storage/*
 #chmod -R 777 $laravel_storage/*.*
+
+#
+echo "All done!"
+echo "Laravel "$laravel_version" has been download to: "$dir_sub_install
 
 #
 /etc/vpssim/menu/vpssim-them-website-menu
