@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# file nay chi de kiem tra co the cai dat larvel duoc khong thoi
+echo "new echbay-vpssim has been update"
