@@ -23,7 +23,7 @@ if [ ! -f /home/$mainsite/private_html/php-info.php ]; then
 echo "<?php  phpinfo(); ?>" > /home/$mainsite/private_html/php-info.php 
 fi
 prompt="Lua chon cua ban: "
-options=("Max Execution Time" "Max Input Time" "On/Off Allow Url Fopen" "On/Off Display Errors" "Memory Limit" "On/Off Allow Url Include" "On/Off File Upload" "Upload Max Filesize" "Max Input Vars" "Enable/Disable PHP Function" "Config Mac Dinh" "Thoat")
+options=("Max Execution Time" "Max Input Time" "On/Off Allow Url Fopen" "On/Off Display Errors" "Memory Limit" "On/Off Allow Url Include" "On/Off File Upload" "Upload Max Filesize" "Max Input Vars" "Enable/Disable PHP Function" "Config PHP Mac Dinh")
 PS3="$prompt"
 echo "========================================================================="
 echo "                VPSSIM - Quan Ly VPS/Server by HostingAZ.VN"
@@ -61,7 +61,7 @@ select opt in "${options[@]}"; do
     9) luachon="max_input_vars"; break;; 
     10) luachon="enabledisablephpfunction"; break;; 
     11) luachon="phpinimacdinh"; break;;
-    12) luachon="cancel"; break;;
+    #12) luachon="cancel"; break;;
     0) clear && vpssim;;
     *) echo "Ban nhap sai, vui long nhap theo so thu tu tren menu";continue;;
     esac  
@@ -571,7 +571,7 @@ max_input_vars = 6000
 realpath_cache_size = 4096k
 realpath_cache_ttl = 360
 error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT
-display_errors = Off
+display_errors = On
 display_startup_errors = Off
 log_errors = On
 log_errors_max_len = 1024
@@ -602,7 +602,8 @@ default_socket_timeout = 60
 cli_server.color = On
 
 [Date]
-date.timezone = Asia/Bangkok
+#date.timezone = Asia/Bangkok
+date.timezone = Asia/Ho_Chi_Minh
 
 [filter]
 
@@ -710,7 +711,7 @@ session.auto_start = 0
 session.cookie_lifetime = 0
 session.cookie_path = /
 session.cookie_domain =
-session.cookie_httponly =
+session.cookie_httponly = 1
 session.serialize_handler = php
 session.gc_probability = 1
 session.gc_divisor = 1000

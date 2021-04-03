@@ -2,7 +2,12 @@
 
 cd ~
 
+cd /tmp
+
 sudo curl -sS https://getcomposer.org/installer | php
+
 mv composer.phar /usr/local/bin/composer
+
+composer --version
 
 /etc/vpssim/menu/vpssim-tien-ich
