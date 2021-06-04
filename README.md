@@ -90,6 +90,12 @@ Lâu không dùng 2 bản cũ kia, mà nọ có việc nên xem lại câu lện
 
 ----------------------------------------------
 
+### PHP MyAdmin
+> 2021/06/05
+#### Download: https://www.phpmyadmin.net/downloads/
+
+----------------------------------------------
+
 > 2020/08/29
 #### Loại bỏ phiên bản MariaDB 5 do có vẻ nó đã lỗi thời, với lại mấy năm nay mình dùng bản MariaDB 10 thấy rất ổn định nên cũng khuyên dùng.
 
