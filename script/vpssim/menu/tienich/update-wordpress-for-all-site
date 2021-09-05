@@ -416,9 +416,10 @@ cd ~
 
 # tim tat ca thu muc trong home
 get_all_dir_in_dir(){
-#echo "Pram 1: "$1
-#echo "Pram 2: "$2
-#echo "Pram 3: "$3
+echo "--------------------------------------------------------"
+echo "Pram 1: "$1
+echo "Pram 2: "$2
+echo "Pram 3: "$3
 echo "Pram 4: "$4
 
 # do sau toi da se kiem tra
@@ -480,8 +481,6 @@ if [ $2 -lt $3 ]; then
 						done
 					fi
 					
-					echo "Rsync all DONE!"
-					
 					if [ ! "$4" = "" ]; then
 						id -u $4
 						if [ $? -eq 0 ]; then
@@ -506,6 +505,9 @@ if [ $2 -lt $3 ]; then
 							echo "user "$4" not exist"
 						fi
 					fi
+					
+					echo "Rsync all DONE!"
+					sleep 3;
 					
 				else
 					#echo $d
