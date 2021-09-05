@@ -6,7 +6,9 @@ echo "========================================================================= 
 echo "Ban da tao Swap! Dung luong Swap: $test_swap MB"
 echo "-------------------------------------------------------------------------"
 echo "Ban phai xoa Swap cu truoc khi tao swap moi"
+if [ -f /etc/vpssim/menu/swap/vpssim-them-xoa-swap-vps-menu ]; then
 /etc/vpssim/menu/swap/vpssim-them-xoa-swap-vps-menu
+fi
 exit
 fi
 echo "========================================================================="
@@ -37,7 +39,9 @@ echo "========================================================================= 
 echo "Tao swap that bai"
 echo "-------------------------------------------------------------------------"
 echo "Server cua ban khong ho tro tao swap moi"
+if [ -f /etc/vpssim/menu/swap/vpssim-them-xoa-swap-vps-menu ]; then
 /etc/vpssim/menu/swap/vpssim-them-xoa-swap-vps-menu
+fi
 else
   if [ "$(grep "/swapfile    none    swap    sw    0    0" /etc/fstab | awk '{print $1}')" == "" ]; then
 echo "/swapfile    none    swap    sw    0    0" >> /etc/fstab  
@@ -45,12 +49,16 @@ echo "/swapfile    none    swap    sw    0    0" >> /etc/fstab
 clear 
 echo "========================================================================= "
 echo "Tao swap thanh cong: 2 GB"
+if [ -f /etc/vpssim/menu/swap/vpssim-them-xoa-swap-vps-menu ]; then
 /etc/vpssim/menu/swap/vpssim-them-xoa-swap-vps-menu
+fi
 fi
         ;;
     *)
        clear
+if [ -f /etc/vpssim/menu/swap/vpssim-them-xoa-swap-vps-menu ]; then
 /etc/vpssim/menu/swap/vpssim-them-xoa-swap-vps-menu
+fi
         ;;
 esac
 
