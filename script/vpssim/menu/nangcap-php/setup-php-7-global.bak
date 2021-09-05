@@ -1,0 +1,127 @@
+#!/bin/bash
+. /home/vpssim.conf
+. /tmp/change_php_config
+
+phphientai=$(php -r "echo PHP_MAJOR_VERSION.''.PHP_MINOR_VERSION;")
+php_version1=$(php -r "echo PHP_MAJOR_VERSION.'.'.PHP_MINOR_VERSION;")
+if [ "$php_version1" == "$new_php_version" ]; then
+clear
+echo "========================================================================="
+echo "Phien ban PHP hien tai: $(php -i | grep 'PHP Version' | awk 'NR==1 {print $4}') "
+/etc/vpssim/menu/nangcap-php/change-php-version-menu
+exit
+fi
+
+echo "========================================================================="
+echo "Ban muon su dung PHP phien ban $new_php_version ?"
+read -r -p "Please select [y/N] " response
+case $response in
+[yY][eE][sS]|[yY]) 
+echo "-------------------------------------------------------------------------"
+echo "Ok ! please wait ...."
+sleep 1
+/etc/vpssim/menu/vpssim-enable-tat-ca-cac-ham-php-php.ini
+
+/etc/vpssim/menu/nangcap-php/before-setup-php
+
+yum-config-manager --disable remi-php$phphientai
+yum-config-manager --enable remi-php$num_php_version
+/etc/vpssim/menu/nangcap-php/install-php
+
+#edit php.ini va Zend opcache
+rm -rf /etc/php.ini  
+rm -rf /etc/php-zts.d/*opcache*
+rm -rf /etc/php.d/*opcache*
+rm -rf /etc/php-fpm.conf
+yes | cp -rf /root/updown/php-fpm.conf /etc/
+yes | cp -rf /root/updown/php.ini /etc/
+yes | cp -rf /root/updown/www.conf /etc/php-fpm.d/
+
+#copy opcache config
+yes | cp -rf /root/updown/opcache.* /etc/php.d/
+php_version=$(php -r "echo PHP_MAJOR_VERSION.'.'.PHP_MINOR_VERSION;")
+sed --in-place '/zend_extension/d' /etc/php.d/opcache.*
+
+###########################
+/etc/vpssim/menu/nangcap-php/setup-suhosin
+/etc/vpssim/menu/nangcap-php/setup-ioncube
+/etc/vpssim/menu/nangcap-php/setup-imagick
+
+
+if [ "$php_version" == "5.4" ]; then
+if [ "$(find / -name 'opcache.so')" == "0" ]; then
+echo "pecl install ZendOpcache..."
+pecl install channel://pecl.php.net/ZendOpcache-7.0.5
+fi
+duongdanopcache=$(find / -name 'opcache.so' | grep php/modules/opcache.so)
+echo "zend_extension=$duongdanopcache" >> /etc/php.d/opcache.*
+else
+#echo "zend_extension=opcache.so" >> /etc/php.d/opcache.*
+echo "zend_extension=/usr/lib64/php/modules/opcache.so" >> /etc/php.d/opcache.*
+fi
+
+sed -i -e "/zend_extension=/d" /etc/php.d/opcache.ini
+if [ -f /usr/lib64/php/modules/opcache.so ]; then
+echo "zend_extension=/usr/lib64/php/modules/opcache.so" >> /etc/php.d/opcache.*
+else
+duongdanopcache=$(find / -name 'opcache.so' | grep php/modules/opcache.so)
+if [ ! "$duongdanopcache" = "" ]; then
+echo "zend_extension=$duongdanopcache" >> /etc/php.d/opcache.*
+fi
+fi
+######################
+
+#Install Zip Module
+#yes "" | pecl install zip
+#if [ "`grep extension=zip.so /etc/php.ini`" == "" ];then
+#sed -i "/.*default_socket_timeout.*/aextension=zip.so" /etc/php.ini
+#fi
+
+/etc/vpssim/menu/vpssim-re-config-cac-ham-php-disable-php.ini
+rm -rf /root/updown/
+
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
+chkconfig --add php-fpm
+chkconfig --levels 235 php-fpm on
+service php-fpm restart
+else 
+systemctl enable php-fpm.service 
+systemctl start php-fpm.service
+systemctl restart php-fpm.service
+fi
+chmod 777 /var/lib/php/session/
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
+if [ ! "$(/sbin/service php-fpm status | awk 'NR==1 {print $5}')" == "running..." ]; then
+clear
+echo "========================================================================="
+echo "Sorry, There's an error on changing PHP version."
+
+/etc/vpssim/menu/vpssim-update-upgrade-service-menu
+fi
+fi
+#if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
+if [ ! "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
+if [ ! "`systemctl is-active php-fpm.service`" == "active" ]; then
+clear
+echo "========================================================================="
+echo "Sorry, There's an error on changing PHP version."
+/etc/vpssim/menu/vpssim-update-upgrade-service-menu
+fi
+fi
+clear
+echo "========================================================================="
+echo "Hoan thanh thay doi PHP version. "
+echo "-------------------------------------------------------------------------"
+echo "Phien ban PHP hien tai: $(php -i | grep 'PHP Version' | awk 'NR==1 {print $4}')                          "
+/etc/vpssim/menu/nangcap-php/change-php-version-menu
+;;
+esac
+
+rm -rf /tmp/change_php_config
+
+clear
+
+echo "========================================================================="
+printf "Ban huy thay doi phien ban PHP.                         \n"
+/etc/vpssim/menu/nangcap-php/change-php-version-menu
+

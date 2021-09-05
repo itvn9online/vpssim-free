@@ -1,0 +1,29 @@
+#!/bin/bash
+
+#
+sudo yum -y module reset php
+sudo yum -y module enable php:remi-$new_php_version
+
+echo "Install php module..."
+#yum -y install php php-common php-fpm php-gd php-devel php-json
+#yum -y install php-curl php-pecl-zip $phppeclredis php-zip php-soap php-cli php-ldap php-mysqlnd php-pear-Net-SMTP php-enchant php-mysql php-pear $memcachedinstall php-opcache php-pdo php-zlib php-xml php-mbstring php-mcrypt
+sudo yum -y install php php-curl php-pecl-zip php-zip php-soap php-cli php-snmp php-gmp php-ldap php-bcmath php-intl perl-libwww-perl perl-LWP-Protocol-https php-pear-Net-SMTP php-enchant php-common php-fpm php-gd php-devel php-pear php-opcache php-pdo php-zlib php-xml php-mbstring php-xmlrpc
+#sudo yum -y install php-pspell php-imap php-mysql php-mcrypt php-tidy
+
+if [ -f /etc/redis/redis.conf ]; then
+echo "Install php redis..."
+#sudo yum search php-pecl-redis5
+#phppeclredis=php-pecl-redis
+#sudo yum -y install php-pecl-redis
+#sudo yum -y install php-pecl-redis5
+fi
+
+if [ -f /etc/sysconfig/memcached ]; then
+echo "Install php memcache..."
+#sudo yum search php-pecl-memcached
+#sudo yum search php-pecl-memcache
+#memcachedinstall=$(echo "php-pecl-memcached php-pecl-memcache")
+#sudo yum -y install php-pecl-memcached php-pecl-memcache
+fi
+
+clear

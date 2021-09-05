@@ -1,0 +1,111 @@
+#!/bin/bash
+
+. /opt/echbay_vpssim/script/vpssim/nginx-setup.conf
+echo $moduledir
+echo $opensslversion
+echo $withopensslopt
+echo $zlibversion
+echo $pcreVersionInstall
+echo $Nginx_VERSION
+echo "Nginx-Setup8"
+#exit
+echo "Install after 3s"
+sleep 3
+
+
+/opt/echbay_vpssim/script/vpssim/menu/nginx-setup-download
+
+
+cd
+cd /usr/local/vpssim
+#cai dat  nginx
+wget -q http://nginx.org/download/nginx-${Nginx_VERSION}.tar.gz
+tar -xzf nginx-${Nginx_VERSION}.tar.gz
+rm -rf /usr/local/vpssim/nginx-${Nginx_VERSION}.tar.gz 
+cd /usr/local/vpssim/nginx-${Nginx_VERSION}
+#sed -i 's/"Server: nginx"/"Server: Nginx-VPSSIM"/g' /usr/local/vpssim/nginx-${Nginx_VERSION}/src/http/ngx_http_header_filter_module.c
+#sed -i 's/"Server: "/"Server: Nginx-VPSSIM"/g' /usr/local/vpssim/nginx-${Nginx_VERSION}/src/http/ngx_http_header_filter_module.c
+
+# tao cac thu muc cau hinh cua nginx neu chua co
+mkdir -p /var/lib/nginx/tmp
+
+#
+./configure \
+--prefix=/usr/share/nginx \
+--sbin-path=/usr/sbin/nginx \
+--modules-path=/usr/lib64/nginx/modules \
+--conf-path=/etc/nginx/nginx.conf \
+--error-log-path=/var/log/nginx/error.log \
+--http-log-path=/var/log/nginx/access.log \
+--http-client-body-temp-path=/var/lib/nginx/tmp/client_body \
+--http-proxy-temp-path=/var/lib/nginx/tmp/proxy \
+--http-fastcgi-temp-path=/var/lib/nginx/tmp/fastcgi \
+--http-uwsgi-temp-path=/var/lib/nginx/tmp/uwsgi \
+--http-scgi-temp-path=/var/lib/nginx/tmp/scgi \
+--pid-path=/run/nginx.pid \
+--lock-path=/run/lock/subsys/nginx \
+--user=nginx \
+--group=nginx \
+--with-file-aio \
+--with-ipv6 \
+--with-http_ssl_module \
+--with-http_v2_module \
+--with-http_realip_module \
+--with-http_addition_module \
+--with-http_xslt_module=dynamic \
+--with-http_image_filter_module=dynamic \
+--with-http_sub_module \
+--with-http_dav_module \
+--with-http_flv_module \
+--with-http_mp4_module \
+--with-http_gunzip_module \
+--with-http_gzip_static_module \
+--with-http_random_index_module \
+--with-http_secure_link_module \
+--with-http_degradation_module \
+--with-http_slice_module \
+--with-http_stub_status_module \
+--with-http_perl_module=dynamic \
+--with-http_auth_request_module \
+--with-mail=dynamic \
+--with-mail_ssl_module \
+--with-pcre \
+--with-pcre-jit \
+--with-openssl=$moduledir/${opensslversion} \
+--with-threads \
+--with-google_perftools_module \
+--with-stream=dynamic \
+--with-stream_ssl_module \
+--with-debug \
+--with-http_geoip_module \
+--with-cc-opt='-O2 -g -pipe -Wall -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -fexceptions -fstack-protector-strong -grecord-gcc-switches -specs=/usr/lib/rpm/redhat/redhat-hardened-cc1 -specs=/usr/lib/rpm/redhat/redhat-annobin-cc1 -m64 -mtune=generic -fasynchronous-unwind-tables -fstack-clash-protection -fcf-protection' \
+--with-ld-opt='-Wl,-z,relro -Wl,-z,now -specs=/usr/lib/rpm/redhat/redhat-hardened-ld -Wl,-E' \
+--add-module=$moduledir/srcache-nginx-module-master \
+--add-module=$moduledir/ngx_http_concat \
+--add-module=$moduledir/ngx_cache_purge-master \
+--add-module=$moduledir/ngx_devel_kit-master \
+--add-module=$moduledir/ngx_http_substitutions_filter_module-master \
+--add-module=$moduledir/headers-more-nginx-module-master \
+--add-module=$moduledir/ngx_http_redis-0.3.8 
+
+#
+# cac module bi loi khi cai voi nginx
+#--with-openssl-opt="enable-ec_nistp_64_gcc_128" \
+#--with-openssl-opt="enable-tls1_3" \
+#--add-module=$moduledir/redis2-nginx-module-master \
+#--add-module=$moduledir/echo-nginx-module-master \
+#--add-module=$moduledir/memc-nginx-module-master \
+#--with-openssl-opt=$withopensslopt \
+
+# loi khi cai tren centos8
+#--add-module=$moduledir/set-misc-nginx-module-master \
+
+#--with-pcre=$moduledir/${pcreVersionInstall} \
+#--with-zlib=$moduledir/${zlibversion} \
+
+# /usr/local/vpssim/srcache-nginx-module-master/config: line 30: [: !=: unary operator expected
+#--add-module=$moduledir/srcache-nginx-module-master \
+
+#
+make
+make install
