@@ -18,24 +18,32 @@ echo "========================================================================= 
 echo "Ban xoa swap thanh cong.  "
 echo "-------------------------------------------------------------------------"
 echo "Bay gio ban co the tao swap moi! "
+if [ -f /etc/vpssim/menu/swap/vpssim-them-xoa-swap-vps-menu ]; then
 /etc/vpssim/menu/swap/vpssim-them-xoa-swap-vps-menu
+fi
 
 ;;
     *)
        clear
 echo "========================================================================= "
 echo "Ban huy bo xoa SWAP."
+if [ -f /etc/vpssim/menu/swap/vpssim-them-xoa-swap-vps-menu ]; then
 /etc/vpssim/menu/swap/vpssim-them-xoa-swap-vps-menu
+fi
         ;;
 esac
 clear
+if [ -f /etc/vpssim/menu/swap/vpssim-them-xoa-swap-vps-menu ]; then
 /etc/vpssim/menu/swap/vpssim-them-xoa-swap-vps-menu
+fi
 else
 clear
 echo "========================================================================= "
 echo "Ban chua tao swap tren VPS !"
 echo "-------------------------------------------------------------------------"
 echo "Hoac VPS khong ho tro ban tao them SWAP."
+if [ -f /etc/vpssim/menu/swap/vpssim-them-xoa-swap-vps-menu ]; then
 /etc/vpssim/menu/swap/vpssim-them-xoa-swap-vps-menu
+fi
 exit
 fi
