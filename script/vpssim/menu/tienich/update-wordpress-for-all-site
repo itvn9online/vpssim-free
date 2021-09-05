@@ -512,7 +512,7 @@ if [ $2 -lt $3 ]; then
 					stt=$2
 					let "stt+=1"
 					#echo $stt
-					get_all_dir_in_dir $d"/*" $stt $3
+					get_all_dir_in_dir $d"/*" $stt $3 $4
 				fi
 			fi
 		fi
