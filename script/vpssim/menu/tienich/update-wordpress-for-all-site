@@ -544,7 +544,7 @@ do
 		else
 			host_user=$chmodUser
 		fi
-		#echo $host_user
+		echo "host_user: "$host_user
 		
 		get_all_dir_in_dir $d_home"/*" 0 $MaxCheck $host_user
 		
