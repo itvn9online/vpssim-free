@@ -536,7 +536,7 @@ for d_home in $DirSetup/*
 do
 	# neu la thu muc -> tim cac file wp trong nay
 	if [ -d $d_home ]; then
-		echo $d_home
+		echo "d_home: "$d_home
 		
 		# tai khoan de chmod file sau khi update
 		if [ "$chmodUser" = "" ]; then
