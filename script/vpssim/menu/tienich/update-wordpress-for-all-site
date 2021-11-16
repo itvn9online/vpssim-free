@@ -400,6 +400,19 @@ rm -rf /root/wp-all-update/echbaytwo-master/.gitignore
 if [ -f /root/wp-all-update/echbaytwo-master/index.php ]; then
 	touch -d "$(date)" /root/wp-all-update/echbaytwo-master/index.php
 fi
+
+# unzip code trong outsource cua echbaytwo
+cd ~
+if [ -d /root/wp-all-update/echbaytwo-master/outsource ]; then
+cd /root/wp-all-update/echbaytwo-master/outsource
+for f_unzip in ./*.zip
+do
+echo $f_unzip
+unzip -o $f_unzip > /dev/null 2>&1
+done
+cd ~
+fi
+
 fi
 
 # phan quyen cho nginx quan ly
