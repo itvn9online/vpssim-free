@@ -391,7 +391,7 @@ if [ -f /root/wp-all-update/echbaydotcom-master/readme.txt ]; then
 	touch -d "$(date)" /root/wp-all-update/echbaydotcom-master/readme.txt
 fi
 
-# unzip code trong echbaydotcom cua echbaydotcom
+# unzip code trong outsource cua echbaydotcom
 cd ~
 if [ -d /root/wp-all-update/echbaydotcom-master/outsource ]; then
 cd /root/wp-all-update/echbaydotcom-master/outsource
