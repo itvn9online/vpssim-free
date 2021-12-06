@@ -484,6 +484,11 @@ if [ $2 -lt $3 ]; then
 						echoY "rsync - - - echbaydotcom..."
 						rsync -ah --delete /root/wp-all-update/echbaydotcom-master/* $d/wp-content/echbaydotcom/ > /dev/null 2>&1
 						#chown -R nginx:nginx $d/wp-content/echbaydotcom
+						
+						# copy file index-tmp.php de active WP_ACTIVE_WGR_SUPPER_CACHE luon va ngay
+						if [ -f "$d/wp-content/echbaydotcom/index-tmp.php" ]; then
+							yes | cp -rf $d/wp-content/echbaydotcom/index-tmp.php $d/index-tmp.php
+						fi
 					fi
 					
 					# echbaytwo
