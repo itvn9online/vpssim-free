@@ -9,6 +9,11 @@ Cơ bản thì trong phiên bản ECHBAY-VPSSIM mình chủ yếu cập nhật l
 bash <( curl -k https://raw.githubusercontent.com/itvn9online/vpssim-free/master/install )
 ```
 
+### Lệnh Cài Đặt yum-cron (auto update system) Trên Centos 6 & 7 & 8:
+```
+bash <( curl -k https://raw.githubusercontent.com/itvn9online/vpssim-free/master/script/yum-cron-setup )
+```
+
 ----------------------------------------------
 
 ### Phiên bản hệ điều hành khuyên dùng:
