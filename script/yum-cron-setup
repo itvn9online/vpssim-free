@@ -1,6 +1,7 @@
 #!/bin/sh
 
 #
+echo "========================================================================="
 echo -n "Email nhan thong bao update [ENTER]: " 
 read emailmanage
 
