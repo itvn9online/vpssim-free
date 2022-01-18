@@ -329,11 +329,7 @@ file500=/root/wp-all-update/plugins/-$1
 if [ ! -f $file404 ]; then
 
 # kiem tra xem plugin nay co tren wordpress khong
-download_version=$1
-if [ ! "$1" = "wordpress-seo" ]; then
-download_version="wordpress-seo.17.9"
-fi
-ketnoi="https://downloads.wordpress.org/plugin/"$download_version".zip"
+ketnoi="https://downloads.wordpress.org/plugin/"$1".zip"
 ketnoi=$(curl -o /dev/null --silent --head --write-out '%{http_code}' $ketnoi)
 #ketnoi=$(curl -o /dev/null --silent --head --write-out '%{http_code}' "https://downloads.wordpress.org/plugin/"$1".zip")
 #echo $ketnoi

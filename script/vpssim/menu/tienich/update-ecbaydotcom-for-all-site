@@ -3,24 +3,7 @@ if [ ! -f /tmp/server_wp_all_update ] && [ -f /home/vpssim.conf ]; then
 . /home/vpssim.conf
 fi
 
-
-
-# chuc nang cap nhat wordress cho toan bo website tren server
-
-
-
-# TEST Only
-for_test_only () {
-/etc/vpssim/menu/tienich/update-wordpress-for-all-site
-
-if [ -L /home/user25575/domains/cabki.vn/public_html ]; then
-echo "dir"
-fi
-if [ -L /home/user25575/domains/cabki.vn/private_html ]; then
-echo "a"
-fi
-}
-# END TEST
+# chuc nang cap nhat code echbaydotcom cho toan bo website tren server
 
 echoY() {
     echo -e "\033[38;5;148m${1}\033[39m"
@@ -32,8 +15,6 @@ echoR()
 {
     echo -e "\033[38;5;203m${1}\033[39m"
 }
-
-
 
 
 cd ~
@@ -329,11 +310,7 @@ file500=/root/wp-all-update/plugins/-$1
 if [ ! -f $file404 ]; then
 
 # kiem tra xem plugin nay co tren wordpress khong
-download_version=$1
-if [ ! "$1" = "wordpress-seo" ]; then
-download_version="wordpress-seo.17.9"
-fi
-ketnoi="https://downloads.wordpress.org/plugin/"$download_version".zip"
+ketnoi="https://downloads.wordpress.org/plugin/"$1".zip"
 ketnoi=$(curl -o /dev/null --silent --head --write-out '%{http_code}' $ketnoi)
 #ketnoi=$(curl -o /dev/null --silent --head --write-out '%{http_code}' "https://downloads.wordpress.org/plugin/"$1".zip")
 #echo $ketnoi
