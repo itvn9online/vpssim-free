@@ -3,10 +3,5 @@ All phpMyAdmin Versions for ECHBAY-VPSSIM Server !
 |5.1.0|
 |5.0.4|
 |4.9.7|
-|4.9.5| 
 |4.8.2| 
 |4.6.4| 
-|4.6.3|
-|4.6.2|
-|4.6.1|
-|4.6.0|
