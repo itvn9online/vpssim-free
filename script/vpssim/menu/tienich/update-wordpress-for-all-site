@@ -68,7 +68,7 @@ elif [ "$MaxCheck" -gt 10 ]; then
 MaxCheck=10
 fi
 
-#if [ -f /etc/init.d/directadmin ] && [ ! "$DirSetup" = "/home" ]; then
+#if [ -f /etc/init.d/directadmin ] && [ ! "$DirSetup" == "/home" ]; then
 if [ ! "$DirSetup" == "/home" ]; then
 echo -n "chmod to user (default: auto detect): "
 read chUser
@@ -487,7 +487,7 @@ if [ $2 -lt $3 ]; then
 						done
 					fi
 					
-					if [ ! "$4" == "" ]; then
+					if [ ! "$4" -eq "" ]; then
 						id -u $4
 						if [ $? -eq 0 ]; then
 							echo "chown user: "$4
@@ -535,7 +535,7 @@ echoG "Check WP update in: "$DirSetup
 #exit
 
 # voi cac thu muc khac, quet thang trong thu muc
-if [ ! "$DirSetup" == "/home" ]; then
+if [ ! "$DirSetup" -eq "/home" ]; then
 	get_all_dir_in_dir $DirSetup"/*" 0 $MaxCheck $host_user
 else
 
@@ -547,7 +547,7 @@ do
 		echo "d_home: "$d_home
 		
 		# tai khoan de chmod file sau khi update
-		if [ "$chmodUser" == "" ]; then
+		if [ "$chmodUser" -eq "" ]; then
 			host_user=$(basename $d_home)
 		else
 			host_user=$chmodUser
@@ -565,7 +565,7 @@ fi
 }
 WP_update_main
 
-if [ ! "$re_download_plugin" == "" ]; then
+if [ ! "$re_download_plugin" -eq "" ]; then
 echoY "Re-update after 10s"
 sleep 10
 WP_update_main
