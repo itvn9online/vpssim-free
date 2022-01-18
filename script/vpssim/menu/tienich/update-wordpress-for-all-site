@@ -266,7 +266,7 @@ remove_single_comment_line "/root/wp-all-update/echbaytwo-master/css"
 
 # download wordpress plugin hay dung nhat -> moi cap nhat chuc nang tim va download tu dong -> khong can phai thiet lap thu cong nua
 download_wordpress_plugin(){
-echoY "- - - - - - - - - Download new plugin: "$1
+echoY "- - - - - - - - - Download new plugin: "$1" save to "$2
 download_and_unzip_file "https://downloads.wordpress.org/plugin/"$1".zip" $2".zip" "/plugins"
 }
 
