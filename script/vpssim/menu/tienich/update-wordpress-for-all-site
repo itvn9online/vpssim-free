@@ -299,6 +299,8 @@ if [ ! "$1" = "wordpress-seo" ]; then
 download_version="wordpress-seo.17.9"
 elif [ ! "$1" = "classic-editor" ]; then
 download_version="classic-editor.1.6.2"
+elif [ ! "$1" = "elementor" ]; then
+download_version="elementor.3.5.3"
 fi
 
 # kiem tra xem plugin nay co tren wordpress khong
