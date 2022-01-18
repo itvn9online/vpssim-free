@@ -51,7 +51,7 @@ else
 
 echo -n "Dir for check and update (default /home): "
 read DirSetup
-if [ "$DirSetup" -eq "" ]; then
+if [ "$DirSetup" = "" ]; then
 DirSetup="/home"
 fi
 
@@ -62,14 +62,14 @@ fi
 
 echo -n "Max dir for foreah (maximum 10, default 3): "
 read MaxCheck
-if [ "$MaxCheck" -eq "" ]; then
+if [ "$MaxCheck" = "" ]; then
 MaxCheck=3
 elif [ "$MaxCheck" -gt 10 ]; then
 MaxCheck=10
 fi
 
-#if [ -f /etc/init.d/directadmin ] && [ ! "$DirSetup" -eq "/home" ]; then
-if [ ! "$DirSetup" -eq "/home" ]; then
+#if [ -f /etc/init.d/directadmin ] && [ ! "$DirSetup" = "/home" ]; then
+if [ ! "$DirSetup" = "/home" ]; then
 echo -n "chmod to user (default: auto detect): "
 read chUser
 chmodUser=$chUser
@@ -119,7 +119,7 @@ check_and_remmove_file_download(){
 # $1 -> ten file can kiem tra -> thuong la .zip
 # $2 -> thu muc con (neu co)
 
-if [ ! "$2" -eq "" ]; then
+if [ ! "$2" = "" ]; then
 mkdir -p /root/wp-all-update$2
 cd /root/wp-all-update$2
 else
@@ -129,7 +129,7 @@ fi
 # kiem tra file size
 if [ -f $1 ]; then
 downloadSize=$(du -h $1 | awk 'NR==1 {print $1}')
-if [ "$downloadSize" -eq "0" ]; then
+if [ "$downloadSize" = "0" ]; then
 echoR "Remove file! Filesize zero: "$1
 rm -rf $1
 fi
@@ -142,10 +142,10 @@ fileTime2=$(date -r $1 +%d%H)
 echo "fileTime2: "$fileTime2
 
 # neu file duoc download lau roi -> cap nhat lai
-if [ ! "$fileTime2" -eq "$curTime" ]; then
+if [ ! "$fileTime2" == "$curTime" ]; then
 
 # xoa ca thu muc neu la file wp.zip
-if [ "$1" -eq "wp.zip" ]; then
+if [ "$1" = "wp.zip" ]; then
 rm -rf /root/wp-all-update/*
 else
 rm -rf $1
@@ -180,7 +180,7 @@ download_and_unzip_file(){
 
 check_and_remmove_file_download $2 $3
 
-if [ ! "$3" -eq "" ]; then
+if [ ! "$3" = "" ]; then
 mkdir -p /root/wp-all-update$3
 cd /root/wp-all-update$3
 else
@@ -200,7 +200,7 @@ fi
 
 # kiem tra file size
 downloadSize=$(du -h $2 | awk 'NR==1 {print $1}')
-if [ "$downloadSize" -eq "0" ]; then
+if [ "$downloadSize" = "0" ]; then
 echoR "Download faild! Filesize zero: "$2
 exit
 fi
@@ -287,7 +287,7 @@ rsync_wp_plugin(){
 if [ -d "$2/wp-content/plugins/$1" ] && [ -d "/root/wp-all-update/plugins/$1" ]; then
 echoG "rsync - - - "$1
 rsync -ah --delete /root/wp-all-update/plugins/$1/* $2/wp-content/plugins/$1/ > /dev/null 2>&1
-elif [ "$3" -eq "" ]; then
+elif [ "$3" = "" ]; then
 
 file404=/root/wp-all-update/plugins/---$1
 file500=/root/wp-all-update/plugins/-$1
@@ -295,11 +295,11 @@ if [ ! -f $file404 ]; then
 
 #
 download_version=$1
-if [ ! "$1" -eq "wordpress-seo" ]; then
+if [ "$1" = "wordpress-seo" ]; then
 download_version="wordpress-seo.17.9"
-elif [ ! "$1" -eq "classic-editor" ]; then
+elif [ "$1" = "classic-editor" ]; then
 download_version="classic-editor.1.6.2"
-elif [ ! "$1" -eq "elementor" ]; then
+elif [ "$1" = "elementor" ]; then
 download_version="elementor.3.5.3"
 fi
 
@@ -309,11 +309,11 @@ ketnoi=$(curl -o /dev/null --silent --head --write-out '%{http_code}' $ketnoi)
 #ketnoi=$(curl -o /dev/null --silent --head --write-out '%{http_code}' "https://downloads.wordpress.org/plugin/"$1".zip")
 #echo $ketnoi
 # neu co thi download ve de cap nhat cho website
-if [ "$ketnoi" -eq "200" ]; then
+if [ "$ketnoi" = "200" ]; then
 download_wordpress_plugin $download_version $1
 sleep 1
 rsync_wp_plugin $1 $2 "no"
-elif [ "$ketnoi" -eq "404" ]; then
+elif [ "$ketnoi" = "404" ]; then
 
 # neu khong thi bao loi, thuong thi nhung plugin pro se khong co tren wordpress
 echoR "- - - - - - - - - WARNING! plugin not exist ("$ketnoi"): "$1
@@ -487,7 +487,7 @@ if [ $2 -lt $3 ]; then
 						done
 					fi
 					
-					if [ ! "$4" -eq "" ]; then
+					if [ ! "$4" = "" ]; then
 						id -u $4
 						if [ $? -eq 0 ]; then
 							echo "chown user: "$4
@@ -535,7 +535,7 @@ echoG "Check WP update in: "$DirSetup
 #exit
 
 # voi cac thu muc khac, quet thang trong thu muc
-if [ ! "$DirSetup" -eq "/home" ]; then
+if [ ! "$DirSetup" = "/home" ]; then
 	get_all_dir_in_dir $DirSetup"/*" 0 $MaxCheck $host_user
 else
 
@@ -547,7 +547,7 @@ do
 		echo "d_home: "$d_home
 		
 		# tai khoan de chmod file sau khi update
-		if [ "$chmodUser" -eq "" ]; then
+		if [ "$chmodUser" = "" ]; then
 			host_user=$(basename $d_home)
 		else
 			host_user=$chmodUser
@@ -556,7 +556,7 @@ do
 		
 		get_all_dir_in_dir $d_home"/*" 0 $MaxCheck $host_user
 		
-		echo "= = = = = = = = = = = = = = = = = = = = ="
+		echo "========================================"
 	fi
 done
 
@@ -565,7 +565,7 @@ fi
 }
 WP_update_main
 
-if [ ! "$re_download_plugin" -eq "" ]; then
+if [ ! "$re_download_plugin" = "" ]; then
 echoY "Re-update after 10s"
 sleep 10
 WP_update_main
