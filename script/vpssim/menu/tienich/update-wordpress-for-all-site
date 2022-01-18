@@ -221,7 +221,8 @@ cd ~
 
 
 # wordpres
-download_and_unzip_file "https://wordpress.org/latest.zip" "wp.zip" ""
+#download_and_unzip_file "https://wordpress.org/latest.zip" "wp.zip" ""
+download_and_unzip_file "https://echbay.com/daoloat/latest-vi.zip" "wp.zip" ""
 
 file_optimize(){
 f=$1
