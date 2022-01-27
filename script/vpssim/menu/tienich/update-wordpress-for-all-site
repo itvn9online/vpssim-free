@@ -6,7 +6,9 @@ fi
 
 
 # chuc nang cap nhat wordress cho toan bo website tren server
-
+for_yoast_seo="wordpress-seo.18.0"
+for_classic_editor="classic-editor.1.6.2"
+for_elementor="elementor.3.5.3"
 
 
 # TEST Only
@@ -296,11 +298,11 @@ if [ ! -f $file404 ]; then
 #
 download_version=$1
 if [ "$1" = "wordpress-seo" ]; then
-download_version="wordpress-seo.17.9"
+download_version=$for_yoast_seo
 elif [ "$1" = "classic-editor" ]; then
-download_version="classic-editor.1.6.2"
+download_version=$for_classic_editor
 elif [ "$1" = "elementor" ]; then
-download_version="elementor.3.5.3"
+download_version=$for_elementor
 fi
 
 # kiem tra xem plugin nay co tren wordpress khong
