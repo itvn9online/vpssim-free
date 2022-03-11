@@ -2,6 +2,7 @@
 
 cd ~
 mkdir -p /etc/nginx/conf
+
 download_echbay_nginx_config(){
 wget --no-check-certificate -q "https://echbay.com/server/conf/index.php?file=$1&download=1&rand=1" -O /etc/nginx/conf/$1.conf ; chmod 600 /etc/nginx/conf/$1.conf
 }
@@ -12,10 +13,20 @@ download_echbay_nginx_config "all"
 download_echbay_nginx_config "block"
 download_echbay_nginx_config "staticfiles"
 download_echbay_nginx_config "drop"
-service nginx restart
+
 
 #
+download_echbay_custom_nginx_config(){
+wget --no-check-certificate -q "https://raw.githubusercontent.com/itvn9online/vpssim-free/master/directadmin/nginx-templates/$1.conf" -O $1.conf ; chmod 644 $1.conf
+}
+
+cd ~
 mkdir -p /usr/local/directadmin/data/templates/custom
 cd /usr/local/directadmin/data/templates/custom
-wget --no-check-certificate -q "https://raw.githubusercontent.com/itvn9online/openlitespeed-autoinstall/main/config/directadmin/openlitespeed_vhost.conf.CUSTOM.3.txt" -O openlitespeed_vhost.conf.CUSTOM.3.pre ; chmod 644 openlitespeed_vhost.conf.CUSTOM.3.pre
+download_echbay_custom_nginx_config "nginx_server"
+download_echbay_custom_nginx_config "nginx_server_secure"
+download_echbay_custom_nginx_config "nginx_server_secure_sub"
+download_echbay_custom_nginx_config "nginx_server_sub"
+
 cd ~
+service nginx restart
