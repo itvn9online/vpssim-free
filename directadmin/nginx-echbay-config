@@ -13,3 +13,9 @@ download_echbay_nginx_config "block"
 download_echbay_nginx_config "staticfiles"
 download_echbay_nginx_config "drop"
 service nginx restart
+
+#
+mkdir -p /usr/local/directadmin/data/templates/custom
+cd /usr/local/directadmin/data/templates/custom
+wget --no-check-certificate -q "https://raw.githubusercontent.com/itvn9online/openlitespeed-autoinstall/main/config/directadmin/openlitespeed_vhost.conf.CUSTOM.3.txt" -O openlitespeed_vhost.conf.CUSTOM.3.pre ; chmod 644 openlitespeed_vhost.conf.CUSTOM.3.pre
+cd ~
