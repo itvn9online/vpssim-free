@@ -28,5 +28,14 @@ download_echbay_custom_nginx_config "nginx_server_secure"
 download_echbay_custom_nginx_config "nginx_server_secure_sub"
 download_echbay_custom_nginx_config "nginx_server_sub"
 
+# file custom cho tất cả domain
+download_echbay_custom_n_config(){
+wget --no-check-certificate -q "https://raw.githubusercontent.com/itvn9online/vpssim-free/master/directadmin/data/templates/custom/nginx_server.conf.CUSTOM.3.txt" -O $1.conf.CUSTOM.3.pre ; chmod 644 $1.conf.CUSTOM.3.pre
+}
+download_echbay_custom_n_config "nginx_server"
+download_echbay_custom_n_config "nginx_server_secure"
+download_echbay_custom_n_config "nginx_server_secure_sub"
+download_echbay_custom_n_config "nginx_server_sub"
+
 cd ~
 service nginx restart

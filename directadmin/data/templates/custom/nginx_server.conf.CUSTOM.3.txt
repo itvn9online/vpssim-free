@@ -1,0 +1,6 @@
+# custom3
+include /etc/nginx/conf/all.conf;
+include /etc/nginx/conf/block.conf;
+include /etc/nginx/conf/staticfiles.conf;
+include /etc/nginx/conf/drop.conf;
+# custom3 END
