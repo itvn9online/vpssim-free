@@ -38,4 +38,8 @@ download_echbay_custom_n_config "nginx_server_secure_sub"
 download_echbay_custom_n_config "nginx_server_sub"
 
 cd ~
+cd /usr/local/directadmin/custombuild
+./build rewrite_confs
+
+cd ~
 service nginx restart
