@@ -3,6 +3,17 @@
 cd ~
 mkdir -p /etc/nginx/conf
 
+#
+echo -n "Ban co muon giau thong tin nha phat trien khong? [y/n]: " 
+read hideProvided
+if [ "$hideProvided" = "y" ]; then
+# download file no Provided-By
+link_custom3="staticfiles-no-Provided"
+else
+# download file has Provided-By
+link_custom3="staticfiles"
+fi
+
 download_echbay_nginx_config(){
 wget --no-check-certificate -q "https://echbay.com/server/conf/index.php?file=$1&download=1&rand=1" -O /etc/nginx/conf/$1.conf ; chmod 755 /etc/nginx/conf/$1.conf
 }
@@ -11,7 +22,7 @@ wget --no-check-certificate -q "https://echbay.com/server/conf/index.php?file=$1
 #download_echbay_nginx_config "ssl"
 download_echbay_nginx_config "all"
 download_echbay_nginx_config "block"
-download_echbay_nginx_config "staticfiles"
+download_echbay_nginx_config $link_custom3
 download_echbay_nginx_config "drop"
 
 
