@@ -14,6 +14,11 @@ download_echbay_nginx_config "block"
 download_echbay_nginx_config "staticfiles"
 download_echbay_nginx_config "drop"
 
+#
+chown root:root /etc/nginx/conf
+chown root:root /etc/nginx/conf/*
+chmod 755 /etc/nginx/conf/*
+
 
 #
 download_echbay_custom_nginx_config(){
@@ -22,11 +27,14 @@ wget --no-check-certificate -q "https://raw.githubusercontent.com/itvn9online/vp
 
 cd ~
 mkdir -p /usr/local/directadmin/data/templates/custom
+
+#
 cd /usr/local/directadmin/data/templates/custom
 download_echbay_custom_nginx_config "nginx_server"
 download_echbay_custom_nginx_config "nginx_server_secure"
 download_echbay_custom_nginx_config "nginx_server_secure_sub"
 download_echbay_custom_nginx_config "nginx_server_sub"
+
 
 # file custom cho tất cả domain
 download_echbay_custom_n_config(){
@@ -37,7 +45,15 @@ download_echbay_custom_n_config "nginx_server_secure"
 download_echbay_custom_n_config "nginx_server_secure_sub"
 download_echbay_custom_n_config "nginx_server_sub"
 
+#
 cd ~
+
+#
+chown diradmin:diradmin /usr/local/directadmin/data/templates/custom
+chown diradmin:diradmin /usr/local/directadmin/data/templates/custom/*
+chmod 755 /usr/local/directadmin/data/templates/custom/*
+
+#
 cd /usr/local/directadmin/custombuild
 ./build rewrite_confs
 
