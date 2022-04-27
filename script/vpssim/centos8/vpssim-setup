@@ -208,8 +208,9 @@ echo "==========================================================================
 echo "OS Version: "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))
 echo "--------------------------------------------------------------------------"
 echo "ECHBAY-VPSSIM Se Cai Dat Server Theo Thong Tin:"
+echo "Your VPS will been install with config:"
 echo "=========================================================================="
-echo "eMail Quan Ly: $vpssimemail"
+echo "eMail Quan Ly (admin email): $vpssimemail"
 echo "--------------------------------------------------------------------------"
 echo "phpMyAdmin Port: $svport"
 echo "--------------------------------------------------------------------------"
@@ -217,7 +218,7 @@ echo "phpMyAdmin Version: $phpmyadmin_version"
 echo "--------------------------------------------------------------------------"
 echo "MariaDB Version: $phienbanmariadb"
 echo "--------------------------------------------------------------------------"
-echo "Mat khau tai khoan root MySQL: $passrootmysql"
+echo "Mat khau root MySQL (MySQL root password): $passrootmysql"
 echo "--------------------------------------------------------------------------"
 echo "Nginx Version: $Nginx_VERSION"
 echo "--------------------------------------------------------------------------"
@@ -225,8 +226,8 @@ echo "PHP Version: "$phpmacdinh
 echo "--------------------------------------------------------------------------"
 echo "ECHBAY-VPSSIM Version: $vpssim_version"
 echo "=========================================================================="
-prompt="Nhap lua chon cua ban: "
-options=( "Dong Y" "Khong Dong Y")
+prompt="Nhap lua chon cua ban (Please select): "
+options=( "Dong Y (agree)" "Khong Dong Y (disagree)")
 PS3="$prompt"
 select opt in "${options[@]}"; do 
 
@@ -1182,7 +1183,7 @@ Neu website su dung code wordpress, thiet lap phan quyen cho website bang chuc n
 + De bao mat, moi khi co dang nhap SSH va Server, ECHBAY-VPSSIM se gui email thong bao toi dia chi email $vpssimemail .
 Thay email hoac tat chuc nang nay bang [ BAT/TAT Email Thong Bao Login ] trong [ Tien ich - Addons ].  
 
-VPSSIM by Nguyen Oanh - http://hostingaz.vn' | exim  $vpssimemail
+ECHBAY-VPSSIM by Dao Quoc Dai - https://echbay.com' | exim  $vpssimemail
 END
 chmod +x /tmp/finishedemail.sh
 /tmp/finishedemail.sh
