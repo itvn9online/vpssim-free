@@ -93,18 +93,19 @@ exit
 fi
 
 prompt="Nhap lua chon cua ban: "
-options=("MariaDB 10.1" "MariaDB 10.2 (Recommendations)" "MariaDB 10.3" "MariaDB 10.4" "MariaDB 10.5")
+#options=("MariaDB 10.1" "MariaDB 10.2 (Recommendations)" "MariaDB 10.3" "MariaDB 10.4" "MariaDB 10.5")
+options=("MariaDB 10.2 (Recommendations)" "MariaDB 10.3" "MariaDB 10.4" "MariaDB 10.5")
 echo "=========================================================================="
 echo "Lua Chon Cai Dat Phien Ban MariaDB  "
 echo "=========================================================================="
 PS3="$prompt"
 select opt in "${options[@]}"; do 
 case "$REPLY" in
-1) mariadbversion="10.1"; break;;
-2) mariadbversion="10.2"; break;;
-3) mariadbversion="10.3"; break;;
-4) mariadbversion="10.4"; break;;
-5) mariadbversion="10.5"; break;;
+#1) mariadbversion="10.1"; break;;
+1) mariadbversion="10.2"; break;;
+2) mariadbversion="10.3"; break;;
+3) mariadbversion="10.4"; break;;
+4) mariadbversion="10.5"; break;;
 #0) mariadbversion="10.2"; break;;
 *) mariadbversion="10.2"; break;;
 #*) echo "Ban nhap sai ! Ban vui long chon so trong danh sach";continue;;
