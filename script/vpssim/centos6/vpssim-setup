@@ -278,9 +278,9 @@ timeloginvpssimcheck=\$(date +"%e %b %Y, %a %r")
 echo 'Someone has IP address '\$IPvpssimcheck' login to $svip on '\$timeloginvpssimcheck'.' | mail -s 'eMail Notifications From ECHBAY-VPSSIM On $svip ' ${vpssimemail}
 END
 echo "$svport" > /tmp/priport.txt
-if [ -s /etc/selinux/config ]; then
-sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
-fi
+#if [ -s /etc/selinux/config ]; then
+#sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
+#fi
 
 /opt/echbay_vpssim/script/vpssim/menu/yum-first-install
 

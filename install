@@ -7,6 +7,49 @@ rm -rf /opt/echbay_vpssim
 sleep 2
 fi
 
+#
+#nano /etc/selinux/config
+
+# check SELinux status
+selinuxenabled
+if [ $? -ne 0 ]; then 
+selinux_on_off="DISABLED"
+else
+selinux_on_off="ENABLED"
+fi
+
+# if SELinux enable -> disable SELinux
+if [ "$selinux_on_off" = "ENABLED" ]; then
+echo "SELinux status: "$selinux_on_off
+if [ -f /etc/selinux/config ]; then
+echo "=========================================================================="
+echo "Auto disable SELinux in your VPS"
+echo "If SELinux not disable, php-fmp not install"
+
+#sudo chmod 777 /etc/selinux/config
+sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
+sed -i 's/SELINUX=permissive/SELINUX=disabled/g' /etc/selinux/config
+#sudo chmod 644 /etc/selinux/config
+
+# check after change
+check_selinux_disable=$(grep SELINUX=disabled /etc/selinux/config)
+echo $check_selinux_disable
+
+# if change OK
+if [ ! "$check_selinux_disable" = "" ]; then
+echo ". . . . . . . . . . . . ."
+echo "Your VPS will been restart after 5s"
+sleep 5
+reboot
+else
+echo "Auto disble SELinux fail! Please disable and re-instal"
+fi
+echo "=========================================================================="
+exit
+fi
+fi
+
+#
 sudo yum -y install wget
 
 #
