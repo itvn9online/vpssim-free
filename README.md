@@ -26,9 +26,13 @@ bash <( curl -k https://raw.githubusercontent.com/itvn9online/vpssim-free/master
 ### Danh sách các phiên bản kết hợp đã qua quá trình cài đặt thử nghiệm thành công:
 > Với `CentOS 6 x64` đã chạy thực nghiệm từ nhiều năm nay và cho kết quả ổn định, nên ở mục này chủ yếu thống kê cho phiên bản CentOS 7 & 8 và ECHBAY-VPSSIM cũng chỉ hỗ trợ phiên bản x64 chứ không hỗ trợ x32 như VPSSIM bản gốc.
 
+> 2022/04/29
+- [x] CentOS-**7** x64 && Nginx-1.20.2 + OpenSSL-1.1.1n + Prce-8.45 + Zlib-1.2.12 && PHP-7.4
+- [x] **MariaDB-10.2** --- Cấu hình khuyên dùng ---------------------------------------------------
+
 > 2020/09/14
 - [x] CentOS-**7** x64 && Nginx-1.18.0 + OpenSSL-1.1.1i + Prce-8.44 + Zlib-1.2.11 && PHP-7.4
-- [x] **MariaDB-10.2** --- Cấu hình khuyên dùng ---------------------------------------------------
+- [x] **MariaDB-10.2**
 
 > 2020/09/15
 - [x] CentOS-**7** x64 && Nginx-1.18.0 + OpenSSL-1.1.1i + Prce-8.44 + Zlib-1.2.11 && PHP-7.4
