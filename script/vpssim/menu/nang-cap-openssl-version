@@ -12,4 +12,6 @@ echo $check_openssl_version
 # update if version not lasted
 if [ "$check_openssl_version" = "" ]; then
 /opt/echbay_vpssim/script/vpssim/menu/nang-cap-openssl-auto
+else
+echo "OpenSSL lasted version..."
 fi
