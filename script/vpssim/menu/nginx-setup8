@@ -94,6 +94,7 @@ sudo ./configure \
 --add-module=$moduledir/ngx_devel_kit-master \
 --add-module=$moduledir/ngx_http_substitutions_filter_module-master \
 --add-module=$moduledir/headers-more-nginx-module-master \
+--add-module=$moduledir/ngx_brotli-master \
 --add-module=$moduledir/${ngx_http_redis}
 
 #

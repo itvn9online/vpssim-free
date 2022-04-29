@@ -170,7 +170,7 @@ rm -rf ngx_brotli-master.zip
 
 
 # thu nghiem voi ngx_brotli
-/opt/echbay_vpssim/script/vpssim/menu/ngx_brotli-download
+#/opt/echbay_vpssim/script/vpssim/menu/ngx_brotli-download
 
 
 
