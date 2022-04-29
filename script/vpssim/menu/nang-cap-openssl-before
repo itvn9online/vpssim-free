@@ -1,8 +1,8 @@
 #!/bin/bash
 . /home/vpssim.conf
+. /opt/echbay_vpssim/script/vpssim/nginx-setup.conf
 
 # check current open ssl version
-. /opt/echbay_vpssim/script/vpssim/nginx-setup.conf
 echo $(openssl version) > /tmp/current_openssl_version
 cat /tmp/current_openssl_version
 echo $opensslversion
