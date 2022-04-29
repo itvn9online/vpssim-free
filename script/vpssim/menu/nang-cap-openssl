@@ -56,31 +56,13 @@ fi
 if [ "$selectOpenSSL" = "y" ]; then
 echo "Ok ! please wait update "${opensslversion}" ...."
 sleep 1
-cd /usr/local/vpssim
 
-if [ -f /opt/echbay_vpssim/script/vpssim/module-nginx/${opensslversion}.tar.gz ]; then
-yes | cp -rf /opt/echbay_vpssim/script/vpssim/module-nginx/${opensslversion}.tar.gz ${opensslversion}.tar.gz
-else
-wget -q --no-check-certificate https://www.openssl.org/source/${opensslversion}.tar.gz
-fi
-tar -xzf ${opensslversion}.tar.gz
-rm -rf ${opensslversion}.tar.gz
+#
+/opt/echbay_vpssim/script/vpssim/menu/nang-cap-openssl-auto
 
-cd ~
-cd /usr/local/vpssim/${opensslversion}
-#exit
-
-./config
-make
-sudo make install
-sudo ln -s /usr/local/lib64/libssl.so.1.1 /usr/lib64/
-sudo ln -s /usr/local/lib64/libcrypto.so.1.1 /usr/lib64/
-sudo ln -s /usr/local/bin/openssl /usr/bin/openssl_latest
-openssl_latest version
-cd /usr/bin/
-mv openssl openssl_old
-mv openssl_latest openssl
+#
 openssl version
+
 else
 echo "Ban da huy thay doi phien ban "${opensslversion}
 fi

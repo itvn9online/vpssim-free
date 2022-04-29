@@ -1,0 +1,15 @@
+#!/bin/bash
+. /home/vpssim.conf
+
+# check current open ssl version
+. /opt/echbay_vpssim/script/vpssim/nginx-setup.conf
+echo $(openssl version) > /tmp/current_openssl_version
+cat /tmp/current_openssl_version
+echo $opensslversion
+check_openssl_version=$(grep $openssl_version /tmp/current_openssl_version)
+echo $check_openssl_version
+
+#
+if [ "$check_openssl_version" = "" ]; then
+/opt/echbay_vpssim/script/vpssim/menu/nang-cap-openssl-auto
+fi
