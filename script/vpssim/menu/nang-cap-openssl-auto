@@ -24,5 +24,5 @@ sudo ln -s /usr/local/lib64/libcrypto.so.1.1 /usr/lib64/
 sudo ln -s /usr/local/bin/openssl /usr/bin/openssl_latest
 openssl_latest version
 cd /usr/bin/
-mv openssl openssl_old
-mv openssl_latest openssl
+mv -f openssl openssl_old
+mv -f openssl_latest openssl
