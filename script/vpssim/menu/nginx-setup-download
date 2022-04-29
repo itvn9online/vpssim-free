@@ -159,6 +159,14 @@ rm -rf libatomic_ops.zip
 #tar -xzxf nginx_module_vts.tar.gz
 #rm -rf nginx_module_vts.tar.gz
 
+#
+rm -rf ngx_brotli-master*
+# https://github.com/google/ngx_brotli
+# https://github.com/google/ngx_brotli/archive/refs/heads/master.zip
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/module-nginx/ngx_brotli-master.zip ngx_brotli-master.zip
+unzip -oq ngx_brotli-master.zip
+rm -rf ngx_brotli-master.zip
+
 
 
 # thu nghiem voi ngx_brotli
