@@ -58,8 +58,11 @@ echo "Ok ! please wait update "${opensslversion}" ...."
 sleep 1
 cd /usr/local/vpssim
 
-#wget --no-check-certificate -q https://www.openssl.org/source/${opensslversion}.tar.gz
+if [ -f /opt/echbay_vpssim/script/vpssim/module-nginx/${opensslversion}.tar.gz ]; then
 yes | cp -rf /opt/echbay_vpssim/script/vpssim/module-nginx/${opensslversion}.tar.gz ${opensslversion}.tar.gz
+else
+wget -q --no-check-certificate https://www.openssl.org/source/${opensslversion}.tar.gz
+fi
 tar -xzf ${opensslversion}.tar.gz
 rm -rf ${opensslversion}.tar.gz
 
