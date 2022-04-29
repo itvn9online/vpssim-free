@@ -95,6 +95,8 @@ rm -rf ${ngx_http_redis}.tar.gz
 # /usr/local/vpssim/redis2-nginx-module
 rm -rf redis2-nginx-module*
 #wget --no-check-certificate https://vpssim.echbay.com/script/vpssim/module-nginx/redis2-nginx-module.zip
+# https://github.com/openresty/redis2-nginx-module
+# https://github.com/openresty/redis2-nginx-module/archive/refs/heads/master.zip
 yes | cp -rf /opt/echbay_vpssim/script/vpssim/module-nginx/redis2-nginx-module.zip redis2-nginx-module.zip
 unzip -oq redis2-nginx-module.zip
 rm -rf redis2-nginx-module.zip
@@ -138,6 +140,8 @@ rm -rf srcache-nginx-module.zip
 # /usr/local/vpssim/memc-nginx-module
 rm -rf memc-nginx-module*
 #wget --no-check-certificate https://vpssim.echbay.com/script/vpssim/module-nginx/memc-nginx-module.zip
+# https://github.com/openresty/memc-nginx-module
+# https://github.com/openresty/memc-nginx-module/archive/refs/heads/master.zip
 yes | cp -rf /opt/echbay_vpssim/script/vpssim/module-nginx/memc-nginx-module.zip memc-nginx-module.zip
 unzip -oq memc-nginx-module.zip
 rm -rf memc-nginx-module.zip
