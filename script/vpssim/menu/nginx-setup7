@@ -54,6 +54,7 @@ cd /usr/local/vpssim/nginx-${Nginx_VERSION}
 --with-google_perftools_module \
 --with-debug \
 --with-zlib=$moduledir/${zlibversion} \
+--with-openssl=$moduledir/${opensslversion} \
 --conf-path=/etc/nginx/nginx.conf \
 --with-http_gzip_static_module \
 --with-threads \
@@ -78,7 +79,6 @@ cd /usr/local/vpssim/nginx-${Nginx_VERSION}
 #--with-openssl-opt="enable-tls1_3" \
 #--add-module=$moduledir/ngx_brotli-master \
 #--with-openssl-opt=$withopensslopt \
-#--with-openssl=$moduledir/${opensslversion} \
 #
 
 #
