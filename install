@@ -8,6 +8,9 @@ sleep 2
 fi
 
 #
+sudo yum -y install wget nano
+
+#
 #nano /etc/selinux/config
 
 # check SELinux status
@@ -48,9 +51,6 @@ echo "==========================================================================
 exit
 fi
 fi
-
-#
-sudo yum -y install wget
 
 #
 cd ~
