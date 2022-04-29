@@ -94,13 +94,13 @@ sudo ./configure \
 --add-module=$moduledir/ngx_devel_kit-master \
 --add-module=$moduledir/ngx_http_substitutions_filter_module-master \
 --add-module=$moduledir/headers-more-nginx-module-master \
+--add-module=$moduledir/redis2-nginx-module-master \
 --add-module=$moduledir/${ngx_http_redis}
 
 #
 # cac module bi loi khi cai voi nginx
 #--with-openssl-opt="enable-ec_nistp_64_gcc_128" \
 #--with-openssl-opt="enable-tls1_3" \
-#--add-module=$moduledir/redis2-nginx-module-master \
 #--add-module=$moduledir/echo-nginx-module-master \
 #--add-module=$moduledir/memc-nginx-module-master \
 #--add-module=$moduledir/ngx_brotli-master \
