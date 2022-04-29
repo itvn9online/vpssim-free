@@ -40,8 +40,13 @@ echo $check_selinux_disable
 
 # if change OK
 if [ ! "$check_selinux_disable" = "" ]; then
-echo ". . . . . . . . . . . . ."
-echo "Your VPS will been restart after 5s"
+echo ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ."
+echo ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ."
+echo ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ."
+echo "Your VPS will been restart after 5s. . ."
+echo ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ."
+echo ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ."
+echo ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ."
 echo "=========================================================================="
 sleep 5
 reboot
