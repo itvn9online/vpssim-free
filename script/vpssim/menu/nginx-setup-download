@@ -7,6 +7,9 @@ echo "==========================================================================
 echo "Download Nginx Module ... "
 echo "=========================================================================="
 
+# list download nginx modul:
+# https://www.nginx.com/resources/wiki/modules/
+
 #
 cd /usr/local/vpssim
 
