@@ -47,6 +47,9 @@ sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
 sed -i 's/SELINUX=permissive/SELINUX=disabled/g' /etc/selinux/config
 #sudo chmod 644 /etc/selinux/config
 
+#
+echo "ECHBAY-VPSSIM disable SELinux" > /tmp/echbay_vpssim_disable_selinux
+
 # check after change
 check_selinux_disable=$(grep SELINUX=disabled /etc/selinux/config)
 echo $check_selinux_disable
