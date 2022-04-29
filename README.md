@@ -4,7 +4,7 @@
 ECHBAY-VPSSIM là bản chỉnh sửa lại từ VPSSIM-3.8.1, đây là phiên bản cuối cùng của VPSSIM mà mình clone lại được trước khi VPSSIM tiến hành mã hóa và thương mại hóa.
 Cơ bản thì trong phiên bản ECHBAY-VPSSIM mình chủ yếu cập nhật lại một số phiên bản phần mềm trong cài đặt mặc định lên bản mới và ổn định nhất cho phù hợp với thời điểm 2020 và hỗ trợ các hệ điều hành mới hơn như CentOS 7 & 8 thay vì tập trung vào CentOS 6 như phiên bản gốc.
 
-### Lệnh Cài Đặt ECHBAY-VPSSIM Trên Centos 6 & 7 & 8 (Please disable SELinux):
+### Lệnh Cài Đặt ECHBAY-VPSSIM Trên Centos 6 & 7 & 8 (Without SELinux):
 ```
 bash <( curl -k https://raw.githubusercontent.com/itvn9online/vpssim-free/master/install )
 ```
