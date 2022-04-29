@@ -27,7 +27,20 @@ if [ "$selinux_on_off" = "ENABLED" ]; then
 if [ -f /etc/selinux/config ]; then
 echo "=========================================================================="
 echo "Warning! php-fmp not install if SELinux enable"
+
+# neu truoc do da thu disable SELinux nhung khong thanh cong
+if [ -f /tmp/echbay_vpssim_disable_selinux ]; then
+echo "Please disable SELinux and re-instal..."
+echo "Using command:"
+echo "nano /etc/selinux/config"
+echo "find and replace:"
+echo "SELINUX="$(getenforce)
+echo "to:"
+echo "SELINUX=disabled"
+exit
+else
 echo "Auto disable SELinux in your VPS"
+fi
 
 #sudo chmod 777 /etc/selinux/config
 sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
