@@ -16,6 +16,7 @@ cd /usr/local/vpssim
 # /usr/local/vpssim/echo-nginx-module
 rm -rf echo-nginx-module*
 #wget --no-check-certificate https://vpssim.echbay.com/script/vpssim/module-nginx/echo-nginx-module.zip
+# https://github.com/openresty/echo-nginx-module
 # https://github.com/openresty/echo-nginx-module/archive/refs/heads/master.zip
 yes | cp -rf /opt/echbay_vpssim/script/vpssim/module-nginx/echo-nginx-module.zip echo-nginx-module.zip
 unzip -oq echo-nginx-module.zip
@@ -24,6 +25,7 @@ rm -rf echo-nginx-module.zip
 # /usr/local/vpssim/ngx_http_substitutions_filter_module
 rm -rf ngx_http_substitutions_filter_module*
 #wget --no-check-certificate https://vpssim.echbay.com/script/vpssim/module-nginx/ngx_http_substitutions_filter_module.zip
+# https://github.com/yaoweibin/ngx_http_substitutions_filter_module
 # https://github.com/yaoweibin/ngx_http_substitutions_filter_module/archive/refs/heads/master.zip
 yes | cp -rf /opt/echbay_vpssim/script/vpssim/module-nginx/ngx_http_substitutions_filter_module.zip ngx_http_substitutions_filter_module.zip
 unzip -oq ngx_http_substitutions_filter_module.zip
@@ -32,6 +34,7 @@ rm -rf ngx_http_substitutions_filter_module.zip
 # /usr/local/vpssim/ngx_cache_purge-master
 rm -rf ngx_cache_purge*
 #wget --no-check-certificate https://vpssim.echbay.com/script/vpssim/module-nginx/ngx_cache_purge.zip
+# https://github.com/FRiCKLE/ngx_cache_purge
 # https://github.com/FRiCKLE/ngx_cache_purge/archive/refs/heads/master.zip
 yes | cp -rf /opt/echbay_vpssim/script/vpssim/module-nginx/ngx_cache_purge.zip ngx_cache_purge.zip
 unzip -oq ngx_cache_purge.zip
@@ -40,6 +43,7 @@ rm -rf ngx_cache_purge.zip
 # /usr/local/vpssim/headers-more-nginx-module
 rm -rf headers-more-nginx-module*
 #wget --no-check-certificate https://vpssim.echbay.com/script/vpssim/module-nginx/headers-more-nginx-module.zip
+# https://github.com/openresty/headers-more-nginx-module
 # https://github.com/openresty/headers-more-nginx-module/archive/refs/heads/master.zip
 yes | cp -rf /opt/echbay_vpssim/script/vpssim/module-nginx/headers-more-nginx-module.zip headers-more-nginx-module.zip
 unzip -oq headers-more-nginx-module.zip
@@ -67,9 +71,10 @@ fi
 tar -xzxf ${zlibversion}.tar.gz
 rm -rf ${zlibversion}.tar.gz
 
-wget -q --no-check-certificate https://github.com/cloudflare/zlib/archive/gcc.amd64.zip -O zlib-cloudflare.zip
-unzip -oq zlib-cloudflare.zip
-rm -rf zlib-cloudflare.zip
+# https://github.com/cloudflare/zlib
+#wget -q --no-check-certificate https://github.com/cloudflare/zlib/archive/gcc.amd64.zip -O zlib-cloudflare.zip
+#unzip -oq zlib-cloudflare.zip
+#rm -rf zlib-cloudflare.zip
 
 # /usr/local/vpssim/${pcreVersionInstall}
 rm -rf ${pcreVersionInstall}
@@ -79,8 +84,6 @@ unzip -oq ${pcreVersionInstall}.zip
 rm -rf ${pcreVersionInstall}.zip
 
 #
-#ngx_http_redis=ngx_http_redis-0.3.8
-ngx_http_redis=ngx_http_redis-0.3.9
 # /usr/local/vpssim/${ngx_http_redis}
 rm -rf ${ngx_http_redis}
 #wget -q --no-check-certificate https://vpssim.echbay.com/script/vpssim/module-nginx/${ngx_http_redis}.tar.gz
@@ -99,6 +102,7 @@ rm -rf redis2-nginx-module.zip
 # /usr/local/vpssim/set-misc-nginx-module
 rm -rf set-misc-nginx-module*
 #wget --no-check-certificate https://vpssim.echbay.com/script/vpssim/module-nginx/set-misc-nginx-module.zip
+# https://github.com/openresty/set-misc-nginx-module
 # https://github.com/openresty/set-misc-nginx-module/archive/refs/heads/master.zip
 yes | cp -rf /opt/echbay_vpssim/script/vpssim/module-nginx/set-misc-nginx-module.zip set-misc-nginx-module.zip
 unzip -oq set-misc-nginx-module.zip
@@ -107,6 +111,7 @@ rm -rf set-misc-nginx-module.zip
 # /usr/local/vpssim/ngx_devel_kit
 rm -rf ngx_devel_kit*
 #wget --no-check-certificate https://vpssim.echbay.com/script/vpssim/module-nginx/ngx_devel_kit.zip
+# https://github.com/vision5/ngx_devel_kit
 # https://github.com/vision5/ngx_devel_kit/archive/refs/heads/master.zip
 yes | cp -rf /opt/echbay_vpssim/script/vpssim/module-nginx/ngx_devel_kit.zip ngx_devel_kit.zip
 unzip -oq ngx_devel_kit.zip
@@ -115,6 +120,7 @@ rm -rf ngx_devel_kit.zip
 # /usr/local/vpssim/ngx_http_concat
 rm -rf ngx_http_concat
 #wget -q --no-check-certificate https://vpssim.echbay.com/script/vpssim/module-nginx/ngx_http_concat.tar.gz
+# https://github.com/alibaba/nginx-http-concat
 # https://github.com/alibaba/nginx-http-concat/archive/refs/heads/master.zip
 yes | cp -rf /opt/echbay_vpssim/script/vpssim/module-nginx/ngx_http_concat.tar.gz ngx_http_concat.tar.gz
 tar -xzxf ngx_http_concat.tar.gz
@@ -123,6 +129,7 @@ rm -rf ngx_http_concat.tar.gz
 # /usr/local/vpssim/srcache-nginx-module
 rm -rf srcache-nginx-module*
 #wget --no-check-certificate https://vpssim.echbay.com/script/vpssim/module-nginx/srcache-nginx-module.zip
+# https://github.com/openresty/srcache-nginx-module
 # https://github.com/openresty/srcache-nginx-module/archive/refs/heads/master.zip
 yes | cp -rf /opt/echbay_vpssim/script/vpssim/module-nginx/srcache-nginx-module.zip srcache-nginx-module.zip
 unzip -oq srcache-nginx-module.zip
@@ -141,6 +148,7 @@ rm -rf libatomic_ops*
 yes | cp -rf /opt/echbay_vpssim/script/vpssim/module-nginx/libatomic_ops.zip libatomic_ops.zip
 unzip -oq libatomic_ops.zip
 rm -rf libatomic_ops.zip
+
 # /usr/local/vpssim/nginx-module-vts-master
 #rm -rf nginx_module_vts*
 #wget -q https://vpssim.echbay.com/script/vpssim/module-nginx/nginx_module_vts.tar.gz

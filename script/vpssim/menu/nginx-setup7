@@ -67,7 +67,7 @@ cd /usr/local/vpssim/nginx-${Nginx_VERSION}
 --add-module=$moduledir/srcache-nginx-module-master \
 --add-module=$moduledir/ngx_http_substitutions_filter_module-master \
 --add-module=$moduledir/headers-more-nginx-module-master \
---add-module=$moduledir/ngx_http_redis-0.3.8 
+--add-module=$moduledir/${ngx_http_redis} 
 
 #
 # cac module bi loi khi cai voi nginx

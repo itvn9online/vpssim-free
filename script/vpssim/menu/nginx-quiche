@@ -112,7 +112,7 @@ patch -p01 < ../quiche/extras/nginx/nginx-1.16.patch
 --add-module=$moduledir/srcache-nginx-module-master \
 --add-module=$moduledir/ngx_http_substitutions_filter_module-master \
 --add-module=$moduledir/headers-more-nginx-module-master \
---add-module=$moduledir/ngx_http_redis-0.3.8 
+--add-module=$moduledir/${ngx_http_redis} 
 
 #
 make
