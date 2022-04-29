@@ -20,14 +20,14 @@ selinux_on_off="DISABLED"
 else
 selinux_on_off="ENABLED"
 fi
+echo "SELinux status: "$selinux_on_off
 
 # if SELinux enable -> disable SELinux
 if [ "$selinux_on_off" = "ENABLED" ]; then
-echo "SELinux status: "$selinux_on_off
 if [ -f /etc/selinux/config ]; then
 echo "=========================================================================="
+echo "Warning! php-fmp not install if SELinux enable"
 echo "Auto disable SELinux in your VPS"
-echo "If SELinux not disable, php-fmp not install"
 
 #sudo chmod 777 /etc/selinux/config
 sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
@@ -42,10 +42,11 @@ echo $check_selinux_disable
 if [ ! "$check_selinux_disable" = "" ]; then
 echo ". . . . . . . . . . . . ."
 echo "Your VPS will been restart after 5s"
+echo "=========================================================================="
 sleep 5
 reboot
 else
-echo "Auto disble SELinux fail! Please disable and re-instal"
+echo "Auto disble SELinux not working! Please disable and re-instal"
 fi
 echo "=========================================================================="
 exit
