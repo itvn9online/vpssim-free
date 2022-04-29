@@ -13,7 +13,7 @@ sleep 3
 
 
 /opt/echbay_vpssim/script/vpssim/menu/nginx-setup-download
-/opt/echbay_vpssim/script/vpssim/menu/nang-cap-openssl-version
+/opt/echbay_vpssim/script/vpssim/menu/nang-cap-openssl-before
 
 
 cd
