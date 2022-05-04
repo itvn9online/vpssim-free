@@ -6,6 +6,21 @@ yes | cp -rf /etc/vpssim/menu/varnish/sysconfig.txt /etc/sysconfig/varnish
 fi
 chmod 644 /etc/sysconfig/varnish
 
+#
+if [ -f /etc/varnish/default.vcl ]; then
+if [ ! -f /etc/varnish/default.vcl-bak ]; then
+yes | cp -rf /etc/varnish/default.vcl /etc/varnish/default.vcl-bak
+fi
+fi
+
+#
+if [ -f /etc/vpssim/varnish.config ];then
+current_varnish_config=$(cat /etc/vpssim/varnish.config)
+echo $current_varnish_config
+if [ -f /etc/vpssim/menu/varnish/default-vcl-v$current_varnish_config.txt ];then
+yes | cp -rf /etc/vpssim/menu/varnish/default-vcl-v$current_varnish_config.txt /etc/varnish/default.vcl
+fi
+fi
 
 # xoa dong dung luong cu
 #sed -i -e "/VARNISH_STORAGE_SIZE=/d" /etc/sysconfig/varnish

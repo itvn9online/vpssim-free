@@ -5,6 +5,7 @@
 
 /etc/vpssim/menu/varnish/install-varnish-begin
 echo "4.0" > /etc/vpssim/varnish.version
+echo "4" > /etc/vpssim/varnish.config
 
 curl -s https://packagecloud.io/install/repositories/varnishcache/varnish40/script.rpm.sh | sudo
 
