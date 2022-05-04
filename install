@@ -20,6 +20,7 @@ selinux_on_off="DISABLED"
 else
 selinux_on_off="ENABLED"
 fi
+echo "=========================================================================="
 echo "SELinux status: "$selinux_on_off
 
 # if SELinux enable -> disable SELinux
