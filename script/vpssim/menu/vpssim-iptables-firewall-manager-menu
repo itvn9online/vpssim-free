@@ -2,7 +2,7 @@
 prompt="Lua chon cua ban (0-Thoat):"
 options=( "Mo Port (INPUT)" "Close Port (INPUT)" "Kiem Tra Service Dung Port" "Sao Luu IPtables Rules" "Phuc Hoi IPtables Rules" "Xem IPtables Rules Hien Tai" )
 printf "=========================================================================\n"
-printf "                VPSSIM - Quan Ly VPS/Server by HostingAZ.VN \n"
+printf "                VPSSIM - Quan Ly VPS/ Server by EchBay.com \n"
 printf "=========================================================================\n"
 printf "                       Quan Ly IPtables Firewall\n"
 printf "=========================================================================\n"

@@ -155,7 +155,7 @@ prompt="Nhap lua chon cua ban:"
 options=("Them Website & Code" "Xoa website" "Backup & Restore Code" "Quan Ly Database" "Quan Ly phpMyAdmin" "Quan Ly Zend OPcache" "Quan Ly Memcached" "Quan Ly Redis Cache" "Quan Ly FTP Server" "Quan Ly Swap" "Quan Ly Cronjob"  "Quan Ly File Log" "Config Cau Hinh PHP" "Wordpress Blog Tools" "Quan Ly CSF Firewall" "Quan Ly IPtables Firewall" "Quan Ly BitTorrent Sync" "Quan Ly VPS Backup" "Linux Malware Detect" "Cai Dat File Manager" "Cai Dat Net2FTP" "Cai Dat NetData" "Cai Dat SSL (Let's Enctypt)" "Check & Block IP DOS" "Tien ich - Addons" "Update System" "Clear All Caches" "User & Password Mac Dinh" "Server Status" "Thoat")
 
 echo "========================================================================="
-echo "    ECHBAY-VPSSIM - Quan Ly VPS/Server by HostingAZ.VN ($(cat /etc/vpssim/vpssim.version))                "
+echo "    ECHBAY-VPSSIM - Quan Ly VPS/ Server by EchBay.com ($(cat /etc/vpssim/vpssim.version))                "
 echo "========================================================================="
 echo "                          ECHBAY-VPSSIM Menu                             "
 echo "========================================================================="

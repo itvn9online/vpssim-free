@@ -6,7 +6,7 @@ options=( "Thay Password Root" "Fix Loi Chmod, Chown" "Find Top Largest Files & 
 "Dat Mat Khau Bao Ve Folder" "BAT/TAT Email Thong Bao Login" "BAT/TAT Auto Run VPSSIM" "Canh Bao Full Disc Tren Menu" "Restart Service" "TocDo.net" \
 "Varnish Cache" "Update All Website Wordpress" "Install Composer" "Go Bo (Remove) VPSSIM" )
 printf "=========================================================================\n"
-printf "                ECHBAY-VPSSIM - Quan Ly VPS/Server by HostingAZ.VN \n"
+printf "                ECHBAY-VPSSIM - Quan Ly VPS/ Server by EchBay.com \n"
 printf "=========================================================================\n"
 printf "                           Tien Ich - Addons\n"
 printf "=========================================================================\n"

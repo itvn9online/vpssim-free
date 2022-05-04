@@ -13,7 +13,7 @@ options=("Ket Noi VPS Backup" "Cau Hinh Thoi Gian Dong Bo" "Backup VPS Ngay Lap 
 prompt="Nhap lua chon cua ban (0-Thoat): "
 #prompt="Type in your choice (7-Exit):"
 printf "=========================================================================\n"
-printf "               VPSSIM - Quan Ly VPS/Server by HostingAZ.VN \n"
+printf "               VPSSIM - Quan Ly VPS/ Server by EchBay.com \n"
 printf "=========================================================================\n"
 printf "                          Quan Ly VPS Backup \n"
 printf "=========================================================================\n"

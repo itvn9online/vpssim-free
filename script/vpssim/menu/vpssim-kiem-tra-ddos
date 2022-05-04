@@ -2,7 +2,7 @@
 prompt="Lua chon cua ban (0-Thoat):"
 options=("Tu dong kiem tra va block IP" "Ket noi toi cong 80 & 443" "So ket noi dang SYN_RECV" "IP dang ket noi & so ket noi/IP" "Block IP")
 printf "=========================================================================\n"
-printf "                VPSSIM - Manage VPS/Server by HostingAZ.VN             \n"
+printf "                VPSSIM - Manage VPS/ Server by EchBay.com             \n"
 printf "=========================================================================\n"
 printf "                   Check DDOS, Flood & Block IP DOS\n"
 printf "=========================================================================\n"

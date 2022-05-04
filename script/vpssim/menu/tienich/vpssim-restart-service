@@ -2,7 +2,7 @@
 prompt="Lua chon cua ban:"
 options=( "Restart MySQL" "Restart Nginx" "Restart PHP-FPM" "Restart VPS" "Exit" )
 printf "=========================================================================\n"
-printf "                VPSSIM - Manage VPS/Server by HostingAZ.VN \n"
+printf "                VPSSIM - Manage VPS/ Server by EchBay.com \n"
 printf "=========================================================================\n"
 printf "                            Restart Service\n"
 printf "=========================================================================\n"

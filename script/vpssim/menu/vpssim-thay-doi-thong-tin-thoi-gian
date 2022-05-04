@@ -2,7 +2,7 @@
 prompt="Lua chon cua ban (0-Thoat): "
 options=("GMT" "GMT+1" "GMT+2" "GMT+3" "GMT+4" "GMT+5" "GMT+6" "GMT+7" "GMT+8" "GMT+9" "GMT+10" "GMT+11" "GMT+12" "GMT-1" "GMT-2" "GMT-3" "GMT-4" "GMT-5" "GMT-6" "GMT-7" "GMT-8" "GMT-9" "GMT-10" "GMT-11" "GMT-12")
 printf "=========================================================================\n"
-printf "           VPSSIM - Quan Ly VPS/Server by HostingAZ.VN \n"
+printf "           VPSSIM - Quan Ly VPS/ Server by EchBay.com \n"
 printf "=========================================================================\n"
 printf "                    Cai Dat Mui Gio Cho Server  \n"
 printf "=========================================================================\n"

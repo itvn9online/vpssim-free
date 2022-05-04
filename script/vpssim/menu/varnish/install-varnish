@@ -28,7 +28,7 @@ options=( "Varnish 4.0" "Varnish 4.1 (Khuyen dung)" "Varnish 6.0" "Varnish 6.1" 
 fi
 
 printf "=========================================================================\n"
-printf "         ECHBAY-VPSSIM - Quan Ly VPS/Server by HostingAZ.VN \n"
+printf "         ECHBAY-VPSSIM - Quan Ly VPS/ Server by EchBay.com \n"
 printf "=========================================================================\n"
 printf "                           Varnish Cache\n"
 echo "========================================================================="

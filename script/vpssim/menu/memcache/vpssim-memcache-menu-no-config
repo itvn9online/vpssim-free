@@ -19,7 +19,7 @@ options=("Enable" "Restart" "Config Memcached" )
 fi
 fi
 printf "=========================================================================\n"
-printf "                VPSSIM - Quan Ly VPS/Server by HostingAZ.VN \n"
+printf "                VPSSIM - Quan Ly VPS/ Server by EchBay.com \n"
 printf "=========================================================================\n"
 printf "                           Memcached Manage \n"
 printf "=========================================================================\n"

@@ -7,7 +7,7 @@ else
 options=("Bat/Tat BTsync" "Xem Thong Tin Quan Ly" "Thay Mat Khau Login" "Thay Btsync Port " "Change BTsync Version" "Cai Dat BitTorent Sync")
 fi
 printf "=========================================================================\n"
-printf "                VPSSIM - Quan Ly VPS/Server by HostingAZ.VN \n"
+printf "                VPSSIM - Quan Ly VPS/ Server by EchBay.com \n"
 printf "=========================================================================\n"
 printf "                           Quan Ly BitTorrent Sync                                 \n"
 printf "=========================================================================\n"

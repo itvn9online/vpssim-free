@@ -3,7 +3,7 @@
 if [ -f /etc/php.d/opcache.ini ]; then
 clear
 echo "========================================================================="
-echo "               VPSSIM - Manage VPS/Server by HostingAZ.VN      "       
+echo "               VPSSIM - Manage VPS/ Server by EchBay.com      "       
 echo "========================================================================="
 echo "                        Cau hinh Zend OPcache"
 echo "========================================================================="

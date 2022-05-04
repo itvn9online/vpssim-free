@@ -5,7 +5,7 @@ fi
 prompt="Lua chon cua ban (0-Thoat):"
 options=( "Them Website" "Them Park & Redirect Domain" "Them website + Wordpress (Auto Setup)" "Them website + Forum Code (Auto Setup)" "Them Website + Opencart (Auto Setup)" "Them website + Wordpress (Download Code)" "Them Website + Joomla (Download Code)" "Them Website + Drupal (Download Code)" "List Website Tren Server")
 printf "=========================================================================\n"
-printf "                VPSSIM - Quan Ly VPS/Server by HostingAZ.VN \n"
+printf "                VPSSIM - Quan Ly VPS/ Server by EchBay.com \n"
 printf "=========================================================================\n"
 printf "                          Them Website Vao Server\n"
 printf "=========================================================================\n"

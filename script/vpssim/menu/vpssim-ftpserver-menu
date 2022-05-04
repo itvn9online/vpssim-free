@@ -35,7 +35,7 @@ fi
 if [ ! -f /etc/vpssim/menu/vpssim-ftpserver-read ]; then
 clear
 printf "=========================================================================\n"
-printf "                VPSSIM - Quan Ly VPS/Server by HostingAZ.VN \n"
+printf "                VPSSIM - Quan Ly VPS/ Server by EchBay.com \n"
 printf "=========================================================================\n"
 printf "                            Quan Ly FTP Server \n"
 printf "=========================================================================\n"

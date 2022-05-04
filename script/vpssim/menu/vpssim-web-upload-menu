@@ -22,7 +22,7 @@ show_menu_filemanager () {
 prompt="Lua chon cua ban (0-Thoat):"
 options=("Setup File Manager" "Cau hinh Upload Max Filesize" "Bao Ve File Manager" "Thay User & Password Admin" "Thay Domain File Manager" "Remove File Manager")
 printf "=========================================================================\n"
-printf "                VPSSIM - Quan Ly VPS/Server by HostingAZ.VN \n"
+printf "                VPSSIM - Quan Ly VPS/ Server by EchBay.com \n"
 printf "=========================================================================\n"
 printf "                               File Manager \n"
 printf "=========================================================================\n"

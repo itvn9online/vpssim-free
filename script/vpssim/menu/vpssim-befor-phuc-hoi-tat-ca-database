@@ -38,7 +38,7 @@ exit
 
 clear
 echo "========================================================================="
-echo "            VPSSIM - Manage VPS/Server by HostingAZ.VN                "
+echo "            VPSSIM - Manage VPS/ Server by EchBay.com                "
 echo "========================================================================="
 echo "                      Restore All Database                             "
 echo "========================================================================="
@@ -60,7 +60,7 @@ read -p "Nhan [Enter] de tiep tuc ..."
 filename=`cat /tmp/backupname`
 rm -rf /tmp/backupname
 echo "========================================================================="
-echo "            VPSSIM - Manage VPS/Server by HostingAZ.VN                "
+echo "            VPSSIM - Manage VPS/ Server by EchBay.com                "
 echo "========================================================================="
 echo "                      Restore All Database                             "
 echo "========================================================================="

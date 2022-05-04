@@ -25,7 +25,7 @@ rm -rf /tmp/*vpssim*
 prompt="Lua chon cua ban (0-Thoat):"
 options=("Backup Code 1 Website" "Backup Code All Website" "Tu Dong Backup Website" "Phuc Hoi Website" "Lay Link File Backup" "Xoa Tat Ca File Backup")
 printf "=========================================================================\n"
-printf "                VPSSIM - Quan Ly VPS/Server by HostingAZ.VN \n"
+printf "                VPSSIM - Quan Ly VPS/ Server by EchBay.com \n"
 printf "=========================================================================\n"
 printf "                         Sao Luu & Phuc Hoi Code\n"
 printf "=========================================================================\n"

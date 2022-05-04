@@ -6,7 +6,7 @@ else
 options=( "Scan 1 website" "Scan All websites" "View Last Scan Report" "Remove Linux Malware Detect")
 fi
 printf "=========================================================================\n"
-printf "               VPSSIM - Quan Ly VPS/Server by HostingAZ.VN \n"
+printf "               VPSSIM - Quan Ly VPS/ Server by EchBay.com \n"
 printf "=========================================================================\n"
 if [ ! -f /usr/local/maldetect/conf.maldet ]; then
 printf "                Linux Malware Detect (LMD) - Not Install\n"

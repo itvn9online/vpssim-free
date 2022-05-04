@@ -22,7 +22,7 @@ show_menu_net2ftp () {
 prompt="Lua chon cua ban (0-Thoat):"
 options=("Setup Net2FTP" "Cau hinh Upload Max Filesize" "Bao Ve Net2FTP" "Thay Domain Net2FTP          "  "Remove Net2FTP         ")
 printf "=========================================================================\n"
-printf "                VPSSIM - Quan Ly VPS/Server by HostingAZ.VN \n"
+printf "                VPSSIM - Quan Ly VPS/ Server by EchBay.com \n"
 printf "=========================================================================\n"
 printf "                            Quan Ly Net2FTP \n"
 printf "=========================================================================\n"

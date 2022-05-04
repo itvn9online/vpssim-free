@@ -19,7 +19,7 @@ prompt="Lua chon cua ban: "
 options=("Max Execution Time" "Max Input Time" "On/Off Display Errors" "Memory Limit" "Upload Max Filesize" "Max Input Vars" "Enable/Disable PHP Function" "Re-config PHP.INI (Mac dinh)" "Thoat")
 PS3="$prompt"
 echo "========================================================================="
-echo "                VPSSIM - Quan Ly VPS/Server by HostingAZ.VN"
+echo "                VPSSIM - Quan Ly VPS/ Server by EchBay.com"
 echo "========================================================================="
 echo "                         Cau Hinh PHP.INI (PHP)                                "
 echo "========================================================================="

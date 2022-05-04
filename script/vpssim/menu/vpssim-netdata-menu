@@ -25,7 +25,7 @@ show_menu_netdata () {
 prompt="Lua chon cua ban (0-Thoat):"
 options=("Setup NetData" "Tat / Bat NetData" "Thay Domain NetData" "Bao Ve Domain NetData      " "Nang Cap NetData")
 printf "=========================================================================\n"
-printf "                VPSSIM - Quan Ly VPS/Server by HostingAZ.VN \n"
+printf "                VPSSIM - Quan Ly VPS/ Server by EchBay.com \n"
 printf "=========================================================================\n"
 printf "                            Quan Ly NetData \n"
 printf "=========================================================================\n"

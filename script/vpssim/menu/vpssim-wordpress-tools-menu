@@ -16,7 +16,7 @@ menu_wordpress_blog_tools () {
 prompt="Lua chon cua ban (0-Thoat):"
 options=("Update Wordpress An Toan" "Update Themes & Plugins" "Tat/Bat Auto Update WP Code" "Tat/Bat WP-Cron.php" "Xem Themes & Plugins Status" "Enable Redis Cache" "Disable Redis Cache" "Sao Luu Database" "Phuc Hoi Database" "Cai Dat Wordpress Multisite" "Tao Vhost Cho WP MultiSite" "Cau Hinh Vhost Cho PLugin Cache" "Xem Thong Tin Database" "Toi Uu - Sua Loi Database" "Password Bao Ve wp-login.php" "Fix Loi Missed Schedule" "Fix Loi Permission"  ) 
 printf "=========================================================================\n"
-printf "                VPSSIM - Quan Ly VPS/Server by HostingAZ.VN \n"
+printf "                VPSSIM - Quan Ly VPS/ Server by EchBay.com \n"
 printf "=========================================================================\n"
 printf "                           Wordpress Blog Tools\n"
 printf "=========================================================================\n"

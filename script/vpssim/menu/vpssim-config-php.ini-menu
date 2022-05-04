@@ -26,7 +26,7 @@ prompt="Lua chon cua ban: "
 options=("Max Execution Time" "Max Input Time" "On/Off Allow Url Fopen" "On/Off Display Errors" "Memory Limit" "On/Off Allow Url Include" "On/Off File Upload" "Upload Max Filesize" "Max Input Vars" "Enable/Disable PHP Function" "Config PHP Mac Dinh")
 PS3="$prompt"
 echo "========================================================================="
-echo "                VPSSIM - Quan Ly VPS/Server by HostingAZ.VN"
+echo "                VPSSIM - Quan Ly VPS/ Server by EchBay.com"
 echo "========================================================================="
 echo "                         Change PHP Settings                                "
 echo "========================================================================="

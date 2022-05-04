@@ -2,7 +2,7 @@
 prompt="Lua chon cua ban (0-Thoat):"
 options=("Services dang chay va RAM dung" "RAM MySQL su dung" "Free Disc " "Uptime VPS" "CPU Load average" "Last YUM update" "Authenication Failures" "User dang nhat gan day" "Xem thong tin CPU" "Check I/O Speed" "Check download Speed")
 printf "=========================================================================\n"
-printf "                VPSSIM - Manage VPS/Server by HostingAZ.VN             \n"
+printf "                VPSSIM - Manage VPS/ Server by EchBay.com             \n"
 printf "=========================================================================\n"
 printf "                     Check VPS/Server information\n"
 printf "=========================================================================\n"
