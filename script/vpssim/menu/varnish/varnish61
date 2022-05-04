@@ -4,7 +4,7 @@
 # https://packagecloud.io/varnishcache/varnish61/install#bash-rpm
 
 /etc/vpssim/menu/varnish/install-varnish-begin
-echo "6.1" >> /etc/vpssim/varnish.version
+echo "6.1" > /etc/vpssim/varnish.version
 
 curl -s https://packagecloud.io/install/repositories/varnishcache/varnish61/script.rpm.sh | sudo bashbash
 
