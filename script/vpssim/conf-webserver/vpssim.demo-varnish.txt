@@ -1,0 +1,41 @@
+server {
+	listen   1241;
+	access_log        off;
+	log_not_found     off;
+	error_log         off;
+	root /home/vpssim.demo/private_html;
+	index index.php index.html index.htm;
+	server_name vpssim.demo;
+
+	location / {
+	try_files $uri $uri/ /index.php;
+	}
+	location /nginx_status {
+	stub_status on;
+	access_log   off;
+	}
+	location /php_status {
+			fastcgi_pass 127.0.0.1:9000;
+			fastcgi_index index.php;
+			fastcgi_param SCRIPT_FILENAME  /home/vpssim.demo/public_html$fastcgi_script_name;
+			include /etc/nginx/fastcgi_params;
+	}
+	location ~ \.php$ {
+	fastcgi_split_path_info ^(.+\.php)(/.+)$;
+		include /etc/nginx/fastcgi_params;
+		fastcgi_pass 127.0.0.1:9000;
+		fastcgi_index index.php;
+		fastcgi_connect_timeout 1000;
+		fastcgi_send_timeout 1000;
+		fastcgi_read_timeout 1000;
+		fastcgi_buffer_size 256k;
+		fastcgi_buffers 4 256k;
+		fastcgi_busy_buffers_size 256k;
+		fastcgi_temp_file_write_size 256k;
+		fastcgi_intercept_errors on;
+		fastcgi_param SCRIPT_FILENAME /home/vpssim.demo/private_html$fastcgi_script_name;
+	}
+	location ~* \.(bak|back|bk)$ {
+		deny all;
+	}
+}
