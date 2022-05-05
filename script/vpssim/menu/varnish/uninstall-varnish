@@ -1,4 +1,5 @@
 #!/bin/bash
+. /home/vpssim.conf
 
 # https://docs.google.com/spreadsheets/d/1BkuZk-1O97__eq4AobMDkm1nK8HNQ5AzHnYrxMLbBS0/edit?usp=sharing
 
@@ -37,6 +38,15 @@ rpm -qa | grep -i varnish
 rm -rf /etc/vpssim/varnish*
 #
 yes | cp -rf /opt/echbay_vpssim/script/vpssim/conf-webserver/vpssim.demo.txt /etc/nginx/conf.d/vpssim.demo.conf
+# config
+svport=$priport
+cat > "/tmp/vpssimSetConfigFile" <<END
+#!/bin/bash 
+sed -i 's/tmp_listen_svport/listen $svport/g' /etc/nginx/conf.d/vpssim.demo.conf
+END
+chmod +x /tmp/vpssimSetConfigFile
+sh /tmp/vpssimSetConfigFile
+rm -f /tmp/vpssimSetConfigFile
 service nginx restart
 else
 echo "Huy bo thao tac: go bo Varnish Cache..."
