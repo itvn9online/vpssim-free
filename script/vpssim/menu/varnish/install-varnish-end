@@ -18,6 +18,11 @@ systemctl enable varnish.service
 systemctl restart varnish.service
 fi
 
+#
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/conf-webserver/vpssim.demo-varnish.txt /etc/nginx/conf.d/vpssim.demo.conf
+service nginx restart
+
+#
 varnishd -V
 
 /etc/vpssim/menu/varnish/install-varnish
