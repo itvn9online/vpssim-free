@@ -34,6 +34,7 @@ rpm -qa | grep -i varnish
 yum -y erase varnish
 rm -rf /etc/yum.repos.d/varnishcache_varnish*
 rpm -qa | grep -i varnish
+rm -rf /etc/vpssim/varnish*
 #
 yes | cp -rf /opt/echbay_vpssim/script/vpssim/conf-webserver/vpssim.demo.txt /etc/nginx/conf.d/vpssim.demo.conf
 service nginx restart
