@@ -1,0 +1,28 @@
+#!/bin/bash
+
+yum install -y git
+cd /opt && git clone git://github.com/drewsymo/VPN.git
+cd VPN && bash vpn-setup-vanilla.sh
+
+clear
+
+printf "==========================================\n"
+printf "Xem log cai dat tai:  /var/log/vpn-installer.log \n"
+printf "==========================================\n"
+printf " Bạn có thể kết nối tới VPN qua địa chi IP VPS  ()\n"
+printf "Username: myuser"
+printf " Password: mypass"
+printf "\n"
+printf "==========================================\n"
+printf "hoan tat qua trinh cai dat VPS Server... \n"
+
+printf "==========================================\n"
+printf "Hay luu thong tin user va password lai nhe \n"
+printf "Chuc ban mot ngay lam viec vui ve \n"
+printf "VPS se khi dong lai sau 10 giay nua de VPN server hoat  dong\n"
+sleep 10
+reboot
+exit
+
+ 
+
