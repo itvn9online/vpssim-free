@@ -828,8 +828,8 @@ if [ "$phienbanmariadb" = "10.2" ] ; then
 cat > "/tmp/vpssimSetConfigFile" <<END
 #!/bin/bash 
 sed -i -e "/sql_mode=/d" /etc/my.cnf.d/server.cnf
-#sed -i '/^skip-character-set-client-handshake.*/a sql_mode=NO_ENGINE_SUBSTITUTION' /etc/my.cnf.d/server.cnf
-sed -i '/^skip-character-set-client-handshake.*/a sql_mode="ONLY_FULL_GROUP_BY,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION"' /etc/my.cnf.d/server.cnf
+sed -i '/^skip-character-set-client-handshake.*/a sql_mode=NO_ENGINE_SUBSTITUTION' /etc/my.cnf.d/server.cnf
+#sed -i '/^skip-character-set-client-handshake.*/a sql_mode="ONLY_FULL_GROUP_BY,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION"' /etc/my.cnf.d/server.cnf
 END
 chmod +x /tmp/vpssimSetConfigFile
 sh /tmp/vpssimSetConfigFile
