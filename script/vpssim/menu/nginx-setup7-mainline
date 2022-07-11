@@ -1,0 +1,19 @@
+#!/bin/bash
+
+#
+. /opt/echbay_vpssim/script/vpssim/nginx-setup.conf
+echo "Install after 3s"
+sleep 3
+
+# install nginx Mainline version
+sudo yum -y install nginx
+sudo systemctl start nginx
+sudo systemctl status nginx
+sudo systemctl enable nginx
+nginx -V
+sleep 6
+
+#
+cat > "/etc/vpssim/nginx.version" <<END
+${Nginx_VERSION}
+END

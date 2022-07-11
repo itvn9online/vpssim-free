@@ -895,14 +895,6 @@ ulimit  -n 65536
 mkdir -p /etc/vpssim
 echo "" > /etc/vpssim/pwprotect.default
 
-#
-set_nginx_version(){
-cat > "/etc/vpssim/nginx.version" <<END
-${1}
-END
-}
-#set_nginx_version $Nginx_VERSION
-
 cat > "/etc/vpssim/vpssim.version" <<END
 ${vpssim_version}
 END

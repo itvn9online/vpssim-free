@@ -84,3 +84,8 @@ cd /usr/local/vpssim/nginx-${Nginx_VERSION}
 #
 make
 make install
+
+#
+cat > "/etc/vpssim/nginx.version" <<END
+${Nginx_VERSION}
+END
