@@ -8,6 +8,7 @@ sleep 2
 fi
 
 #
+sudo yum -y install epel-release
 sudo yum -y install wget nano
 
 #
