@@ -228,7 +228,8 @@ echo "MariaDB Version: $phienbanmariadb"
 echo "--------------------------------------------------------------------------"
 echo "Mat khau root MySQL (MySQL root password): $passrootmysql"
 echo "--------------------------------------------------------------------------"
-echo "Nginx Version: Mainline version"
+echo "Nginx Version: "$Nginx_VERSION
+#echo "Nginx Version: Mainline version"
 echo "--------------------------------------------------------------------------"
 echo "PHP Version: "$phpmacdinh
 echo "--------------------------------------------------------------------------"
