@@ -228,7 +228,7 @@ echo "MariaDB Version: $phienbanmariadb"
 echo "--------------------------------------------------------------------------"
 echo "Mat khau root MySQL (MySQL root password): $passrootmysql"
 echo "--------------------------------------------------------------------------"
-echo "Nginx Version: $Nginx_VERSION"
+echo "Nginx Version: Mainline version"
 echo "--------------------------------------------------------------------------"
 echo "PHP Version: "$phpmacdinh
 echo "--------------------------------------------------------------------------"
@@ -895,9 +895,13 @@ ulimit  -n 65536
 mkdir -p /etc/vpssim
 echo "" > /etc/vpssim/pwprotect.default
 
+#
+set_nginx_version(){
 cat > "/etc/vpssim/nginx.version" <<END
-${Nginx_VERSION}
+${1}
 END
+}
+#set_nginx_version $Nginx_VERSION
 
 cat > "/etc/vpssim/vpssim.version" <<END
 ${vpssim_version}
