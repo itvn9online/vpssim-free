@@ -93,26 +93,37 @@ exit
 fi
 
 prompt="Nhap lua chon cua ban: "
-options=("MariaDB 10.3 (Recommendations)" "MariaDB 10.4" "MariaDB 10.5")
+#options=("MariaDB 10.1" "MariaDB 10.2 (Recommendations)" "MariaDB 10.3" "MariaDB 10.4" "MariaDB 10.5")
+options=("MariaDB 10.2 (Recommendations)" "MariaDB 10.3" "MariaDB 10.4" "MariaDB 10.5")
 echo "=========================================================================="
 echo "Lua Chon Cai Dat Phien Ban MariaDB  "
 echo "=========================================================================="
 PS3="$prompt"
 select opt in "${options[@]}"; do 
 case "$REPLY" in
-2) mariadbversion="10.4"; break;;
-3) mariadbversion="10.5"; break;;
-*) mariadbversion="10.3"; break;;
+#1) mariadbversion="10.1"; break;;
+1) mariadbversion="10.2"; break;;
+2) mariadbversion="10.3"; break;;
+3) mariadbversion="10.4"; break;;
+4) mariadbversion="10.5"; break;;
+#0) mariadbversion="10.2"; break;;
+*) mariadbversion="10.2"; break;;
 #*) echo "Ban nhap sai ! Ban vui long chon so trong danh sach";continue;;
 esac  
 done
 
-if [ "$mariadbversion" = "10.4" ]; then
+if [ "$mariadbversion" = "10.1" ]; then
+phienbanmariadb=10.1
+#elif [ "$mariadbversion" = "10.2" ]; then
+#phienbanmariadb=10.2
+elif [ "$mariadbversion" = "10.3" ]; then
+phienbanmariadb=10.3
+elif [ "$mariadbversion" = "10.4" ]; then
 phienbanmariadb=10.4
 elif [ "$mariadbversion" = "10.5" ]; then
 phienbanmariadb=10.5
 else
-phienbanmariadb=10.3
+phienbanmariadb=10.2
 fi
 
 # auto mysql root password
@@ -273,6 +284,8 @@ if [ -f /etc/yum.repos.d/epel.repo ]; then
 sudo sed -i "s/mirrorlist=https/mirrorlist=http/" /etc/yum.repos.d/epel.repo
 fi
 
+#if [ "$phienbanmariadb" = "10.0" ] || [ "$phienbanmariadb" = "10.1" ] || [ "$phienbanmariadb" = "10.2" ] || [ "$phienbanmariadb" = "10.3" ] || [ "$phienbanmariadb" = "10.4" ] || [ "$phienbanmariadb" = "10.5" ]; then
+#fi
 
 # https://mariadb.com/resources/blog/installing-mariadb-10-on-centos-7-rhel-7/
 #if [ "$phienbanmariadb" = "10.4" ] || [ "$phienbanmariadb" = "10.5" ]; then
@@ -809,6 +822,20 @@ interactive-timeout
 END
 
 
+# fixed ERROR for MariaDB config (xu ly loi config tren cac phien ban MariaDB khac nhau)
+if [ "$phienbanmariadb" = "10.2" ] ; then
+# ERROR: Field doesn't have a default value -> Loi sql_mode trong phien ban 10.2++
+cat > "/tmp/vpssimSetConfigFile" <<END
+#!/bin/bash 
+sed -i -e "/sql_mode=/d" /etc/my.cnf.d/server.cnf
+sed -i '/^skip-character-set-client-handshake.*/a sql_mode=NO_ENGINE_SUBSTITUTION' /etc/my.cnf.d/server.cnf
+#sed -i '/^skip-character-set-client-handshake.*/a sql_mode="ONLY_FULL_GROUP_BY,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION"' /etc/my.cnf.d/server.cnf
+END
+chmod +x /tmp/vpssimSetConfigFile
+sh /tmp/vpssimSetConfigFile
+rm -f /tmp/vpssimSetConfigFile
+fi
+
 if [ "$phienbanmariadb" = "10.3" ] || [ "$phienbanmariadb" = "10.4" ] || [ "$phienbanmariadb" = "10.5" ] ; then
 # https://mariadb.com/kb/en/upgrading-from-mariadb-102-to-mariadb-103/
 cat > "/tmp/vpssimSetConfigFile" <<END
@@ -818,6 +845,23 @@ END
 chmod +x /tmp/vpssimSetConfigFile
 sh /tmp/vpssimSetConfigFile
 rm -f /tmp/vpssimSetConfigFile
+fi
+
+
+if [ "$phienbanmariadb" = "10.0" ] || [ "$phienbanmariadb" = "10.1" ] || [ "$phienbanmariadb" = "10.2" ] ; then
+cat >> "/etc/my.cnf.d/server.cnf" <<END
+
+[mariadb-$phienbanmariadb]
+innodb_buffer_pool_dump_at_shutdown=1
+innodb_buffer_pool_load_at_startup=1
+innodb_buffer_pool_populate=0
+performance_schema=OFF
+innodb_stats_on_metadata=OFF
+innodb_sort_buffer_size=1M
+query_cache_strip_comments=0
+log_slow_filter =admin,filesort,filesort_on_disk,full_join,full_scan,query_cache,query_cache_miss,tmp_table,tmp_table_on_disk
+
+END
 fi
 
 if [ "$phienbanmariadb" = "10.3" ] || [ "$phienbanmariadb" = "10.4" ] || [ "$phienbanmariadb" = "10.5" ] ; then
