@@ -12,7 +12,7 @@ echo "khac, sau khi cai dat server xong dung chuc nang [ Change PHP Version ] "
 echo "--------------------------------------------------------------------------"
 echo "trong [ Update System ] cua ECHBAY-VPSSIM."
 echo "--------------------------------------------------------------------------"
-echo "VPSSIM ho tro: PHP 7.2, PHP 7.1, PHP 7.0, PHP 5.6, PHP 5.5 & PHP 5.4"
+echo "VPSSIM ho tro: PHP 7.4, PHP 7.3"
 cpuname=$( awk -F: '/model name/ {name=$2} END {print name}' /proc/cpuinfo )
 cpucores=$( awk -F: '/model name/ {core++} END {print core}' /proc/cpuinfo )
 cpufreq=$( awk -F: ' /cpu MHz/ {freq=$2} END {print freq}' /proc/cpuinfo )
