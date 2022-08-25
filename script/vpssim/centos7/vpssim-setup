@@ -93,37 +93,26 @@ exit
 fi
 
 prompt="Nhap lua chon cua ban: "
-#options=("MariaDB 10.1" "MariaDB 10.2 (Recommendations)" "MariaDB 10.3" "MariaDB 10.4" "MariaDB 10.5")
-options=("MariaDB 10.2 (Recommendations)" "MariaDB 10.3" "MariaDB 10.4" "MariaDB 10.5")
+options=("MariaDB 10.3 (Recommendations)" "MariaDB 10.4" "MariaDB 10.5")
 echo "=========================================================================="
 echo "Lua Chon Cai Dat Phien Ban MariaDB  "
 echo "=========================================================================="
 PS3="$prompt"
 select opt in "${options[@]}"; do 
 case "$REPLY" in
-#1) mariadbversion="10.1"; break;;
-1) mariadbversion="10.2"; break;;
-2) mariadbversion="10.3"; break;;
-3) mariadbversion="10.4"; break;;
-4) mariadbversion="10.5"; break;;
-#0) mariadbversion="10.2"; break;;
-*) mariadbversion="10.2"; break;;
+2) mariadbversion="10.4"; break;;
+3) mariadbversion="10.5"; break;;
+*) mariadbversion="10.3"; break;;
 #*) echo "Ban nhap sai ! Ban vui long chon so trong danh sach";continue;;
 esac  
 done
 
-if [ "$mariadbversion" = "10.1" ]; then
-phienbanmariadb=10.1
-#elif [ "$mariadbversion" = "10.2" ]; then
-#phienbanmariadb=10.2
-elif [ "$mariadbversion" = "10.3" ]; then
-phienbanmariadb=10.3
-elif [ "$mariadbversion" = "10.4" ]; then
+if [ "$mariadbversion" = "10.4" ]; then
 phienbanmariadb=10.4
 elif [ "$mariadbversion" = "10.5" ]; then
 phienbanmariadb=10.5
 else
-phienbanmariadb=10.2
+phienbanmariadb=10.3
 fi
 
 # auto mysql root password
@@ -284,8 +273,6 @@ if [ -f /etc/yum.repos.d/epel.repo ]; then
 sudo sed -i "s/mirrorlist=https/mirrorlist=http/" /etc/yum.repos.d/epel.repo
 fi
 
-#if [ "$phienbanmariadb" = "10.0" ] || [ "$phienbanmariadb" = "10.1" ] || [ "$phienbanmariadb" = "10.2" ] || [ "$phienbanmariadb" = "10.3" ] || [ "$phienbanmariadb" = "10.4" ] || [ "$phienbanmariadb" = "10.5" ]; then
-#fi
 
 # https://mariadb.com/resources/blog/installing-mariadb-10-on-centos-7-rhel-7/
 #if [ "$phienbanmariadb" = "10.4" ] || [ "$phienbanmariadb" = "10.5" ]; then
