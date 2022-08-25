@@ -100,6 +100,7 @@ echo "==========================================================================
 PS3="$prompt"
 select opt in "${options[@]}"; do 
 case "$REPLY" in
+1) mariadbversion="10.3"; break;;
 2) mariadbversion="10.4"; break;;
 3) mariadbversion="10.5"; break;;
 *) mariadbversion="10.3"; break;;
