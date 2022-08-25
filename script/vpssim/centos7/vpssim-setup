@@ -811,6 +811,7 @@ END
 
 
 if [ "$phienbanmariadb" = "10.3" ] || [ "$phienbanmariadb" = "10.4" ] || [ "$phienbanmariadb" = "10.5" ] ; then
+
 # https://mariadb.com/kb/en/upgrading-from-mariadb-102-to-mariadb-103/
 cat > "/tmp/vpssimSetConfigFile" <<END
 #!/bin/bash 
@@ -819,9 +820,8 @@ END
 chmod +x /tmp/vpssimSetConfigFile
 sh /tmp/vpssimSetConfigFile
 rm -f /tmp/vpssimSetConfigFile
-fi
 
-if [ "$phienbanmariadb" = "10.3" ] || [ "$phienbanmariadb" = "10.4" ] || [ "$phienbanmariadb" = "10.5" ] ; then
+#
 cat >> "/etc/my.cnf.d/server.cnf" <<END
 
 [mariadb-$phienbanmariadb]
@@ -835,10 +835,11 @@ query_cache_strip_comments=0
 log_slow_filter =admin,filesort,filesort_on_disk,full_join,full_scan,query_cache,query_cache_miss,tmp_table,tmp_table_on_disk
 
 END
+
 fi
 
 
-    cat >> "/etc/security/limits.conf" <<END
+cat >> "/etc/security/limits.conf" <<END
 * soft nofile 65536
 * hard nofile 65536
 nginx soft nofile 65536
@@ -875,7 +876,7 @@ END
 fi
 
 rm -f /home/vpssim.conf
-    cat > "/home/vpssim.conf" <<END
+cat > "/home/vpssim.conf" <<END
 mainsite="vpssim.demo"
 priport="$svport"
 serverip="$svip"
