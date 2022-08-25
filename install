@@ -28,7 +28,7 @@ echo "SELinux status: "$selinux_on_off
 if [ "$selinux_on_off" = "ENABLED" ]; then
 if [ -f /etc/selinux/config ]; then
 echo "=========================================================================="
-echo "Warning! php-fmp not install if SELinux enable"
+echo "Warning! php-fpm not install if SELinux enable"
 
 # neu truoc do da thu disable SELinux nhung khong thanh cong
 if [ -f /tmp/echbay_vpssim_disable_selinux ]; then
