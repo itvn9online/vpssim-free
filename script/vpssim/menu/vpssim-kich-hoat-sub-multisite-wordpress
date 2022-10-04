@@ -159,8 +159,10 @@ server {
 server {
 	    listen   80;
 
-    	access_log off;
-    	error_log off;
+    	#access_log off;
+		access_log /dev/null;
+    	#error_log off;
+		error_log /dev/null;
     	# error_log /home/$website/logs/error.log;
     	root /home/$website/public_html;
 include /etc/nginx/conf/ddos2.conf;
@@ -226,8 +228,10 @@ server {
 server {
 	    listen   80;
 
-    	access_log off;
-    	error_log off;
+    	#access_log off;
+		access_log /dev/null;
+    	#error_log off;
+		error_log /dev/null;
     	# error_log /home/$website/logs/error.log;
     	root /home/$website/public_html;
 include /etc/nginx/conf/ddos2.conf;
@@ -292,8 +296,10 @@ server {
 server {
 	    listen   80;
 
-    	access_log off;
-    	error_log off;
+    	#access_log off;
+		access_log /dev/null;
+    	#error_log off;
+		error_log /dev/null;
     	# error_log /home/$website/logs/error.log;
     	root /home/$website/public_html;
 include /etc/nginx/conf/ddos2.conf;
@@ -356,8 +362,10 @@ server {
 server {
 	    listen   80;
 
-    	access_log off;
-    	error_log off;
+    	#access_log off;
+		access_log /dev/null;
+    	#error_log off;
+		error_log /dev/null;
     	# error_log /home/$website/logs/error.log;
     	root /home/$website/public_html;
 include /etc/nginx/conf/ddos2.conf;

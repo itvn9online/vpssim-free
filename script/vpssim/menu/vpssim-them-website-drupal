@@ -79,9 +79,11 @@ server {
 server {
 	    listen   80;
 
-    	access_log off;
+    	#access_log off;
+		access_log /dev/null;
     	# access_log   /home/$website/logs/access_log;
-    	error_log off;
+    	#error_log off;
+		error_log /dev/null;
     	# error_log /home/$website/logs/error.log;
         add_header X-Frame-Options SAMEORIGIN;
 		add_header X-Content-Type-Options nosniff;
@@ -179,8 +181,10 @@ server {
 server {
 	    listen   80;
 
-    	access_log off;
-    	error_log off;
+    	#access_log off;
+		access_log /dev/null;
+    	#error_log off;
+		error_log /dev/null;
     	# error_log /home/$website/logs/error.log;
     	add_header X-Frame-Options SAMEORIGIN;
 		add_header X-Content-Type-Options nosniff;

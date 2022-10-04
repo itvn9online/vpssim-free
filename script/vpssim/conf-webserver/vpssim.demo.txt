@@ -6,8 +6,10 @@ rewrite ^(.*) http://vpssim.demo$1 permanent;
 server {
 listen   80 default_server;
 
-access_log off;
-error_log off;
+#access_log off;
+access_log /dev/null;
+#error_log off;
+error_log /dev/null;
 # error_log /home/vpssim.demo/logs/error.log;
 root /home/vpssim.demo/public_html;
 include /etc/nginx/conf/ddos2.conf;

@@ -106,7 +106,8 @@ server {
       ssl_buffer_size 1400;
   ssl_session_tickets on;
 add_header Strict-Transport-Security max-age=31536000;
-    	error_log off;
+    	#error_log off;
+		error_log /dev/null;
     	# error_log /home/$domainssl/logs/error.log;
     	root /home/$domainssl/public_html;
 include /etc/nginx/conf/ddos2.conf;
@@ -130,8 +131,10 @@ server {
 server {
 	    listen   80;
 
-    	access_log off;
-    	error_log off;
+    	#access_log off;
+		access_log /dev/null;
+    	#error_log off;
+		error_log /dev/null;
     	# error_log /home/$domainssl/logs/error.log;
     	root /home/$domainssl/public_html;
 include /etc/nginx/conf/ddos2.conf;
