@@ -4,7 +4,8 @@ cd ~
 mkdir -p /etc/nginx/conf
 
 download_echbay_nginx_config(){
-wget --no-check-certificate -q "https://echbay.com/server/conf/index.php?file=$1&download=1&rand=1" -O /etc/nginx/conf/$1.conf ; chmod 755 /etc/nginx/conf/$1.conf
+wget --no-check-certificate -q "https://echbay.com/server/conf/index.php?file=$1&download=1&rand=1" -O /etc/nginx/conf/$1.conf
+chmod 755 /etc/nginx/conf/$1.conf
 }
 #download_echbay_nginx_config "ddos1"
 #download_echbay_nginx_config "ddos2"
@@ -13,6 +14,10 @@ download_echbay_nginx_config "all"
 download_echbay_nginx_config "block"
 download_echbay_nginx_config "staticfiles"
 download_echbay_nginx_config "drop"
+
+#
+wget --no-check-certificate -q "https://echbay.com/server/conf/index.php?file=ssl_ciphers_vpssim&download=1&rand=1" -O /etc/nginx/ssl_ciphers_vpssim.conf
+chmod 755 /etc/nginx/ssl_ciphers_vpssim.conf
 
 #
 chown root:root /etc/nginx/conf
