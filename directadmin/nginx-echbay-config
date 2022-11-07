@@ -63,8 +63,4 @@ cd /usr/local/directadmin/custombuild
 ./build rewrite_confs
 
 cd ~
-if [ -f /usr/local/lsws/bin/lswsctrl ]; then
-/usr/local/lsws/bin/lswsctrl restart
-else
 service nginx restart
-fi
