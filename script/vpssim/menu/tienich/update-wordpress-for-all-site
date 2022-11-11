@@ -36,6 +36,14 @@ echoR()
 }
 
 
+# dọn dẹp file php trong thư mục wp-content, themes, plugins -> hạn chế tối đa mã độc ẩn chứa trong này
+remove_php_in_wp_content(){
+	if [ -d $1 ]; then
+		rm -rf $1/*.php
+		echo "No money... No love..." > $1/index.php
+	fi
+}
+
 
 
 cd ~
@@ -476,6 +484,9 @@ if [ $2 -lt $3 ]; then
 							#rsync -ah --delete /root/wp-all-update/wordpress/wp-includes/* $d/wp-includes/ > /dev/null 2>&1
 							rsync -ah /root/wp-all-update/wordpress/wp-includes/* $d/wp-includes/ > /dev/null 2>&1
 						fi
+						remove_php_in_wp_content $d/wp-content
+						remove_php_in_wp_content $d/wp-content/plugins
+						remove_php_in_wp_content $d/wp-content/themes
 						# đồng bộ nốt các thư mục và file còn lại
 						rsync -ah --exclude="wp-config.php" --exclude="wp-admin/*" --exclude="wp-content/*" --exclude="wp-includes/*" /root/wp-all-update/wordpress/* $d/ > /dev/null 2>&1
 					fi
