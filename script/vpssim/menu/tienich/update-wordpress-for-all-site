@@ -453,17 +453,30 @@ if [ $2 -lt $3 ]; then
 							mv -f $d/wp-config.php $d/wp-config.txt
 						fi
 						rm -rf $d/*.php
-						rsync -avz --delete --exclude="wp-config.php" --exclude="wp-admin/*" --exclude="wp-content/*" --exclude="wp-includes/*" /root/wp-all-update/wordpress/*.php $d/
+						rsync -avz --delete --exclude="wp-config.php" --exclude="wp-admin/*" --exclude="wp-content/*" --exclude="wp-includes/*" /root/wp-all-update/wordpress/*.php $d/ > /dev/null 2>&1
 						if [ -f $d/wp-config.txt ]; then
 							mv -f $d/wp-config.txt $d/wp-config.php
 						fi
-						rsync -ah --exclude="wp-config.php" --exclude="wp-admin/*" --exclude="wp-content/*" --exclude="wp-includes/*" --delete /root/wp-all-update/wordpress/*.php $d/ > /dev/null 2>&1
+						# đồng bộ thư mục admin và includes
 						if [ -d /root/wp-all-update/wordpress/wp-admin ]; then
-							rsync -ah --delete /root/wp-all-update/wordpress/wp-admin/* $d/wp-admin/ > /dev/null 2>&1
+							rm -rf $d/wp-admin/*
+							#rm -rf $d/wp-admin/.*
+							rm -rf $d/wp-admin
+							#rsync -ah --delete /root/wp-all-update/wordpress/wp-admin $d/ > /dev/null 2>&1
+							rsync -ah /root/wp-all-update/wordpress/wp-admin $d/ > /dev/null 2>&1
+							#rsync -ah --delete /root/wp-all-update/wordpress/wp-admin/* $d/wp-admin/ > /dev/null 2>&1
+							rsync -ah /root/wp-all-update/wordpress/wp-admin/* $d/wp-admin/ > /dev/null 2>&1
 						fi
 						if [ -d /root/wp-all-update/wordpress/wp-includes ]; then
-							rsync -ah --delete /root/wp-all-update/wordpress/wp-includes/* $d/wp-includes/ > /dev/null 2>&1
+							rm -rf $d/wp-includes/*
+							#rm -rf $d/wp-includes/.*
+							rm -rf $d/wp-includes
+							#rsync -ah --delete /root/wp-all-update/wordpress/wp-includes $d/ > /dev/null 2>&1
+							rsync -ah /root/wp-all-update/wordpress/wp-includes $d/ > /dev/null 2>&1
+							#rsync -ah --delete /root/wp-all-update/wordpress/wp-includes/* $d/wp-includes/ > /dev/null 2>&1
+							rsync -ah /root/wp-all-update/wordpress/wp-includes/* $d/wp-includes/ > /dev/null 2>&1
 						fi
+						# đồng bộ nốt các thư mục và file còn lại
 						rsync -ah --exclude="wp-config.php" --exclude="wp-admin/*" --exclude="wp-content/*" --exclude="wp-includes/*" /root/wp-all-update/wordpress/* $d/ > /dev/null 2>&1
 					fi
 					
