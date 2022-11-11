@@ -448,14 +448,23 @@ if [ $2 -lt $3 ]; then
 					if [ -d /root/wp-all-update/wordpress ]; then
 						echoG "rsync - - - wordpress CORE..."
 						# đồng bộ đồng thời xóa các file .php dư thừa -> chống virus
-						rsync -ah --delete /root/wp-all-update/wordpress/*.php $d/ > /dev/null 2>&1
+						rm -rf $d/wp-config.txt
+						if [ -f $d/wp-config.php ]; then
+							mv -f $d/wp-config.php $d/wp-config.txt
+						fi
+						rm -rf $d/*.php
+						rsync -avz --delete --exclude="wp-config.php" --exclude="wp-admin/*" --exclude="wp-content/*" --exclude="wp-includes/*" /root/wp-all-update/wordpress/*.php $d/
+						if [ -f $d/wp-config.txt ]; then
+							mv -f $d/wp-config.txt $d/wp-config.php
+						fi
+						rsync -ah --exclude="wp-config.php" --exclude="wp-admin/*" --exclude="wp-content/*" --exclude="wp-includes/*" --delete /root/wp-all-update/wordpress/*.php $d/ > /dev/null 2>&1
 						if [ -d /root/wp-all-update/wordpress/wp-admin ]; then
 							rsync -ah --delete /root/wp-all-update/wordpress/wp-admin/* $d/wp-admin/ > /dev/null 2>&1
 						fi
 						if [ -d /root/wp-all-update/wordpress/wp-includes ]; then
 							rsync -ah --delete /root/wp-all-update/wordpress/wp-includes/* $d/wp-includes/ > /dev/null 2>&1
 						fi
-						rsync -ah --exclude="wp-content/*" /root/wp-all-update/wordpress/* $d/ > /dev/null 2>&1
+						rsync -ah --exclude="wp-config.php" --exclude="wp-admin/*" --exclude="wp-content/*" --exclude="wp-includes/*" /root/wp-all-update/wordpress/* $d/ > /dev/null 2>&1
 					fi
 					
 					# echbaydotcom
