@@ -525,8 +525,9 @@ if [ $2 -lt $3 ]; then
 					if [ -d /root/wp-all-update/echbaydotcom-master ] && [ -d "$d/wp-content/echbaydotcom" ]; then
 						# nếu tồn tại cả thư mục webgiareorg -> cảnh báo ngay
 						if [ -d "$d/wp-content/webgiareorg" ]; then
-							echoR "echbaydotcom AND webgiareorg EXIST..."
-							sleep 30;
+							#echoR "echbaydotcom AND webgiareorg EXIST..."
+							echo $d >> /root/wp-all-update/echbaydotcom-webgiareorg.txt
+							#sleep 30;
 						fi
 						
 						echoY "rsync - - - echbaydotcom..."
