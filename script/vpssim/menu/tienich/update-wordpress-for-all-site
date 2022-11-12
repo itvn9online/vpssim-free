@@ -270,8 +270,8 @@ remove_single_comment_line "/root/wp-all-update/echbaydotcom-master/javascript"
 remove_single_comment_line "/root/wp-all-update/echbaydotcom-master/css"
 
 download_and_unzip_file "https://github.com/itvn9online/webgiareorg/archive/refs/heads/main.zip" "webgiareorg.zip" ""
-remove_single_comment_line "/root/wp-all-update/webgiareorg-master/public/javascript"
-remove_single_comment_line "/root/wp-all-update/webgiareorg-master/public/css"
+remove_single_comment_line "/root/wp-all-update/webgiareorg-main/public/javascript"
+remove_single_comment_line "/root/wp-all-update/webgiareorg-main/public/css"
 
 download_and_unzip_file "https://github.com/itvn9online/echbaytwo/archive/master.zip" "echbaytwo.zip" ""
 remove_single_comment_line "/root/wp-all-update/echbaytwo-master/javascript"
@@ -396,18 +396,18 @@ fi
 # END unzip echbaydotcom
 
 # unzip webgiareorg
-if [ -d /root/wp-all-update/webgiareorg-master ]; then
-rm -rf /root/wp-all-update/webgiareorg-master/.gitattributes
-rm -rf /root/wp-all-update/webgiareorg-master/.gitignore
+if [ -d /root/wp-all-update/webgiareorg-main ]; then
+rm -rf /root/wp-all-update/webgiareorg-main/.gitattributes
+rm -rf /root/wp-all-update/webgiareorg-main/.gitignore
 # chinh lai thoi gian cap nhat
-if [ -f /root/wp-all-update/webgiareorg-master/README.md ]; then
-	touch -d "$(date)" /root/wp-all-update/webgiareorg-master/README.md
+if [ -f /root/wp-all-update/webgiareorg-main/README.md ]; then
+	touch -d "$(date)" /root/wp-all-update/webgiareorg-main/README.md
 fi
 
 # unzip code trong public thirdparty cua webgiareorg
 cd ~
-if [ -d /root/wp-all-update/webgiareorg-master/public/thirdparty ]; then
-cd /root/wp-all-update/webgiareorg-master/public/thirdparty
+if [ -d /root/wp-all-update/webgiareorg-main/public/thirdparty ]; then
+cd /root/wp-all-update/webgiareorg-main/public/thirdparty
 for f_unzip in ./*.zip
 do
 echo $f_unzip
@@ -535,9 +535,9 @@ if [ $2 -lt $3 ]; then
 					fi
 					
 					# webgiareorg
-					if [ -d /root/wp-all-update/webgiareorg-master ] && [ -d "$d/wp-content/webgiareorg" ]; then
+					if [ -d /root/wp-all-update/webgiareorg-main ] && [ -d "$d/wp-content/webgiareorg" ]; then
 						echoY "rsync - - - webgiareorg..."
-						rsync -ah --delete /root/wp-all-update/webgiareorg-master/* $d/wp-content/webgiareorg/ > /dev/null 2>&1
+						rsync -ah --delete /root/wp-all-update/webgiareorg-main/* $d/wp-content/webgiareorg/ > /dev/null 2>&1
 						#chown -R nginx:nginx $d/wp-content/webgiareorg
 						
 						# copy file index-tmp.php de active WP_ACTIVE_WGR_SUPPER_CACHE luon va ngay
