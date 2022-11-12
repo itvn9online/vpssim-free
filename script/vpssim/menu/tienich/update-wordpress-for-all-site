@@ -269,6 +269,10 @@ download_and_unzip_file "https://github.com/itvn9online/echbaydotcom/archive/mas
 remove_single_comment_line "/root/wp-all-update/echbaydotcom-master/javascript"
 remove_single_comment_line "/root/wp-all-update/echbaydotcom-master/css"
 
+download_and_unzip_file "https://github.com/itvn9online/webgiareorg/archive/refs/heads/main.zip" "webgiareorg.zip" ""
+remove_single_comment_line "/root/wp-all-update/webgiareorg-master/public/javascript"
+remove_single_comment_line "/root/wp-all-update/webgiareorg-master/public/css"
+
 download_and_unzip_file "https://github.com/itvn9online/echbaytwo/archive/master.zip" "echbaytwo.zip" ""
 remove_single_comment_line "/root/wp-all-update/echbaytwo-master/javascript"
 remove_single_comment_line "/root/wp-all-update/echbaytwo-master/css"
@@ -367,7 +371,7 @@ echo "wordpress not exist"
 exit
 fi
 
-#
+# unzip echbaydotcom
 if [ -d /root/wp-all-update/echbaydotcom-master ]; then
 rm -rf /root/wp-all-update/echbaydotcom-master/.gitattributes
 rm -rf /root/wp-all-update/echbaydotcom-master/.gitignore
@@ -389,8 +393,33 @@ cd ~
 fi
 
 fi
+# END unzip echbaydotcom
 
-#
+# unzip webgiareorg
+if [ -d /root/wp-all-update/webgiareorg-master ]; then
+rm -rf /root/wp-all-update/webgiareorg-master/.gitattributes
+rm -rf /root/wp-all-update/webgiareorg-master/.gitignore
+# chinh lai thoi gian cap nhat
+if [ -f /root/wp-all-update/webgiareorg-master/README.md ]; then
+	touch -d "$(date)" /root/wp-all-update/webgiareorg-master/README.md
+fi
+
+# unzip code trong public thirdparty cua webgiareorg
+cd ~
+if [ -d /root/wp-all-update/webgiareorg-master/public/thirdparty ]; then
+cd /root/wp-all-update/webgiareorg-master/public/thirdparty
+for f_unzip in ./*.zip
+do
+echo $f_unzip
+unzip -o $f_unzip > /dev/null 2>&1
+done
+cd ~
+fi
+
+fi
+# END unzip webgiareorg
+
+# unzip echbaytwo
 if [ -d /root/wp-all-update/echbaytwo-master ]; then
 rm -rf /root/wp-all-update/echbaytwo-master/.gitattributes
 rm -rf /root/wp-all-update/echbaytwo-master/.gitignore
@@ -412,6 +441,7 @@ cd ~
 fi
 
 fi
+# END unzip echbaytwo
 
 # phan quyen cho nginx quan ly
 id -u nginx
@@ -504,6 +534,19 @@ if [ $2 -lt $3 ]; then
 						fi
 					fi
 					
+					# webgiareorg
+					if [ -d /root/wp-all-update/webgiareorg-master ] && [ -d "$d/wp-content/webgiareorg" ]; then
+						echoY "rsync - - - webgiareorg..."
+						rsync -ah --delete /root/wp-all-update/webgiareorg-master/* $d/wp-content/webgiareorg/ > /dev/null 2>&1
+						#chown -R nginx:nginx $d/wp-content/webgiareorg
+						
+						# copy file index-tmp.php de active WP_ACTIVE_WGR_SUPPER_CACHE luon va ngay
+						if [ -f "$d/wp-content/webgiareorg/index-tmp.php" ]; then
+							echoY "active WP ACTIVE WGR SUPPER CACHE..."
+							yes | cp -rf $d/wp-content/webgiareorg/index-tmp.php $d/index.php
+						fi
+					fi
+
 					# echbaytwo
 					if [ -d /root/wp-all-update/echbaytwo-master ] && [ -d "$d/wp-content/themes/echbaytwo" ]; then
 						echoY "rsync - - - echbaytwo..."
