@@ -523,6 +523,12 @@ if [ $2 -lt $3 ]; then
 					
 					# echbaydotcom
 					if [ -d /root/wp-all-update/echbaydotcom-master ] && [ -d "$d/wp-content/echbaydotcom" ]; then
+						# nếu tồn tại cả thư mục webgiareorg -> cảnh báo ngay
+						if [ -d "$d/wp-content/webgiareorg" ]; then
+							echoR "echbaydotcom AND webgiareorg EXIST..."
+							sleep 30;
+						fi
+						
 						echoY "rsync - - - echbaydotcom..."
 						rsync -ah --delete /root/wp-all-update/echbaydotcom-master/* $d/wp-content/echbaydotcom/ > /dev/null 2>&1
 						#chown -R nginx:nginx $d/wp-content/echbaydotcom
