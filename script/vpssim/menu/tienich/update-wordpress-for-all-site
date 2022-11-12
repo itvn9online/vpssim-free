@@ -532,26 +532,30 @@ if [ $2 -lt $3 ]; then
 							echoY "active WP ACTIVE WGR SUPPER CACHE..."
 							yes | cp -rf $d/wp-content/echbaydotcom/index-tmp.php $d/index.php
 						fi
+
+						# echbaytwo
+						if [ -d /root/wp-all-update/echbaytwo-master ] && [ -d "$d/wp-content/themes/echbaytwo" ]; then
+							echoY "rsync - - - echbaytwo..."
+							rsync -ah --delete /root/wp-all-update/echbaytwo-master/* $d/wp-content/themes/echbaytwo/ > /dev/null 2>&1
+							#chown -R nginx:nginx $d/wp-content/themes/echbaytwo
+						fi
 					fi
 					
 					# webgiareorg
 					if [ -d /root/wp-all-update/webgiareorg-main ] && [ -d "$d/wp-content/webgiareorg" ]; then
-						echoY "rsync - - - webgiareorg..."
-						rsync -ah --delete /root/wp-all-update/webgiareorg-main/* $d/wp-content/webgiareorg/ > /dev/null 2>&1
-						#chown -R nginx:nginx $d/wp-content/webgiareorg
-						
-						# copy file index-tmp.php de active WP_ACTIVE_WGR_SUPPER_CACHE luon va ngay
-						if [ -f "$d/wp-content/webgiareorg/index-tmp.php" ]; then
-							echoY "active WP ACTIVE WGR SUPPER CACHE..."
-							yes | cp -rf $d/wp-content/webgiareorg/index-tmp.php $d/index.php
+						# chỉ chạy khi có theme flatsome đi kèm
+						# và không được có theme echbaytwo
+						if [ ! -d "$d/wp-content/echbaytwo" ] && [ -d "$d/wp-content/flatsome" ]; then
+							echoY "rsync - - - webgiareorg..."
+							rsync -ah --delete /root/wp-all-update/webgiareorg-main/* $d/wp-content/webgiareorg/ > /dev/null 2>&1
+							#chown -R nginx:nginx $d/wp-content/webgiareorg
+							
+							# copy file index-tmp.php de active WP_ACTIVE_WGR_SUPPER_CACHE luon va ngay
+							if [ -f "$d/wp-content/webgiareorg/index-tmp.php" ]; then
+								echoY "active WP ACTIVE WGR SUPPER CACHE..."
+								yes | cp -rf $d/wp-content/webgiareorg/index-tmp.php $d/index.php
+							fi
 						fi
-					fi
-
-					# echbaytwo
-					if [ -d /root/wp-all-update/echbaytwo-master ] && [ -d "$d/wp-content/themes/echbaytwo" ]; then
-						echoY "rsync - - - echbaytwo..."
-						rsync -ah --delete /root/wp-all-update/echbaytwo-master/* $d/wp-content/themes/echbaytwo/ > /dev/null 2>&1
-						#chown -R nginx:nginx $d/wp-content/themes/echbaytwo
 					fi
 					
 					# wordpres plugin -> chay vong lap va update tat ca neu co
