@@ -48,6 +48,8 @@ remove_php_in_wp_content(){
 
 cd ~
 
+echo "" > /root/wp-all-update/echbaydotcom-webgiareorg.txt
+
 chmodUser=""
 
 # cau hinh linh dong theo tung loai host
