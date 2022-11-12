@@ -545,7 +545,9 @@ if [ $2 -lt $3 ]; then
 					if [ -d /root/wp-all-update/webgiareorg-main ] && [ -d "$d/wp-content/webgiareorg" ]; then
 						# chỉ chạy khi có theme flatsome đi kèm
 						# và không được có theme echbaytwo
-						if [ ! -d "$d/wp-content/echbaytwo" ] && [ -d "$d/wp-content/flatsome" ]; then
+						if [ -d "$d/wp-content/echbaytwo" ]; then
+							echoY "continue - - - echbaytwo..."
+						elif [ -d "$d/wp-content/flatsome" ]; then
 							echoY "rsync - - - webgiareorg..."
 							rsync -ah --delete /root/wp-all-update/webgiareorg-main/* $d/wp-content/webgiareorg/ > /dev/null 2>&1
 							#chown -R nginx:nginx $d/wp-content/webgiareorg
