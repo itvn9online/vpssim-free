@@ -64,6 +64,7 @@ else
 clear
 #echo "= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = ="
 #echo "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
+
 echo -n "Enter dir for check and update (default /home): "
 read DirSetup
 if [ "$DirSetup" = "" ]; then
