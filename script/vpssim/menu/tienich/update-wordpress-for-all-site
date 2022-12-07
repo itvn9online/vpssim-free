@@ -61,9 +61,10 @@ if [ -f /tmp/server_wp_all_update ]; then
 
 else
 
+sleep 3
 clear
-#echo "= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = ="
-#echo "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
+echo "= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = ="
+echo "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
 
 echo -n "Enter dir for check and update (default /home): "
 read DirSetup
@@ -96,7 +97,7 @@ fi
 echoG "OK OK, check and update wordpres website in: "$DirSetup
 echo "Max for: "$MaxCheck
 echoY "Will begin after 3s..."
-#sleep 3
+sleep 3
 #exit
 
 
