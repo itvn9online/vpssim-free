@@ -61,7 +61,7 @@ if [ -f /tmp/server_wp_all_update ]; then
 
 else
 
-sleep 3
+sleep 2
 clear
 echo "= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = ="
 echo "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
@@ -77,7 +77,7 @@ echoR $DirSetup" not exist!"
 exit
 fi
 
-echo -n "Max dir for foreah (maximum 10, default 3): "
+echo -n "Max dir for foreach (maximum 10, default 3): "
 read MaxCheck
 if [ "$MaxCheck" = "" ]; then
 MaxCheck=3
@@ -96,8 +96,8 @@ fi
 
 echoG "OK OK, check and update wordpres website in: "$DirSetup
 echo "Max for: "$MaxCheck
-echoY "Will begin after 3s..."
-sleep 3
+echoY "Will begin after 2s..."
+sleep 2
 #exit
 
 
