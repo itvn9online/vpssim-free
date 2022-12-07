@@ -61,7 +61,9 @@ if [ -f /tmp/server_wp_all_update ]; then
 
 else
 
-echo -n "Dir for check and update (default /home): "
+echo "= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = ="
+echo "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
+echo -n "Enter dir for check and update (default /home): "
 read DirSetup
 if [ "$DirSetup" = "" ]; then
 DirSetup="/home"
@@ -551,10 +553,10 @@ if [ $2 -lt $3 ]; then
 					# webgiareorg
 					elif [ -d /root/wp-all-update/webgiareorg-main ] && [ -d "$d/wp-content/webgiareorg" ]; then
 						# và không được có theme echbaytwo
-						if [ -d "$d/wp-content/echbaytwo" ]; then
+						if [ -d "$d/wp-content/themes/echbaytwo" ]; then
 							echoY "continue - - - echbaytwo..."
 						# chỉ chạy khi có theme flatsome đi kèm
-						elif [ -d "$d/wp-content/flatsome" ]; then
+						elif [ -d "$d/wp-content/themes/flatsome" ]; then
 							echoY "rsync - - - webgiareorg..."
 							rsync -ah --delete /root/wp-all-update/webgiareorg-main/* $d/wp-content/webgiareorg/ > /dev/null 2>&1
 							#chown -R nginx:nginx $d/wp-content/webgiareorg
@@ -564,8 +566,18 @@ if [ $2 -lt $3 ]; then
 								echoY "active WP ACTIVE WGR SUPPER CACHE..."
 								yes | cp -rf $d/wp-content/webgiareorg/index-tmp.php $d/index.php
 							fi
+						else
+							echoR "webgiareorg for flatsome ONLY..."
 						fi
+					else
+						echo "Update for Another code ONLY..."
 					fi
+
+					# dọn dẹp code dư thừa của backup
+					echo "Cleanup EB update code..."
+					rm -rf "$d/wp-content/echbaydotcom-*"
+					rm -rf "$d/wp-content/themes/echbaytwo-*"
+					rm -rf "$d/wp-content/webgiareorg-*"
 					
 					# wordpres plugin -> chay vong lap va update tat ca neu co
 					#if [ -d /root/wp-all-update/plugins ]; then
