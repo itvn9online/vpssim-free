@@ -625,6 +625,12 @@ if [ $2 -lt $3 ]; then
 					sleep 3;
 				# thử xem có phải là laravel hoặc codeigniter không
 				elif [ -f "$d/code-mau.php" ] && [ -d "$d/app" ] && [ -d "$d/public" ] && [ -d "$d/system" ]; then
+					echo $d
+					# tim duoc website wp
+					echoY "++++++++++++++++++++++++++++ It is a Laravel or Codeigniter website"
+					
+					echo "Begin cleanup! Please wait..."
+
 					# dọn rác update trên này
 					rm -rf $d"/system-*"
 				else
