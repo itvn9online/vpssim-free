@@ -99,6 +99,7 @@ fi
 
 echoG "OK OK, check and update wordpres website in: "$DirSetup
 echo "Max for: "$MaxCheck
+echo "Disable Xmlrpc: "$DisableXmlrpc
 echoY "Will begin after 2s..."
 sleep 2
 #exit
