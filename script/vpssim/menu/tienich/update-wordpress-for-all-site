@@ -483,7 +483,7 @@ if [ $2 -lt $3 ]; then
 					echoY "++++++++++++++++++++++++++++ It is a wordpress website"
 
 					#
-					if [ $DisableXmlrpc -eq 0 ]; then
+					if [ "$DisableXmlrpc" -ne 0 ]; then
 						# tắt xmlrpc để nhẹ web và tăng bảo mật
 						echo "Disable Xmlrpc..."
 						echo "Hello world..." > $d/xmlrpc.php
