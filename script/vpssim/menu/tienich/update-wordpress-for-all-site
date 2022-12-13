@@ -633,6 +633,9 @@ if [ $2 -lt $3 ]; then
 
 					# dọn rác update trên này
 					rm -rf $d"/system-*"
+
+					echo "Cleanup all DONE!"
+					sleep 3;
 				else
 					#echo $d
 					stt=$2
