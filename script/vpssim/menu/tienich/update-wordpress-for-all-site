@@ -76,7 +76,7 @@ DirSetup="/home"
 fi
 
 if [ ! -d $DirSetup ]; then
-echoR $DirSetup" not exist!"
+echoR $DirSetup" not exist..."
 exit
 fi
 
@@ -151,7 +151,7 @@ fi
 if [ -f $1 ]; then
 downloadSize=$(du -h $1 | awk 'NR==1 {print $1}')
 if [ "$downloadSize" = "0" ]; then
-echoR "Remove file! Filesize zero: "$1
+echoR "Remove file... Filesize zero: "$1
 rm -rf $1
 fi
 fi
@@ -215,14 +215,14 @@ wget --no-check-certificate -q $1 -O $2 && chmod 755 $2
 
 # khong download duoc -> thoat
 if [ ! -f $2 ]; then
-echoR "Download faild! File not exist: "$2
+echoR "Download faild... File not exist: "$2
 exit
 fi
 
 # kiem tra file size
 downloadSize=$(du -h $2 | awk 'NR==1 {print $1}')
 if [ "$downloadSize" = "0" ]; then
-echoR "Download faild! Filesize zero: "$2
+echoR "Download faild... Filesize zero: "$2
 exit
 fi
 
@@ -341,14 +341,14 @@ rsync_wp_plugin $1 $2 "no"
 elif [ "$ketnoi" = "404" ]; then
 
 # neu khong thi bao loi, thuong thi nhung plugin pro se khong co tren wordpress
-echoR "- - - - - - - - - WARNING! plugin not exist ("$ketnoi"): "$1
+echoR "- - - - - - - - - WARNING... plugin not exist ("$ketnoi"): "$1
 # tao file de qua trinh kiem tra ket noi khong dien ra lien tuc
 echo $ketnoi > $file404
 
 else
 
 # neu khong thi bao loi, thuong thi nhung plugin pro se khong co tren wordpress
-echoY "- - - - - - - - - WARNING! plugin connect error "$ketnoi": "$1
+echoY "- - - - - - - - - WARNING... plugin connect error "$ketnoi": "$1
 # tao file de qua trinh kiem tra ket noi khong dien ra lien tuc
 echo $ketnoi > $file500
 
@@ -358,7 +358,7 @@ re_download_plugin="1"
 fi
 
 else
-echoR "- - - - - - - - - WARNING! plugin not exist (cache): "$1
+echoR "- - - - - - - - - WARNING... plugin not exist (cache): "$1
 fi
 
 else
@@ -483,7 +483,7 @@ if [ $2 -lt $3 ]; then
 			# neu la shortcut thi bo qua
 			if [ -L $d ]; then
 				echo $d
-				echo "---------------------------- It is a symlink!"
+				echo "---------------------------- It is a symlink..."
 			else
 				# tim it nhat 3 file va 3 thu muc bat buoc phai co cua wp
 				if [ -f $d/wp-config.php ] && [ -f $d/wp-settings.php ] && [ -f $d/wp-blog-header.php ] && [ -d $d/wp-admin ] && [ -d $d/wp-content ] && [ -d $d/wp-includes ]; then
@@ -494,10 +494,11 @@ if [ $2 -lt $3 ]; then
 					#
 					if [ $DisableXmlrpc -eq 0 ]; then
 						# tắt xmlrpc để nhẹ web và tăng bảo mật
+						echo "Disable Xmlrpc..."
 						echo "Hello world..." > $d/xmlrpc.php
 					fi
 					
-					echo "Begin rsync! Please wait..."
+					echo "Begin rsync... Please wait..."
 					
 					# wordpres core
 					if [ -d /root/wp-all-update/wordpress ]; then
@@ -625,7 +626,7 @@ if [ $2 -lt $3 ]; then
 						fi
 					fi
 					
-					echo "Rsync all DONE!"
+					echo "Rsync all DONE..."
 					sleep 3;
 				# thử xem có phải là laravel hoặc codeigniter không
 				elif [ -f $d/code-mau.php ] && [ -d $d/app ] && [ -d $d/public ] && [ -d $d/system ]; then
@@ -633,13 +634,13 @@ if [ $2 -lt $3 ]; then
 					# tim duoc website wp
 					echoY "++++++++++++++++++++++++++++ It is a Laravel or Codeigniter website"
 					
-					echo "Begin cleanup! Please wait..."
+					echo "Begin cleanup... Please wait..."
 
 					# dọn rác update trên này
 					echo $d"/system-*"
 					rm -rf $d/system-*
 
-					echo "Cleanup all DONE!"
+					echo "Cleanup all DONE..."
 					sleep 3;
 				else
 					#echo $d
