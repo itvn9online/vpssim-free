@@ -48,7 +48,13 @@ remove_php_in_wp_content(){
 
 cd ~
 
+rm -rf /root/wp-all-update/echbaydotcom-webgiareorg.txt
 echo "" > /root/wp-all-update/echbaydotcom-webgiareorg.txt
+
+if [ ! -f /tmp/server_wp_all_update ]; then
+echoR "echbaydotcom-webgiareorg.txt --- not exist..."
+exit
+fi
 
 chmodUser=""
 
