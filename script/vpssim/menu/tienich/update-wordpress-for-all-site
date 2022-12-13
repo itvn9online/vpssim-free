@@ -482,7 +482,7 @@ if [ $2 -lt $3 ]; then
 				echo "---------------------------- It is a symlink!"
 			else
 				# tim it nhat 3 file va 3 thu muc bat buoc phai co cua wp
-				if [ -f $d"/wp-config.php" ] && [ -f $d"/wp-settings.php" ] && [ -f $d"/wp-blog-header.php" ] && [ -d $d"/wp-admin" ] && [ -d $d"/wp-content" ] && [ -d $d"/wp-includes" ]; then
+				if [ -f $d/wp-config.php ] && [ -f $d/wp-settings.php ] && [ -f $d/wp-blog-header.php ] && [ -d $d/wp-admin ] && [ -d $d/wp-content ] && [ -d $d/wp-includes ]; then
 					echo $d
 					# tim duoc website wp
 					echoY "++++++++++++++++++++++++++++ It is a wordpress website"
@@ -493,76 +493,81 @@ if [ $2 -lt $3 ]; then
 					if [ -d /root/wp-all-update/wordpress ]; then
 						echoG "rsync - - - wordpress CORE..."
 						# đồng bộ đồng thời xóa các file .php dư thừa -> chống virus
-						rm -rf $d"/wp-config.txt"
-						if [ -f $d"/wp-config.php" ]; then
-							mv -f $d"/wp-config.php" $d"/wp-config.txt"
+						rm -rf $d/wp-config.txt
+						if [ -f $d/wp-config.php ]; then
+							mv -f $d/wp-config.php $d/wp-config.txt
 						fi
-						rm -rf $d"/*.php"
-						rsync -avz --delete --exclude="wp-config.php" --exclude="wp-admin/*" --exclude="wp-content/*" --exclude="wp-includes/*" /root/wp-all-update/wordpress/*.php $d"/" > /dev/null 2>&1
-						if [ -f $d"/wp-config.txt" ]; then
-							mv -f $d"/wp-config.txt" $d"/wp-config.php"
+						rm -rf $d/*.php
+						rsync -avz --delete --exclude="wp-config.php" --exclude="wp-admin/*" --exclude="wp-content/*" --exclude="wp-includes/*" /root/wp-all-update/wordpress/*.php $d/ > /dev/null 2>&1
+						if [ -f $d/wp-config.txt ]; then
+							mv -f $d/wp-config.txt $d/wp-config.php
 						fi
 						# đồng bộ thư mục admin và includes
 						if [ -d /root/wp-all-update/wordpress/wp-admin ]; then
-							rm -rf $d"/wp-admin/*"
-							rm -rf $d"/wp-admin"
-							rsync -ah /root/wp-all-update/wordpress/wp-admin $d"/" > /dev/null 2>&1
-							rsync -ah /root/wp-all-update/wordpress/wp-admin/* $d"/wp-admin/" > /dev/null 2>&1
+							rm -rf $d/wp-admin/*
+							#rm -rf $d/wp-admin/.*
+							rm -rf $d/wp-admin
+							#rsync -ah --delete /root/wp-all-update/wordpress/wp-admin $d/ > /dev/null 2>&1
+							rsync -ah /root/wp-all-update/wordpress/wp-admin $d/ > /dev/null 2>&1
+							#rsync -ah --delete /root/wp-all-update/wordpress/wp-admin/* $d/wp-admin/ > /dev/null 2>&1
+							rsync -ah /root/wp-all-update/wordpress/wp-admin/* $d/wp-admin/ > /dev/null 2>&1
 						fi
 						if [ -d /root/wp-all-update/wordpress/wp-includes ]; then
-							rm -rf $d"/wp-includes/*"
-							#rm -rf $d"/wp-includes/.*"
-							rm -rf $d"/wp-includes"
-							rsync -ah /root/wp-all-update/wordpress/wp-includes $d"/" > /dev/null 2>&1
-							rsync -ah /root/wp-all-update/wordpress/wp-includes/* $d"/wp-includes/" > /dev/null 2>&1
+							rm -rf $d/wp-includes/*
+							#rm -rf $d/wp-includes/.*
+							rm -rf $d/wp-includes
+							#rsync -ah --delete /root/wp-all-update/wordpress/wp-includes $d/ > /dev/null 2>&1
+							rsync -ah /root/wp-all-update/wordpress/wp-includes $d/ > /dev/null 2>&1
+							#rsync -ah --delete /root/wp-all-update/wordpress/wp-includes/* $d/wp-includes/ > /dev/null 2>&1
+							rsync -ah /root/wp-all-update/wordpress/wp-includes/* $d/wp-includes/ > /dev/null 2>&1
 						fi
-						remove_php_in_wp_content $d"/wp-content"
-						remove_php_in_wp_content $d"/wp-content/plugins"
-						remove_php_in_wp_content $d"/wp-content/themes"
+						remove_php_in_wp_content $d/wp-content
+						remove_php_in_wp_content $d/wp-content/plugins
+						remove_php_in_wp_content $d/wp-content/themes
 						# đồng bộ nốt các thư mục và file còn lại
-						rsync -ah --exclude="wp-config.php" --exclude="wp-admin/*" --exclude="wp-content/*" --exclude="wp-includes/*" /root/wp-all-update/wordpress/* $d"/" > /dev/null 2>&1
+						rsync -ah --exclude="wp-config.php" --exclude="wp-admin/*" --exclude="wp-content/*" --exclude="wp-includes/*" /root/wp-all-update/wordpress/* $d/ > /dev/null 2>&1
 					fi
 					
 					# echbaydotcom
-					if [ -d /root/wp-all-update/echbaydotcom-master ] && [ -d $d"/wp-content/echbaydotcom" ]; then
+					if [ -d /root/wp-all-update/echbaydotcom-master ] && [ -d "$d/wp-content/echbaydotcom" ]; then
 						# nếu tồn tại cả thư mục webgiareorg -> cảnh báo ngay
-						if [ -d $d"/wp-content/webgiareorg" ]; then
+						if [ -d "$d/wp-content/webgiareorg" ]; then
 							echoR "echbaydotcom AND webgiareorg EXIST..."
 							echo $d >> /root/wp-all-update/echbaydotcom-webgiareorg.txt
 							#sleep 30;
 						fi
 						
 						echoY "rsync - - - echbaydotcom..."
-						rsync -ah --delete /root/wp-all-update/echbaydotcom-master/* $d"/wp-content/echbaydotcom/" > /dev/null 2>&1
-						#chown -R nginx:nginx $d"/wp-content/echbaydotcom"
+						rsync -ah --delete /root/wp-all-update/echbaydotcom-master/* $d/wp-content/echbaydotcom/ > /dev/null 2>&1
+						#chown -R nginx:nginx $d/wp-content/echbaydotcom
 						
 						# copy file index-tmp.php de active WP_ACTIVE_WGR_SUPPER_CACHE luon va ngay
-						if [ -f $d"/wp-content/echbaydotcom/index-tmp.php" ]; then
+						if [ -f "$d/wp-content/echbaydotcom/index-tmp.php" ]; then
 							echoY "active WP ACTIVE WGR SUPPER CACHE..."
-							yes | cp -rf $d"/wp-content/echbaydotcom/index-tmp.php" $d"/index.php"
+							yes | cp -rf $d/wp-content/echbaydotcom/index-tmp.php $d/index.php
 						fi
 
 						# echbaytwo
-						if [ -d /root/wp-all-update/echbaytwo-master ] && [ -d $d"/wp-content/themes/echbaytwo" ]; then
+						if [ -d /root/wp-all-update/echbaytwo-master ] && [ -d "$d/wp-content/themes/echbaytwo" ]; then
 							echoY "rsync - - - echbaytwo..."
-							rsync -ah --delete /root/wp-all-update/echbaytwo-master/* $d"/wp-content/themes/echbaytwo/" > /dev/null 2>&1
-							#chown -R nginx:nginx $d"/wp-content/themes/echbaytwo"
+							rsync -ah --delete /root/wp-all-update/echbaytwo-master/* $d/wp-content/themes/echbaytwo/ > /dev/null 2>&1
+							#chown -R nginx:nginx $d/wp-content/themes/echbaytwo
 						fi
 					# webgiareorg
-					elif [ -d /root/wp-all-update/webgiareorg-main ] && [ -d $d"/wp-content/webgiareorg" ]; then
+					elif [ -d /root/wp-all-update/webgiareorg-main ] && [ -d "$d/wp-content/webgiareorg" ]; then
 						# và không được có theme echbaytwo
-						if [ -d $d"/wp-content/themes/echbaytwo" ]; then
+						if [ -d "$d/wp-content/themes/echbaytwo" ]; then
 							echoY "continue - - - echbaytwo..."
 						# chỉ chạy khi có theme flatsome đi kèm
-						elif [ -d $d"/wp-content/themes/flatsome" ]; then
+						elif [ -d "$d/wp-content/themes/flatsome" ]; then
 							echoY "rsync - - - webgiareorg..."
-							rsync -ah --delete /root/wp-all-update/webgiareorg-main/* $d"/wp-content/webgiareorg/" > /dev/null 2>&1
-							#chown -R nginx:nginx $d"/wp-content/webgiareorg"
+							rsync -ah --delete /root/wp-all-update/webgiareorg-main/* $d/wp-content/webgiareorg/ > /dev/null 2>&1
+							#chown -R nginx:nginx $d/wp-content/webgiareorg
 							
 							# copy file index-tmp.php de active WP_ACTIVE_WGR_SUPPER_CACHE luon va ngay
-							if [ -f $d"/wp-content/webgiareorg/index-tmp.php" ]; then
+							if [ -f "$d/wp-content/webgiareorg/index-tmp.php" ]; then
 								echoY "active WP ACTIVE WGR SUPPER CACHE..."
-								yes | cp -rf $d"/wp-content/webgiareorg/index-tmp.php" $d"/index.php"
+								yes | cp -rf $d/wp-content/webgiareorg/index-tmp.php $d/index.php
 							fi
 						else
 							echoR "webgiareorg for flatsome ONLY..."
@@ -573,15 +578,15 @@ if [ $2 -lt $3 ]; then
 
 					# dọn dẹp code dư thừa của backup
 					echo "Cleanup EB update code..."
-					rm -rf $d"/wp-content/echbaydotcom-*"
-					rm -rf $d"/wp-content/themes/echbaytwo-*"
-					rm -rf $d"/wp-content/webgiareorg-*"
+					rm -rf "$d/wp-content/echbaydotcom-*"
+					rm -rf "$d/wp-content/themes/echbaytwo-*"
+					rm -rf "$d/wp-content/webgiareorg-*"
 					
 					# wordpres plugin -> chay vong lap va update tat ca neu co
 					#if [ -d /root/wp-all-update/plugins ]; then
-					if [ -d $d"/wp-content/plugins" ]; then
+					if [ -d "$d/wp-content/plugins" ]; then
 						#for d_plugins in /root/wp-all-update/plugins/*
-						for d_plugins in $d"/wp-content/plugins/*"
+						for d_plugins in $d/wp-content/plugins/*
 						do
 							if [ -d $d_plugins ]; then
 								d_pl=$(basename $d_plugins)
@@ -599,16 +604,16 @@ if [ $2 -lt $3 ]; then
 							# voi DirectAdmin -> chuyen quyen cho user
 							if [ -f /etc/init.d/directadmin ]; then
 								chown -R $4:$4 $d
-								chown -R $4:$4 $d"/*"
+								chown -R $4:$4 $d/*
 							else
 								# voi VPSSIM, HOCVPS -> phan quyen cho user va nginx
 								id -u nginx
 								if [ $? -eq 0 ]; then
 									chown -R $4:nginx $d
-									chown -R $4:nginx $d"/*"
+									chown -R $4:nginx $d/*
 								else
 									chown -R $4:$4 $d
-									chown -R $4:$4 $d"/*"
+									chown -R $4:$4 $d/*
 								fi
 							fi
 						else
@@ -618,9 +623,8 @@ if [ $2 -lt $3 ]; then
 					
 					echo "Rsync all DONE!"
 					sleep 3;
-					
 				# thử xem có phải là laravel hoặc codeigniter không
-				elif [ -f $d"/code-mau.php" ] && [ -d $d"/app" ] && [ -d $d"/public" ] && [ -d $d"/system" ]; then
+				elif [ -f "$d/code-mau.php" ] && [ -d "$d/app" ] && [ -d "$d/public" ] && [ -d "$d/system" ]; then
 					# dọn rác update trên này
 					rm -rf $d"/system-*"
 				else
