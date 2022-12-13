@@ -11,19 +11,6 @@ for_classic_editor="classic-editor.1.6.2"
 for_elementor="elementor.3.9.0"
 
 
-# TEST Only
-for_test_only () {
-/etc/vpssim/menu/tienich/update-wordpress-for-all-site
-
-if [ -L /home/user25575/domains/cabki.vn/public_html ]; then
-echo "dir"
-fi
-if [ -L /home/user25575/domains/cabki.vn/private_html ]; then
-echo "a"
-fi
-}
-# END TEST
-
 echoY() {
     echo -e "\033[38;5;148m${1}\033[39m"
 }
@@ -51,7 +38,7 @@ cd ~
 rm -rf /root/wp-all-update/echbaydotcom-webgiareorg.txt
 echo "" > /root/wp-all-update/echbaydotcom-webgiareorg.txt
 
-if [ ! -f /tmp/server_wp_all_update ]; then
+if [ ! -f /root/wp-all-update/echbaydotcom-webgiareorg.txt ]; then
 echoR "echbaydotcom-webgiareorg.txt --- not exist..."
 exit
 fi
