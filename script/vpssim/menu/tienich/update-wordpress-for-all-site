@@ -624,7 +624,7 @@ if [ $2 -lt $3 ]; then
 					echo "Rsync all DONE!"
 					sleep 3;
 				# thử xem có phải là laravel hoặc codeigniter không
-				elif [ -f "$d/code-mau.php" ] && [ -d "$d/app" ] && [ -d "$d/public" ] && [ -d "$d/system" ]; then
+				elif [ -f $d/code-mau.php ] && [ -d $d/app ] && [ -d $d/public ] && [ -d $d/system ]; then
 					echo $d
 					# tim duoc website wp
 					echoY "++++++++++++++++++++++++++++ It is a Laravel or Codeigniter website"
