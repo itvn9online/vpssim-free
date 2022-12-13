@@ -632,6 +632,7 @@ if [ $2 -lt $3 ]; then
 					echo "Begin cleanup! Please wait..."
 
 					# dọn rác update trên này
+					echo $d"/system-*"
 					rm -rf $d"/system-*"
 
 					echo "Cleanup all DONE!"
