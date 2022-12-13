@@ -108,7 +108,7 @@ sleep 2
 #current_os_version=$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))
 
 rm -rf /root/test_rsync_for_wp_all_update
-echo "hello world"... > /tmp/test_rsync_for_wp_all_update
+echo "Hello world..." > /tmp/test_rsync_for_wp_all_update
 rsync -ah /tmp/test_rsync_for_wp_all_update /root
 
 #
