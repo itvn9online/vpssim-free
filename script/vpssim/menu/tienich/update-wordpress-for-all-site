@@ -481,13 +481,6 @@ if [ $2 -lt $3 ]; then
 					echo $d
 					# tim duoc website wp
 					echoY "++++++++++++++++++++++++++++ It is a wordpress website"
-
-					#
-					if [ "$DisableXmlrpc" -ne 0 ]; then
-						# tắt xmlrpc để nhẹ web và tăng bảo mật
-						echo "Disable Xmlrpc..."
-						echo "Hello world..." > $d/xmlrpc.php
-					fi
 					
 					echo "Begin rsync... Please wait..."
 					
@@ -522,6 +515,14 @@ if [ $2 -lt $3 ]; then
 						remove_php_in_wp_content $d/wp-content/themes
 						# đồng bộ nốt các thư mục và file còn lại
 						rsync -ah --exclude="wp-config.php" --exclude="wp-admin/*" --exclude="wp-content/*" --exclude="wp-includes/*" /root/wp-all-update/wordpress/* $d/ > /dev/null 2>&1
+							
+						#
+						if [ "$DisableXmlrpc" -ne 0 ]; then
+							# tắt xmlrpc để nhẹ web và tăng bảo mật
+							echo "Disable Xmlrpc..."
+							echo "Hello world..." > $d/xmlrpc.php
+						fi
+						
 					fi
 					
 					# echbaydotcom
