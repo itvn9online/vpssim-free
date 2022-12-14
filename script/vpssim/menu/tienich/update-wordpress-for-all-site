@@ -486,43 +486,50 @@ if [ $2 -lt $3 ]; then
 					
 					# wordpres core
 					if [ -d /root/wp-all-update/wordpress ]; then
-						echoG "rsync - - - wordpress CORE..."
+						#echoG "rsync - - - wordpress CORE..."
 						# đồng bộ đồng thời xóa các file .php dư thừa -> chống virus
 						rm -rf $d/wp-config.txt
 						if [ -f $d/wp-config.php ]; then
+							echoG "Backup wp-config..."
 							mv -f $d/wp-config.php $d/wp-config.txt
 						fi
 						rm -rf $d/*.php
+						#
 						rsync -avz --delete --exclude="wp-config.php" --exclude="wp-admin/*" --exclude="wp-content/*" --exclude="wp-includes/*" /root/wp-all-update/wordpress/*.php $d/ > /dev/null 2>&1
 						if [ -f $d/wp-config.txt ]; then
+							echoG "Restore wp-config..."
 							mv -f $d/wp-config.txt $d/wp-config.php
 						fi
 						# đồng bộ thư mục admin và includes
 						if [ -d /root/wp-all-update/wordpress/wp-admin ]; then
 							rm -rf $d/wp-admin/*
 							rm -rf $d/wp-admin
+							echoG "rsync - - - wp-admin..."
 							rsync -ah /root/wp-all-update/wordpress/wp-admin $d/ > /dev/null 2>&1
 							rsync -ah /root/wp-all-update/wordpress/wp-admin/* $d/wp-admin/ > /dev/null 2>&1
 						fi
 						if [ -d /root/wp-all-update/wordpress/wp-includes ]; then
 							rm -rf $d/wp-includes/*
 							rm -rf $d/wp-includes
+							echoG "rsync - - - wp-includes..."
 							rsync -ah /root/wp-all-update/wordpress/wp-includes $d/ > /dev/null 2>&1
 							rsync -ah /root/wp-all-update/wordpress/wp-includes/* $d/wp-includes/ > /dev/null 2>&1
 						fi
+						echoG "cleanup - - - wp-content..."
 						remove_php_in_wp_content $d/wp-content
 						remove_php_in_wp_content $d/wp-content/plugins
 						remove_php_in_wp_content $d/wp-content/themes
 						# đồng bộ nốt các thư mục và file còn lại
+						echoG "rsync - - - wp-index..."
 						rsync -ah --exclude="wp-config.php" --exclude="wp-admin/*" --exclude="wp-content/*" --exclude="wp-includes/*" /root/wp-all-update/wordpress/* $d/ > /dev/null 2>&1
 							
 						#
 						if [ "$DisableXmlrpc" -ne 0 ]; then
 							# tắt xmlrpc để nhẹ web và tăng bảo mật
-							echo "Disable Xmlrpc..."
+							echoG "Disable Xmlrpc..."
 							echo "Hello world..." > $d/xmlrpc.php
 						fi
-						
+
 					fi
 					
 					# echbaydotcom
