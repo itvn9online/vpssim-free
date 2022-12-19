@@ -6,9 +6,9 @@ fi
 
 
 # chuc nang cap nhat wordress cho toan bo website tren server
-for_yoast_seo="wordpress-seo.19.11"
+for_yoast_seo="wordpress-seo.19.12"
 for_classic_editor="classic-editor.1.6.2"
-for_elementor="elementor.3.9.0"
+for_elementor="elementor.3.9.1"
 
 
 echoY() {
@@ -585,6 +585,8 @@ if [ $2 -lt $3 ]; then
 					rm -rf $d/wp-content/echbaydotcom-*
 					rm -rf $d/wp-content/themes/echbaytwo-*
 					rm -rf $d/wp-content/webgiareorg-*
+					# dọn dẹp file thừa do lỗi update của webgiareorg trước đây
+					rm -rf $d/EB_THEME_CACHE-*
 					
 					# wordpres plugin -> chay vong lap va update tat ca neu co
 					#if [ -d /root/wp-all-update/plugins ]; then
