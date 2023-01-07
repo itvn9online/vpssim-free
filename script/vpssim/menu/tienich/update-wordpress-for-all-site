@@ -304,7 +304,7 @@ rsync_wp_plugin(){
 # plugin duoc tai ve roi thi thuc hien update
 if [ -d "$2/wp-content/plugins/$1" ] && [ -d "/root/wp-all-update/plugins/$1" ]; then
 	# xoa code cu di da
-	echoG "cleanup - - - "$1
+	echoY "cleanup - - - "$1
 	rm -rf $2/wp-content/plugins/$1/*
 	# sau do moi rsync
 	echoG "rsync - - - "$1
@@ -492,7 +492,7 @@ if [ $2 -lt $3 ]; then
 							echoG "Backup wp-config..."
 							mv -f $d/wp-config.php $d/wp-config.txt
 						fi
-						echoG "cleanup - - - PHP"
+						echoY "cleanup - - - PHP"
 						rm -rf $d/*.php
 						# rsync -avz
 						echoG "rsync - - - PHP"
@@ -503,7 +503,7 @@ if [ $2 -lt $3 ]; then
 						fi
 						# đồng bộ thư mục admin và includes
 						if [ -d /root/wp-all-update/wordpress/wp-admin ]; then
-							echoG "cleanup - - - wp-admin..."
+							echoY "cleanup - - - wp-admin..."
 							rm -rf $d/wp-admin/*
 							rm -rf $d/wp-admin
 							echoG "rsync - - - wp-admin..."
@@ -511,14 +511,14 @@ if [ $2 -lt $3 ]; then
 							rsync -ah /root/wp-all-update/wordpress/wp-admin/* $d/wp-admin/ > /dev/null 2>&1
 						fi
 						if [ -d /root/wp-all-update/wordpress/wp-includes ]; then
-							echoG "cleanup - - - wp-includes..."
+							echoY "cleanup - - - wp-includes..."
 							rm -rf $d/wp-includes/*
 							rm -rf $d/wp-includes
 							echoG "rsync - - - wp-includes..."
 							rsync -ah /root/wp-all-update/wordpress/wp-includes $d/ > /dev/null 2>&1
 							rsync -ah /root/wp-all-update/wordpress/wp-includes/* $d/wp-includes/ > /dev/null 2>&1
 						fi
-						echoG "cleanup - - - wp-content..."
+						echoY "cleanup - - - wp-content..."
 						remove_php_in_wp_content $d/wp-content
 						remove_php_in_wp_content $d/wp-content/plugins
 						remove_php_in_wp_content $d/wp-content/themes
@@ -546,7 +546,7 @@ if [ $2 -lt $3 ]; then
 						
 						echoY "cleanup - - - echbaydotcom..."
 						rm -rf $d/wp-content/echbaydotcom/*
-						echoY "rsync - - - echbaydotcom..."
+						echoG "rsync - - - echbaydotcom..."
 						rsync -ah /root/wp-all-update/echbaydotcom-master/* $d/wp-content/echbaydotcom/ > /dev/null 2>&1
 						#chown -R nginx:nginx $d/wp-content/echbaydotcom
 						
@@ -560,7 +560,7 @@ if [ $2 -lt $3 ]; then
 						if [ -d /root/wp-all-update/echbaytwo-master ] && [ -d "$d/wp-content/themes/echbaytwo" ]; then
 							echoY "cleanup - - - echbaytwo..."
 							rm -rf $d/wp-content/themes/echbaytwo/*
-							echoY "rsync - - - echbaytwo..."
+							echoG "rsync - - - echbaytwo..."
 							rsync -ah /root/wp-all-update/echbaytwo-master/* $d/wp-content/themes/echbaytwo/ > /dev/null 2>&1
 							#chown -R nginx:nginx $d/wp-content/themes/echbaytwo
 						fi
@@ -573,7 +573,7 @@ if [ $2 -lt $3 ]; then
 						elif [ -d "$d/wp-content/themes/flatsome" ]; then
 							echoY "cleanup - - - webgiareorg..."
 							rm -rf $d/wp-content/webgiareorg/*
-							echoY "rsync - - - webgiareorg..."
+							echoG "rsync - - - webgiareorg..."
 							rsync -ah /root/wp-all-update/webgiareorg-main/* $d/wp-content/webgiareorg/ > /dev/null 2>&1
 							#chown -R nginx:nginx $d/wp-content/webgiareorg
 							
@@ -590,7 +590,7 @@ if [ $2 -lt $3 ]; then
 					fi
 
 					# dọn dẹp code dư thừa của backup
-					echo "Cleanup EB update code..."
+					echoY "Cleanup EB update code..."
 					rm -rf $d/wp-content/echbaydotcom-*
 					rm -rf $d/wp-content/themes/echbaytwo-*
 					rm -rf $d/wp-content/webgiareorg-*
@@ -644,13 +644,13 @@ if [ $2 -lt $3 ]; then
 					# tim duoc website wp
 					echoY "++++++++++++++++++++++++++++ It is a Laravel or Codeigniter website"
 					
-					echo "Begin cleanup... Please wait..."
+					echoY "Begin cleanup... Please wait..."
 
 					# dọn rác update trên này
 					echo $d"/system-*"
 					rm -rf $d/system-*
 
-					echo "Cleanup all DONE..."
+					echoG "Cleanup all DONE..."
 					sleep 3;
 				else
 					#echo $d
