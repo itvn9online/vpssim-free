@@ -544,8 +544,10 @@ if [ $2 -lt $3 ]; then
 							#sleep 30;
 						fi
 						
+						echoY "cleanup - - - echbaydotcom..."
+						rm -rf $d/wp-content/echbaydotcom/*
 						echoY "rsync - - - echbaydotcom..."
-						rsync -ah --delete /root/wp-all-update/echbaydotcom-master/* $d/wp-content/echbaydotcom/ > /dev/null 2>&1
+						rsync -ah /root/wp-all-update/echbaydotcom-master/* $d/wp-content/echbaydotcom/ > /dev/null 2>&1
 						#chown -R nginx:nginx $d/wp-content/echbaydotcom
 						
 						# copy file index-tmp.php de active WP_ACTIVE_WGR_SUPPER_CACHE luon va ngay
@@ -556,8 +558,10 @@ if [ $2 -lt $3 ]; then
 
 						# echbaytwo
 						if [ -d /root/wp-all-update/echbaytwo-master ] && [ -d "$d/wp-content/themes/echbaytwo" ]; then
+							echoY "cleanup - - - echbaytwo..."
+							rm -rf $d/wp-content/themes/echbaytwo/*
 							echoY "rsync - - - echbaytwo..."
-							rsync -ah --delete /root/wp-all-update/echbaytwo-master/* $d/wp-content/themes/echbaytwo/ > /dev/null 2>&1
+							rsync -ah /root/wp-all-update/echbaytwo-master/* $d/wp-content/themes/echbaytwo/ > /dev/null 2>&1
 							#chown -R nginx:nginx $d/wp-content/themes/echbaytwo
 						fi
 					# webgiareorg
@@ -567,8 +571,10 @@ if [ $2 -lt $3 ]; then
 							echoY "continue - - - echbaytwo..."
 						# chỉ chạy khi có theme flatsome đi kèm
 						elif [ -d "$d/wp-content/themes/flatsome" ]; then
+							echoY "cleanup - - - webgiareorg..."
+							rm -rf $d/wp-content/webgiareorg/*
 							echoY "rsync - - - webgiareorg..."
-							rsync -ah --delete /root/wp-all-update/webgiareorg-main/* $d/wp-content/webgiareorg/ > /dev/null 2>&1
+							rsync -ah /root/wp-all-update/webgiareorg-main/* $d/wp-content/webgiareorg/ > /dev/null 2>&1
 							#chown -R nginx:nginx $d/wp-content/webgiareorg
 							
 							# copy file index-tmp.php de active WP_ACTIVE_WGR_SUPPER_CACHE luon va ngay
