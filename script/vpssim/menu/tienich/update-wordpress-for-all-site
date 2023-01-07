@@ -300,60 +300,59 @@ rsync_wp_plugin(){
 #download_wordpress_plugin $1
 
 #echo $2/wp-content/plugins/$1
+
+# plugin duoc tai ve roi thi thuc hien update
 if [ -d "$2/wp-content/plugins/$1" ] && [ -d "/root/wp-all-update/plugins/$1" ]; then
-echoG "rsync - - - "$1
-rsync -ah --delete /root/wp-all-update/plugins/$1/* $2/wp-content/plugins/$1/ > /dev/null 2>&1
-elif [ "$3" = "" ]; then
+	# xoa code cu di da
+	echoG "cleanup - - - "$1
+	rm -rf $2/wp-content/plugins/$1/*
+	# sau do moi rsync
+	echoG "rsync - - - "$1
+	rsync -ah /root/wp-all-update/plugins/$1/* $2/wp-content/plugins/$1/ > /dev/null 2>&1
+# chua duoc tai thi download ve
+elif [ ! "$3" = "no" ]; then
+	file404=/root/wp-all-update/plugins/---$1
+	file500=/root/wp-all-update/plugins/-$1
+	if [ ! -f $file404 ]; then
+		# voi 1 so plugin, phai chi dinh ro ca phien ban can cap nhat
+		download_version=$1
+		if [ "$1" = "wordpress-seo" ]; then
+			download_version=$for_yoast_seo
+		elif [ "$1" = "classic-editor" ]; then
+			download_version=$for_classic_editor
+		elif [ "$1" = "elementor" ]; then
+			download_version=$for_elementor
+		fi
 
-file404=/root/wp-all-update/plugins/---$1
-file500=/root/wp-all-update/plugins/-$1
-if [ ! -f $file404 ]; then
+		# kiem tra xem plugin nay co tren wordpress khong
+		ketnoi="https://downloads.wordpress.org/plugin/"$download_version".zip"
+		ketnoi=$(curl -o /dev/null --silent --head --write-out '%{http_code}' $ketnoi)
+		#ketnoi=$(curl -o /dev/null --silent --head --write-out '%{http_code}' "https://downloads.wordpress.org/plugin/"$1".zip")
+		#echo $ketnoi
+		# neu co thi download ve de cap nhat cho website
+		if [ "$ketnoi" = "200" ]; then
+			download_wordpress_plugin $download_version $1
+			sleep 1
+			rsync_wp_plugin $1 $2 "no"
+		elif [ "$ketnoi" = "404" ]; then
+			# neu khong thi bao loi, thuong thi nhung plugin pro se khong co tren wordpress
+			echoR "- - - - - - - - - WARNING... plugin not exist ("$ketnoi"): "$1
+			# tao file de qua trinh kiem tra ket noi khong dien ra lien tuc
+			echo $ketnoi > $file404
+		else
+			# neu khong thi bao loi, thuong thi nhung plugin pro se khong co tren wordpress
+			echoY "- - - - - - - - - WARNING... plugin connect error "$ketnoi": "$1
+			# tao file de qua trinh kiem tra ket noi khong dien ra lien tuc
+			echo $ketnoi > $file500
 
-#
-download_version=$1
-if [ "$1" = "wordpress-seo" ]; then
-download_version=$for_yoast_seo
-elif [ "$1" = "classic-editor" ]; then
-download_version=$for_classic_editor
-elif [ "$1" = "elementor" ]; then
-download_version=$for_elementor
-fi
-
-# kiem tra xem plugin nay co tren wordpress khong
-ketnoi="https://downloads.wordpress.org/plugin/"$download_version".zip"
-ketnoi=$(curl -o /dev/null --silent --head --write-out '%{http_code}' $ketnoi)
-#ketnoi=$(curl -o /dev/null --silent --head --write-out '%{http_code}' "https://downloads.wordpress.org/plugin/"$1".zip")
-#echo $ketnoi
-# neu co thi download ve de cap nhat cho website
-if [ "$ketnoi" = "200" ]; then
-download_wordpress_plugin $download_version $1
-sleep 1
-rsync_wp_plugin $1 $2 "no"
-elif [ "$ketnoi" = "404" ]; then
-
-# neu khong thi bao loi, thuong thi nhung plugin pro se khong co tren wordpress
-echoR "- - - - - - - - - WARNING... plugin not exist ("$ketnoi"): "$1
-# tao file de qua trinh kiem tra ket noi khong dien ra lien tuc
-echo $ketnoi > $file404
-
+			# download lai lan nua neu phat hien ra file khong ket noi duoc
+			re_download_plugin="1"
+		fi
+	else
+		echoR "- - - - - - - - - WARNING... plugin not exist (cache): "$1
+	fi
 else
-
-# neu khong thi bao loi, thuong thi nhung plugin pro se khong co tren wordpress
-echoY "- - - - - - - - - WARNING... plugin connect error "$ketnoi": "$1
-# tao file de qua trinh kiem tra ket noi khong dien ra lien tuc
-echo $ketnoi > $file500
-
-# download lai lan nua neu phat hien ra file khong ket noi duoc
-re_download_plugin="1"
-
-fi
-
-else
-echoR "- - - - - - - - - WARNING... plugin not exist (cache): "$1
-fi
-
-else
-echoR "Re-download plugin faild: "$1
+	echoR "Re-download plugin faild: "$1
 fi
 }
 
@@ -493,15 +492,18 @@ if [ $2 -lt $3 ]; then
 							echoG "Backup wp-config..."
 							mv -f $d/wp-config.php $d/wp-config.txt
 						fi
+						echoG "cleanup - - - PHP"
 						rm -rf $d/*.php
-						#
-						rsync -avz --delete --exclude="wp-config.php" --exclude="wp-admin/*" --exclude="wp-content/*" --exclude="wp-includes/*" /root/wp-all-update/wordpress/*.php $d/ > /dev/null 2>&1
+						# rsync -avz
+						echoG "rsync - - - PHP"
+						rsync -ah --exclude="wp-config.php" --exclude="wp-admin/*" --exclude="wp-content/*" --exclude="wp-includes/*" /root/wp-all-update/wordpress/*.php $d/ > /dev/null 2>&1
 						if [ -f $d/wp-config.txt ]; then
 							echoG "Restore wp-config..."
 							mv -f $d/wp-config.txt $d/wp-config.php
 						fi
 						# đồng bộ thư mục admin và includes
 						if [ -d /root/wp-all-update/wordpress/wp-admin ]; then
+							echoG "cleanup - - - wp-admin..."
 							rm -rf $d/wp-admin/*
 							rm -rf $d/wp-admin
 							echoG "rsync - - - wp-admin..."
@@ -509,6 +511,7 @@ if [ $2 -lt $3 ]; then
 							rsync -ah /root/wp-all-update/wordpress/wp-admin/* $d/wp-admin/ > /dev/null 2>&1
 						fi
 						if [ -d /root/wp-all-update/wordpress/wp-includes ]; then
+							echoG "cleanup - - - wp-includes..."
 							rm -rf $d/wp-includes/*
 							rm -rf $d/wp-includes
 							echoG "rsync - - - wp-includes..."
