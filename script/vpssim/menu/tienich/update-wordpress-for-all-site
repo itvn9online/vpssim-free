@@ -552,7 +552,7 @@ if [ $2 -lt $3 ]; then
 						
 						# copy file index-tmp.php de active WP_ACTIVE_WGR_SUPPER_CACHE luon va ngay
 						if [ -f "$d/wp-content/echbaydotcom/index-tmp.php" ]; then
-							echoY "active WP ACTIVE WGR SUPPER CACHE..."
+							echoG "active WP ACTIVE WGR SUPPER CACHE..."
 							yes | cp -rf $d/wp-content/echbaydotcom/index-tmp.php $d/index.php
 						fi
 
@@ -579,7 +579,7 @@ if [ $2 -lt $3 ]; then
 							
 							# copy file index-tmp.php de active WP_ACTIVE_WGR_SUPPER_CACHE luon va ngay
 							if [ -f "$d/wp-content/webgiareorg/index-tmp.php" ]; then
-								echoY "active WP ACTIVE WGR SUPPER CACHE..."
+								echoG "active WP ACTIVE WGR SUPPER CACHE..."
 								yes | cp -rf $d/wp-content/webgiareorg/index-tmp.php $d/index.php
 							fi
 						else
