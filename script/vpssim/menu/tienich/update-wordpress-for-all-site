@@ -707,17 +707,17 @@ fi
 }
 WP_update_main
 
+#
 if [ ! "$re_download_plugin" = "" ]; then
 echoY "Re-update after 10s"
 sleep 10
 WP_update_main
 fi
 
+#
 cd ~
 
-
+#
 if [ ! -f /tmp/server_wp_all_update ] && [ -f /home/vpssim.conf ]; then
 /etc/vpssim/menu/vpssim-tien-ich
 fi
-
-
