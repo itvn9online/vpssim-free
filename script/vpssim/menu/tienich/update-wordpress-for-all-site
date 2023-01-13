@@ -27,10 +27,15 @@ echoR()
 remove_php_in_wp_content(){
 	if [ -d $1 ]; then
 		rm -rf $1/*.php
+		rm -rf $1/.htaccess
 		echo "No money... No love..." > $1/index.php
 	fi
 }
 
+remove_code_and_htaccess(){
+	rm -rf $1/*
+	rm -rf $1/.htaccess
+}
 
 
 cd ~
@@ -100,7 +105,7 @@ sleep 2
 # install rsync if not exist
 #current_os_version=$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))
 
-rm -rf /root/test_rsync_for_wp_all_update
+#rm -rf /root/test_rsync_for_wp_all_update
 echo "Hello world..." > /tmp/test_rsync_for_wp_all_update
 rsync -ah /tmp/test_rsync_for_wp_all_update /root
 
@@ -158,7 +163,7 @@ if [ ! "$fileTime2" == "$curTime" ]; then
 
 # xoa ca thu muc neu la file wp.zip
 if [ "$1" = "wp.zip" ]; then
-rm -rf /root/wp-all-update/*
+remove_code_and_htaccess /root/wp-all-update
 else
 rm -rf $1
 fi
@@ -305,7 +310,7 @@ rsync_wp_plugin(){
 if [ -d "$2/wp-content/plugins/$1" ] && [ -d "/root/wp-all-update/plugins/$1" ]; then
 	# xoa code cu di da
 	echoY "cleanup - - - "$1
-	rm -rf $2/wp-content/plugins/$1/*
+	remove_code_and_htaccess $2/wp-content/plugins/$1
 	# sau do moi rsync
 	echoG "rsync - - - "$1
 	rsync -ah /root/wp-all-update/plugins/$1/* $2/wp-content/plugins/$1/ > /dev/null 2>&1
@@ -362,7 +367,7 @@ cd ~
 
 # xoa thu muc wp-content
 if [ -d /root/wp-all-update/wordpress/wp-content ]; then
-rm -rf /root/wp-all-update/wordpress/wp-content/*
+remove_code_and_htaccess /root/wp-all-update/wordpress/wp-content
 rm -rf /root/wp-all-update/wordpress/wp-content
 fi
 
@@ -504,7 +509,7 @@ if [ $2 -lt $3 ]; then
 						# đồng bộ thư mục admin và includes
 						if [ -d /root/wp-all-update/wordpress/wp-admin ]; then
 							echoY "cleanup - - - wp-admin..."
-							rm -rf $d/wp-admin/*
+							remove_code_and_htaccess $d/wp-admin
 							rm -rf $d/wp-admin
 							echoG "rsync - - - wp-admin..."
 							rsync -ah /root/wp-all-update/wordpress/wp-admin $d/ > /dev/null 2>&1
@@ -512,7 +517,7 @@ if [ $2 -lt $3 ]; then
 						fi
 						if [ -d /root/wp-all-update/wordpress/wp-includes ]; then
 							echoY "cleanup - - - wp-includes..."
-							rm -rf $d/wp-includes/*
+							remove_code_and_htaccess $d/wp-includes
 							rm -rf $d/wp-includes
 							echoG "rsync - - - wp-includes..."
 							rsync -ah /root/wp-all-update/wordpress/wp-includes $d/ > /dev/null 2>&1
@@ -545,7 +550,7 @@ if [ $2 -lt $3 ]; then
 						fi
 						
 						echoY "cleanup - - - echbaydotcom..."
-						rm -rf $d/wp-content/echbaydotcom/*
+						remove_code_and_htaccess $d/wp-content/echbaydotcom
 						echoG "rsync - - - echbaydotcom..."
 						rsync -ah /root/wp-all-update/echbaydotcom-master/* $d/wp-content/echbaydotcom/ > /dev/null 2>&1
 						#chown -R nginx:nginx $d/wp-content/echbaydotcom
@@ -559,7 +564,7 @@ if [ $2 -lt $3 ]; then
 						# echbaytwo
 						if [ -d /root/wp-all-update/echbaytwo-master ] && [ -d "$d/wp-content/themes/echbaytwo" ]; then
 							echoY "cleanup - - - echbaytwo..."
-							rm -rf $d/wp-content/themes/echbaytwo/*
+							remove_code_and_htaccess $d/wp-content/themes/echbaytwo
 							echoG "rsync - - - echbaytwo..."
 							rsync -ah /root/wp-all-update/echbaytwo-master/* $d/wp-content/themes/echbaytwo/ > /dev/null 2>&1
 							#chown -R nginx:nginx $d/wp-content/themes/echbaytwo
@@ -572,7 +577,7 @@ if [ $2 -lt $3 ]; then
 						# chỉ chạy khi có theme flatsome đi kèm
 						elif [ -d "$d/wp-content/themes/flatsome" ]; then
 							echoY "cleanup - - - webgiareorg..."
-							rm -rf $d/wp-content/webgiareorg/*
+							remove_code_and_htaccess $d/wp-content/webgiareorg
 							echoG "rsync - - - webgiareorg..."
 							rsync -ah /root/wp-all-update/webgiareorg-main/* $d/wp-content/webgiareorg/ > /dev/null 2>&1
 							#chown -R nginx:nginx $d/wp-content/webgiareorg
