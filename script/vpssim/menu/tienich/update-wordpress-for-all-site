@@ -80,8 +80,8 @@ echo -n "Max dir for foreach (maximum 10, default 3): "
 read MaxCheck
 if [ "$MaxCheck" = "" ]; then
 MaxCheck=3
-elif [ "$MaxCheck" -gt 10 ]; then
-MaxCheck=10
+#elif [ "$MaxCheck" -gt 10 ]; then
+#MaxCheck=10
 fi
 
 #if [ -f /etc/init.d/directadmin ] && [ ! "$DirSetup" = "/home" ]; then
