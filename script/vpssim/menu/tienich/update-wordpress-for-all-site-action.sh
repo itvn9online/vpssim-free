@@ -40,7 +40,7 @@ remove_code_and_htaccess(){
 
 #
 cd ~
-echo "" > /root/update-wordpress-for-all-site-log.txt
+echo $(date) > /root/update-wordpress-for-all-site-log.txt
 
 #
 chmodUser=""
@@ -709,6 +709,7 @@ fi
 
 #
 cd ~
+echo $(date) >> /root/update-wordpress-for-all-site-log.txt
 
 #
 if [ ! -f /tmp/server_wp_all_update ] && [ -f /home/vpssim.conf ]; then
