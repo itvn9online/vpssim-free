@@ -478,6 +478,17 @@ if [ $2 -lt $3 ]; then
 					# tim duoc website wp
 					echoY $d"::It is a wordpress website"
 					
+					# thu kiem tra xem site nay co dinh malware khong
+					echo "Check malware..."
+					if [ -f $d/index.php ]; then
+						iFile=$d/index.php
+						# thu tim chuoi base64_decode trong file index php -> mac dinh thi file index php khong co doan nay
+						if grep -q base64_decode "$iFile"; then
+							# gui canh bao ve telegram
+							wget --no-check-certificate -O /dev/null "https://cloud.echbay.com/backups/has_malware?user=$4"
+						fi
+					fi
+
 					echo "Begin rsync... Please wait..."
 					
 					# wordpres core
