@@ -21,7 +21,7 @@ bash <( curl -k https://raw.githubusercontent.com/itvn9online/vpssim-free/master
 
 ## Quét toàn bộ thư mục upload để kiểm tra file lạ trong wordpress:
 ```
-bash <( curl -k https://raw.githubusercontent.com/itvn9online/vpssim-free/master/script/vpssim/menu/tienich/scan-wordpress-malware )
+bash <( curl -k https://raw.githubusercontent.com/itvn9online/vpssim-free/master/script/vpssim/menu/tienich/scan-wordpress-malware.sh )
 ```
 
 ----------------------------------------------
