@@ -27,13 +27,13 @@ fi
 chmod +x /etc/vpssim/menu/tienich/update-wordpress-for-all-site-action.sh
 
 # Xóa tất cả các khoảng trắng ở đầu mỗi dòng.
-sed -i -e "s/^[ \\\t]*//" $f
+sed -i -e 's/^[ \t]*//' $f
 
 # Xóa tất cả các khoảng trắng ở cuối mỗi dòng.
-sed -i -e "s/ *$//" $f
+sed -i -e 's/ *$//' $f
 
 # Xóa các dòng trống
-sed -i -e "/^$/d" $f
+sed -i -e '/^$/d' $f
 
 #
 sed -i 's/\r//' $f
