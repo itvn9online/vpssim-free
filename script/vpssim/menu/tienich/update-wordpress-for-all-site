@@ -477,14 +477,12 @@ if [ $2 -lt $3 ]; then
 		if [ -d $d ]; then
 			# neu la shortcut thi bo qua
 			if [ -L $d ]; then
-				echo $d
-				echo "---------------------------- It is a symlink..."
+				echo $d"::It is a symlink..."
 			else
 				# tim it nhat 3 file va 3 thu muc bat buoc phai co cua wp
 				if [ -f $d/wp-config.php ] && [ -f $d/wp-settings.php ] && [ -f $d/wp-blog-header.php ] && [ -d $d/wp-admin ] && [ -d $d/wp-content ] && [ -d $d/wp-includes ]; then
-					echo $d
 					# tim duoc website wp
-					echoY "++++++++++++++++++++++++++++ It is a wordpress website"
+					echoY $d"::It is a wordpress website"
 					
 					echo "Begin rsync... Please wait..."
 					
