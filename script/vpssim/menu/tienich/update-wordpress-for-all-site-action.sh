@@ -38,16 +38,11 @@ remove_code_and_htaccess(){
 }
 
 
+#
 cd ~
+echo "" > /root/update-wordpress-for-all-site-log.txt
 
-rm -rf /root/wp-all-update/echbaydotcom-webgiareorg.txt
-echo "" > /root/wp-all-update/echbaydotcom-webgiareorg.txt
-
-if [ ! -f /root/wp-all-update/echbaydotcom-webgiareorg.txt ]; then
-echoR "echbaydotcom-webgiareorg.txt --- not exist..."
-exit
-fi
-
+#
 chmodUser=""
 
 # cau hinh linh dong theo tung loai host
@@ -543,7 +538,7 @@ if [ $2 -lt $3 ]; then
 						# nếu tồn tại cả thư mục webgiareorg -> cảnh báo ngay
 						if [ -d "$d/wp-content/webgiareorg" ]; then
 							echoR "echbaydotcom AND webgiareorg EXIST..."
-							echo $d >> /root/wp-all-update/echbaydotcom-webgiareorg.txt
+							echo $d >> /root/update-wordpress-for-all-site-log.txt
 							#sleep 30;
 						fi
 						
