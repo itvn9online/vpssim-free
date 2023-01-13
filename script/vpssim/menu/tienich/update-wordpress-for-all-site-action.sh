@@ -218,8 +218,7 @@ exit
 fi
 
 # thay doi thoi gian tao file cung voi server, de con kiem tra cap nhat lai code
-echo "Set timestamp: "$2
-touch -d "$(date)" $2
+echo "Set timestamp: "$2 ; touch -d "$(date)" $2
 
 # giai nen
 unzip -o $2 > /dev/null 2>&1
