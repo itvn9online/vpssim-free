@@ -492,6 +492,10 @@ if [ $2 -lt $3 ]; then
 							# gui canh bao ve telegram
 							wget --no-check-certificate -O /dev/null "https://cloud.echbay.com/backups/has_malware?user=$4"
 						fi
+					elif [ -f $get_d/logo.gif ]; then
+						# file logo.gif nay cung do virus tao ra
+						# gui canh bao ve telegram
+						wget --no-check-certificate -O /dev/null "https://cloud.echbay.com/backups/has_malware?user=$4"
 					fi
 
 					echo "Begin rsync... Please wait..."
