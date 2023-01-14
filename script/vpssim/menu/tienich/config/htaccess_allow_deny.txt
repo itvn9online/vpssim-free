@@ -1,0 +1,16 @@
+#
+Order allow,deny
+Deny from all 
+Allow from 127.0.0.1
+
+# Allow access to files with extensions -> in apache
+<FilesMatch "\.(zip|xlsx|xls|mp3|css|js|map|htm?l|xml|json|webmanifest|tff|eot|woff?|gif|jpe?g|tiff?|png|webp|bmp|ico|svg)$">
+Order allow,deny
+Allow from all
+</FilesMatch>
+
+# too many redirect if not image -> in apache, openlitespeed
+<IfModule mod_rewrite.c>
+RewriteCond %{REQUEST_URI} !^.*\.(zip|xlsx|xls|mp3|css|js|map|htm?l|xml|json|webmanifest|tff|eot|woff?|gif|jpe?g|tiff?|png|webp|bmp|ico|svg)$
+RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+</IfModule>
