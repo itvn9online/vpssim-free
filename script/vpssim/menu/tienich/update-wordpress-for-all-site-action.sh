@@ -464,10 +464,10 @@ cd ~
 # tim tat ca thu muc trong home
 get_all_dir_in_dir(){
 echo "--------------------------------------------------------"
-echo "Pram 1: "$1
-echo "Pram 2: "$2
-echo "Pram 3: "$3
-echo "Pram 4: "$4
+echo "Dir scan: "$1
+echo "Re-scan: "$2
+echo "Max scan: "$3
+echo "Host user: "$4
 
 # do sau toi da se kiem tra
 if [ $2 -lt $3 ]; then
