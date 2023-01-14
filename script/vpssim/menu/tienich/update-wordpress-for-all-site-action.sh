@@ -61,13 +61,13 @@ echo "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
 DisableXmlrpc=0
 
 echo -n "Enter dir for check and update (default /home): "
-read DirSetup
-if [ "$DirSetup" == "" ]; then
-DirSetup="/home"
+read root_dir
+if [ "$root_dir" == "" ]; then
+root_dir="/home"
 fi
 
-if [ ! -d $DirSetup ]; then
-echoR $DirSetup" not exist..."
+if [ ! -d $root_dir ]; then
+echoR $root_dir" not exist..."
 exit
 fi
 
@@ -79,8 +79,8 @@ MaxCheck=3
 #MaxCheck=10
 fi
 
-#if [ -f /etc/init.d/directadmin ] && [ ! "$DirSetup" == "/home" ]; then
-if [ ! "$DirSetup" == "/home" ]; then
+#if [ -f /etc/init.d/directadmin ] && [ ! "$root_dir" == "/home" ]; then
+if [ ! "$root_dir" == "/home" ]; then
 echo -n "chmod to user (default: auto detect): "
 read chUser
 chmodUser=$chUser
@@ -94,7 +94,7 @@ fi
 
 fi
 
-echoG "OK OK, check and update wordpres website in: "$DirSetup
+echoG "OK OK, check and update wordpres website in: "$root_dir
 echo "Max for: "$MaxCheck
 echo "Disable Xmlrpc: "$DisableXmlrpc
 echoY "Will begin after 2s..."
@@ -261,11 +261,11 @@ sed -i -e '/^\s*$/d' $f
 
 remove_single_comment_line(){
 if [ -d $1 ]; then
-	for d_optimize in $1/*
+	for optimize_dir in $1/*
 	do
-		if [ -f $d_optimize ]; then
-			#echo $d_optimize
-			file_optimize $d_optimize
+		if [ -f $optimize_dir ]; then
+			#echo $optimize_dir
+			file_optimize $optimize_dir
 		fi
 	done
 fi
@@ -470,23 +470,23 @@ echo "Host user: "$4
 
 # do sau toi da se kiem tra
 if [ $2 -lt $3 ]; then
-	for d in $1
+	for get_d in $1
 	do
 		# neu la thu muc thi kiem tra tiep
-		if [ -d $d ]; then
+		if [ -d $get_d ]; then
 			# neu la shortcut thi bo qua
-			if [ -L $d ]; then
-				echo $d"::It is a symlink..."
+			if [ -L $get_d ]; then
+				echo $get_d"::It is a symlink..."
 			else
 				# tim it nhat 3 file va 3 thu muc bat buoc phai co cua wp
-				if [ -f $d/wp-config.php ] && [ -f $d/wp-settings.php ] && [ -f $d/wp-blog-header.php ] && [ -d $d/wp-admin ] && [ -d $d/wp-content ] && [ -d $d/wp-includes ]; then
+				if [ -f $get_d/wp-config.php ] && [ -f $get_d/wp-settings.php ] && [ -f $get_d/wp-blog-header.php ] && [ -d $get_d/wp-admin ] && [ -d $get_d/wp-content ] && [ -d $get_d/wp-includes ]; then
 					# tim duoc website wp
-					echoY $d"::It is a wordpress website"
+					echoY $get_d"::It is a wordpress website"
 					
 					# thu kiem tra xem site nay co dinh malware khong
 					echo "Check malware..."
-					if [ -f $d/index.php ]; then
-						iFile=$d/index.php
+					if [ -f $get_d/index.php ]; then
+						iFile=$get_d/index.php
 						# thu tim chuoi base64_decode trong file index php -> mac dinh thi file index php khong co doan nay
 						if grep -q base64_decode "$iFile"; then
 							# gui canh bao ve telegram
@@ -500,100 +500,100 @@ if [ $2 -lt $3 ]; then
 					if [ -d /root/wp-all-update/wordpress ]; then
 						#echoG "rsync - - - wordpress CORE..."
 						# đồng bộ đồng thời xóa các file .php dư thừa -> chống virus
-						rm -rf $d/wp-config.txt
-						if [ -f $d/wp-config.php ]; then
+						rm -rf $get_d/wp-config.txt
+						if [ -f $get_d/wp-config.php ]; then
 							echoG "Backup wp-config..."
-							mv -f $d/wp-config.php $d/wp-config.txt
+							mv -f $get_d/wp-config.php $get_d/wp-config.txt
 						fi
 						echoY "cleanup - - - PHP"
-						rm -rf $d/*.php
+						rm -rf $get_d/*.php
 						# rsync -avz
 						echoG "rsync - - - PHP"
-						rsync -ah --exclude="wp-config.php" --exclude="wp-admin/*" --exclude="wp-content/*" --exclude="wp-includes/*" /root/wp-all-update/wordpress/*.php $d/ > /dev/null 2>&1
-						if [ -f $d/wp-config.txt ]; then
+						rsync -ah --exclude="wp-config.php" --exclude="wp-admin/*" --exclude="wp-content/*" --exclude="wp-includes/*" /root/wp-all-update/wordpress/*.php $get_d/ > /dev/null 2>&1
+						if [ -f $get_d/wp-config.txt ]; then
 							echoG "Restore wp-config..."
-							mv -f $d/wp-config.txt $d/wp-config.php
+							mv -f $get_d/wp-config.txt $get_d/wp-config.php
 						fi
 						# đồng bộ thư mục admin và includes
 						if [ -d /root/wp-all-update/wordpress/wp-admin ]; then
 							echoY "cleanup - - - wp-admin..."
-							remove_code_and_htaccess $d/wp-admin
-							rm -rf $d/wp-admin
+							remove_code_and_htaccess $get_d/wp-admin
+							rm -rf $get_d/wp-admin
 							echoG "rsync - - - wp-admin..."
-							rsync -ah /root/wp-all-update/wordpress/wp-admin $d/ > /dev/null 2>&1
-							rsync -ah /root/wp-all-update/wordpress/wp-admin/* $d/wp-admin/ > /dev/null 2>&1
+							rsync -ah /root/wp-all-update/wordpress/wp-admin $get_d/ > /dev/null 2>&1
+							rsync -ah /root/wp-all-update/wordpress/wp-admin/* $get_d/wp-admin/ > /dev/null 2>&1
 						fi
 						if [ -d /root/wp-all-update/wordpress/wp-includes ]; then
 							echoY "cleanup - - - wp-includes..."
-							remove_code_and_htaccess $d/wp-includes
-							rm -rf $d/wp-includes
+							remove_code_and_htaccess $get_d/wp-includes
+							rm -rf $get_d/wp-includes
 							echoG "rsync - - - wp-includes..."
-							rsync -ah /root/wp-all-update/wordpress/wp-includes $d/ > /dev/null 2>&1
-							rsync -ah /root/wp-all-update/wordpress/wp-includes/* $d/wp-includes/ > /dev/null 2>&1
+							rsync -ah /root/wp-all-update/wordpress/wp-includes $get_d/ > /dev/null 2>&1
+							rsync -ah /root/wp-all-update/wordpress/wp-includes/* $get_d/wp-includes/ > /dev/null 2>&1
 						fi
 						echoY "cleanup - - - wp-content..."
-						remove_php_in_wp_content $d/wp-content
-						remove_php_in_wp_content $d/wp-content/plugins
-						remove_php_in_wp_content $d/wp-content/themes
+						remove_php_in_wp_content $get_d/wp-content
+						remove_php_in_wp_content $get_d/wp-content/plugins
+						remove_php_in_wp_content $get_d/wp-content/themes
 						# đồng bộ nốt các thư mục và file còn lại
 						echoG "rsync - - - wp-index..."
-						rsync -ah --exclude="wp-config.php" --exclude="wp-admin/*" --exclude="wp-content/*" --exclude="wp-includes/*" /root/wp-all-update/wordpress/* $d/ > /dev/null 2>&1
+						rsync -ah --exclude="wp-config.php" --exclude="wp-admin/*" --exclude="wp-content/*" --exclude="wp-includes/*" /root/wp-all-update/wordpress/* $get_d/ > /dev/null 2>&1
 							
 						#
 						if [ "$DisableXmlrpc" -ne 0 ]; then
 							# tắt xmlrpc để nhẹ web và tăng bảo mật
 							echoG "Disable Xmlrpc..."
-							echo "Hello world..." > $d/xmlrpc.php
+							echo "Hello world..." > $get_d/xmlrpc.php
 						fi
 
 					fi
 					
 					# echbaydotcom
-					if [ -d /root/wp-all-update/echbaydotcom-master ] && [ -d "$d/wp-content/echbaydotcom" ]; then
+					if [ -d /root/wp-all-update/echbaydotcom-master ] && [ -d "$get_d/wp-content/echbaydotcom" ]; then
 						# nếu tồn tại cả thư mục webgiareorg -> cảnh báo ngay
-						if [ -d "$d/wp-content/webgiareorg" ]; then
+						if [ -d "$get_d/wp-content/webgiareorg" ]; then
 							echoR "echbaydotcom AND webgiareorg EXIST..."
-							echo $d >> /root/update-wordpress-for-all-site-log.txt
+							echo $get_d >> /root/update-wordpress-for-all-site-log.txt
 							#sleep 30;
 						fi
 						
 						echoY "cleanup - - - echbaydotcom..."
-						remove_code_and_htaccess $d/wp-content/echbaydotcom
+						remove_code_and_htaccess $get_d/wp-content/echbaydotcom
 						echoG "rsync - - - echbaydotcom..."
-						rsync -ah /root/wp-all-update/echbaydotcom-master/* $d/wp-content/echbaydotcom/ > /dev/null 2>&1
-						#chown -R nginx:nginx $d/wp-content/echbaydotcom
+						rsync -ah /root/wp-all-update/echbaydotcom-master/* $get_d/wp-content/echbaydotcom/ > /dev/null 2>&1
+						#chown -R nginx:nginx $get_d/wp-content/echbaydotcom
 						
 						# copy file index-tmp.php de active WP_ACTIVE_WGR_SUPPER_CACHE luon va ngay
-						if [ -f "$d/wp-content/echbaydotcom/index-tmp.php" ]; then
+						if [ -f "$get_d/wp-content/echbaydotcom/index-tmp.php" ]; then
 							echoG "active WP ACTIVE WGR SUPPER CACHE..."
-							yes | cp -rf $d/wp-content/echbaydotcom/index-tmp.php $d/index.php
+							yes | cp -rf $get_d/wp-content/echbaydotcom/index-tmp.php $get_d/index.php
 						fi
 
 						# echbaytwo
-						if [ -d /root/wp-all-update/echbaytwo-master ] && [ -d "$d/wp-content/themes/echbaytwo" ]; then
+						if [ -d /root/wp-all-update/echbaytwo-master ] && [ -d "$get_d/wp-content/themes/echbaytwo" ]; then
 							echoY "cleanup - - - echbaytwo..."
-							remove_code_and_htaccess $d/wp-content/themes/echbaytwo
+							remove_code_and_htaccess $get_d/wp-content/themes/echbaytwo
 							echoG "rsync - - - echbaytwo..."
-							rsync -ah /root/wp-all-update/echbaytwo-master/* $d/wp-content/themes/echbaytwo/ > /dev/null 2>&1
-							#chown -R nginx:nginx $d/wp-content/themes/echbaytwo
+							rsync -ah /root/wp-all-update/echbaytwo-master/* $get_d/wp-content/themes/echbaytwo/ > /dev/null 2>&1
+							#chown -R nginx:nginx $get_d/wp-content/themes/echbaytwo
 						fi
 					# webgiareorg
-					elif [ -d /root/wp-all-update/webgiareorg-main ] && [ -d "$d/wp-content/webgiareorg" ]; then
+					elif [ -d /root/wp-all-update/webgiareorg-main ] && [ -d "$get_d/wp-content/webgiareorg" ]; then
 						# và không được có theme echbaytwo
-						if [ -d "$d/wp-content/themes/echbaytwo" ]; then
+						if [ -d "$get_d/wp-content/themes/echbaytwo" ]; then
 							echoY "continue - - - echbaytwo..."
 						# chỉ chạy khi có theme flatsome đi kèm
-						elif [ -d "$d/wp-content/themes/flatsome" ]; then
+						elif [ -d "$get_d/wp-content/themes/flatsome" ]; then
 							echoY "cleanup - - - webgiareorg..."
-							remove_code_and_htaccess $d/wp-content/webgiareorg
+							remove_code_and_htaccess $get_d/wp-content/webgiareorg
 							echoG "rsync - - - webgiareorg..."
-							rsync -ah /root/wp-all-update/webgiareorg-main/* $d/wp-content/webgiareorg/ > /dev/null 2>&1
-							#chown -R nginx:nginx $d/wp-content/webgiareorg
+							rsync -ah /root/wp-all-update/webgiareorg-main/* $get_d/wp-content/webgiareorg/ > /dev/null 2>&1
+							#chown -R nginx:nginx $get_d/wp-content/webgiareorg
 							
 							# copy file index-tmp.php de active WP_ACTIVE_WGR_SUPPER_CACHE luon va ngay
-							if [ -f "$d/wp-content/webgiareorg/index-tmp.php" ]; then
+							if [ -f "$get_d/wp-content/webgiareorg/index-tmp.php" ]; then
 								echoG "active WP ACTIVE WGR SUPPER CACHE..."
-								yes | cp -rf $d/wp-content/webgiareorg/index-tmp.php $d/index.php
+								yes | cp -rf $get_d/wp-content/webgiareorg/index-tmp.php $get_d/index.php
 							fi
 						else
 							echoR "webgiareorg for flatsome ONLY..."
@@ -604,22 +604,22 @@ if [ $2 -lt $3 ]; then
 
 					# dọn dẹp code dư thừa của backup
 					echoY "Cleanup EB update code..."
-					rm -rf $d/wp-content/echbaydotcom-*
-					rm -rf $d/wp-content/themes/echbaytwo-*
-					rm -rf $d/wp-content/webgiareorg-*
+					rm -rf $get_d/wp-content/echbaydotcom-*
+					rm -rf $get_d/wp-content/themes/echbaytwo-*
+					rm -rf $get_d/wp-content/webgiareorg-*
 					# dọn dẹp file thừa do lỗi update của webgiareorg trước đây
-					rm -rf $d/EB_THEME_CACHE-*
+					rm -rf $get_d/EB_THEME_CACHE-*
 					
 					# wordpres plugin -> chay vong lap va update tat ca neu co
 					#if [ -d /root/wp-all-update/plugins ]; then
-					if [ -d "$d/wp-content/plugins" ]; then
-						#for d_plugins in /root/wp-all-update/plugins/*
-						for d_plugins in $d/wp-content/plugins/*
+					if [ -d "$get_d/wp-content/plugins" ]; then
+						#for plugins_dir in /root/wp-all-update/plugins/*
+						for plugins_dir in $get_d/wp-content/plugins/*
 						do
-							if [ -d $d_plugins ]; then
-								d_pl=$(basename $d_plugins)
-								#echo $d_pl
-								rsync_wp_plugin $d_pl $d ""
+							if [ -d $plugins_dir ]; then
+								pl_dir=$(basename $plugins_dir)
+								#echo $pl_dir
+								rsync_wp_plugin $pl_dir $get_d ""
 							fi
 						done
 					fi
@@ -631,17 +631,17 @@ if [ $2 -lt $3 ]; then
 							
 							# voi DirectAdmin -> chuyen quyen cho user
 							if [ -f /etc/init.d/directadmin ]; then
-								chown -R $4:$4 $d
-								chown -R $4:$4 $d/*
+								chown -R $4:$4 $get_d
+								chown -R $4:$4 $get_d/*
 							else
 								# voi VPSSIM, HOCVPS -> phan quyen cho user va nginx
 								id -u nginx
 								if [ $? -eq 0 ]; then
-									chown -R $4:nginx $d
-									chown -R $4:nginx $d/*
+									chown -R $4:nginx $get_d
+									chown -R $4:nginx $get_d/*
 								else
-									chown -R $4:$4 $d
-									chown -R $4:$4 $d/*
+									chown -R $4:$4 $get_d
+									chown -R $4:$4 $get_d/*
 								fi
 							fi
 						else
@@ -652,25 +652,24 @@ if [ $2 -lt $3 ]; then
 					echo "Rsync all DONE..."
 					sleep 3;
 				# thử xem có phải là laravel hoặc codeigniter không
-				elif [ -f $d/code-mau.php ] && [ -d $d/app ] && [ -d $d/public ] && [ -d $d/system ]; then
-					echo $d
+				elif [ -f $get_d/code-mau.php ] && [ -d $get_d/app ] && [ -d $get_d/public ] && [ -d $get_d/system ]; then
 					# tim duoc website wp
-					echoY "++++++++++++++++++++++++++++ It is a Laravel or Codeigniter website"
+					echoY $get_d"::It is a Laravel or Codeigniter website"
 					
-					echoY "Begin cleanup... Please wait..."
+					echoG "Begin cleanup... Please wait..."
 
 					# dọn rác update trên này
-					echo $d"/system-*"
-					rm -rf $d/system-*
+					echo $get_d"/system-*"
+					rm -rf $get_d/system-*
 
 					echoG "Cleanup all DONE..."
 					sleep 3;
 				else
-					#echo $d
+					#echo $get_d
 					stt=$2
 					let "stt+=1"
 					#echo $stt
-					get_all_dir_in_dir $d"/*" $stt $3 $4
+					get_all_dir_in_dir $get_d"/*" $stt $3 $4
 				fi
 			fi
 		fi
@@ -681,30 +680,30 @@ fi
 
 # lap tim cac website trong thu muc home
 WP_update_main(){
-echoG "Check WP update in: "$DirSetup
+echoG "Check WP update in: "$root_dir
 #exit
 
 # voi cac thu muc khac, quet thang trong thu muc
-if [ ! "$DirSetup" == "/home" ]; then
-	get_all_dir_in_dir $DirSetup"/*" 0 $MaxCheck $host_user
+if [ ! "$root_dir" == "/home" ]; then
+	get_all_dir_in_dir $root_dir"/*" 0 $MaxCheck $host_user
 else
 
 # voi thu muc home thi moi can do theo host
-for d_home in $DirSetup/*
+for main_dir in $root_dir/*
 do
 	# neu la thu muc -> tim cac file wp trong nay
-	if [ -d $d_home ]; then
-		echo "d home: "$d_home
+	if [ -d $main_dir ]; then
+		echo "d home: "$main_dir
 		
 		# tai khoan de chmod file sau khi update
 		if [ "$chmodUser" == "" ]; then
-			host_user=$(basename $d_home)
+			host_user=$(basename $main_dir)
 		else
 			host_user=$chmodUser
 		fi
 		echo "host user: "$host_user
 		
-		get_all_dir_in_dir $d_home"/*" 0 $MaxCheck $host_user
+		get_all_dir_in_dir $main_dir"/*" 0 $MaxCheck $host_user
 		
 		echo "========================================"
 	fi
