@@ -86,7 +86,7 @@ read chUser
 chmodUser=$chUser
 fi
 
-echo -n "Disable Wordpress Xmlrpc (default: y. Please choose: y/n): "
+echo -n "Disable Wordpress Xmlrpc (default: y | Please choose: y/n): "
 read removeXmlrpc
 if [ "$removeXmlrpc" == "" ] || [ "$removeXmlrpc" == "y" ]; then
 DisableXmlrpc=1
