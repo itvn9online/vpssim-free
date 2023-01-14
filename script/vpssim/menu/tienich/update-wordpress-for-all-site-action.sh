@@ -60,7 +60,7 @@ echo "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
 #
 DisableXmlrpc=0
 
-echo -n "Enter dir for check and update (default /home): "
+echo -n "Enter folder for check and update (default /home): "
 read root_dir
 if [ "$root_dir" == "" ]; then
 root_dir="/home"
@@ -71,7 +71,7 @@ echoR $root_dir" not exist..."
 exit
 fi
 
-echo -n "Max dir for foreach (maximum 10, default 3): "
+echo -n "Maximum folder for foreach (maximum 10, default 3): "
 read MaxCheck
 if [ "$MaxCheck" == "" ]; then
 MaxCheck=3
