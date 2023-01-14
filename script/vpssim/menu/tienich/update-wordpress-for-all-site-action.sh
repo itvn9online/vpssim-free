@@ -86,6 +86,12 @@ read chUser
 chmodUser=$chUser
 fi
 
+echo -n "Disable Wordpress Xmlrpc (y/n): "
+read removeXmlrpc
+if [ "$removeXmlrpc" == "" ] || [ "$removeXmlrpc" == "y" ]; then
+DisableXmlrpc=1
+fi
+
 fi
 
 echoG "OK OK, check and update wordpres website in: "$DirSetup
