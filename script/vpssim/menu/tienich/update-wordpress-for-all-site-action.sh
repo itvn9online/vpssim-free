@@ -44,6 +44,8 @@ echo $(date) > /root/update-wordpress-for-all-site-log.txt
 
 #
 chmodUser=""
+home_path="/home/"
+DisableXmlrpc=0
 
 # cau hinh linh dong theo tung loai host
 if [ -f /tmp/server_wp_all_update ]; then
@@ -57,39 +59,39 @@ clear
 echo "= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = ="
 echo "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
 
-#
-DisableXmlrpc=0
-
+# con lai se cho nguoi dung nhap path
 echo -n "Enter folder for check and update (default /home): "
 read root_dir
 if [ "$root_dir" == "" ]; then
-root_dir="/home"
+	root_dir="/home"
+else
+	# xac dinh user dung de chmod
+	if [ ! "$root_dir" == "/home" ] && [[ ! "$root_dir" == *"$home_path"* ]]; then
+		echo -n "chmod to user (default: auto detect): "
+		read chmodUser
+	fi
 fi
-
 if [ ! -d $root_dir ]; then
-echoR $root_dir" not exist..."
-exit
+	echoR $root_dir" not exist..."
+	exit
 fi
 
+#
 echo -n "Maximum folder for foreach (maximum 10, default 3): "
 read MaxCheck
 if [ "$MaxCheck" == "" ]; then
-MaxCheck=3
-#elif [ "$MaxCheck" -gt 10 ]; then
-#MaxCheck=10
+	MaxCheck=3
 fi
 
-#if [ -f /etc/init.d/directadmin ] && [ ! "$root_dir" == "/home" ]; then
 if [ ! "$root_dir" == "/home" ]; then
-echo -n "chmod to user (default: auto detect): "
-read chUser
-chmodUser=$chUser
+	echo -n "chmod to user (default: auto detect): "
+	read chmodUser
 fi
 
 echo -n "Disable Wordpress Xmlrpc (default: y | Please choose: y/n): "
 read removeXmlrpc
 if [ "$removeXmlrpc" == "" ] || [ "$removeXmlrpc" == "y" ]; then
-DisableXmlrpc=1
+	DisableXmlrpc=1
 fi
 
 fi
@@ -97,9 +99,11 @@ fi
 echoG "OK OK, check and update wordpres website in: "$root_dir
 echo "Max for: "$MaxCheck
 echo "Disable Xmlrpc: "$DisableXmlrpc
+echo "User: "$chmodUser
 echoY "Will begin after 2s..."
+echo "TEST: "$root_dir
+exit
 sleep 2
-#exit
 
 
 
