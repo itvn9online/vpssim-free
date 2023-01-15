@@ -97,8 +97,8 @@ echo "Max for: "$MaxCheck
 echo "Disable Xmlrpc: "$DisableXmlrpc
 echo "User: "$chmodUser
 echoY "Will begin after 2s..."
-echo "TEST: "$root_dir
-exit
+#echo "TEST: "$root_dir
+#exit
 sleep 2
 
 
