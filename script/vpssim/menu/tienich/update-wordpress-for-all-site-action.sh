@@ -83,11 +83,7 @@ if [ "$MaxCheck" == "" ]; then
 	MaxCheck=3
 fi
 
-if [ ! "$root_dir" == "/home" ]; then
-	echo -n "chmod to user (default: auto detect): "
-	read chmodUser
-fi
-
+#
 echo -n "Disable Wordpress Xmlrpc (default: y | Please choose: y/n): "
 read removeXmlrpc
 if [ "$removeXmlrpc" == "" ] || [ "$removeXmlrpc" == "y" ]; then
