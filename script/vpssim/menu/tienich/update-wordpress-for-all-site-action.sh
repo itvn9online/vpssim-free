@@ -486,15 +486,15 @@ if [ -f $1/logo.gif ]; then
 fi
 
 # kiem tra cac file khong dung chuan cua wordpress
+wp_prefix="wp-"
 for get_wp_f in $1/*
 do
 	if [ -f $get_wp_f ]; then
 		filename=$(basename -- "$get_wp_f")
 		extension="${filename##*.}"
 		# neu la file php -> kiem tra xem co chu wp- o dau file khong
-		if [ "$extension" == "php" ] && [ "$filename" == "index.php" ] && [ "$filename" == "xmlrpc.php" ]; then
-			$wp_prefix="wp-"
-			if [[ "$filename" == *"$wp_prefix"* ]]; then
+		if [ "$extension" == "php" ] && [ ! "$filename" == "index.php" ] && [ ! "$filename" == "xmlrpc.php" ]; then
+			if [[ ! "$filename" == *"$wp_prefix"* ]]; then
 				# gui canh bao ve telegram
 				send_warning_via_telegram $1 $filename
 			fi
