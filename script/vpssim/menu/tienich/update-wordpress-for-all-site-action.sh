@@ -128,9 +128,6 @@ curTime=$(date +%d%H)
 echo "curTime: "$curTime
 
 
-
-
-
 # kiem tra va xoa cac file download cu
 check_and_remmove_file_download(){
 
