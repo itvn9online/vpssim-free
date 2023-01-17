@@ -43,6 +43,7 @@ cd ~
 echo $(date) > /root/update-wordpress-for-all-site-log.txt
 
 #
+checkWgrCode=0
 chmodUser=""
 home_path="/home/"
 DisableXmlrpc=0
@@ -498,11 +499,34 @@ do
 		fi
 	fi
 done
+
+# kiem tra da dung file htaccess cua WGR chua -> chi danh cho code cua WGR
+if [ "$checkWgrCode" -ne 0 ]; then
+	checkFile=$1/.htaccess
+	# khong co file htaccess -> bao loi
+	if [ ! -f $checkFile ]; then
+		send_warning_via_telegram $1 "no_htaccess"
+		update_default_htaccess $1
+	else
+		# thu tim chuoi www.old-domain.com trong file htaccess -> neu khong co thi khong phai file chuan cua WGR
+		if grep -q www.old-domain.com "$checkFile"; then
+			echo "htaccess OK..."
+		else
+			# gui canh bao ve telegram
+			send_warning_via_telegram $1 "wgr_htaccess"
+		fi
+	fi
+fi
 }
 
 send_warning_via_telegram(){
 	#wget --no-check-certificate -O /dev/null "https://cloud.echbay.com/backups/has_malware?source="$2"&path="$1
 	curl --data "source="$2"&path="$1 https://cloud.echbay.com/backups/has_malware
+}
+
+# cap nhat lai file htaccess theo tieu chuan neu co yeu cau
+update_default_htaccess(){
+	yes | cp -rf /etc/vpssim/menu/tienich/.htaccess $1/.htaccess
 }
 
 # tim tat ca thu muc trong home
