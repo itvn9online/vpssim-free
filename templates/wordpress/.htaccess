@@ -1,0 +1,99 @@
+# BEGIN WordPress
+<IfModule mod_rewrite.c>
+RewriteEngine On
+#	REDIRECT
+#	su dung https
+#	RewriteCond %{HTTPS} off
+#	RewriteRule ^.*$ https://%{SERVER_NAME}%{REQUEST_URI} [R=301,L]
+#	redirect to one domain
+#	RewriteCond %{HTTP_HOST} ^old-domain.com$ [OR]
+#	RewriteCond %{HTTP_HOST} ^www.old-domain.com$
+#	RewriteRule (.*)$ http://new-domain.com/$1 [R=301,L]
+#	Using non-www (Recommendations)
+#	RewriteCond %{HTTP_HOST} ^www\.(.*) [NC]
+#	RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+#	RewriteRule ^(.*)$ http://%1%{REQUEST_URI} [R=301,L]
+############### BRGIN TMP ############
+# non-www
+RewriteCond %{HTTP_HOST} ^www\.(.*) [NC]
+#RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+RewriteRule ^(.*)$ https://%1%{REQUEST_URI} [R=301,L]
+# using https
+RewriteCond %{HTTPS} off
+RewriteRule ^.*$ https://%{SERVER_NAME}%{REQUEST_URI} [R=301,L]
+#	END REDIRECT
+RewriteBase /
+RewriteRule ^index\.php$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.php [L]
+</IfModule>
+# END WordPress
+<ifModule mod_gzip.c>
+mod_gzip_on Yes
+mod_gzip_dechunk Yes
+mod_gzip_item_include file \.(html?|txt|css|js|php|pl)$
+mod_gzip_item_include handler ^cgi-script$
+mod_gzip_item_include mime ^text/.*
+mod_gzip_item_include mime ^application/x-javascript.*
+mod_gzip_item_exclude mime ^image/.*
+mod_gzip_item_exclude rspheader ^Content-Encoding:.*gzip.*
+</ifModule>
+<IfModule mod_deflate.c>
+#The following line is enough for .js and .css
+AddOutputFilter DEFLATE js css
+AddOutputFilterByType DEFLATE text/plain text/xml application/xhtml+xml text/css application/xml application/rss+xml application/atom_xml application/x-javascript application/x-httpd-php application/x-httpd-fastphp text/html
+#The following lines are to avoid bugs with some browsers
+BrowserMatch ^Mozilla/4 gzip-only-text/html
+BrowserMatch ^Mozilla/4\.0[678] no-gzip
+BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
+</IfModule>
+<IfModule mod_expires.c>
+ExpiresActive On
+# bo qua cai lenh set thoi gian het han mac dinh nay di
+#	ExpiresDefault "access plus 10 days"
+ExpiresDefault "access plus 365 days"
+#	ExpiresByType text/css "access plus 1 week"
+ExpiresByType text/css "access plus 365 days"
+ExpiresByType text/plain "access plus 1 month"
+#	ExpiresByType image/gif "access plus 1 month"
+ExpiresByType image/gif "access plus 365 days"
+#	ExpiresByType image/png "access plus 1 month"
+ExpiresByType image/png "access plus 365 days"
+#	ExpiresByType image/jpeg "access plus 1 month"
+ExpiresByType image/jpeg "access plus 365 days"
+ExpiresByType application/x-javascript "access plus 1 month"
+#	ExpiresByType application/javascript "access plus 1 week"
+ExpiresByType application/javascript "access plus 365 days"
+ExpiresByType application/x-icon "access plus 1 year"
+</IfModule>
+<IfModule mod_headers.c>
+<FilesMatch "\.(3gp|gif|jpg|jpeg|png|ico|wmv|avi|asf|asx|mpg|mpeg|mp4|pls|mp3|mid|wav|swf|flv|exe|zip|tar|rar|gz|tgz|bz2|uha|7z|doc|docx|xls|xlsx|pdf|iso)$">
+Header set Cache-Control "public, must-revalidate, proxy-revalidate"
+</FilesMatch>
+<FilesMatch "\.(js|css|xml|gz)$">
+Header append Vary Accept-Encoding
+</FilesMatch>
+<FilesMatch "\.(css)$">
+#		Header set Cache-Control "public"
+Header set Cache-Control "public, must-revalidate, proxy-revalidate"
+</FilesMatch>
+<FilesMatch "\.(js)$">
+#		Header set Cache-Control "private"
+Header set Cache-Control "public, must-revalidate, proxy-revalidate"
+</FilesMatch>
+<FilesMatch "\.(x?html|htm|php|asp|aspx)$">
+Header set Cache-Control "max-age=0, no-cache, no-store, must-revalidate"
+</FilesMatch>
+#	https://techtalk.vn/tat-ca-nhung-thu-ban-can-biet-ve-http-security-headers.html
+#	https://hstspreload.org/
+Header always set Strict-Transport-Security "max-age=63072000; includeSubdomains; preload"
+#	https://ssl-config.mozilla.org/
+#	Header always set Strict-Transport-Security "max-age=63072000; always"
+#Header always set X-XSS-Protection "1; mode=block; report=https://argsec.report-uri.com/r/d/xss/enforce"
+Header always set X-XSS-Protection "1; mode=block"
+Header always set X-Frame-Options "SAMEORIGIN"
+Header always set X-Content-Type-Options nosniff
+Header always set Referrer-Policy "strict-origin-when-cross-origin"
+#Header always set Content-Security-Policy "default-src 'self' facebook.com onesignal.com; script-src 'self' 'unsafe-inline' www.googletagmanager.com connect.facebook.net www.googleadservices.com www.google-analytics.com googleads.g.doubleclick.net onesignal.com tpc.googlesyndication.com https://cdn.onesignal.com https://*.onesignal.com https://cdn4.mxpnl.com; style-src 'self' data: 'unsafe-inline' onesignal.com; img-src 'self' data: www.googletagmanager.com stats.g.doubleclick.net www.google-analytics.com www.facebook.com www.google.com www.google.com.vn googleads.g.doubleclick.net i.ytimg.com images.dmca.com; frame-src www.googletagmanager.com bid.g.doubleclick.net www.facebook.com www.google.com www.youtube.com connect.facebook.net docs.google.com https://onesignal.com tpc.googlesyndication.com; font-src 'self' data:; connect-src 'self' *.google.com google.com google.com.vn www.google-analytics.com onesignal.com stats.g.doubleclick.net www.facebook.com https://api.mixpanel.com/; report-uri https://argsec.report-uri.com/r/d/csp/reportOnly"
+</IfModule>
