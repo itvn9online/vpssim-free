@@ -514,6 +514,11 @@ if [ "$checkWgrCode" -ne 0 ]; then
 		else
 			# gui canh bao ve telegram
 			send_warning_via_telegram $1 "wgr_htaccess"
+			# update lai htaccess neu dang o thu muc public html
+			is_public_html=$(basename $1)
+			if [ "$is_public_html" == "public_html" ]; then
+				update_default_htaccess $1
+			fi
 		fi
 	fi
 fi
