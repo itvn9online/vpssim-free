@@ -628,12 +628,6 @@ if [ $2 -lt $3 ]; then
 						echoG "rsync - - - echbaydotcom..."
 						rsync -ah /root/wp-all-update/echbaydotcom-master/* $get_d/wp-content/echbaydotcom/ > /dev/null 2>&1
 						#chown -R nginx:nginx $get_d/wp-content/echbaydotcom
-						
-						# copy file index-tmp.php de active WP_ACTIVE_WGR_SUPPER_CACHE luon va ngay
-						if [ -f "$get_d/wp-content/echbaydotcom/index-tmp.php" ]; then
-							echoG "active WP ACTIVE WGR SUPPER CACHE..."
-							yes | cp -rf $get_d/wp-content/echbaydotcom/index-tmp.php $get_d/index.php
-						fi
 
 						# echbaytwo
 						if [ -d /root/wp-all-update/echbaytwo-master ] && [ -d "$get_d/wp-content/themes/echbaytwo" ]; then
@@ -642,9 +636,17 @@ if [ $2 -lt $3 ]; then
 							echoG "rsync - - - echbaytwo..."
 							rsync -ah /root/wp-all-update/echbaytwo-master/* $get_d/wp-content/themes/echbaytwo/ > /dev/null 2>&1
 							#chown -R nginx:nginx $get_d/wp-content/themes/echbaytwo
+							
+							# copy file index-tmp.php de active WP_ACTIVE_WGR_SUPPER_CACHE luon va ngay
+							if [ -f "$get_d/wp-content/echbaydotcom/index-tmp.php" ]; then
+								echoG "active WP ACTIVE WGR SUPPER CACHE..."
+								yes | cp -rf $get_d/wp-content/echbaydotcom/index-tmp.php $get_d/index.php
+							fi
 						fi
+					fi
+					
 					# webgiareorg
-					elif [ -d /root/wp-all-update/webgiareorg-main ] && [ -d "$get_d/wp-content/webgiareorg" ]; then
+					if [ -d /root/wp-all-update/webgiareorg-main ] && [ -d "$get_d/wp-content/webgiareorg" ]; then
 						# và không được có theme echbaytwo
 						if [ -d "$get_d/wp-content/themes/echbaytwo" ]; then
 							echoY "continue - - - echbaytwo..."
@@ -664,8 +666,6 @@ if [ $2 -lt $3 ]; then
 						else
 							echoR "webgiareorg for flatsome ONLY..."
 						fi
-					else
-						echo "Update for Another code ONLY..."
 					fi
 
 					# dọn dẹp code dư thừa của backup
