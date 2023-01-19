@@ -613,7 +613,21 @@ if [ $2 -lt $3 ]; then
 						fi
 
 					fi
-					
+
+					# chi su dung echbaydotcom hoac webgiareorg
+					if [ -d "$get_d/wp-content/echbaydotcom" ] && [ -d "$get_d/wp-content/webgiareorg" ]; then
+						# neu co echbaytwo
+						if [ -d "$get_d/wp-content/themes/echbaytwo" ]; then
+							# xoa webgiareorg
+							rm -rf $get_d/wp-content/webgiareorg/*
+							rm -rf $get_d/wp-content/webgiareorg
+						elif [ -d "$get_d/wp-content/themes/flatsome" ]; then
+							# xoa echbaydotcom
+							rm -rf $get_d/wp-content/echbaydotcom/*
+							rm -rf $get_d/wp-content/echbaydotcom
+						fi
+					fi
+
 					# echbaydotcom
 					if [ -d /root/wp-all-update/echbaydotcom-master ] && [ -d "$get_d/wp-content/echbaydotcom" ]; then
 						# nếu tồn tại cả thư mục webgiareorg -> cảnh báo ngay
