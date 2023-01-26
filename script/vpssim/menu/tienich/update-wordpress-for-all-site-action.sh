@@ -553,7 +553,7 @@ if [ $2 -lt $3 ]; then
 				echo $get_d"::It is a symlink..."
 			else
 				# tim it nhat 3 file va 3 thu muc bat buoc phai co cua wp
-				if [ -f $get_d/wp-config.php ] && [ -f $get_d/wp-settings.php ] && [ -f $get_d/wp-blog-header.php ] && [ -d $get_d/wp-admin ] && [ -d $get_d/wp-content ] && [ -d $get_d/wp-includes ]; then
+				if [ -f $get_d/wp-config.php ] && [ -d $get_d/wp-admin ] && [ -d $get_d/wp-content ] && [ -d $get_d/wp-includes ]; then
 					# tim duoc website wp
 					echoG $get_d"::It is a wordpress website"
 					
