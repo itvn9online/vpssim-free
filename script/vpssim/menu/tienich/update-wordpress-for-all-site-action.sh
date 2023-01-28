@@ -47,6 +47,7 @@ checkWgrCode=0
 chmodUser=""
 home_path="/home/"
 DisableXmlrpc=0
+for_rebuild="no"
 
 # cau hinh linh dong theo tung loai host
 if [ -f /tmp/server_wp_all_update ]; then
@@ -460,8 +461,8 @@ cd ~
 # kiem tra neu co file la thi dua ra canh bao
 check_wp_suspect_malware_file(){
 echoY "Check malware..."
-if [ -f $1/index.php ]; then
-	checkFile=$1/index.php
+checkFile=$1/index.php
+if [ -f $checkFile ]; then
 	# thu tim chuoi base64 decode trong file index php -> mac dinh thi file index php khong co doan nay
 	if grep -q base64_decode "$checkFile"; then
 		# gui canh bao ve telegram
@@ -469,8 +470,8 @@ if [ -f $1/index.php ]; then
 	fi
 fi
 # file wp-login php la noi no thu thap thong tin dang nhap cua nguoi dung
-if [ -f $1/wp-login.php ]; then
-	checkFile=$1/wp-login.php
+checkFile=$1/wp-login.php
+if [ -f $checkFile ]; then
 	# thu tim chuoi logo.gif trong file wp-login php -> mac dinh thi file wp-login php khong co doan nay
 	if grep -q logo.gif "$checkFile"; then
 		# gui canh bao ve telegram
@@ -510,7 +511,7 @@ if [ "$checkWgrCode" -ne 0 ]; then
 	else
 		# thu tim chuoi www.old-domain.com trong file htaccess -> neu khong co thi khong phai file chuan cua WGR
 		if grep -q www.old-domain.com "$checkFile"; then
-			echo "htaccess OK..."
+			echoG "htaccess OK..."
 		else
 			# gui canh bao ve telegram
 			send_warning_via_telegram $1 "wgr_htaccess"
@@ -527,11 +528,14 @@ fi
 send_warning_via_telegram(){
 	#wget --no-check-certificate -O /dev/null "https://cloud.echbay.com/backups/has_malware?source="$2"&path="$1
 	curl --data "source="$2"&path="$1 https://cloud.echbay.com/backups/has_malware
+	echoY $2
 }
 
 # cap nhat lai file htaccess theo tieu chuan neu co yeu cau
 update_default_htaccess(){
 	yes | cp -rf /etc/vpssim/menu/tienich/.htaccess $1/.htaccess
+	echoG "UPDATE htaccess..."
+	for_rebuild="yes"
 }
 
 # tim tat ca thu muc trong home
@@ -799,6 +803,16 @@ if [ ! "$re_download_plugin" == "" ]; then
 echoY "Re-update after 10s"
 sleep 10
 WP_update_main
+fi
+
+#
+cd ~
+if [ ! "$for_rebuild" == "no" ]; then
+	if [ -f /usr/local/lsws/bin/lswsctrl ]; then
+		/usr/local/lsws/bin/lswsctrl restart
+	else
+		/bin/systemctl reload nginx.service
+	fi
 fi
 
 #
