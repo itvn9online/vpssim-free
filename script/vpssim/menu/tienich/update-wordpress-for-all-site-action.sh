@@ -345,7 +345,7 @@ elif [ ! "$3" == "no" ]; then
 			echo $ketnoi > $file404
 
 			#
-			send_warning_via_telegram $2$1 "plugins_404"
+			send_warning_via_telegram $2"/"$1 "plugins_404"
 		else
 			# neu khong thi bao loi, thuong thi nhung plugin pro se khong co tren wordpress
 			echoY "- - - - - - - - - WARNING... plugin connect error "$ketnoi": "$1
