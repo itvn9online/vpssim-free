@@ -343,6 +343,9 @@ elif [ ! "$3" == "no" ]; then
 			echoR "- - - - - - - - - WARNING... plugin not exist ("$ketnoi"): "$1
 			# tao file de qua trinh kiem tra ket noi khong dien ra lien tuc
 			echo $ketnoi > $file404
+
+			#
+			send_warning_via_telegram $1 "plugins_404"
 		else
 			# neu khong thi bao loi, thuong thi nhung plugin pro se khong co tren wordpress
 			echoY "- - - - - - - - - WARNING... plugin connect error "$ketnoi": "$1
