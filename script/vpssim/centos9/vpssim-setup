@@ -135,7 +135,7 @@ select opt in "${options[@]}"; do
     case "$REPLY" in
     1) xacnhanthongtin="dongy"; break;;
     2) xacnhanthongtin="khongdongy"; break;;
-    *) echo "Ban nhap sai ! Ban vui long chon so trong danh sach";continue;;
+    *) echo "Ban nhap sai ! Ban vui long chon so trong danh sach"; continue;;
     esac  
 done
 
@@ -155,7 +155,6 @@ fi
 #
 yum -y update
 yum -y upgrade
-
 
 
 # https://duypt.dev/huong-dan-cai-dat-lemp-tren-centos-stream-9
@@ -406,6 +405,7 @@ mainsite="vpssim.demo"
 priport="$svport"
 serverip="$svip"
 emailmanage="$vpssimemail"
+mariadbpass="$passrootmysql"
 END
 
 
