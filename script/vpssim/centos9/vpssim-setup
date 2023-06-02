@@ -230,6 +230,8 @@ sleep 2
 yum install php php-fpm php-mysqlnd php-common php-json php-opcache php-ldap php-gd php-bcmath php-ctype php-fileinfo php-xml php-curl php-mbstring php-zip -y
 
 #Configure sessions directory permissions
+mkdir -p /var/lib/php/session
+chown -R nginx:nginx /var/lib/php
 chmod 777 /var/lib/php/session
 chmod +t /var/lib/php/session
 
