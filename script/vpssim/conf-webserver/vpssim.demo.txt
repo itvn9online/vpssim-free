@@ -6,9 +6,7 @@ rewrite ^(.*) http://vpssim.demo$1 permanent;
 server {
 listen   80 default_server;
 
-#access_log off;
 access_log /dev/null;
-#error_log off;
 error_log /dev/null;
 # error_log /home/vpssim.demo/logs/error.log;
 root /home/vpssim.demo/public_html;
@@ -66,11 +64,8 @@ include /etc/nginx/conf/drop.conf;
 server {
 #listen   $svport;
 tmp_listen_svport;
-#access_log        off;
 access_log        /dev/null;
-#log_not_found     off;
-log_not_found     /dev/null;
-#error_log         off;
+log_not_found     off;
 error_log         /dev/null;
 root /home/vpssim.demo/private_html;
 auth_basic "Authorization Required ( Get User & Password at /home/VPSSIM-manage-info.txt or Create new one by : ECHBAY-VPSSIM menu ->  User & Password Mac Dinh )";
@@ -88,7 +83,7 @@ access_log   off;
 location /php_status {
 fastcgi_pass 127.0.0.1:9000;
 fastcgi_index index.php;
-fastcgi_param SCRIPT_FILENAME  /home/vpssim.demo/public_html$fastcgi_script_name;
+fastcgi_param SCRIPT_FILENAME  /home/vpssim.demo/private_html$fastcgi_script_name;
 include /etc/nginx/fastcgi_params;
 }
 location ~ \.php$ {
