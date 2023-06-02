@@ -5,7 +5,7 @@ cd ~
 if [ -d /opt/echbay_vpssim ]; then
 rm -rf /opt/echbay_vpssim/*
 rm -rf /opt/echbay_vpssim
-sleep 5
+#sleep 5
 fi
 
 #
@@ -40,7 +40,7 @@ fi
 #
 cd ~
 
-sleep 5
+#sleep 5
 
 find /opt/echbay_vpssim/script/vpssim/menu -type f -exec chmod 755 {} \;
 /opt/echbay_vpssim/script/vpssim/menu/git-clone-done
