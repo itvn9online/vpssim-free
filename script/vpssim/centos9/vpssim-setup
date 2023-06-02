@@ -152,14 +152,25 @@ fi
 
 
 
-# current os version
-current_os_version=$(rpm --eval '%{centos_ver}')
-
-
-
 #
 yum -y update
 yum -y upgrade
+
+
+# current os version
+current_os_version=$(rpm --eval '%{centos_ver}')
+
+# install latest software
+# https://tecadmin.net/how-to-install-php-on-centos-9/
+# for centos 8
+if [ "$current_os_version" == "8" ]; then
+sudo dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+sudo dnf install -y https://rpms.remirepo.net/enterprise/remi-release-8.rpm
+else
+# for centos 9
+sudo dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
+sudo dnf install -y https://rpms.remirepo.net/enterprise/remi-release-9.rpm
+fi
 
 
 # https://duypt.dev/huong-dan-cai-dat-lemp-tren-centos-stream-9
@@ -168,7 +179,7 @@ echo "Install Nginx"
 
 # thiet lap phien ban nginx cho centos 8 do ban nginx tren nay kha cu
 if [ "$current_os_version" == "8" ]; then
-#sudo dnf module reset nginx -y
+sudo dnf module reset nginx -y
 sudo dnf module list nginx -y
 sudo dnf module enable nginx:1.22 -y
 fi
@@ -233,17 +244,6 @@ mysql -u root -p"$DATABASE_PASS" -e "FLUSH PRIVILEGES"
 
 
 
-
-# setup php 8++
-# https://tecadmin.net/how-to-install-php-on-centos-9/
-if [ "$current_os_version" == "8" ]; then
-sudo dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
-sudo dnf install -y https://rpms.remirepo.net/enterprise/remi-release-8.rpm
-else
-# for centos 9
-sudo dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
-sudo dnf install -y https://rpms.remirepo.net/enterprise/remi-release-9.rpm
-fi
 
 #
 sudo dnf module reset php -y
