@@ -72,10 +72,13 @@ server {
 
     server_name _ vpssim.demo;
 
-    access_log        off;
-    log_not_found     off;
+    #access_log        off;
+    access_log        /dev/null;
+    #log_not_found     off;
+    log_not_found     /dev/null;
     #error_log         off;
-    error_log /home/vpssim.demo/logs/error.log;
+    error_log         /dev/null;
+    #error_log /home/vpssim.demo/logs/error.log;
     root /home/vpssim.demo/private_html;
 
     auth_basic "Authorization Required ( Get User & Password at /home/VPSSIM-manage-info.txt or Create new one by : ECHBAY-VPSSIM menu ->  User & Password Mac Dinh )";

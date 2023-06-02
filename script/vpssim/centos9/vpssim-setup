@@ -152,6 +152,11 @@ fi
 
 
 
+# current os version
+current_os_version=$(rpm --eval '%{centos_ver}')
+
+
+
 #
 yum -y update
 yum -y upgrade
@@ -160,6 +165,14 @@ yum -y upgrade
 # https://duypt.dev/huong-dan-cai-dat-lemp-tren-centos-stream-9
 echo "=========================================================================="
 echo "Install Nginx"
+
+# thiet lap phien ban nginx cho centos 8 do ban nginx tren nay kha cu
+if [ "$current_os_version" == "8" ]; then
+#sudo dnf module reset nginx -y
+sudo dnf module list nginx -y
+sudo dnf module enable nginx:1.22 -y
+fi
+
 #sleep 2
 yum install nginx -y
 #nginx -v
@@ -220,12 +233,23 @@ mysql -u root -p"$DATABASE_PASS" -e "FLUSH PRIVILEGES"
 
 
 
-# setup php 8.2
+
+# setup php 8++
 # https://tecadmin.net/how-to-install-php-on-centos-9/
+if [ "$current_os_version" == "8" ]; then
+sudo dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+sudo dnf install -y https://rpms.remirepo.net/enterprise/remi-release-8.rpm
+else
+# for centos 9
 sudo dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
 sudo dnf install -y https://rpms.remirepo.net/enterprise/remi-release-9.rpm
+fi
+
+#
+sudo dnf module reset php -y
 sudo dnf module list php -y
-sudo dnf module enable php:remi-8.2 -y
+sudo dnf module enable php:remi-8.1 -y
+#sudo dnf module enable php:remi-8.2 -y
 
 #
 echo "=========================================================================="
@@ -249,6 +273,7 @@ systemctl enable php-fpm
 #nano /etc/php-fpm.d/www.conf
 sed -i 's/user = apache/user = nginx/g' /etc/php-fpm.d/www.conf
 sed -i 's/group = apache/group = nginx/g' /etc/php-fpm.d/www.conf
+#nano /etc/php-fpm.d/www.conf
 
 #Tune PHP-FPM pool settings
 sed -i "s/;listen\.mode =.*/listen.mode = 0666/" /etc/php-fpm.d/www.conf
@@ -266,7 +291,7 @@ sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php.ini
 sed -i "s/upload_max_filesize = .*/upload_max_filesize = 256M/" /etc/php.ini
 sed -i "s/post_max_size = .*/post_max_size = 256M/" /etc/php.ini
 sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php.ini
-
+#nano /etc/php.ini
 
 #
 rm -rf /etc/php.d/*opcache*
@@ -274,6 +299,7 @@ yes | cp -rf /opt/echbay_vpssim/script/vpssim/conf-webserver/opcache.ini /etc/ph
 
 #
 systemctl restart nginx php-fpm
+#systemctl status nginx php-fpm
 
 
 #
@@ -470,7 +496,7 @@ for PORT in ${FIREWALLLIST}; do
 	else
 		echo $PORT
 	fi
-done 
+done
 
 # add ca ssh port hien tai neu no khong phai port 22
 current_ssh_port=${SSH_CLIENT##* }

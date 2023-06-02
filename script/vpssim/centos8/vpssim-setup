@@ -3,6 +3,3 @@
 #
 echo "Recomend using centos 9..."
 exit
-
-# dùng chung script với centos9
-#yes | cp -rf /opt/echbay_vpssim/script/vpssim/centos9/vpssim-setup ~/vpssim-setup ; chmod +x vpssim-setup ; clear ; bash vpssim-setup
