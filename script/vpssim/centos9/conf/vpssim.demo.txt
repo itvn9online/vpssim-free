@@ -1,8 +1,8 @@
 
-server {
-    server_name www.vpssim.demo;
-    rewrite ^(.*) http://vpssim.demo$1 permanent;
-}
+#server {
+#server_name www.vpssim.demo;
+#rewrite ^(.*) http://vpssim.demo$1 permanent;
+#}
 server {
     listen       80 default_server;
     listen       [::]:80 default_server;

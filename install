@@ -26,56 +26,60 @@ echo "SELinux status: "$selinux_on_off
 
 # if SELinux enable -> disable SELinux
 if [ "$selinux_on_off" = "ENABLED" ]; then
-if [ -f /etc/selinux/config ]; then
-echo "=========================================================================="
-echo "Warning! php-fpm not install if SELinux enable"
+    if [ -f /etc/selinux/config ]; then
+        echo "=========================================================================="
+        echo "Warning! php-fpm not install if SELinux enable"
 
-# neu truoc do da thu disable SELinux nhung khong thanh cong
-if [ -f /tmp/echbay_vpssim_disable_selinux ]; then
-echo "Please disable SELinux and re-instal..."
-echo "Using command:"
-echo "nano /etc/selinux/config"
-echo "find and replace:"
-echo "SELINUX="$(getenforce)
-echo "to:"
-echo "SELINUX=disabled"
-exit
-else
-echo "Auto disable SELinux in your VPS"
+        # neu truoc do da thu disable SELinux nhung khong thanh cong
+        if [ -f /tmp/echbay_vpssim_disable_selinux ]; then
+            echo "Please disable SELinux and re-instal..."
+            echo "Using command:"
+            echo "nano /etc/selinux/config"
+            echo "find and replace:"
+            echo "SELINUX="$(getenforce)
+            echo "to:"
+            echo "SELINUX=disabled"
+            exit
+        else
+            echo "Auto disable SELinux in your VPS"
+        fi
+
+        #sudo chmod 777 /etc/selinux/config
+        sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
+        sed -i 's/SELINUX=permissive/SELINUX=disabled/g' /etc/selinux/config
+        #sudo chmod 644 /etc/selinux/config
+
+        #
+        echo "ECHBAY-VPSSIM disable SELinux" > /tmp/echbay_vpssim_disable_selinux
+
+        # check after change
+        check_selinux_disable=$(grep SELINUX=disabled /etc/selinux/config)
+        echo $check_selinux_disable
+
+        # if change OK
+        if [ ! "$check_selinux_disable" = "" ]; then
+            echo ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ."
+            echo ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ."
+            echo ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ."
+            echo "Auto disable SELinux in your VPS"
+            #echo "Your Server/ VPS will been reboot. . ."
+            #echo "Please login and re-install after Server/ VPS reboot"
+            echo ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ."
+            echo ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ."
+            echo ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ."
+            echo "=========================================================================="
+            #sleep 5
+            #reboot
+        else
+            echo "Auto disble SELinux not working! Please disable SELinux and try again..."
+        fi
+        echo "=========================================================================="
+        #exit
+    fi
 fi
-
-#sudo chmod 777 /etc/selinux/config
-sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
-sed -i 's/SELINUX=permissive/SELINUX=disabled/g' /etc/selinux/config
-#sudo chmod 644 /etc/selinux/config
 
 #
-echo "ECHBAY-VPSSIM disable SELinux" > /tmp/echbay_vpssim_disable_selinux
-
-# check after change
-check_selinux_disable=$(grep SELINUX=disabled /etc/selinux/config)
-echo $check_selinux_disable
-
-# if change OK
-if [ ! "$check_selinux_disable" = "" ]; then
-echo ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ."
-echo ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ."
-echo ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ."
-echo "Your Server/ VPS will been reboot. . ."
-echo "Please login and re-install after Server/ VPS reboot"
-echo ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ."
-echo ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ."
-echo ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ."
-echo "=========================================================================="
-#sleep 5
-reboot
-else
-echo "Auto disble SELinux not working! Please disable SELinux and try again..."
-fi
-echo "=========================================================================="
-exit
-fi
-fi
+rm -rf /tmp/echbay_vpssim_disable_selinux
 
 #
 cd ~
