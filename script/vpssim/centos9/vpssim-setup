@@ -142,7 +142,7 @@ done
 if [ "$xacnhanthongtin" = "dongy" ]; then
 echo "--------------------------------------------------------------------------"
 echo "Chuan Bi Cai Dat ECHBAY-VPSSIM ..."
-sleep 2
+#sleep 2
 else 
 clear
 rm -rf /root/install && bash /root/vpssim-setup
@@ -161,7 +161,7 @@ yum -y upgrade
 # https://duypt.dev/huong-dan-cai-dat-lemp-tren-centos-stream-9
 echo "=========================================================================="
 echo "Install Nginx"
-sleep 2
+#sleep 2
 yum install nginx -y
 #nginx -v
 #nginx -V
@@ -190,7 +190,7 @@ chown nginx:nginx /usr/share/nginx/html -R
 #
 echo "=========================================================================="
 echo "Install MariaDB..."
-sleep 2
+#sleep 2
 yum install mariadb-server mariadb -y
 
 #
@@ -225,7 +225,7 @@ mysql -u root -p"$DATABASE_PASS" -e "FLUSH PRIVILEGES"
 sudo dnf module enable php:remi-8.2
 echo "=========================================================================="
 echo "Install php module..."
-sleep 2
+#sleep 2
 yum install php php-fpm php-mysqlnd php-common php-json php-opcache php-ldap php-gd php-bcmath php-ctype php-fileinfo php-xml php-curl php-mbstring php-zip -y
 
 #Configure sessions directory permissions
@@ -274,7 +274,7 @@ systemctl restart nginx php-fpm
 #
 echo "=========================================================================="
 echo "Install phpMyAdmin..."
-sleep 2
+#sleep 2
 
 #
 cd ~
@@ -315,7 +315,7 @@ clear
 echo "=========================================================================="
 echo "Cai Dat Hoan Tat, Bat Dau Qua Trinh Cau Hinh...... "
 echo "=========================================================================="
-sleep 3
+#sleep 3
 
 #
 mkdir -p /home/vpssim.demo/public_html
@@ -482,7 +482,7 @@ clear
 #echo "=========================================================================="
 #echo "Setup CSF Firewall ... "
 #echo "=========================================================================="
-sleep 3
+#sleep 3
 #/etc/vpssim/menu/cai-csf-firewall-cai-dat-CSF-FIREWALL
 #systemctl start memcached.service
 #systemctl enable memcached.service 
@@ -585,6 +585,6 @@ echo "--------------------------------------------------------------------------
 echo "and attach a note to use ECHBAY-VPSSIM to email: $vpssimemail"
 echo "=========================================================================="
 echo "The server will automatically restart after 3 seconds.... "
-sleep 3
+#sleep 3
 reboot
 exit
