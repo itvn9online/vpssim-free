@@ -1,4 +1,7 @@
 #!/bin/bash
 
 #
-/etc/vpssim/menu/menucheck/check-vpssim-update
+echo "test code for centos 8"
+
+# dùng chung script với centos9
+#yes | cp -rf /opt/echbay_vpssim/script/vpssim/centos9/vpssim-setup ~/vpssim-setup ; chmod +x vpssim-setup ; clear ; bash vpssim-setup

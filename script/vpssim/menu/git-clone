@@ -1,5 +1,6 @@
 #!/bin/sh
 
+
 cd ~
 if [ -d /opt/echbay_vpssim ]; then
 rm -rf /opt/echbay_vpssim/*
@@ -7,21 +8,36 @@ rm -rf /opt/echbay_vpssim
 sleep 5
 fi
 
+#
 echo "Install git..."
 sudo yum -y install git
+sudo yum -y install unzip zip unrar rsync psmisc
 
-# update code
-if [ -d /opt/echbay_vpssim ]; then
-cd ~ ; cd /opt/echbay_vpssim && git pull ; cd ~
-#git commit -m "ECHBAY-VPSSIM commit"
-#git pull origin master
-#git pull origin
-#git merge origin master
-# or clone new
+
+# ưu tiên download file zip cho nó nhanh
+cd /tmp
+wget --no-check-certificate https://github.com/itvn9online/vpssim-free/archive/refs/heads/master.zip -O vpssim-free.zip
+unzip -q vpssim-free.zip
+rm -rf vpssim-free*
+cd ~
+if [ -d /tmp/vpssim-free-master ]; then
+    mkdir -p /opt/echbay_vpssim ; chmod 755 /opt/echbay_vpssim
+    yes | cp -rf /tmp/vpssim-free-master/. /opt/echbay_vpssim/
 else
-git clone https://github.com/itvn9online/vpssim-free /opt/echbay_vpssim
+    # update code
+    if [ -d /opt/echbay_vpssim ]; then
+        cd ~ ; cd /opt/echbay_vpssim && git pull ; cd ~
+        #git commit -m "ECHBAY-VPSSIM commit"
+        #git pull origin master
+        #git pull origin
+        #git merge origin master
+        # or clone new
+    else
+        git clone https://github.com/itvn9online/vpssim-free /opt/echbay_vpssim
+    fi
 fi
 
+#
 cd ~
 
 sleep 5

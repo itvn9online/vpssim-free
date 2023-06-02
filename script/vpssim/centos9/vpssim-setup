@@ -277,7 +277,6 @@ echo "Install phpMyAdmin..."
 
 #
 cd ~
-sudo yum -y install unzip zip unrar rsync psmisc
 
 #
 mkdir -p /home/vpssim.demo
@@ -289,7 +288,7 @@ chmod 777 /home/vpssim.demo/private_html/tmp
 cd /home/vpssim.demo/private_html/
 
 #
-wget -q https://files.phpmyadmin.net/phpMyAdmin/${phpmyadmin_version}/phpMyAdmin-${phpmyadmin_version}-all-languages.zip
+wget --no-check-certificate https://files.phpmyadmin.net/phpMyAdmin/${phpmyadmin_version}/phpMyAdmin-${phpmyadmin_version}-all-languages.zip
 unzip -q phpMyAdmin-*.zip
 yes | cp -rf phpMyAdmin-*/* .
 rm -rf phpMyAdmin-*
