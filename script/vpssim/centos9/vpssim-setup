@@ -128,8 +128,9 @@ echo "PHP Version: 8++"
 echo "--------------------------------------------------------------------------"
 #echo "ECHBAY-VPSSIM Version: $vpssim_version"
 echo "=========================================================================="
+
 prompt="Nhap lua chon cua ban (Please select): "
-options=( "Dong Y (agree)" "Khong Dong Y (disagree)")
+options=( "Toi dong y/ I agree" "Khong dong y / Disagree")
 PS3="$prompt"
 select opt in "${options[@]}"; do 
     case "$REPLY" in
@@ -613,6 +614,10 @@ echo "--------------------------------------------------------------------------
 #echo "Quan Ly Memcached: http://$svip:$svport/memcache.php"
 #echo "--------------------------------------------------------------------------"
 echo "View Server Status: http://$svip/status.php"
+echo "--------------------------------------------------------------------------"
+echo "phpMyAdmin Port: $svport"
+echo "--------------------------------------------------------------------------"
+echo "Mat khau root MySQL (MySQL root password): $passrootmysql"
 echo "--------------------------------------------------------------------------"
 echo "Change login information: ECHBAY-VPSSIM menu ==> User & Password Mac Dinh. "
 echo "=========================================================================="
