@@ -14,7 +14,7 @@ echo "==========================================================================
 #echo "--------------------------------------------------------------------------"
 #echo "trong [ Update System ] cua ECHBAY-VPSSIM."
 #echo "--------------------------------------------------------------------------"
-echo "VPSSIM ho tro: PHP 8++"
+echo "VPSSIM ho tro: PHP 8.2"
 cpuname=$( awk -F: '/model name/ {name=$2} END {print name}' /proc/cpuinfo )
 cpucores=$( awk -F: '/model name/ {core++} END {print core}' /proc/cpuinfo )
 cpufreq=$( awk -F: ' /cpu MHz/ {freq=$2} END {print freq}' /proc/cpuinfo )
@@ -124,7 +124,7 @@ echo "--------------------------------------------------------------------------
 echo "Nginx Version: default by server"
 #echo "Nginx Version: Mainline version"
 echo "--------------------------------------------------------------------------"
-echo "PHP Version: 8++"
+echo "PHP Version: 8.2"
 echo "--------------------------------------------------------------------------"
 #echo "ECHBAY-VPSSIM Version: $vpssim_version"
 echo "=========================================================================="
@@ -222,7 +222,7 @@ mysql -u root -p"$DATABASE_PASS" -e "FLUSH PRIVILEGES"
 
 
 #
-#yum-config-manager --enable remi-php81
+sudo dnf module enable php:remi-8.2
 echo "=========================================================================="
 echo "Install php module..."
 sleep 2
