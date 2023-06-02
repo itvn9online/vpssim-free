@@ -95,12 +95,30 @@ exit
 fi
 
 
+
+#Download Nginx, VPSSIM & phpMyadmin Version
+cd /tmp
+#rm -rf 00-all-nginx-version.txt
+rm -rf vpssim.newversion
+rm -rf 00-all-phpmyadmin-version.txt
+
 #
-phpmyadmin_version=`cat /opt/echbay_vpssim/script/vpssim/00-all-phpmyadmin-version.txt | awk 'NR==2 {print $1}' | sed 's/|//' | sed 's/|//'`
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/vpssim.newversion vpssim.newversion
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/00-all-phpmyadmin-version.txt 00-all-phpmyadmin-version.txt
+
+#
+cd ~
+
+
+#
+phpmyadmin_version=`cat /tmp/00-all-phpmyadmin-version.txt | awk 'NR==2 {print $1}' | sed 's/|//' | sed 's/|//'`
+
 # Secure your MariaDB installation
 passrootmysql=`date |md5sum |cut -c '1-16'`
 #echo "$passrootmysql" > /tmp/passrootmysql
 
+#
+vpssim_version=`cat /tmp/vpssim.newversion`
 
 #
 clear
@@ -126,7 +144,7 @@ echo "Nginx Version: default by server"
 echo "--------------------------------------------------------------------------"
 echo "PHP Version: 8++"
 echo "--------------------------------------------------------------------------"
-#echo "ECHBAY-VPSSIM Version: $vpssim_version"
+echo "ECHBAY-VPSSIM Version: $vpssim_version"
 echo "=========================================================================="
 
 prompt="Nhap lua chon cua ban (Please select): "

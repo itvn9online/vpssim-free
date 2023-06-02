@@ -120,6 +120,7 @@ elif [ "$yourlanguage" = "vietnamese" ]; then
     #
     if [ "$current_os_version" == "6" ]; then
         #yes | cp -rf /opt/echbay_vpssim/script/vpssim/centos6/vpssim-setup ~/vpssim-setup ; chmod +x vpssim-setup ; clear ; bash vpssim-setup
+        # dừng hỗ trợ centos6
         rm -rf /root/install* && rm -rf /root/vpssim* && clear
         echo "OS version not support: "$current_os_version
         exit
@@ -133,13 +134,11 @@ elif [ "$yourlanguage" = "vietnamese" ]; then
         current_os_version=$(rpm --eval '%{centos_ver}')
         #echo $current_os_version
 
-        #
-        if [ "$current_os_version" == "9" ]; then
+        # centos8 dùng chung script với centos9
+        if [ "$current_os_version" == "8" ] || [ "$current_os_version" == "9" ]; then
             yes | cp -rf /opt/echbay_vpssim/script/vpssim/centos9/vpssim-setup ~/vpssim-setup ; chmod +x vpssim-setup ; clear ; bash vpssim-setup
-        elif [ "$current_os_version" == "8" ]; then
+        #elif [ "$current_os_version" == "8" ]; then
             #yes | cp -rf /opt/echbay_vpssim/script/vpssim/centos8/vpssim-setup ~/vpssim-setup ; chmod +x vpssim-setup ; clear ; bash vpssim-setup
-            # dùng chung script với centos9
-            yes | cp -rf /opt/echbay_vpssim/script/vpssim/centos9/vpssim-setup ~/vpssim-setup ; chmod +x vpssim-setup ; clear ; bash vpssim-setup
         else
             rm -rf /root/install* && rm -rf /root/vpssim* && clear
             echo "OS version not support: "$current_os_version
