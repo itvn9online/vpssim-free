@@ -96,8 +96,7 @@ fi
 
 
 #
-#phpmyadmin_version=`cat /opt/echbay_vpssim/vpssim/00-all-phpmyadmin-version.txt | awk 'NR==2 {print $1}' | sed 's/|//' | sed 's/|//'`
-phpmyadmin_version="5.2.1"
+phpmyadmin_version=`cat /opt/echbay_vpssim/script/vpssim/00-all-phpmyadmin-version.txt | awk 'NR==2 {print $1}' | sed 's/|//' | sed 's/|//'`
 # Secure your MariaDB installation
 passrootmysql=`date |md5sum |cut -c '1-16'`
 #echo "$passrootmysql" > /tmp/passrootmysql
@@ -233,7 +232,7 @@ yum install php php-fpm php-mysqlnd php-common php-json php-opcache php-ldap php
 mkdir -p /var/lib/php/session
 chown -R nginx:nginx /var/lib/php
 chmod 777 /var/lib/php/session
-chmod +t /var/lib/php/session
+#chmod +t /var/lib/php/session
 
 
 #
@@ -245,6 +244,28 @@ systemctl enable php-fpm
 #nano /etc/php-fpm.d/www.conf
 sed -i 's/user = apache/user = nginx/g' /etc/php-fpm.d/www.conf
 sed -i 's/group = apache/group = nginx/g' /etc/php-fpm.d/www.conf
+
+#Tune PHP-FPM pool settings
+sed -i "s/;listen\.mode =.*/listen.mode = 0666/" /etc/php-fpm.d/www.conf
+sed -i "s/;request_terminate_timeout =.*/request_terminate_timeout = 60/" /etc/php-fpm.d/www.conf
+sed -i "s/pm\.max_children =.*/pm.max_children = 70/" /etc/php-fpm.d/www.conf
+sed -i "s/pm\.start_servers =.*/pm.start_servers = 20/" /etc/php-fpm.d/www.conf
+sed -i "s/pm\.min_spare_servers =.*/pm.min_spare_servers = 20/" /etc/php-fpm.d/www.conf
+sed -i "s/pm\.max_spare_servers =.*/pm.max_spare_servers = 35/" /etc/php-fpm.d/www.conf
+sed -i "s/;pm\.max_requests =.*/pm.max_requests = 500/" /etc/php-fpm.d/www.conf
+
+#Tweak PHP-FPM settings
+sed -i "s/error_reporting = .*/error_reporting = E_ALL \& ~E_NOTICE \& ~E_STRICT \& ~E_DEPRECATED/" /etc/php.ini
+sed -i "s/display_errors = .*/display_errors = On/" /etc/php.ini
+sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php.ini
+sed -i "s/upload_max_filesize = .*/upload_max_filesize = 256M/" /etc/php.ini
+sed -i "s/post_max_size = .*/post_max_size = 256M/" /etc/php.ini
+sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php.ini
+
+
+#
+rm -rf /etc/php.d/*opcache*
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/conf-webserver/opcache.ini /etc/php.d/opcache.ini
 
 #
 systemctl restart nginx php-fpm
@@ -263,6 +284,7 @@ sudo yum -y install unzip zip unrar rsync psmisc
 mkdir -p /home/vpssim.demo
 mkdir -p /home/vpssim.demo/private_html
 rm -rf /home/vpssim.demo/private_html/*
+# tao thu muc cho phpmyadmin dung lam cache
 mkdir -p /home/vpssim.demo/private_html/tmp
 chmod 777 /home/vpssim.demo/private_html/tmp
 cd /home/vpssim.demo/private_html/
@@ -301,7 +323,7 @@ cd /home/vpssim.demo/public_html
 
 #
 yes | cp -rf /opt/echbay_vpssim/script/vpssim/html/install/vietnam/index.html index.html
-cd
+cd ~
 
 # tao thu muc log va cac file log de phong truong hop cac ung dung khong the tu tao
 mkdir -p /home/vpssim.demo/logs
@@ -319,63 +341,29 @@ chown -R nginx:nginx /var/lib/php/session
 
 
 #
+cd ~
+cd /etc/nginx/
+mkdir -p /etc/nginx/conf ; chmod 755 /etc/nginx/conf
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/conf/. /etc/nginx/conf/
+find /etc/nginx/conf -type f -exec chmod 644 {} \;
+cd ~
+
+
+#
 #rm -rf /etc/nginx/conf.d
 mkdir -p /etc/nginx/conf.d
-yes | cp -rf /opt/echbay_vpssim/script/vpssim/conf-webserver/vpssim.demo.txt /etc/nginx/conf.d/vpssim.demo.conf
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/centos9/conf/vpssim.demo.txt /etc/nginx/conf.d/vpssim.demo.conf
 # config
 cat > "/tmp/vpssimSetConfigFile" <<END
 #!/bin/bash 
-sed -i 's/tmp_listen_svport/listen $svport/g' /etc/nginx/conf.d/vpssim.demo.conf
+sed -i 's/tmp_listen_svport/$svport/g' /etc/nginx/conf.d/vpssim.demo.conf
+sed -i '/ddos2.conf/d' /etc/nginx/conf.d/vpssim.demo.conf
+sed -i '/auth_basic_user_file/d' /etc/nginx/conf.d/vpssim.demo.conf
+sed -i '/auth_basic/d' /etc/nginx/conf.d/vpssim.demo.conf
 END
 chmod +x /tmp/vpssimSetConfigFile
 sh /tmp/vpssimSetConfigFile
 rm -f /tmp/vpssimSetConfigFile
-
-
-#
-pmmaxchildren=20
-pmstartservers=3
-pmminspareservers=2
-pmmaxspareservers=6
-pmmaxrequests=500
-
-#
-memory_limit="500M"
-
-
-#
-rm -f /etc/php-fpm.d/www.conf
-yes | cp -rf /opt/echbay_vpssim/script/vpssim/conf-webserver/www.txt /etc/php-fpm.d/www.conf
-# config
-cat > "/tmp/vpssimSetConfigFile" <<END
-#!/bin/bash 
-sed -i 's/tmp_pmmaxchildren/$pmmaxchildren/g' /etc/php-fpm.d/www.conf
-sed -i 's/tmp_pmstartservers/$pmstartservers/g' /etc/php-fpm.d/www.conf
-sed -i 's/tmp_pmminspareservers/$pmminspareservers/g' /etc/php-fpm.d/www.conf
-sed -i 's/tmp_pmmaxspareservers/$pmmaxspareservers/g' /etc/php-fpm.d/www.conf
-sed -i 's/tmp_pmmaxrequests/$pmmaxrequests/g' /etc/php-fpm.d/www.conf
-END
-chmod +x /tmp/vpssimSetConfigFile
-#sh /tmp/vpssimSetConfigFile
-rm -f /tmp/vpssimSetConfigFile
-
-
-#
-#rm -rf /etc/php.ini
-#yes | cp -rf /opt/echbay_vpssim/script/vpssim/conf-webserver/php.ini /etc/php.ini
-# config
-cat > "/tmp/vpssimSetConfigFile" <<END
-#!/bin/bash 
-sed -i 's/tmp_memory_limit/$memory_limit/g' /etc/php.ini
-END
-chmod +x /tmp/vpssimSetConfigFile
-#sh /tmp/vpssimSetConfigFile
-rm -f /tmp/vpssimSetConfigFile
-
-
-#
-rm -rf /etc/php.d/*opcache*
-yes | cp -rf /opt/echbay_vpssim/script/vpssim/conf-webserver/opcache.ini /etc/php.d/opcache.ini
 
 
 #
@@ -390,7 +378,9 @@ yes | cp -rf /opt/echbay_vpssim/script/vpssim/conf-webserver/opcache.ini /etc/ph
 
 #
 mkdir -p /etc/vpssim
-echo "" > /etc/vpssim/pwprotect.default
+
+#
+#echo "" > /etc/vpssim/pwprotect.default
 
 cat > "/etc/vpssim/vpssim.version" <<END
 ${vpssim_version}
@@ -426,7 +416,7 @@ END
 
 
 #
-#rm -rf /etc/motd
+rm -rf /etc/motd
 yes | cp -rf /opt/echbay_vpssim/script/vpssim/motd /etc/motd
 
 
@@ -437,6 +427,7 @@ yes | cp -rf /opt/echbay_vpssim/script/vpssim/vpssim /bin/vpssim && chmod +x /bi
 cd /etc/vpssim/
 mkdir -p /etc/vpssim/menu ; chmod 755 /etc/vpssim/menu
 yes | cp -rf /opt/echbay_vpssim/script/vpssim/menu/. /etc/vpssim/menu/
+cd ~
 
 
 #
@@ -446,17 +437,11 @@ mkdir -p /etc/vpssim/errorpage_html ; chmod 755 /etc/vpssim/errorpage_html
 yes | cp -rf /opt/echbay_vpssim/script/vpssim/errorpage_html/. /etc/vpssim/errorpage_html/
 
 
-# tao thu muc cho phpmyadmin dung lam cache
-mkdir -p /home/vpssim.demo/private_html/tmp ; chmod 777 /home/vpssim.demo/private_html/tmp
-
 
 #
-cd ~
-cd /etc/nginx/
-mkdir -p /etc/nginx/conf ; chmod 755 /etc/nginx/conf
-yes | cp -rf /opt/echbay_vpssim/script/vpssim/conf/. /etc/nginx/conf/
-find /etc/nginx/conf -type f -exec chmod 644 {} \;
-
+systemctl mask firewalld
+systemctl stop firewalld
+sudo yum -y install iptables*
 
 #
 if [ -f /etc/sysconfig/iptables ]; then
@@ -489,7 +474,7 @@ fi
 
 
 #
-sudo yum -y install certbot-nginx
+sudo yum -y install certbot
 
 
 #
