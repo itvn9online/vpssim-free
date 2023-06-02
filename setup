@@ -119,7 +119,10 @@ elif [ "$yourlanguage" = "vietnamese" ]; then
 
     #
     if [ "$current_os_version" == "6" ]; then
-        yes | cp -rf /opt/echbay_vpssim/script/vpssim/centos6/vpssim-setup ~/vpssim-setup ; chmod +x vpssim-setup ; clear ; bash vpssim-setup
+        #yes | cp -rf /opt/echbay_vpssim/script/vpssim/centos6/vpssim-setup ~/vpssim-setup ; chmod +x vpssim-setup ; clear ; bash vpssim-setup
+        rm -rf /root/install* && rm -rf /root/vpssim* && clear
+        echo "OS version not support: "$current_os_version
+        exit
     elif [ "$current_os_version" == "7" ]; then
         yes | cp -rf /opt/echbay_vpssim/script/vpssim/centos7/vpssim-setup ~/vpssim-setup ; chmod +x vpssim-setup ; clear ; bash vpssim-setup
     else
@@ -139,7 +142,7 @@ elif [ "$yourlanguage" = "vietnamese" ]; then
             yes | cp -rf /opt/echbay_vpssim/script/vpssim/centos9/vpssim-setup ~/vpssim-setup ; chmod +x vpssim-setup ; clear ; bash vpssim-setup
         else
             rm -rf /root/install* && rm -rf /root/vpssim* && clear
-            echo "OS version not support!"
+            echo "OS version not support: "$current_os_version
             exit
         fi
 
@@ -147,5 +150,3 @@ elif [ "$yourlanguage" = "vietnamese" ]; then
 else 
     rm -rf /root/install* && rm -rf /root/vpssim* && clear
 fi
-
-

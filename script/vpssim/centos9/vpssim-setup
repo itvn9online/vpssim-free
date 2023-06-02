@@ -270,11 +270,9 @@ systemctl start php-fpm
 systemctl enable php-fpm
 #systemctl status php-fpm
 
-#
-#nano /etc/php-fpm.d/www.conf
-sed -i 's/user = apache/user = nginx/g' /etc/php-fpm.d/www.conf
-sed -i 's/group = apache/group = nginx/g' /etc/php-fpm.d/www.conf
-#nano /etc/php-fpm.d/www.conf
+# change user form apache to nginx
+sed -i 's/user = .*/user = nginx/g' /etc/php-fpm.d/www.conf
+sed -i 's/group = .*/group = nginx/g' /etc/php-fpm.d/www.conf
 
 #Tune PHP-FPM pool settings
 sed -i "s/;listen\.mode =.*/listen.mode = 0666/" /etc/php-fpm.d/www.conf
@@ -284,6 +282,8 @@ sed -i "s/pm\.start_servers =.*/pm.start_servers = 20/" /etc/php-fpm.d/www.conf
 sed -i "s/pm\.min_spare_servers =.*/pm.min_spare_servers = 20/" /etc/php-fpm.d/www.conf
 sed -i "s/pm\.max_spare_servers =.*/pm.max_spare_servers = 35/" /etc/php-fpm.d/www.conf
 sed -i "s/;pm\.max_requests =.*/pm.max_requests = 500/" /etc/php-fpm.d/www.conf
+#nano /etc/php-fpm.d/www.conf
+
 
 #Tweak PHP-FPM settings
 sed -i "s/error_reporting = .*/error_reporting = E_ALL \& ~E_NOTICE \& ~E_STRICT \& ~E_DEPRECATED/" /etc/php.ini
@@ -294,7 +294,7 @@ sed -i "s/post_max_size = .*/post_max_size = 256M/" /etc/php.ini
 sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php.ini
 #nano /etc/php.ini
 
-#
+# custom opcache config
 rm -rf /etc/php.d/*opcache*
 yes | cp -rf /opt/echbay_vpssim/script/vpssim/conf-webserver/opcache.ini /etc/php.d/opcache.ini
 
