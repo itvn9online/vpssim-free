@@ -222,10 +222,10 @@ mysql -u root -p"$DATABASE_PASS" -e "FLUSH PRIVILEGES"
 
 # setup php 8.2
 # https://tecadmin.net/how-to-install-php-on-centos-9/
-#sudo dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
-#sudo dnf install -y https://rpms.remirepo.net/enterprise/remi-release-9.rpm
-#sudo dnf module list php -y
-#sudo dnf module enable php:remi-8.2 -y
+sudo dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
+sudo dnf install -y https://rpms.remirepo.net/enterprise/remi-release-9.rpm
+sudo dnf module list php -y
+sudo dnf module enable php:remi-8.2 -y
 
 #
 echo "=========================================================================="
