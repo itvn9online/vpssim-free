@@ -220,8 +220,14 @@ mysql -u root -p"$DATABASE_PASS" -e "FLUSH PRIVILEGES"
 
 
 
+# setup php 8.2
+# https://tecadmin.net/how-to-install-php-on-centos-9/
+#sudo dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
+#sudo dnf install -y https://rpms.remirepo.net/enterprise/remi-release-9.rpm
+#sudo dnf module list php -y
+#sudo dnf module enable php:remi-8.2 -y
+
 #
-#sudo dnf module enable php:remi-8.2
 echo "=========================================================================="
 echo "Install php module..."
 #sleep 2
@@ -231,7 +237,7 @@ yum install php php-fpm php-mysqlnd php-common php-json php-opcache php-ldap php
 mkdir -p /var/lib/php/session
 chown -R nginx:nginx /var/lib/php
 chmod 777 /var/lib/php/session
-#chmod +t /var/lib/php/session
+chmod +t /var/lib/php/session
 
 
 #
@@ -424,7 +430,8 @@ yes | cp -rf /opt/echbay_vpssim/script/vpssim/motd /etc/motd
 
 
 #
-yes | cp -rf /opt/echbay_vpssim/script/vpssim/vpssim /bin/vpssim && chmod +x /bin/vpssim
+rm -rf /bin/vpssim
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/centos9/vpssim /bin/vpssim && chmod +x /bin/vpssim
 
 #
 cd /etc/vpssim/
