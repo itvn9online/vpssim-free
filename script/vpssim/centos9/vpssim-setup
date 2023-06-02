@@ -173,7 +173,7 @@ systemctl start nginx
 systemctl enable nginx
 
 # Kiểm tra trạng thái web server
-systemctl status nginx
+#systemctl status nginx
 
 # Cho phép các kết nối http
 firewall-cmd --permanent --zone=public --add-service=http 
@@ -197,7 +197,7 @@ yum install mariadb-server mariadb -y
 #
 systemctl start mariadb
 systemctl enable mariadb
-systemctl status mariadb
+#systemctl status mariadb
 
 #
 #sudo mysqladmin version
@@ -237,7 +237,7 @@ chmod +t /var/lib/php/session
 #
 systemctl start php-fpm
 systemctl enable php-fpm
-systemctl status php-fpm
+#systemctl status php-fpm
 
 #
 #nano /etc/php-fpm.d/www.conf
