@@ -319,7 +319,7 @@ chown -R nginx:nginx /var/lib/php/session
 
 
 #
-#rm -rf /etc/nginx/conf.d
+rm -rf /etc/nginx/conf.d
 mkdir -p /etc/nginx/conf.d
 yes | cp -rf /opt/echbay_vpssim/script/vpssim/conf-webserver/vpssim.demo.txt /etc/nginx/conf.d/vpssim.demo.conf
 # config
@@ -356,20 +356,20 @@ sed -i 's/tmp_pmmaxspareservers/$pmmaxspareservers/g' /etc/php-fpm.d/www.conf
 sed -i 's/tmp_pmmaxrequests/$pmmaxrequests/g' /etc/php-fpm.d/www.conf
 END
 chmod +x /tmp/vpssimSetConfigFile
-#sh /tmp/vpssimSetConfigFile
+sh /tmp/vpssimSetConfigFile
 rm -f /tmp/vpssimSetConfigFile
 
 
 #
-#rm -rf /etc/php.ini
-#yes | cp -rf /opt/echbay_vpssim/script/vpssim/conf-webserver/php.ini /etc/php.ini
+rm -rf /etc/php.ini
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/conf-webserver/php.ini /etc/php.ini
 # config
 cat > "/tmp/vpssimSetConfigFile" <<END
 #!/bin/bash 
 sed -i 's/tmp_memory_limit/$memory_limit/g' /etc/php.ini
 END
 chmod +x /tmp/vpssimSetConfigFile
-#sh /tmp/vpssimSetConfigFile
+sh /tmp/vpssimSetConfigFile
 rm -f /tmp/vpssimSetConfigFile
 
 
@@ -379,13 +379,13 @@ yes | cp -rf /opt/echbay_vpssim/script/vpssim/conf-webserver/opcache.ini /etc/ph
 
 
 #
-#rm -rf /etc/sysctl.conf
-#yes | cp -rf /opt/echbay_vpssim/script/vpssim/conf-webserver/sysctl.txt /etc/sysctl.conf
+rm -rf /etc/sysctl.conf
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/conf-webserver/sysctl.txt /etc/sysctl.conf
 
 
 #
-#rm -rf /etc/php-fpm.conf
-#yes | cp -rf /opt/echbay_vpssim/script/vpssim/conf-webserver/php-fpm.txt /etc/php-fpm.conf
+rm -rf /etc/php-fpm.conf
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/conf-webserver/php-fpm.txt /etc/php-fpm.conf
 
 
 #
@@ -426,7 +426,7 @@ END
 
 
 #
-#rm -rf /etc/motd
+rm -rf /etc/motd
 yes | cp -rf /opt/echbay_vpssim/script/vpssim/motd /etc/motd
 
 
