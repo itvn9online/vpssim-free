@@ -121,8 +121,16 @@ elif [ "$current_os_version" == "7" ]; then
 #cd /opt/echbay_vpssim/script/vpssim/centos7 ; chmod +x vpssim-setup ; clear ; bash vpssim-setup
 yes | cp -rf /opt/echbay_vpssim/script/vpssim/centos7/vpssim-setup ~/vpssim-setup ; chmod +x vpssim-setup ; clear ; bash vpssim-setup
 else
-#cd /opt/echbay_vpssim/script/vpssim/centos8 ; chmod +x vpssim-setup ; clear ; bash vpssim-setup
-yes | cp -rf /opt/echbay_vpssim/script/vpssim/centos8/vpssim-setup ~/vpssim-setup ; chmod +x vpssim-setup ; clear ; bash vpssim-setup
+    current_os_version=$(rpm --eval '%{centos_ver}')
+    #echo $current_os_version
+
+    #
+    if [ "$current_os_version" == "9" ]; then
+    yes | cp -rf /opt/echbay_vpssim/script/vpssim/centos9/vpssim-setup ~/vpssim-setup ; chmod +x vpssim-setup ; clear ; bash vpssim-setup
+    else
+    #cd /opt/echbay_vpssim/script/vpssim/centos8 ; chmod +x vpssim-setup ; clear ; bash vpssim-setup
+    yes | cp -rf /opt/echbay_vpssim/script/vpssim/centos8/vpssim-setup ~/vpssim-setup ; chmod +x vpssim-setup ; clear ; bash vpssim-setup
+    fi
 fi
 else 
 rm -rf /root/install* && rm -rf /root/vpssim* && clear

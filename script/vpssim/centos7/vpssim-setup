@@ -848,7 +848,7 @@ nginx hard nofile 65536
 * hard core 0
 END
 
-ulimit  -n 65536
+ulimit -n 65536
 
 
 mkdir -p /etc/vpssim
