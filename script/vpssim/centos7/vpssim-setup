@@ -1044,8 +1044,7 @@ sleep 3
 #/etc/vpssim/menu/cai-csf-firewall-cai-dat-CSF-FIREWALL
 #systemctl start memcached.service
 #systemctl enable memcached.service 
-rm -rf /tmp/install*
-rm -rf /root/install*
+rm -rf /root/install* && rm -rf /tmp/install*
 rm -rf /root/vpssim-setup
 
 
