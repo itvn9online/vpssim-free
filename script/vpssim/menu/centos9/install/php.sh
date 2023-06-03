@@ -1,0 +1,58 @@
+#!/bin/bash
+. /home/vpssim.conf
+
+#
+sudo dnf module reset php -y
+sudo dnf module list php -y
+sudo dnf module enable php:remi-8.1 -y
+#sudo dnf module enable php:remi-8.2 -y
+
+#
+echo "=========================================================================="
+echo "Install php module..."
+#sleep 2
+yum install php php-fpm php-mysqlnd php-common php-json php-opcache php-ldap php-gd php-bcmath php-ctype php-fileinfo php-xml php-curl php-mbstring php-zip -y
+
+#Configure sessions directory permissions
+mkdir -p /var/lib/php/session
+chown -R nginx:nginx /var/lib/php
+chmod 777 /var/lib/php/session
+chmod +t /var/lib/php/session
+
+
+#
+systemctl start php-fpm
+systemctl enable php-fpm
+#systemctl status php-fpm
+
+# change user form apache to nginx
+sed -i 's/user = .*/user = nginx/g' /etc/php-fpm.d/www.conf
+sed -i 's/group = .*/group = nginx/g' /etc/php-fpm.d/www.conf
+
+#Tune PHP-FPM pool settings
+sed -i "s/;listen\.mode =.*/listen.mode = 0666/" /etc/php-fpm.d/www.conf
+sed -i "s/;request_terminate_timeout =.*/request_terminate_timeout = 60/" /etc/php-fpm.d/www.conf
+sed -i "s/pm\.max_children =.*/pm.max_children = 70/" /etc/php-fpm.d/www.conf
+sed -i "s/pm\.start_servers =.*/pm.start_servers = 20/" /etc/php-fpm.d/www.conf
+sed -i "s/pm\.min_spare_servers =.*/pm.min_spare_servers = 20/" /etc/php-fpm.d/www.conf
+sed -i "s/pm\.max_spare_servers =.*/pm.max_spare_servers = 35/" /etc/php-fpm.d/www.conf
+sed -i "s/;pm\.max_requests =.*/pm.max_requests = 500/" /etc/php-fpm.d/www.conf
+#nano /etc/php-fpm.d/www.conf
+
+
+#Tweak PHP-FPM settings
+sed -i "s/error_reporting = .*/error_reporting = E_ALL \& ~E_NOTICE \& ~E_STRICT \& ~E_DEPRECATED/" /etc/php.ini
+sed -i "s/display_errors = .*/display_errors = On/" /etc/php.ini
+sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php.ini
+sed -i "s/upload_max_filesize = .*/upload_max_filesize = 256M/" /etc/php.ini
+sed -i "s/post_max_size = .*/post_max_size = 256M/" /etc/php.ini
+sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php.ini
+#nano /etc/php.ini
+
+# custom opcache config
+rm -rf /etc/php.d/*opcache*
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/conf-webserver/opcache.ini /etc/php.d/opcache.ini
+
+#
+systemctl restart nginx php-fpm
+#systemctl status nginx php-fpm

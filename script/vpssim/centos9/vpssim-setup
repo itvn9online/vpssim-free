@@ -21,8 +21,10 @@ cpufreq=$( awk -F: ' /cpu MHz/ {freq=$2} END {print freq}' /proc/cpuinfo )
 svram=$( free -m | awk 'NR==2 {print $2}' )
 svhdd=$( df -h | awk 'NR==2 {print $2}' )
 svswap=$( free -m | awk 'NR==4 {print $2}' )
+
 free -m
 df -h
+
 echo "=========================================================================="
 echo "Thong Tin Server:  "
 echo "--------------------------------------------------------------------------"
@@ -169,6 +171,20 @@ exit
 fi
 
 
+# current os version
+current_os_version=$(rpm --eval '%{centos_ver}')
+
+# tạo config để các script khi include còn có thông tin mà sử dụng
+rm -f /home/vpssim.conf
+cat > "/home/vpssim.conf" <<END
+mainsite="vpssim.demo"
+priport="$svport"
+serverip="$svip"
+emailmanage="$vpssimemail"
+mariadbpass="$passrootmysql"
+phpmyadmin_version="$phpmyadmin_version"
+current_os_version="$current_os_version"
+END
 
 
 #
@@ -176,180 +192,16 @@ yum -y update
 yum -y upgrade
 
 
-# current os version
-current_os_version=$(rpm --eval '%{centos_ver}')
-
-# install latest software
-# https://tecadmin.net/how-to-install-php-on-centos-9/
-# for centos 8
-if [ "$current_os_version" == "8" ]; then
-sudo dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
-sudo dnf install -y https://rpms.remirepo.net/enterprise/remi-release-8.rpm
-else
-# for centos 9
-sudo dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
-sudo dnf install -y https://rpms.remirepo.net/enterprise/remi-release-9.rpm
-fi
-
-
+# install
 # https://duypt.dev/huong-dan-cai-dat-lemp-tren-centos-stream-9
-echo "=========================================================================="
-echo "Install Nginx"
-
-# thiet lap phien ban nginx cho centos 8 do ban nginx tren nay kha cu
-if [ "$current_os_version" == "8" ]; then
-sudo dnf module reset nginx -y
-sudo dnf module list nginx -y
-sudo dnf module enable nginx:1.22 -y
-fi
-
-#sleep 2
-yum install nginx -y
-#nginx -v
-#nginx -V
-# Bắt đầu khởi chạy web server
-systemctl start nginx
-
-# Tự động khởi chạy web server mỗi khi chúng ta reboot Cloud Instance
-systemctl enable nginx
-
-# Kiểm tra trạng thái web server
-#systemctl status nginx
-
-# Cho phép các kết nối http
-firewall-cmd --permanent --zone=public --add-service=http 
-
-# Cho phép các kết nối https
-firewall-cmd --permanent --zone=public --add-service=https
-
-# Khởi chạy lại firewall service
-firewall-cmd --reload
-
-#
-chown nginx:nginx /usr/share/nginx/html -R
+/etc/vpssim/menu/centos9/install/before_install.sh
+/etc/vpssim/menu/centos9/install/nginx.sh
+/etc/vpssim/menu/centos9/install/mysql.sh
+/etc/vpssim/menu/centos9/install/php.sh
+/etc/vpssim/menu/centos9/install/phpmyadmin.sh
 
 
-#
-echo "=========================================================================="
-echo "Install MariaDB..."
-#sleep 2
-yum install mariadb-server mariadb -y
-
-#
-systemctl start mariadb
-systemctl enable mariadb
-#systemctl status mariadb
-
-#
-#sudo mysqladmin version
-
-#mysql_secure_installation
-
-#
-DATABASE_PASS=$passrootmysql
-
-#
-mysqladmin -u root password "$DATABASE_PASS"
-# Make sure that NOBODY can access the server without a password
-#mysql -u root -p"$DATABASE_PASS" -e "UPDATE mysql.user SET Password=PASSWORD('$DATABASE_PASS') WHERE User='root'"
-#mysql -u root -p"$DATABASE_PASS" -e "SET PASSWORD FOR 'root'@localhost = PASSWORD('$DATABASE_PASS')"
-# Kill the anonymous users
-mysql -u root -p"$DATABASE_PASS" -e "DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1')"
-mysql -u root -p"$DATABASE_PASS" -e "DELETE FROM mysql.user WHERE User=''"
-# Kill off the demo database
-mysql -u root -p"$DATABASE_PASS" -e "DELETE FROM mysql.db WHERE Db='test' OR Db='test\_%'"
-# Make our changes take effect
-mysql -u root -p"$DATABASE_PASS" -e "FLUSH PRIVILEGES"
-
-
-
-
-#
-sudo dnf module reset php -y
-sudo dnf module list php -y
-sudo dnf module enable php:remi-8.1 -y
-#sudo dnf module enable php:remi-8.2 -y
-
-#
-echo "=========================================================================="
-echo "Install php module..."
-#sleep 2
-yum install php php-fpm php-mysqlnd php-common php-json php-opcache php-ldap php-gd php-bcmath php-ctype php-fileinfo php-xml php-curl php-mbstring php-zip -y
-
-#Configure sessions directory permissions
-mkdir -p /var/lib/php/session
-chown -R nginx:nginx /var/lib/php
-chmod 777 /var/lib/php/session
-chmod +t /var/lib/php/session
-
-
-#
-systemctl start php-fpm
-systemctl enable php-fpm
-#systemctl status php-fpm
-
-# change user form apache to nginx
-sed -i 's/user = .*/user = nginx/g' /etc/php-fpm.d/www.conf
-sed -i 's/group = .*/group = nginx/g' /etc/php-fpm.d/www.conf
-
-#Tune PHP-FPM pool settings
-sed -i "s/;listen\.mode =.*/listen.mode = 0666/" /etc/php-fpm.d/www.conf
-sed -i "s/;request_terminate_timeout =.*/request_terminate_timeout = 60/" /etc/php-fpm.d/www.conf
-sed -i "s/pm\.max_children =.*/pm.max_children = 70/" /etc/php-fpm.d/www.conf
-sed -i "s/pm\.start_servers =.*/pm.start_servers = 20/" /etc/php-fpm.d/www.conf
-sed -i "s/pm\.min_spare_servers =.*/pm.min_spare_servers = 20/" /etc/php-fpm.d/www.conf
-sed -i "s/pm\.max_spare_servers =.*/pm.max_spare_servers = 35/" /etc/php-fpm.d/www.conf
-sed -i "s/;pm\.max_requests =.*/pm.max_requests = 500/" /etc/php-fpm.d/www.conf
-#nano /etc/php-fpm.d/www.conf
-
-
-#Tweak PHP-FPM settings
-sed -i "s/error_reporting = .*/error_reporting = E_ALL \& ~E_NOTICE \& ~E_STRICT \& ~E_DEPRECATED/" /etc/php.ini
-sed -i "s/display_errors = .*/display_errors = On/" /etc/php.ini
-sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php.ini
-sed -i "s/upload_max_filesize = .*/upload_max_filesize = 256M/" /etc/php.ini
-sed -i "s/post_max_size = .*/post_max_size = 256M/" /etc/php.ini
-sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php.ini
-#nano /etc/php.ini
-
-# custom opcache config
-rm -rf /etc/php.d/*opcache*
-yes | cp -rf /opt/echbay_vpssim/script/vpssim/conf-webserver/opcache.ini /etc/php.d/opcache.ini
-
-#
-systemctl restart nginx php-fpm
-#systemctl status nginx php-fpm
-
-
-#
-echo "=========================================================================="
-echo "Install phpMyAdmin..."
-#sleep 2
-
-#
-cd ~
-
-#
-mkdir -p /home/vpssim.demo
-mkdir -p /home/vpssim.demo/private_html
-rm -rf /home/vpssim.demo/private_html/*
-# tao thu muc cho phpmyadmin dung lam cache
-mkdir -p /home/vpssim.demo/private_html/tmp
-chmod 777 /home/vpssim.demo/private_html/tmp
-cd /home/vpssim.demo/private_html/
-
-#
-wget --no-check-certificate https://files.phpmyadmin.net/phpMyAdmin/${phpmyadmin_version}/phpMyAdmin-${phpmyadmin_version}-all-languages.zip
-unzip -q phpMyAdmin-*.zip
-yes | cp -rf phpMyAdmin-*/* .
-rm -rf phpMyAdmin-*
-randomblow=`date |md5sum |cut -c '1-32'`;
-sed -e "s|cfg\['blowfish_secret'\] = ''|cfg['blowfish_secret'] = '$randomblow'|" config.sample.inc.php > config.inc.php
-
-
-
-
-#
+# another service
 cd ~
 sudo yum -y install sendmail sendmail-cf m4
 systemctl start sendmail.service
@@ -452,16 +304,6 @@ LC_ALL=en_US.utf-8
 END
 fi
 
-#
-rm -f /home/vpssim.conf
-cat > "/home/vpssim.conf" <<END
-mainsite="vpssim.demo"
-priport="$svport"
-serverip="$svip"
-emailmanage="$vpssimemail"
-mariadbpass="$passrootmysql"
-END
-
 
 #
 #rm -f /var/lib/mysql/ib_logfile0
@@ -470,26 +312,7 @@ END
 
 
 #
-rm -rf /etc/motd
-yes | cp -rf /opt/echbay_vpssim/script/vpssim/motd /etc/motd
-
-
-#
-rm -rf /bin/vpssim
-yes | cp -rf /opt/echbay_vpssim/script/vpssim/centos9/vpssim /bin/vpssim && chmod +x /bin/vpssim
-
-#
-cd /etc/vpssim/
-mkdir -p /etc/vpssim/menu ; chmod 755 /etc/vpssim/menu
-yes | cp -rf /opt/echbay_vpssim/script/vpssim/menu/. /etc/vpssim/menu/
-cd ~
-
-
-#
-mkdir -p /home/vpssim.demo/errorpage_html ; chmod 755 /home/vpssim.demo/errorpage_html
-yes | cp -rf /opt/echbay_vpssim/script/vpssim/errorpage_html/. /home/vpssim.demo/errorpage_html/
-mkdir -p /etc/vpssim/errorpage_html ; chmod 755 /etc/vpssim/errorpage_html
-yes | cp -rf /opt/echbay_vpssim/script/vpssim/errorpage_html/. /etc/vpssim/errorpage_html/
+/etc/vpssim/menu/centos9/install/after_install.sh
 
 
 
@@ -545,20 +368,22 @@ rm -rf /root/install*
 rm -rf /root/vpssim-setup
 
 #
-cat >> "/home/VPSSIM-manage-info.txt" <<END
+cat > "/home/VPSSIM-manage-info.txt" <<END
 =========================================================================
                            VPS MANAGE INFOMATION                         
 =========================================================================
 
+Calling ECHBAY-VPSSIM: vpssim
+
 phpMyAdmin: http://$svip:$svport
 
-Quan Ly Zend Opcache: http://$svip:$svport/ocp.php
+MySQL root password: $passrootmysql
 
-Quan Ly Memcache: http://$svip:$svport/memcache.php
+Zend Opcache: http://$svip:$svport/ocp.php
 
-Xem Server Status: http://$svip/status.php
+Memcache: http://$svip:$svport/memcache.php
 
-Lenh truy cap ECHBAY-VPSSIM: vpssim
+Server Status: http://$svip/status.php
 
 LUU Y: 
 
@@ -580,70 +405,15 @@ sed -i 's/#UseDNS yes/UseDNS no/g' /etc/ssh/sshd_config
 fi
 
 
-#
-cat > "/tmp/finishedemail.sh" <<END
-#!/bin/bash 
-echo -e 'Subject: ECHBAY-VPSSIM - Chuc mung cai dat thanh cong $svip!
-
-Chao ban!
-
-Chuc mung ban da hoan thanh qua trinh cai dat va cau hinh server $svip bang ECHBAY-VPSSIM.
-Sau day la thong tin quan ly server cua ban:
-
-+ Lenh goi ECHBAY-VPSSIM: vpssim
-+ Link phpMyAdmin: http://$svip:$svport
-+ Quan Ly Zend Opcache: http://$svip:$svport/ocp.php
-+ Quan Ly Memcached: http://$svip:$svport/memcache.php
-+ Xem Server Status: http://$svip/status.php
-
-Luu Y:
-
-+ Sau khi cai dat xong, neu server chua tao SWAP (RAM ao), ban tao them SWAP bang chuc nang [ Quan Ly Swap ] (Bat buoc).
-+ De dat mat khau bao mat phpMyAdmin, backup files, ...: dung chuc nang [ BAT/TAT Bao Ve phpMyAdmin ] trong [ Quan Ly phpMyAdmin ]
-+ De cai dat File Manager: Dung chuc nang [ Cai Dat File Manager ] 
-+ Sau khi them website vao server, cai dat FTP server va tao tai khoan FTP cho tung website tren server bang chuc nang [ Quan Ly FTP Server ].
-  Mac dinh ban khong the dang nhap FTP vao server bang tai khoan root. Neu muon dang nhap, ban phai dung sFTP voi thong tin dang nhap:
-  Host: sftp://$svip  - User: root - Password: Your_password - Port: 22 (hoac port SSH ban da thay)
-+ Neu server Timezone khong trung voi gio cua ban, cai dat lai time zone cho Server bang chuc nang [ Cai Dat Server Timezone ] trong [ Tien Ich - Addons ]
-+ Sau khi Upload code len server. Ban phai chay chuc nang [ Fix Loi Chmod, Chown ] trong [ Tien Ich - Addons ] de thiet lap phan quyen cho website. 
-  Neu website su dung code wordpress, thiet lap phan quyen cho website bang chuc nang [ Fix loi Permission ] trong [ Wordpress Blog Tools ]
-+ Tuy theo so luong website, dung luong code ma ban cau hinh lai Zend Opcache, Memcached, Redis Cache bang chuc nang [ Quan Ly Memcached ], [ Quan Ly Zend Opcache ] , [ Quan Ly Redis Cache ] cho phu hop.
-+ De bao mat, moi khi co dang nhap SSH va Server, ECHBAY-VPSSIM se gui email thong bao toi dia chi email $vpssimemail .
-  Thay email hoac tat chuc nang nay bang [ BAT/TAT Email Thong Bao Login ] trong [ Tien ich - Addons ].  
-  
-ECHBAY-VPSSIM by Dao Quoc Dai - https://echbay.com' | exim  $vpssimemail
-END
-chmod +x /tmp/finishedemail.sh
-/tmp/finishedemail.sh
-rm -f /tmp/finishedemail.sh
-
 
 #
 clear
 echo "=========================================================================="
-echo "VPSSIM has completed the server installation. "
+echo "VPSSIM has completed the server installation."
 echo "=========================================================================="
-echo "Calling ECHBAY-VPSSIM: vpssim"
-echo "--------------------------------------------------------------------------"
-echo "Link phpMyAdmin: http://$svip:$svport"
-echo "--------------------------------------------------------------------------"
-echo "Manage Zend Opcache: http://$svip:$svport/ocp.php"
-echo "--------------------------------------------------------------------------"
-#echo "Quan Ly Memcached: http://$svip:$svport/memcache.php"
-#echo "--------------------------------------------------------------------------"
-echo "View Server Status: http://$svip/status.php"
-echo "--------------------------------------------------------------------------"
-echo "phpMyAdmin Port: $svport"
-echo "--------------------------------------------------------------------------"
-echo "Mat khau root MySQL (MySQL root password): $passrootmysql"
-echo "--------------------------------------------------------------------------"
-echo "Change login information: ECHBAY-VPSSIM menu ==> User & Password Mac Dinh. "
+cat /home/VPSSIM-manage-info.txt
 echo "=========================================================================="
-echo "Management information is stored at: /home/VPSSIM-manage-info.txt "
-echo "--------------------------------------------------------------------------"
-echo "and attach a note to use ECHBAY-VPSSIM to email: $vpssimemail"
-echo "=========================================================================="
-echo "The server will automatically restart after 3 seconds.... "
-#sleep 3
+echo "The server will automatically restart after 3 seconds...."
+sleep 3
 reboot
 exit
