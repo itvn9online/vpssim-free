@@ -9,7 +9,7 @@ rm -rf /opt/echbay_vpssim
 fi
 
 #
-echo "Install git..."
+echo "Install unzip..."
 sudo yum -y install unzip
 
 
@@ -23,6 +23,7 @@ if [ -d /tmp/vpssim-free-master ]; then
     yes | cp -rf /tmp/vpssim-free-master/. /opt/echbay_vpssim/
     rm -rf /tmp/vpssim-free*
 else
+    echo "Install git..."
     sudo yum -y install git
 
     # update code
