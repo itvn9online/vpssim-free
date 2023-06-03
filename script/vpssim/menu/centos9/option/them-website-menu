@@ -1,0 +1,36 @@
+#!/bin/bash
+if [ ! -f /etc/cron.d/vpssim.code.cron ]; then
+touch /etc/cron.d/vpssim.code.cron
+fi
+prompt="Lua chon cua ban (0-Thoat):"
+options=( "Add Website" "Add Wordpress website" "Add Wordpress Woocomerce" "Add Wordpress Woocomerce Flatsome" "List Website in Server")
+printf "=========================================================================\n"
+printf "                VPSSIM - Quan Ly VPS/ Server by EchBay.com \n"
+printf "=========================================================================\n"
+printf "                          Them Website Vao Server\n"
+printf "=========================================================================\n"
+
+PS3="$prompt"
+select opt in "${options[@]}" ; do 
+
+    case "$REPLY" in
+
+    1) /etc/vpssim/menu/centos9/option/them-website;;
+    2) /etc/vpssim/menu/centos9/option/vpssim-them-redirect-park-domain-menu;;
+    3) /etc/vpssim/menu/centos9/option/vpssim-them-website-auto-setup-wordpress-menu;;
+	4) /etc/vpssim/menu/centos9/option/vpssim-them-website-forum-code-menu;;
+    5) /etc/vpssim/menu/centos9/option/vpssim-them-website-auto-setup-opencart-menu;;
+    6) /etc/vpssim/menu/centos9/option/vpssim-them-website-wp;;
+    7) /etc/vpssim/menu/centos9/option/vpssim-them-website-joomla;;
+    8) /etc/vpssim/menu/centos9/option/vpssim-them-website-drupal;;
+    9) /etc/vpssim/menu/centos9/option/vpssim-list-website-tren-vps;; 
+    10) clear && vpssim;;
+    0) clear && vpssim;;
+    *) echo "Vui long chon theo danh sach/ Please choose from the list"; continue;;
+
+    esac
+
+done
+
+
+

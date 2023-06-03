@@ -1,0 +1,48 @@
+server {
+server_name www.%website%;
+rewrite ^(.*) http://%website%\$1 permanent;
+}
+
+server {
+listen 80 default_server;
+listen [::]:80 default_server;
+server_name %website%;
+
+access_log /dev/null;
+#access_log /home/%website%/logs/access_log;
+error_log /dev/null;
+#error_log /home/%website%/logs/error.log;
+
+add_header X-Frame-Options SAMEORIGIN;
+add_header X-Content-Type-Options nosniff;
+add_header X-XSS-Protection "1; mode=block";
+
+root /home/%website%/public_html;
+
+# Load configuration files for the default server block.
+include /etc/nginx/default.d/*.conf;
+
+#///////////////////////////////////////////////////////
+#Run all the websites,if you use your rule, comment or delete the line below (AAA)
+include /etc/nginx/conf/all.conf;
+
+location ~ \.php$ {
+fastcgi_split_path_info ^(.+\.php)(/.+)$;
+include /etc/nginx/fastcgi_params;
+fastcgi_pass 127.0.0.1:9000;
+fastcgi_index index.php;
+fastcgi_connect_timeout 120;
+fastcgi_send_timeout 180;
+fastcgi_read_timeout 180;
+fastcgi_buffer_size 256k;
+fastcgi_buffers 4 256k;
+fastcgi_busy_buffers_size 256k;
+fastcgi_temp_file_write_size 256k;
+fastcgi_intercept_errors on;
+fastcgi_param SCRIPT_FILENAME /home/%website%/public_html$fastcgi_script_name;
+}
+
+include /etc/nginx/conf/staticfiles.conf;
+#include /etc/nginx/conf/phpstatus.conf;
+include /etc/nginx/conf/drop.conf;
+}

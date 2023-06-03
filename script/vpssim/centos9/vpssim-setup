@@ -104,7 +104,7 @@ select opt in "${options[@]}"; do
     case "$REPLY" in
     1) xacnhanthongtin="dongy"; break;;
     2) xacnhanthongtin="khongdongy"; break;;
-    *) echo "Ban nhap sai ! Ban vui long chon so trong danh sach"; continue;;
+    *) echo "Vui long chon theo danh sach/ Please choose from the list"; continue;;
     esac  
 done
 
