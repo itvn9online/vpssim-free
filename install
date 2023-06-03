@@ -59,6 +59,7 @@ echo "SELinux status: "$selinux_on_off
 # if SELinux enable -> disable SELinux
 if [ "$selinux_on_off" = "ENABLED" ]; then
     if [ -f /etc/selinux/config ]; then
+        clear
         echo "=========================================================================="
         echo "Warning! php-fpm not install if SELinux enable"
 
