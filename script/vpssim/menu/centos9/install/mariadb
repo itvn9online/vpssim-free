@@ -3,7 +3,7 @@
 
 #
 echo "=========================================================================="
-echo "Install MariaDB..."
+echo "Install MariaDB with root password: "$passrootmysql
 #sleep 2
 sudo yum install -y mariadb-server mariadb
 
