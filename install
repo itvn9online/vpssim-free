@@ -95,14 +95,14 @@ if [ "$selinux_on_off" = "ENABLED" ]; then
             echo ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ."
             echo ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ."
             echo "Auto disable SELinux in your VPS"
-            echo "Your Server/ VPS will been reboot. . ."
-            echo "Please login and re-install after Server/ VPS reboot"
+            #echo "Your Server/ VPS will been reboot. . ."
+            #echo "Please login and re-install after Server/ VPS reboot"
             echo ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ."
             echo ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ."
             echo ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ."
             echo "=========================================================================="
             #sleep 5
-            reboot
+            #reboot
         else
             echo "Auto disble SELinux not working! Please disable SELinux and try again..."
         fi
