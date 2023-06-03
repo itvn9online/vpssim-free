@@ -3,9 +3,10 @@
 #
 cd ~
 if [ ! -f /tmp/vpssim.conf ]; then
-wget --no-check-certificate -q https://raw.githubusercontent.com/itvn9online/vpssim-free/master/install-before
-chmod +x /root/install-before
-bash /root/install-before
+cd /opt/echbay_vpssim
+chmod +x install-before
+bash install-before
+cd ~
 fi
 . /tmp/vpssim.conf
 

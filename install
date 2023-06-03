@@ -9,13 +9,6 @@ rm -rf /opt/echbay_vpssim
 fi
 
 
-# before install
-cd ~
-wget --no-check-certificate -q https://raw.githubusercontent.com/itvn9online/vpssim-free/master/install-before
-chmod +x /root/install-before
-bash /root/install-before
-
-
 #
 sudo yum -y install epel-release wget nano
 
@@ -95,6 +88,16 @@ wget --no-check-certificate -q https://raw.githubusercontent.com/itvn9online/vps
 chmod +x /root/git-clone
 bash /root/git-clone
 
+
+
+#
+cd ~
 cd /opt/echbay_vpssim
+
+# before install
+chmod +x install-before
+bash install-before
+
+#
 chmod +x setup
 bash setup
