@@ -118,6 +118,10 @@ exit
 fi
 
 
+#
+sudo yum -y install zip unrar rsync psmisc
+
+
 # current os version
 current_os_version=$(rpm --eval '%{centos_ver}')
 

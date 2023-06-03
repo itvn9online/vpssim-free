@@ -17,8 +17,7 @@ bash /root/install-before
 
 
 #
-sudo yum -y install epel-release
-sudo yum -y install wget nano
+sudo yum -y install epel-release wget nano
 
 #
 #nano /etc/selinux/config
