@@ -108,7 +108,7 @@ svswap=$( free -m | awk 'NR==4 {print $2}' )
 checktruenumber='^[0-9]+$'
 
 #
-rm -f /tmp/vpssim.conf
+#rm -f /tmp/vpssim.conf
 cat > "/tmp/vpssim.conf" <<END
 svport="$svport"
 vpssimemail="$vpssimemail"
