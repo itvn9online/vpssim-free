@@ -1,0 +1,4 @@
+#!/bin/bash 
+
+#
+/etc/vpssim/menu/centos9/option/them-website "woocommerce"

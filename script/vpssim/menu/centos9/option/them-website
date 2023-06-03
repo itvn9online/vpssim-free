@@ -75,10 +75,15 @@ fi
 mkdir -p /home/$website/errorpage_html && cp -r /etc/vpssim/errorpage_html/*.html /home/$website/errorpage_html
 
 
-#
+# nếu là thêm wordpress website -> mặc định là sẽ thêm database
+if [ "$1" = "wordpress" ] || [ "$1" = "woocommerce" ] || [ "$1" = "flatsome" ]; then
+response="y"
+else
+# còn không sẽ hỏi người dùng có thêm website hay không
 echo "-------------------------------------------------------------------------"
 echo -n "Ban co muon VPSSIM tao Database moi cho $website ? [y/N] " 
 read response
+fi
 
 #
 if [ "$response" = "y" ] || [ "$response" = "Y" ] ; then
@@ -152,6 +157,21 @@ echo "User name: $username"
 echo "Mat khau: $password"
 echo "-------------------------------------------------------------------------"
 echo "Thong tin database da duoc luu vao: /home/DBinfo.txt"
+fi
+
+# download code wordpress
+if [ "$1" = "wordpress" ] || [ "$1" = "woocommerce" ] || [ "$1" = "flatsome" ]; then
+echo "TEST code wordpress"
+fi
+
+# download code woocommerce
+if [ "$1" = "woocommerce" ]; then
+echo "TEST code woocommerce"
+fi
+
+# download code flatsome
+if [ "$1" = "flatsome" ]; then
+echo "TEST code flatsome"
 fi
 
 #
