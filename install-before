@@ -98,6 +98,6 @@ fi
 #
 rm -f /tmp/vpssim.conf
 cat > "/tmp/vpssim.conf" <<END
-priport="$svport"
-emailmanage="$vpssimemail"
+svport="$svport"
+vpssimemail="$vpssimemail"
 END
