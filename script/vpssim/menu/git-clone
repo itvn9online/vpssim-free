@@ -10,7 +10,7 @@ fi
 
 #
 echo "Install git..."
-sudo yum -y install git unzip
+sudo yum -y install unzip
 
 
 # ưu tiên download file zip cho nó nhanh
@@ -23,6 +23,8 @@ if [ -d /tmp/vpssim-free-master ]; then
     yes | cp -rf /tmp/vpssim-free-master/. /opt/echbay_vpssim/
     rm -rf /tmp/vpssim-free*
 else
+    sudo yum -y install git
+
     # update code
     if [ -d /opt/echbay_vpssim ]; then
         cd ~ ; cd /opt/echbay_vpssim && git pull ; cd ~
