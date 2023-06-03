@@ -331,24 +331,21 @@ cat > "/home/VPSSIM-manage-info.txt" <<END
 Calling ECHBAY-VPSSIM: vpssim
 
 phpMyAdmin: http://$svip:$svport
-
 MySQL root password: $passrootmysql
 
 Zend Opcache: http://$svip:$svport/ocp.php
-
 Memcache: http://$svip:$svport/memcache.php
-
 Server Status: http://$svip/status.php
 
 LUU Y: 
-
 De VPS co hieu suat tot nhat - Hay bat: Zend Opcache, Memcached, 
 va su dung cac Plugin cache(wp super cache....) cho website. 
 
 Neu VPS dang bat Zend Opcache, khi edit file PHP, do cac file php duoc cache vao RAM  
 nen ban can clear Zend Opcache de thay doi duoc cap nhat. 
 
-Chuc ban se thanh cong cung ECHBAY-VPSSIM .
+Chuc ban se thanh cong cung ECHBAY-VPSSIM.
+=========================================================================
 END
 
 

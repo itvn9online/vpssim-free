@@ -1,7 +1,7 @@
 #!/bin/bash
 #. /home/vpssim.conf
 
-#
+# lấy mật khẩu mysql thông qua phương thức này -> vì include file conf nó sẽ sinh ra đoạn bắt nhập mã -> không tiện lợi
 DATABASE_PASS=$(cat /tmp/vpssim-mysqlrootpass)
 
 #
