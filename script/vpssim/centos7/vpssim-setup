@@ -10,6 +10,13 @@ fi
 . /tmp/vpssim.conf
 
 #
+if [ "$vpssimemail" = "" ] || [ "$svport" = "" ]; then
+clear
+echo "ERROR load custom config!"
+exit
+fi
+
+#
 checktruenumber='^[0-9]+$'
 
 svip=$(wget http://ipecho.net/plain -O - -q ; echo)
