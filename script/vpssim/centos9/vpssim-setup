@@ -1,44 +1,5 @@
 #!/bin/bash
 
-# Secure your MariaDB installation
-passrootmysql=`date |md5sum |cut -c '1-16'`
-#echo "$passrootmysql" > /tmp/passrootmysql
-
-#
-echo "=========================================================================="
-echo "Install MariaDB..."
-#sleep 2
-sudo yum install -y mariadb-server mariadb
-
-#
-systemctl start mariadb
-systemctl enable mariadb
-#systemctl status mariadb
-
-#
-#sudo mysqladmin version
-
-#mysql_secure_installation
-
-#
-DATABASE_PASS=$passrootmysql
-
-#
-mysqladmin -u root password "$DATABASE_PASS"
-# Make sure that NOBODY can access the server without a password
-#mysql -u root -p"$DATABASE_PASS" -e "UPDATE mysql.user SET Password=PASSWORD('$DATABASE_PASS') WHERE User='root'"
-#mysql -u root -p"$DATABASE_PASS" -e "SET PASSWORD FOR 'root'@localhost = PASSWORD('$DATABASE_PASS')"
-# Kill the anonymous users
-mysql -u root -p"$DATABASE_PASS" -e "DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1')"
-mysql -u root -p"$DATABASE_PASS" -e "DELETE FROM mysql.user WHERE User=''"
-# Kill off the demo database
-mysql -u root -p"$DATABASE_PASS" -e "DELETE FROM mysql.db WHERE Db='test' OR Db='test\_%'"
-# Make our changes take effect
-mysql -u root -p"$DATABASE_PASS" -e "FLUSH PRIVILEGES"
-
-
-
-
 #
 cd ~
 if [ ! -f /tmp/vpssim.conf ]; then
@@ -101,6 +62,10 @@ cd ~
 
 #
 phpmyadmin_version=`cat /tmp/00-all-phpmyadmin-version.txt | awk 'NR==2 {print $1}' | sed 's/|//' | sed 's/|//'`
+
+# Secure your MariaDB installation
+passrootmysql=`date |md5sum |cut -c '1-16'`
+#echo "$passrootmysql" > /tmp/passrootmysql
 
 #
 vpssim_version=`cat /tmp/vpssim.newversion`
@@ -172,6 +137,7 @@ mariadbpass="$passrootmysql"
 phpmyadmin_version="$phpmyadmin_version"
 current_os_version="$current_os_version"
 END
+chmod +x /home/vpssim.conf
 
 
 #
@@ -182,7 +148,7 @@ yum -y upgrade
 # install
 # https://duypt.dev/huong-dan-cai-dat-lemp-tren-centos-stream-9
 # cài mysql trước -> để nếu có phần bắt nhập pass thì còn thấy sớm
-#/etc/vpssim/menu/centos9/install/mariadb
+/etc/vpssim/menu/centos9/install/mariadb
 # xong mới cài các phần mềm tiếp theo
 /etc/vpssim/menu/centos9/install/before_install
 /etc/vpssim/menu/centos9/install/nginx

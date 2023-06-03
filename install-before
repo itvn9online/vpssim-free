@@ -121,3 +121,4 @@ svswap="$svswap"
 svip="$svip"
 checktruenumber="$checktruenumber"
 END
+chmod +x /tmp/vpssim.conf
