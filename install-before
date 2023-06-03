@@ -1,0 +1,103 @@
+#!/bin/sh
+
+#
+kiemtraemail3="^(([-a-zA-Z0-9\!#\$%\&\'*+/=?^_\`{\|}~])+\.)*[-a-zA-Z0-9\!#\$%\&\'*+/=?^_\`{\|}~]+@\w((-|\w)*\w)*\.(\w((-|\w)*\w)*\.)*\w{2,24}$";
+
+
+
+#
+clear
+
+
+
+#
+echo "=========================================================================="
+echo "Thong tin cai dat:"
+echo "Installation information:"
+echo "--------------------------------------------------------------------------"
+
+
+#
+echo -n "Enter phpMyAdmin Port number (1000 - 65535): " 
+read svport
+if [ "$svport" = "80" ] || [ "$svport" = "443" ] || [ "$svport" = "22" ] || [ "$svport" = "3306" ] || [ "$svport" = "25" ] || [ "$svport" = "465" ] || [ "$svport" = "587" ] || [ "$svport" = "21" ]; then
+	svport="1241"
+    echo "phpMyAdmin khong the trung voi port cua dich vu khac!"
+    echo "ECHBAY-VPSSIM dat phpMyAdmin port mac dinh la: "$svport
+    echo "phpMyAdmin cannot match the port of another service!"
+    echo "phpMyAdmin port default set is: "$svport
+fi
+
+if [ "$svport" = "" ] ; then
+clear
+echo "=========================================================================="
+echo "phpMyAdmin Port number khong duoc de trong!"
+echo "Ban hay kiem tra lai..." 
+echo "--------------------------------------------------------------------------"
+echo "phpMyAdmin Port number can't be empty!"
+echo "Please check again..."
+bash /root/vpssim-setup
+exit
+fi
+
+if ! [[ $svport -ge 1000 && $svport -le 65535  ]] ; then  
+clear
+echo "=========================================================================="
+echo "$svport khong hop le!"
+echo "Port hop le la so tu nhien nam trong khoang (1000 - 65535)."
+echo "Ban hay kiem tra lai..." 
+echo "--------------------------------------------------------------------------"
+echo "$svport invalid!"
+echo "Port is an integer in the range (1000 - 65535)"
+echo "Please check again..."
+echo "-------------------------------------------------------------------------"
+read -p "Nhan [Enter] de tiep tuc (Press [Enter] to continue)..."
+clear
+bash /root/vpssim-setup
+exit
+fi
+
+
+
+#
+echo "--------------------------------------------------------------------------"
+echo -n "Enter admin email: " 
+read vpssimemail
+if [ "$vpssimemail" = "" ]; then
+clear
+echo "=========================================================================="
+echo "Admin email khong duoc de trong!"
+echo "Ban hay kiem tra lai..." 
+echo "--------------------------------------------------------------------------"
+echo "Admin email can't be empty!"
+echo "Please check again..."
+echo "-------------------------------------------------------------------------"
+read -p "Nhan [Enter] de tiep tuc (Press [Enter] to continue)..."
+clear
+bash /root/vpssim-setup
+exit
+fi
+
+if [[ ! "$vpssimemail" =~ $kiemtraemail3 ]]; then
+clear
+echo "=========================================================================="
+echo "Email $vpssimemail khong dung dinh dang!"
+echo "Ban hay kiem tra lai..." 
+echo "--------------------------------------------------------------------------"
+echo "Email $vpssimemail incorrect format is supported!"
+echo "Please check again..."
+echo "-------------------------------------------------------------------------"
+read -p "Nhan [Enter] de tiep tuc (Press [Enter] to continue)..."
+clear
+bash /root/vpssim-setup
+exit
+fi
+
+
+
+#
+rm -f /tmp/vpssim.conf
+cat > "/tmp/vpssim.conf" <<END
+priport="$svport"
+emailmanage="$vpssimemail"
+END

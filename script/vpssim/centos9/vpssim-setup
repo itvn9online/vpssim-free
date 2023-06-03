@@ -1,9 +1,17 @@
 #!/bin/bash
 
 #
+cd ~
+if [ ! -f /tmp/vpssim.conf ]; then
+wget --no-check-certificate -q https://raw.githubusercontent.com/itvn9online/vpssim-free/master/install-before
+chmod +x /root/install-before
+bash /root/install-before
+fi
+. /tmp/vpssim.conf
+
+#
 checktruenumber='^[0-9]+$'
 
-kiemtraemail3="^(([-a-zA-Z0-9\!#\$%\&\'*+/=?^_\`{\|}~])+\.)*[-a-zA-Z0-9\!#\$%\&\'*+/=?^_\`{\|}~]+@\w((-|\w)*\w)*\.(\w((-|\w)*\w)*\.)*\w{2,24}$";
 svip=$(wget http://ipecho.net/plain -O - -q ; echo)
 #phpmacdinh="7.4"
 #numPHPmacdinh="74"
@@ -35,66 +43,7 @@ echo "CPU Speed: $cpufreq MHz"
 echo "Memory: $svram MB"
 #echo "Disk: $svhdd"
 echo "IP: $svip"
-echo "--------------------------------------------------------------------------"
-echo "Dien Thong Tin Cai Dat: "
 echo "=========================================================================="
-echo -n "Nhap Phpmyadmin Port [ENTER]: " 
-read svport
-if [ "$svport" = "80" ] || [ "$svport" = "443" ] || [ "$svport" = "22" ] || [ "$svport" = "3306" ] || [ "$svport" = "25" ] || [ "$svport" = "465" ] || [ "$svport" = "587" ] || [ "$svport" = "21" ]; then
-	svport="1241"
-echo "Phpmyadmin khong the trung voi port cua dich vu khac !"
-echo "ECHBAY-VPSSIM se dat phpmyadmin port la "$svport
-fi
-if [ "$svport" = "" ] ; then
-clear
-echo "=========================================================================="
-echo "$svport khong duoc de trong."
-echo "--------------------------------------------------------------------------"
-echo "Ban hay kiem tra lai !" 
-bash /root/vpssim-setup
-exit
-fi
-if ! [[ $svport -ge 100 && $svport -le 65535  ]] ; then  
-clear
-echo "=========================================================================="
-echo "$svport khong hop le!"
-echo "--------------------------------------------------------------------------"
-echo "Port hop le la so tu nhien nam trong khoang (100 - 65535)."
-echo "--------------------------------------------------------------------------"
-echo "Ban hay kiem tra lai !" 
-echo "-------------------------------------------------------------------------"
-read -p "Nhan [Enter] de tiep tuc ..."
-clear
-bash /root/vpssim-setup
-exit
-fi
-
-echo "--------------------------------------------------------------------------"
-echo -n "Nhap dia chi email quan ly [ENTER]: " 
-read vpssimemail
-if [ "$vpssimemail" = "" ]; then
-clear
-echo "=========================================================================="
-echo "Ban nhap sai, vui long nhap lai!"
-echo "-------------------------------------------------------------------------"
-read -p "Nhan [Enter] de tiep tuc ..."
-clear
-bash /root/vpssim-setup
-exit
-fi
-
-if [[ ! "$vpssimemail" =~ $kiemtraemail3 ]]; then
-clear
-echo "=========================================================================="
-echo "$vpssimemail co le khong dung dinh dang email!"
-echo "--------------------------------------------------------------------------"
-echo "Ban vui long thu lai  !"
-echo "-------------------------------------------------------------------------"
-read -p "Nhan [Enter] de tiep tuc ..."
-clear
-bash /root/vpssim-setup
-exit
-fi
 
 
 
@@ -364,6 +313,7 @@ clear
 #/etc/vpssim/menu/cai-csf-firewall-cai-dat-CSF-FIREWALL
 #systemctl start memcached.service
 #systemctl enable memcached.service 
+rm -rf /tmp/install*
 rm -rf /root/install*
 rm -rf /root/vpssim-setup
 

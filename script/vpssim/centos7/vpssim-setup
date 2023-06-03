@@ -1,7 +1,17 @@
 #!/bin/bash
+
+#
+cd ~
+if [ ! -f /tmp/vpssim.conf ]; then
+wget --no-check-certificate -q https://raw.githubusercontent.com/itvn9online/vpssim-free/master/install-before
+chmod +x /root/install-before
+bash /root/install-before
+fi
+. /tmp/vpssim.conf
+
+#
 checktruenumber='^[0-9]+$'
 
-kiemtraemail3="^(([-a-zA-Z0-9\!#\$%\&\'*+/=?^_\`{\|}~])+\.)*[-a-zA-Z0-9\!#\$%\&\'*+/=?^_\`{\|}~]+@\w((-|\w)*\w)*\.(\w((-|\w)*\w)*\.)*\w{2,24}$";
 svip=$(wget http://ipecho.net/plain -O - -q ; echo)
 phpmacdinh="7.4"
 numPHPmacdinh="74"
@@ -31,66 +41,8 @@ echo "CPU Speed: $cpufreq MHz"
 echo "Memory: $svram MB"
 echo "Disk: $svhdd"
 echo "IP: $svip"
-echo "--------------------------------------------------------------------------"
-echo "Dien Thong Tin Cai Dat: "
 echo "=========================================================================="
-echo -n "Nhap Phpmyadmin Port [ENTER]: " 
-read svport
-if [ "$svport" = "80" ] || [ "$svport" = "443" ] || [ "$svport" = "22" ] || [ "$svport" = "3306" ] || [ "$svport" = "25" ] || [ "$svport" = "465" ] || [ "$svport" = "587" ] || [ "$svport" = "21" ]; then
-	svport="1241"
-echo "Phpmyadmin khong the trung voi port cua dich vu khac !"
-echo "ECHBAY-VPSSIM se dat phpmyadmin port la "$svport
-fi
-if [ "$svport" = "" ] ; then
-clear
-echo "=========================================================================="
-echo "$svport khong duoc de trong."
-echo "--------------------------------------------------------------------------"
-echo "Ban hay kiem tra lai !" 
-bash /root/vpssim-setup
-exit
-fi
-if ! [[ $svport -ge 100 && $svport -le 65535  ]] ; then  
-clear
-echo "=========================================================================="
-echo "$svport khong hop le!"
-echo "--------------------------------------------------------------------------"
-echo "Port hop le la so tu nhien nam trong khoang (100 - 65535)."
-echo "--------------------------------------------------------------------------"
-echo "Ban hay kiem tra lai !" 
-echo "-------------------------------------------------------------------------"
-read -p "Nhan [Enter] de tiep tuc ..."
-clear
-bash /root/vpssim-setup
-exit
-fi
 
-echo "--------------------------------------------------------------------------"
-echo -n "Nhap dia chi email quan ly [ENTER]: " 
-read vpssimemail
-if [ "$vpssimemail" = "" ]; then
-clear
-echo "=========================================================================="
-echo "Ban nhap sai, vui long nhap lai!"
-echo "-------------------------------------------------------------------------"
-read -p "Nhan [Enter] de tiep tuc ..."
-clear
-bash /root/vpssim-setup
-exit
-fi
-
-if [[ ! "$vpssimemail" =~ $kiemtraemail3 ]]; then
-clear
-echo "=========================================================================="
-echo "$vpssimemail co le khong dung dinh dang email!"
-echo "--------------------------------------------------------------------------"
-echo "Ban vui long thu lai  !"
-echo "-------------------------------------------------------------------------"
-read -p "Nhan [Enter] de tiep tuc ..."
-clear
-bash /root/vpssim-setup
-exit
-fi
 
 prompt="Nhap lua chon cua ban: "
 options=("MariaDB 10.3 (Recommendations)" "MariaDB 10.4" "MariaDB 10.5")
@@ -1092,14 +1044,20 @@ sleep 3
 #/etc/vpssim/menu/cai-csf-firewall-cai-dat-CSF-FIREWALL
 #systemctl start memcached.service
 #systemctl enable memcached.service 
+rm -rf /tmp/install*
 rm -rf /root/install*
 rm -rf /root/vpssim-setup
-cat >> "/home/VPSSIM-manage-info.txt" <<END
+
+
+#
+cat > "/home/VPSSIM-manage-info.txt" <<END
 =========================================================================
                            VPS MANAGE INFOMATION                         
 =========================================================================
 
 phpMyAdmin: http://$svip:$svport
+
+MySQL root password: $passrootmysql
 
 Quan Ly Zend Opcache: http://$svip:$svport/ocp.php
 
@@ -1173,31 +1131,17 @@ END
 chmod +x /tmp/finishedemail.sh
 /tmp/finishedemail.sh
 rm -f /tmp/finishedemail.sh
+
+
+
+#
 clear
 echo "=========================================================================="
-echo "VPSSIM has completed the server installation. "
+echo "VPSSIM has completed the server installation."
 echo "=========================================================================="
-echo "Calling ECHBAY-VPSSIM: vpssim"
-echo "--------------------------------------------------------------------------"
-echo "Link phpMyAdmin: http://$svip:$svport"
-echo "--------------------------------------------------------------------------"
-echo "Manage Zend Opcache: http://$svip:$svport/ocp.php"
-echo "--------------------------------------------------------------------------"
-#echo "Quan Ly Memcached: http://$svip:$svport/memcache.php"
-#echo "--------------------------------------------------------------------------"
-echo "View Server Status: http://$svip/status.php"
-echo "--------------------------------------------------------------------------"
-echo "Username and Password protection phpMyAdmin, ocp.php, status.php ..."
-echo "--------------------------------------------------------------------------"
-echo "Username: $usernamebv  | Password: $matkhaubv"
-echo "--------------------------------------------------------------------------"
-echo "Change login information: ECHBAY-VPSSIM menu ==> User & Password Mac Dinh. "
+cat /home/VPSSIM-manage-info.txt
 echo "=========================================================================="
-echo "Management information is stored at: /home/VPSSIM-manage-info.txt "
-echo "--------------------------------------------------------------------------"
-echo "and attach a note to use ECHBAY-VPSSIM to email: $vpssimemail"
-echo "=========================================================================="
-echo "The server will automatically restart after 3 seconds.... "
+echo "The server will automatically restart after 3 seconds...."
 sleep 3
 reboot
 exit
