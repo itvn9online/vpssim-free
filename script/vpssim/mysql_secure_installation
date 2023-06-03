@@ -1,6 +1,6 @@
 #!/bin/sh
 
-DATABASE_PASS=$(cat /tmp/passrootmysql)
+DATABASE_PASS=$(cat /tmp/vpssim-mysqlrootpass)
 mysqladmin -u root password "$DATABASE_PASS"
 # Make sure that NOBODY can access the server without a password
 mysql -u root -p"$DATABASE_PASS" -e "UPDATE mysql.user SET Password=PASSWORD('$DATABASE_PASS') WHERE User='root'"
@@ -15,7 +15,7 @@ mysql -u root -p"$DATABASE_PASS" -e "FLUSH PRIVILEGES"
  cat >> "/home/vpssim.conf" <<END
 mariadbpass="$DATABASE_PASS"
 END
-rm -rf /tmp/passrootmysql
+rm -rf /tmp/vpssim-mysqlrootpass
 #wget --no-check-certificate -q https://vpssim.echbay.com/script/vpssim/mysql_secure_installation.bak -O /bin/mysql_secure_installation
 #wget --no-check-certificate -q https://raw.githubusercontent.com/itvn9online/vpssim-free/master/script/vpssim/mysql_secure_installation_bak -O /bin/mysql_secure_installation
 yes | cp -rf /opt/echbay_vpssim/script/vpssim/mysql_secure_installation_bak /bin/mysql_secure_installation && chmod +x /bin/mysql_secure_installation

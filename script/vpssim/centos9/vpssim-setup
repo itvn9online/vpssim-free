@@ -65,7 +65,7 @@ phpmyadmin_version=`cat /tmp/00-all-phpmyadmin-version.txt | awk 'NR==2 {print $
 
 # Secure your MariaDB installation
 passrootmysql=`date |md5sum |cut -c '1-16'`
-#echo "$passrootmysql" > /tmp/passrootmysql
+echo "$passrootmysql" > /tmp/vpssim-mysqlrootpass
 
 #
 vpssim_version=`cat /tmp/vpssim.newversion`

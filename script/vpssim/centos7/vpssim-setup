@@ -71,7 +71,7 @@ phienbanmariadb=10.3
 fi
 
 # auto mysql root password
-#passrootmysql=`date |md5sum |cut -c '1-12'`
+passrootmysql=`date |md5sum |cut -c '1-12'`
 #echo $passrootmysql
 
 # v1
@@ -106,7 +106,7 @@ fi
 #bash /root/vpssim-setup
 #exit
 #fi  
-echo "$passrootmysql" > /tmp/passrootmysql
+echo "$passrootmysql" > /tmp/vpssim-mysqlrootpass
 
 ###############################################################################
 #Download Nginx, VPSSIM & phpMyadmin Version
