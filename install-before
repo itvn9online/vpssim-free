@@ -13,8 +13,8 @@ clear
 #
 echo "=========================================================================="
 echo "--------------------------------------------------------------------------"
-echo "Thong tin cai dat:"
-echo "Installation information:"
+echo "Thiet lap thong tin cai dat:"
+echo "Setup installation information:"
 echo "--------------------------------------------------------------------------"
 
 
