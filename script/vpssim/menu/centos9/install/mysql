@@ -5,7 +5,7 @@
 echo "=========================================================================="
 echo "Install MariaDB..."
 #sleep 2
-yum install mariadb-server mariadb -y
+sudo yum install mariadb-server mariadb -y
 
 #
 systemctl start mariadb
