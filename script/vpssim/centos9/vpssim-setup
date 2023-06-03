@@ -146,11 +146,13 @@ yum -y upgrade
 
 # install
 # https://duypt.dev/huong-dan-cai-dat-lemp-tren-centos-stream-9
-/etc/vpssim/menu/centos9/install/before_install.sh
-/etc/vpssim/menu/centos9/install/nginx.sh
-/etc/vpssim/menu/centos9/install/mysql.sh
-/etc/vpssim/menu/centos9/install/php.sh
-/etc/vpssim/menu/centos9/install/phpmyadmin.sh
+/etc/vpssim/menu/centos9/install/before_install
+# cài mysql trước -> để nếu có phần bắt nhập pass thì còn thấy sớm
+/etc/vpssim/menu/centos9/install/mysql
+# xong mới cài các phần mềm tiếp theo
+/etc/vpssim/menu/centos9/install/nginx
+/etc/vpssim/menu/centos9/install/php
+/etc/vpssim/menu/centos9/install/phpmyadmin
 
 
 # another service
@@ -264,7 +266,7 @@ fi
 
 
 #
-/etc/vpssim/menu/centos9/install/after_install.sh
+/etc/vpssim/menu/centos9/install/after_install
 
 
 

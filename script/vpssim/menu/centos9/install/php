@@ -3,7 +3,7 @@
 
 #
 sudo dnf module reset php -y
-sudo dnf module list php -y
+#sudo dnf module list php -y
 sudo dnf module enable php:remi-8.1 -y
 #sudo dnf module enable php:remi-8.2 -y
 

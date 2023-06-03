@@ -1,6 +1,10 @@
 #!/bin/bash
 . /home/vpssim.conf
 
+#
+echo "=========================================================================="
+echo "Install epel and remi"
+
 # install latest software
 # https://tecadmin.net/how-to-install-php-on-centos-9/
 # for centos 8

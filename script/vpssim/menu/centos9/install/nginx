@@ -8,7 +8,7 @@ echo "Install Nginx"
 # thiet lap phien ban nginx cho centos 8 do ban nginx tren nay kha cu
 if [ "$current_os_version" == "8" ]; then
 sudo dnf module reset nginx -y
-sudo dnf module list nginx -y
+#sudo dnf module list nginx -y
 sudo dnf module enable nginx:1.22 -y
 fi
 
