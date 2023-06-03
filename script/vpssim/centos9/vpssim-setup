@@ -12,14 +12,11 @@ fi
 #
 if [ "$vpssimemail" = "" ] || [ "$svport" = "" ]; then
 clear
-echo "ERROR load custom config!"
+echo "ERROR include custom config!"
 exit
 fi
 
 #
-checktruenumber='^[0-9]+$'
-
-svip=$(wget http://ipecho.net/plain -O - -q ; echo)
 #phpmacdinh="7.4"
 #numPHPmacdinh="74"
 echo "=========================================================================="
@@ -30,12 +27,6 @@ echo "==========================================================================
 #echo "trong [ Update System ] cua ECHBAY-VPSSIM."
 #echo "--------------------------------------------------------------------------"
 echo "VPSSIM ho tro: PHP 8++"
-cpuname=$( awk -F: '/model name/ {name=$2} END {print name}' /proc/cpuinfo )
-cpucores=$( awk -F: '/model name/ {core++} END {print core}' /proc/cpuinfo )
-cpufreq=$( awk -F: ' /cpu MHz/ {freq=$2} END {print freq}' /proc/cpuinfo )
-svram=$( free -m | awk 'NR==2 {print $2}' )
-svhdd=$( df -h | awk 'NR==2 {print $2}' )
-svswap=$( free -m | awk 'NR==4 {print $2}' )
 
 free -m
 df -h

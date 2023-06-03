@@ -96,9 +96,28 @@ fi
 
 
 
+
+#
+svip=$(wget http://ipecho.net/plain -O - -q ; echo)
+cpuname=$( awk -F: '/model name/ {name=$2} END {print name}' /proc/cpuinfo )
+cpucores=$( awk -F: '/model name/ {core++} END {print core}' /proc/cpuinfo )
+cpufreq=$( awk -F: ' /cpu MHz/ {freq=$2} END {print freq}' /proc/cpuinfo )
+svram=$( free -m | awk 'NR==2 {print $2}' )
+svhdd=$( df -h | awk 'NR==2 {print $2}' )
+svswap=$( free -m | awk 'NR==4 {print $2}' )
+checktruenumber='^[0-9]+$'
+
 #
 rm -f /tmp/vpssim.conf
 cat > "/tmp/vpssim.conf" <<END
 svport="$svport"
 vpssimemail="$vpssimemail"
+cpuname="$cpuname"
+cpucores="$cpucores"
+cpufreq="$cpufreq"
+svram="$svram"
+svhdd="$svhdd"
+svswap="$svswap"
+svip="$svip"
+checktruenumber="$checktruenumber"
 END
