@@ -16,6 +16,7 @@ sleep 3
 yum -y remove vsftpd
 clear
 fi
+
 if [ -f /etc/proftpd.conf ]; then
 clear
 echo "====================================== =================================== "
@@ -32,6 +33,7 @@ sleep 3
 yum -y remove proftpd
 clear
 fi
+
 if [ ! -f /etc/vpssim/menu/vpssim-ftpserver-read ]; then
 clear
 printf "=========================================================================\n"

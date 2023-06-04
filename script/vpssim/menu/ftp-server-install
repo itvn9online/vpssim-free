@@ -4,7 +4,11 @@ if [ -f /etc/pure-ftpd/pure-ftpd.conf ]; then
 clear
 echo "========================================================================= "
 echo "FTP server da duoc cai dat tren server. "
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then
 /etc/vpssim/menu/vpssim-ftpserver-menu
+else
+/etc/vpssim/menu/centos9/option/ftpserver-menu
+fi
 exit
 fi
 
@@ -84,10 +88,15 @@ echo "Please wait ...."
 sleep 5
 /etc/vpssim/menu/CSF-Fiwall/vpssim-re-start-khoi-dong-lai-csf-lfd
 fi
+
 clear
 echo "========================================================================= "
 echo "Cai dat FTP server thanh cong"
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then
 /etc/vpssim/menu/vpssim-ftpserver-menu
+else
+/etc/vpssim/menu/centos9/option/ftpserver-menu
+fi
 exit
 fi
 

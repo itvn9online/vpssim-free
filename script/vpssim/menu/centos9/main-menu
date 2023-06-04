@@ -43,7 +43,7 @@ select opt in "${options[@]}" ; do
     6) clear && /etc/vpssim/menu/centos9/option/opcache/vpssim-before-opcache;;
     7) clear && /etc/vpssim/menu/centos9/option/memcache/vpssim-before-memcache-menu;;
     8) clear && /etc/vpssim/menu/centos9/option/vpssim-redis-befor-menu;;
-    9) clear && /etc/vpssim/menu/centos9/option/vpssim-ftpserver-menu;;
+    9) clear && /etc/vpssim/menu/centos9/option/ftpserver-menu;;
     10) clear && /etc/vpssim/menu/centos9/option/swap/vpssim-them-xoa-swap-vps-menu;;
     11) clear && /etc/vpssim/menu/centos9/option/crontab/vpssim-cronjob-menu;;
     12) clear && /etc/vpssim/menu/centos9/option/vpssim-eroor-menu;;
