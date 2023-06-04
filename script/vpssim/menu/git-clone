@@ -47,6 +47,7 @@ cd ~
 find /opt/echbay_vpssim/script/vpssim/menu -type f -exec chmod 755 {} \;
 /opt/echbay_vpssim/script/vpssim/menu/git-clone-done
 
+#
 echo "update ECHBAY-VPSSIM menu"
 mkdir -p /etc/vpssim/menu ; chmod 755 /etc/vpssim/menu
 rm -rf /etc/vpssim/menu/*
@@ -54,3 +55,9 @@ yes | cp -rf /opt/echbay_vpssim/script/vpssim/menu/. /etc/vpssim/menu/
 
 echo "Chmod 755 Menu"
 /opt/echbay_vpssim/script/vpssim/menu/chmod-755-menu
+
+#
+echo "update ECHBAY-VPSSIM conf"
+mkdir -p /etc/nginx/conf ; chmod 755 /etc/nginx/conf
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/conf/. /etc/nginx/conf/
+find /etc/nginx/conf -type f -exec chmod 644 {} \;

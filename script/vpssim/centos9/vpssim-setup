@@ -198,11 +198,6 @@ chown -R nginx:nginx /var/lib/php/session
 
 #
 cd ~
-cd /etc/nginx/
-mkdir -p /etc/nginx/conf ; chmod 755 /etc/nginx/conf
-yes | cp -rf /opt/echbay_vpssim/script/vpssim/conf/. /etc/nginx/conf/
-find /etc/nginx/conf -type f -exec chmod 644 {} \;
-cd ~
 
 
 #
