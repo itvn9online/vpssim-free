@@ -1,82 +1,67 @@
 #!/bin/bash
 . /home/vpssim.conf
 if [ -f /etc/pure-ftpd/pure-ftpd.conf ]; then
-clear
-echo "========================================================================= "
-echo "FTP server da duoc cai dat tren server. "
-if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then
-/etc/vpssim/menu/vpssim-ftpserver-menu
-else
-/etc/vpssim/menu/centos9/option/ftpserver-menu
-fi
-exit
+    clear
+    echo "========================================================================= "
+    echo "FTP server da duoc cai dat tren server. "
+
+    #
+    if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then
+    /etc/vpssim/menu/vpssim-ftpserver-menu
+    else
+    /etc/vpssim/menu/centos9/option/ftpserver-menu
+    fi
+    exit
 fi
 
+#
 clear
 echo "========================================================================= "
 echo "Chuan bi cai dat FTP Server... "
-sleep 3
+#sleep 3
 yum -y install pure-ftpd
 
 # Chinh lai cau hinh
-sed -i 's/ChrootEveryone/#ChrootEveryone/g' /etc/pure-ftpd/pure-ftpd.conf
-sed -i 's/VerboseLog/#VerboseLog/g' /etc/pure-ftpd/pure-ftpd.conf
-sed -i 's/NoAnonymous/#NoAnonymous/g' /etc/pure-ftpd/pure-ftpd.conf
+yes | cp /etc/vpssim/menu/centos9/tmp/pure-ftpd.conf "/etc/pure-ftpd/"
 
-if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then
-echo "Not Remove UseFtpUsers in CentOS 6"
-elif [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then
-echo "Not Remove UseFtpUsers in CentOS 7"
-else
-echo "Remove UseFtpUsers in CentOS 8"
+if [ ! "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then
+echo "Remove UseFtpUsers in CentOS 8++"
 sed -i -e "/UseFtpUsers/d" /etc/pure-ftpd/pure-ftpd.conf
 fi
 
-echo "
-ChrootEveryone yes
-UnixAuthentication yes
-VerboseLog yes
-CreateHomeDir yes
-NoAnonymous yes
-PureDB /etc/pure-ftpd/pureftpd.pdb
-PassivePortRange          30000 50000
-TLS 1
-" >> /etc/pure-ftpd/pure-ftpd.conf ;
-
 openssl req -x509 -nodes -days 7200 -newkey rsa:2048 -keyout /etc/pki/pure-ftpd/pure-ftpd.pem -out /etc/pki/pure-ftpd/pure-ftpd.pem -subj "/C=US/ST=VPSSIM FTP/L=VPSSIM FTP/O=VPSSIM FTP/CN=VPSSIM FTP"
 
-if [ ! "$(grep /etc/ssl/private/pure-ftpd.pem /etc/pure-ftpd/pure-ftpd.conf)" == "" ]; then
-echo "
-TLSCipherSuite           HIGH
-CertFile                 /etc/ssl/private/pure-ftpd.pem
-" >> /etc/pure-ftpd/pure-ftpd.conf ;
-if [ ! -d /etc/ssl/private ]; then
+#
 mkdir -p /etc/ssl/private
-fi
-yes | cp -rf /etc/pki/pure-ftpd/pure-ftpd.pem /etc/ssl/private/pure-ftpd.pem
+if [ -f /etc/ssl/private/pure-ftpd.pem ]; then
+    yes | cp -rf /etc/pki/pure-ftpd/pure-ftpd.pem /etc/ssl/private/pure-ftpd.pem
 fi
 
 if [ ! -f /etc/vpssim/pure-ftpd.pem ]; then
-if [ -f /etc/pki/pure-ftpd/pure-ftpd.pem ]; then
-yes | cp -rf /etc/pki/pure-ftpd/pure-ftpd.pem /etc/vpssim/pure-ftpd.pem
-fi
+    if [ -f /etc/pki/pure-ftpd/pure-ftpd.pem ]; then
+    yes | cp -rf /etc/pki/pure-ftpd/pure-ftpd.pem /etc/vpssim/pure-ftpd.pem
+    fi
 fi
 
+#
 if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
 chkconfig pure-ftpd on
-service pure-ftpd start
+#service pure-ftpd start
 service pure-ftpd restart
 else
 systemctl enable pure-ftpd 
-systemctl start pure-ftpd 
+#systemctl start pure-ftpd 
 systemctl restart pure-ftpd 
 fi
+
+#
 iptables -I INPUT 2 -p tcp --dport 30000:50000 -j ACCEPT
 iptables -I INPUT 2 -p udp --dport 30000:50000 -j ACCEPT
 iptables -I INPUT 2 -p tcp --dport 21 -j ACCEPT
 iptables -I INPUT 2 -p udp --dport 21 -j ACCEPT
 service iptables save
 #chown -R nginx:nginx /home
+
 if [ -f /etc/csf/csf.conf ]; then
 clear
 echo "-------------------------------------------------------------------------"
@@ -85,18 +70,20 @@ echo "-------------------------------------------------------------------------"
 echo "VPSSIM se khoi dong lai CSF Firewall ...."
 echo "-------------------------------------------------------------------------"
 echo "Please wait ...."
-sleep 5
+#sleep 5
 /etc/vpssim/menu/CSF-Fiwall/vpssim-re-start-khoi-dong-lai-csf-lfd
 fi
 
 clear
 echo "========================================================================= "
 echo "Cai dat FTP server thanh cong"
+
+#
 if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then
 /etc/vpssim/menu/vpssim-ftpserver-menu
 else
 /etc/vpssim/menu/centos9/option/ftpserver-menu
 fi
-exit
-fi
 
+#
+exit
