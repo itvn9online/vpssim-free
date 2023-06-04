@@ -18,17 +18,6 @@ echo -n "Nhap ten mien/ Enter your domain [ENTER]: "
 read website
 website=`echo $website | tr '[A-Z]' '[a-z]'`
 
-#
-re='^[0-9]+$'
-# nếu người dùng nhập vào là 1 số
-if [[ $website =~ $re ]] ; then
-# xem số này có chứa thông tin tên miền tương ứng không
-if [ -f "/tmp/domain_number$website.txt" ]; then
-# có thì lấy tên miền trong file
-website=`cat /tmp/domain_number$website.txt`
-fi
-fi
-
 if [ "$website" = "" ]; then
 clear
 echo "========================================================================="
@@ -105,10 +94,16 @@ echo -n "Ban co muon VPSSIM tao Database moi cho $website ? [y/N] "
 read response
 fi
 
+
 #
 if [ "$response" = "y" ] || [ "$response" = "Y" ] ; then
 /etc/vpssim/menu/centos9/inc/add-database $website "create_tmp"
 fi
+
+
+# thêm tài khoản FTP
+/etc/vpssim/menu/centos9/option/tao-ftp-user-cho-domain $website "create_tmp"
+
 
 # download code wordpress
 if [ "$1" = "wordpress" ]; then
@@ -118,8 +113,13 @@ elif [ "$1" = "demo" ]; then
 fi
 
 
-# thêm tài khoản FTP
-/etc/vpssim/menu/centos9/option/tao-ftp-user-cho-domain $website
+# in ra thông tin sau khi cài đặt code
+/etc/vpssim/menu/centos9/inc/download-wordpress-after $website
+
+
+# dọn dẹp
+rm -f /tmp/vpssim-*
+
 
 #
 /etc/vpssim/menu/centos9/option/them-website-menu

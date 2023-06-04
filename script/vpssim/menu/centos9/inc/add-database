@@ -12,6 +12,7 @@ fi
 
 #
 website=$1
+create_tmp=$2
 
 # kiểm tra xem có website này không
 if [ ! -f /etc/nginx/conf.d/$website.conf ]; then
@@ -68,13 +69,7 @@ END
 mysql -u root -p$mariadbpass < /tmp/config.temp
 rm -f /tmp/config.temp
 
-# lưu thông tin database để quá trình tạo website wordpress có cái mà sử dụng luôn
-if [ ! "$2" = "" ]; then
-echo "$username" > /tmp/lastdb.txt
-echo "$password" > /tmp/lastpass.txt
-fi
-
-
+#
 echo "=========================================================================" >> /home/DBinfo.txt
 echo "Database: $dataname - Created on: $(date +%d/%m/%Y) when add $website to VPS" >> /home/DBinfo.txt
 echo "=========================================================================" >> /home/DBinfo.txt
@@ -98,3 +93,9 @@ echo "User name: $username"
 echo "Mat khau: $password"
 echo "-------------------------------------------------------------------------"
 echo "Thong tin database da duoc luu vao: /home/DBinfo.txt"
+
+# lưu thông tin database để quá trình tạo website wordpress có cái mà sử dụng luôn
+if [ "$create_tmp" = "" ]; then
+echo "$username" > /tmp/vpssim-lastdb.txt
+echo "$password" > /tmp/vpssim-lastpassdb.txt
+fi

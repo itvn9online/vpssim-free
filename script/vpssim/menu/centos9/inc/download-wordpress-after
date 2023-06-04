@@ -1,0 +1,49 @@
+#!/bin/bash
+
+#
+website=$1
+
+#
+clear
+
+# in ra thông tin sau khi cài đặt code
+echo "=========================================================================="
+echo ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ."
+echo ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ."
+echo ". . . . . . . . . . . . Wordpress demo install. . . . . . . . . . . . . ."
+echo "Admin login URL: http://"$website"/wp-admin"
+if [ -f /tmp/vpssim-lastadmin.txt ]; then
+the_text=`cat /tmp/vpssim-lastadmin.txt`
+echo "Admin account: "$the_text
+fi
+if [ -f /tmp/vpssim-lastpassadmin.txt ]; then
+the_text=`cat /tmp/vpssim-lastpassadmin.txt`
+echo "Admin passwordd: "$the_text
+fi
+
+if [ -f /tmp/vpssim-lastdb.txt ]; then
+the_text=`cat /tmp/vpssim-lastdb.txt`
+echo "Database: "$the_text
+echo "Database user: "$the_text
+fi
+if [ -f /tmp/vpssim-lastpassdb.txt ]; then
+the_text=`cat /tmp/vpssim-lastpassdb.txt`
+echo "Database password: "$the_text
+fi
+
+if [ -f /tmp/vpssim-lastftp.txt ]; then
+the_text=`cat /tmp/vpssim-lastftp.txt`
+echo "FTP account: "$the_text
+fi
+if [ -f /tmp/vpssim-lastpassftp.txt ]; then
+the_text=`cat /tmp/vpssim-lastpassftp.txt`
+echo "FTP password: "$the_text
+fi
+echo "Please save this info and visit to website and login."
+echo ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ."
+echo ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ."
+echo "=========================================================================="
+
+
+# dọn dẹp
+#rm -f /tmp/vpssim-*

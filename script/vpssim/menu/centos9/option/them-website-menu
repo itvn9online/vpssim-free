@@ -4,7 +4,7 @@ touch /etc/cron.d/vpssim.code.cron
 fi
 
 prompt="Vui long chon/ Please choose (0 - Backspace):"
-options=( "Add Website" "Add Database" "Add Wordpress website" "Add Wordpress Woocommerce" "List Website in Server")
+options=( "Add Website" "Add Database" "Add Wordpress website" "Add Wordpress demo" "List Website in Server")
 printf "=========================================================================\n"
 printf "                VPSSIM - Quan Ly VPS/ Server by EchBay.com \n"
 printf "=========================================================================\n"

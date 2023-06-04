@@ -5,22 +5,29 @@
 /etc/vpssim/menu/centos9/inc/list-website-tren-vps-before
 
 #
-echo "========================================================================="
-echo "Su dung chuc nang nay de tao FTP user cho  website"
-echo "-------------------------------------------------------------------------"
-echo -n "Nhap website ban muon them FTP user [ENTER]: " 
-read website
-website=`echo $website | tr '[A-Z]' '[a-z]'`
+create_tmp=$2
 
 #
-re='^[0-9]+$'
-# nếu người dùng nhập vào là 1 số
-if [[ $website =~ $re ]] ; then
-# xem số này có chứa thông tin tên miền tương ứng không
-if [ -f "/tmp/domain_number$website.txt" ]; then
-# có thì lấy tên miền trong file
-website=`cat /tmp/domain_number$website.txt`
-fi
+if [ ! "$1" = "" ]; then
+website=$1
+else
+    echo "========================================================================="
+    echo "Su dung chuc nang nay de tao FTP user cho  website"
+    echo "-------------------------------------------------------------------------"
+    echo -n "Nhap website ban muon them FTP user [ENTER]: " 
+    read website
+    website=`echo $website | tr '[A-Z]' '[a-z]'`
+
+    #
+    re='^[0-9]+$'
+    # nếu người dùng nhập vào là 1 số
+    if [[ $website =~ $re ]] ; then
+        # xem số này có chứa thông tin tên miền tương ứng không
+        if [ -f "/tmp/domain_number$website.txt" ]; then
+        # có thì lấy tên miền trong file
+        website=`cat /tmp/domain_number$website.txt`
+        fi
+    fi
 fi
 
 #
@@ -40,7 +47,9 @@ echo "-------------------------------------------------------------------------"
 echo "IP: $serverip "
 echo "-------------------------------------------------------------------------"
 echo "User: $(grep "/home/$website/" /etc/vpssim/FTP-Account.info | awk 'NR==1 {print $7}') | Password: $(grep "/home/$website/" /etc/vpssim/FTP-Account.info | awk 'NR==1 {print $10}')"
+if [ ! "$create_tmp" = "" ]; then
 /etc/vpssim/menu/centos9/option/ftpserver-menu
+fi
 fi
 
 
@@ -91,5 +100,10 @@ echo "IP: $serverip "
 echo "-------------------------------------------------------------------------"
 echo "User: $username | Password: $password"
 
-#
+# lưu thông tin database để quá trình tạo website wordpress có cái mà sử dụng luôn
+if [ "$create_tmp" = "" ]; then
+echo "$username" > /tmp/vpssim-lastftp.txt
+echo "$password" > /tmp/vpssim-lastpassftp.txt
+else
 /etc/vpssim/menu/centos9/option/ftpserver-menu
+fi

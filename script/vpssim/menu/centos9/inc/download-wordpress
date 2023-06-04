@@ -36,17 +36,15 @@ fi
 cd /home/$website/public_html
 
 #
-if [ -f /tmp/lastdb.txt ]; then
-username=`cat /tmp/lastdb.txt`
-rm -f /tmp/lastdb.txt
+if [ -f /tmp/vpssim-lastdb.txt ]; then
+username=`cat /tmp/vpssim-lastdb.txt`
 else
 username=""
 fi
 
 #
-if [ -f /tmp/lastpass.txt ]; then
-password=`cat /tmp/lastpass.txt`
-rm -f /tmp/lastpass.txt
+if [ -f /tmp/vpssim-lastpassdb.txt ]; then
+password=`cat /tmp/vpssim-lastpassdb.txt`
 else
 password=""
 fi
@@ -62,17 +60,12 @@ if [ ! "$username" = "" ] && [ ! "$password" = "" ]; then
     wp core install --url='http://'$website --title='Blog demo by ECHBAY-VPSSIM' --admin_user=$admin_user --admin_password=$password --admin_email='admin@'$website
 
     #
-echo "=========================================================================="
-echo ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ."
-echo ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ."
-echo ". . . . . . . . . . . . Wordpress demo install. . . . . . . . . . . . . ."
-echo "Admin login URL: http://"$website"/wp-admin"
-echo "Admin account: "$admin_user
-echo "Admin passwordd: "$password
-echo "Please save this info and visit to website and login."
-echo ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ."
-echo ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ."
-echo "=========================================================================="
+echo "$admin_user" > /tmp/vpssim-lastadmin.txt
+echo "$password" > /tmp/vpssim-lastpassadmin.txt
+
+    #
+/etc/vpssim/menu/centos9/inc/download-wordpress-after $website
+
     fi
 else
 yes | cp -rf wp-config-sample.php wp-config.php
