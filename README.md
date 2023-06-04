@@ -11,7 +11,7 @@ Cơ bản thì trong phiên bản ECHBAY-VPSSIM mình chủ yếu cập nhật l
 bash <( curl -k https://raw.githubusercontent.com/itvn9online/vpssim-free/master/install )
 ```
 
-#### OS Hỗ trợ: `Centos 7` `Centos 8` `Centos 9` `AlmaLinux 8` `AlmaLinux 9` (Without SELinux):
+#### OS Hỗ trợ: `CentOS 7` `CentOS 8` `CentOS 9` `AlmaLinux 8` `AlmaLinux 9` (Without SELinux):
 
 ### Lệnh Cài Đặt yum-cron (auto update system):
 
@@ -127,7 +127,7 @@ bash <( curl -k https://raw.githubusercontent.com/itvn9online/vpssim-free/master
 
 > 2020/09/01
 
-#### Cập nhật OpenSSL lên bản mới nhất và build nginx từ bản này: https://linuxscriptshub.com/update-openssl-1-1-0-centos-6-9-7-0/
+#### Cập nhật OpenSSL lên bản mới nhất và build nginx từ bản này: https://linuxscriptshub.com/update-openssl-1-1-0-CentOS-6-9-7-0/
 
 #### Mã thực thi: https://github.com/itvn9online/vpssim-free/blob/master/script/vpssim/menu/nang-cap-openssl
 
