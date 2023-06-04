@@ -63,12 +63,17 @@ esac
 done
 
 if [ "$xacnhanthongtin" = "nonwww" ]; then
+clear
+echo "Setup SSL free for "$website
 certbot --nginx -d $website
 elif [ "$xacnhanthongtin" = "www" ]; then
+echo "Setup SSL free for www."$website
 certbot --nginx -d www.$website
 elif [ "$xacnhanthongtin" = "www" ]; then
+echo "Setup SSL free for "$website" and www."$website
 certbot --nginx -d $website -d www.$website
 else
+clear
 echo "Ban chon huy bo/ Cancel by user"
 fi
 
