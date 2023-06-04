@@ -34,7 +34,7 @@ random=`date |md5sum |cut -c '1-4'`
 dataname=`cat /tmp/databasename.txt | cut -c1-11`_$random
 #username=`cat /tmp/databasename.txt | sed "s/\_//" | sed "s/\_//" | sed "s/\_//" | sed "s/\_//" | cut -c1-10`$random
 username=$dataname
-password=`date |md5sum |cut -c '14-29'`
+password=`date |md5sum |cut -c '1-16'`
 rm -rf /tmp/databasename.txt
 
 #

@@ -57,11 +57,13 @@ if [ ! "$username" = "" ] && [ ! "$password" = "" ]; then
 
     if [ ! "$installdemo" = "" ]; then
     admin_user="admindemo"
-    wp core install --url='http://'$website --title='Blog demo by ECHBAY-VPSSIM' --admin_user=$admin_user --admin_password=$password --admin_email='admin@'$website
+    admin_pass=`date |md5sum |cut -c '1-16'`
+
+    wp core install --url='http://'$website --title='Blog demo by ECHBAY-VPSSIM' --admin_user=$admin_user --admin_password=$admin_pass --admin_email='admin@'$website
 
     #
 echo "$admin_user" > /tmp/vpssim-lastadmin.txt
-echo "$password" > /tmp/vpssim-lastpassadmin.txt
+echo "$admin_pass" > /tmp/vpssim-lastpassadmin.txt
 
     #
 /etc/vpssim/menu/centos9/inc/them-website-after $website
