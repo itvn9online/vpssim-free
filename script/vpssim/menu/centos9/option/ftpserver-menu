@@ -27,7 +27,7 @@ select opt in "${options[@]}"; do
         1) /etc/vpssim/menu/centos9/option/tao-ftp-user-cho-domain;;
         2) /etc/vpssim/menu/centos9/option/thay-mat-khau-user-ftp;;
         3) /etc/vpssim/menu/centos9/option/view-userftp-password;;
-        0) clear && vpssim;;
+        0) clear && /etc/vpssim/menu/centos9/option/them-website-menu;;
         *) echo "Ban nhap sai, vui long nhap theo so thu tu tren menu !";continue;;
 
     esac
