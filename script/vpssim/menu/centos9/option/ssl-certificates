@@ -69,7 +69,7 @@ certbot --nginx -d $website
 elif [ "$xacnhanthongtin" = "www" ]; then
 echo "Setup SSL free for www."$website
 certbot --nginx -d www.$website
-elif [ "$xacnhanthongtin" = "www" ]; then
+elif [ "$xacnhanthongtin" = "full" ]; then
 echo "Setup SSL free for "$website" and www."$website
 certbot --nginx -d $website -d www.$website
 else
