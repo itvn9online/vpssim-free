@@ -2,7 +2,7 @@
 . /home/vpssim.conf
 
 #
-/etc/vpssim/menu/centos9/option/list-website-tren-vps-before
+/etc/vpssim/menu/centos9/inc/list-website-tren-vps-before
 
 #
 echo "========================================================================="
@@ -12,7 +12,7 @@ echo -n "Nhap website ban muon them FTP user [ENTER]: "
 read website
 
 #
-/etc/vpssim/menu/centos9/option/ftpserver-menu-validate $website
+/etc/vpssim/menu/centos9/inc/ftpserver-menu-validate $website
 
 if [ ! -f /etc/pure-ftpd/pureftpd.passwd ]; then
 touch /etc/pure-ftpd/pureftpd.passwd

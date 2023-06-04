@@ -1,5 +1,5 @@
 #!/bin/bash
 
 #
-/etc/vpssim/menu/centos9/option/list-website-tren-vps-before
+/etc/vpssim/menu/centos9/inc/list-website-tren-vps-before
 /etc/vpssim/menu/centos9/option/them-website-menu

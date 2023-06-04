@@ -2,7 +2,7 @@
 . /home/vpssim.conf
 
 # kiểm tra và cài đặt FTP nếu chưa có
-/etc/vpssim/menu/centos9/option/ftpserver-menu-before
+/etc/vpssim/menu/centos9/inc/ftpserver-menu-before
 
 #
 if [ ! -f /etc/pure-ftpd/pureftpd.passwd ]; then

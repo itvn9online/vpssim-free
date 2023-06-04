@@ -20,4 +20,4 @@ exit
 fi
 
 #
-/etc/vpssim/menu/centos9/option/add-database $website
+/etc/vpssim/menu/centos9/inc/add-database $website
