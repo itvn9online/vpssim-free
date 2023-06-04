@@ -5,6 +5,8 @@
 echo "========================================================================="
 echo "Su dung chuc nang nay de tao FTP user cho  website"
 echo "-------------------------------------------------------------------------"
+/etc/vpssim/menu/centos9/option/list-website-tren-vps-before
+echo "-------------------------------------------------------------------------"
 echo -n "Nhap website ban muon them FTP user [ENTER]: " 
 read website
 

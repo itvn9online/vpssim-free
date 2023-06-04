@@ -1,0 +1,12 @@
+#!/bin/bash
+
+#
+for get_d in /home/*
+do
+	if [ -d $get_d ]; then
+		pl_dir=$(basename $get_d)
+		if [ ! "$pl_dir" = "vpssim.demo" ]; then
+			echo $pl_dir
+		fi
+	fi
+done
