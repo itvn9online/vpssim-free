@@ -10,11 +10,17 @@ echo "Ban phai cai dat chuc nang Setup FTP Server truoc"
 /etc/vpssim/menu/vpssim-ftpserver-menu
 exit
 fi
+
+if [ "$1" = "" ]; then
 echo "========================================================================="
 echo "Su dung chuc nang nay de thay mat khau tai khoan FTP cua website"
 echo "-------------------------------------------------------------------------"
 echo -n "Nhap ten website [ENTER]: " 
 read website
+else
+website=$1
+fi
+
 if [ "$website" = "" ]; then
 clear
 echo "========================================================================="
@@ -22,9 +28,10 @@ echo "Ban nhap sai, vui long nhap lai!"
 /etc/vpssim/menu/vpssim-ftpserver-menu
 exit
 fi
+
 kiemtradomain3="^([[:alnum:]]([[:alnum:]\-]{0,61}[[:alnum:]])?\.)+[[:alpha:]]{2,14}$";
 if [[ ! "$website" =~ $kiemtradomain3 ]]; then
-	website=`echo $website | tr '[A-Z]' '[a-z]'`
+website=`echo $website | tr '[A-Z]' '[a-z]'`
 clear
 echo "========================================================================="
 echo "$website co le khong phai la domain !!"
@@ -33,6 +40,7 @@ echo "Ban vui long nhap lai  !"
 /etc/vpssim/menu/vpssim-ftpserver-menu
 exit
 fi
+
 if [ ! -f /etc/nginx/conf.d/$website.conf ]; then
 clear
 echo "========================================================================="
@@ -42,6 +50,7 @@ echo "Ban hay nhap lai !"
 /etc/vpssim/menu/vpssim-ftpserver-menu
 exit
 fi
+
 if [ "$(pure-pw list | grep "/home/$website/")" == "" ]; then
 clear
 echo "========================================================================="
@@ -60,17 +69,21 @@ echo "Bay gio VPSSIM se thay mat khau moi cho: $(grep "/home/$website/" /etc/vps
 echo "========================================================================="
 echo "Please wait ....."
 sleep 7
+
+# xác định ftp account trong file lưu trữ
 username=$(grep "/home/$website/" /etc/vpssim/FTP-Account.info | awk 'NR==1 {print $7}')
-mkmoi=`date |md5sum |cut -c '3-23'`
+mkmoi=`date |md5sum |cut -c '1-16'`
 #echo "$mkmoi" | passwd --stdin $ftpuser
 ( echo ${mkmoi} ; echo ${mkmoi} ) | pure-pw passwd $username
 pure-pw mkdb
+
 cat > "/tmp/xoaftpuser" <<END	
 sed -i '/\/home\/$website/d' /etc/vpssim/FTP-Account.info
 END
 chmod +x /tmp/xoaftpuser
 /tmp/xoaftpuser
 rm -rf /tmp/xoaftpuser
+
 echo "FTP Account for $website | Username: $username | Password: $mkmoi | dd /home/$website/ " >> /etc/vpssim/FTP-Account.info
 clear
 echo "========================================================================= "
@@ -81,9 +94,10 @@ echo "-------------------------------------------------------------------------"
 echo "IP: $serverip"
 echo "-------------------------------------------------------------------------"
 echo "User: $username | Password: $mkmoi"
+
+#
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then
 /etc/vpssim/menu/vpssim-ftpserver-menu
-
-
-
-
-
+else
+/etc/vpssim/menu/centos9/option/ftpserver-menu
+fi

@@ -2,6 +2,7 @@
 if [ ! -f /etc/cron.d/vpssim.code.cron ]; then
 touch /etc/cron.d/vpssim.code.cron
 fi
+
 prompt="Vui long chonj/ Please choose (0 - Backspace):"
 options=( "Add Website" "Add Database" "Add Wordpress website" "Add Wordpress Woocommerce" "List Website in Server")
 printf "=========================================================================\n"
