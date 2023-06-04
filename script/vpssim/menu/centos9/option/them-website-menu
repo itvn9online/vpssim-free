@@ -1,7 +1,7 @@
 #!/bin/bash
 
 prompt="Vui long chon/ Please choose (0-Backspace):"
-options=( "Add Website" "Add Wordpress website" "Add Wordpress demo" "SSL Certificates" "FTP Management" "Add Database" "Domain Pointers" "Remove Pointers" "Domain vHost" )
+options=( "Add Website" "Add Wordpress website" "Add Wordpress demo" "Domain Pointers" "Remove Pointers" "Domain vHost" )
 
 printf "=========================================================================\n"
 printf "                            Website & Code\n"
@@ -15,13 +15,10 @@ select opt in "${options[@]}"; do
     1) clear && /etc/vpssim/menu/centos9/option/them-website;;
     2) clear && /etc/vpssim/menu/centos9/option/them-wordpress-website;;
     3) clear && /etc/vpssim/menu/centos9/option/them-wordpress-demo;;
-    4) clear && /etc/vpssim/menu/centos9/option/ssl-certificates;;
-    5) clear && /etc/vpssim/menu/centos9/option/ftpserver-menu;;
-    6) clear && /etc/vpssim/menu/centos9/option/add-database-before;;
-    7) clear && /etc/vpssim/menu/centos9/option/domain-pointers;;
-    8) clear && /etc/vpssim/menu/centos9/option/remove-pointers;;
-    9) clear && /etc/vpssim/menu/centos9/option/domain-vhost;;
-    0) clear && vpssim;;
+    4) clear && /etc/vpssim/menu/centos9/option/domain-pointers;;
+    5) clear && /etc/vpssim/menu/centos9/option/remove-pointers;;
+    6) clear && /etc/vpssim/menu/centos9/option/domain-vhost;;
+	0) clear && /etc/vpssim/menu/centos9/option/account-manager-menu;;
     *) echo "Vui long chon theo danh sach/ Please choose from the list"; continue;;
 
     esac

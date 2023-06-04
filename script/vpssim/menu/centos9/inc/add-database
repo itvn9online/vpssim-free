@@ -4,8 +4,6 @@
 #
 if [ "$1" = "" ]; then
 clear
-echo "========================================================================="
-echo "Ten mien trong/ Domain is empty!"
 /etc/vpssim/menu/centos9/option/them-website-menu
 exit
 fi

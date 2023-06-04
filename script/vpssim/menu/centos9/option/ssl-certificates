@@ -13,6 +13,11 @@ read website
 website=`echo $website | tr '[A-Z]' '[a-z]'`
 
 #
+if [ "$website" = "" ]; then
+/etc/vpssim/menu/centos9/option/account-manager-menu
+fi
+
+#
 re='^[0-9]+$'
 # nếu người dùng nhập vào là 1 số
 if [[ $website =~ $re ]] ; then
@@ -28,7 +33,7 @@ if [ ! -f /etc/nginx/conf.d/$website.conf ]; then
 clear
 echo "========================================================================="
 echo "Ten mien khong ton tai/ Domain not exist! "$website
-/etc/vpssim/menu/centos9/option/them-website-menu
+/etc/vpssim/menu/centos9/option/ssl-certificates
 exit
 fi
 
@@ -39,7 +44,7 @@ echo "========================================================================="
 echo "Thu muc $website khong ton tai tren he thong!"
 echo "-------------------------------------------------------------------------"
 echo "Ban hay nhap lai !"
-/etc/vpssim/menu/centos9/option/them-website-menu
+/etc/vpssim/menu/centos9/option/ssl-certificates
 exit
 fi
 
@@ -79,4 +84,4 @@ fi
 
 
 #
-/etc/vpssim/menu/centos9/option/them-website-menu
+/etc/vpssim/menu/centos9/option/account-manager-menu

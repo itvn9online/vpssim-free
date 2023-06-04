@@ -27,9 +27,7 @@ fi
 #
 if [ "$website" = "" ]; then
 clear
-echo "========================================================================="
-echo "Ten mien trong/ Domain is empty!"
-/etc/vpssim/menu/centos9/option/them-website-menu
+/etc/vpssim/menu/centos9/option/account-manager-menu
 exit
 fi
 
