@@ -1,7 +1,7 @@
 #!/bin/bash
 
 prompt="Vui long chon/ Please choose (0-Backspace):"
-options=( "Add Website & Code"  "List Website in Server")
+options=( "Website & Code"  "List Website in Server")
 
 printf "=========================================================================\n"
 printf "                            Account Manager\n"
