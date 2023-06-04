@@ -4,6 +4,9 @@
 #
 cd ~
 
+# kiểm tra và cài đặt FTP trước khi tạo website -> để còn tạo tài khoản FTP cho domain
+/etc/vpssim/menu/centos9/option/ftpserver-menu-before
+
 #
 echo "========================================================================="
 echo "Su dung chuc nang nay de them website vao server"
@@ -102,6 +105,10 @@ fi
 if [ "$1" = "woocommerce" ]; then
 echo "TEST code woocommerce"
 fi
+
+
+# thêm tài khoản FTP
+/etc/vpssim/menu/centos9/option/tao-ftp-user-cho-domain $website
 
 #
 /etc/vpssim/menu/centos9/option/them-website-menu

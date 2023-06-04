@@ -1,0 +1,16 @@
+#!/bin/bash
+
+if [ -f /etc/vsftpd/vsftpd.conf ]; then
+echo "remove vsftpd..."
+yum -y remove vsftpd
+fi
+
+if [ -f /etc/proftpd.conf ]; then
+echo "remove proftpd..."
+yum -y remove proftpd
+fi
+
+# install pure-ftpd nếu chưa có
+if [ ! -f /etc/pure-ftpd/pure-ftpd.conf ]; then
+/etc/vpssim/menu/ftp-server-install
+fi
