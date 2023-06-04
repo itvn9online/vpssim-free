@@ -76,7 +76,7 @@ mkdir -p /home/$website/errorpage_html && cp -r /etc/vpssim/errorpage_html/*.htm
 
 
 # nếu là thêm wordpress website -> mặc định là sẽ thêm database
-if [ "$1" = "wordpress" ] || [ "$1" = "woocommerce" ] || [ "$1" = "flatsome" ]; then
+if [ "$1" = "wordpress" ] || [ "$1" = "woocommerce" ]; then
 response="y"
 else
 # còn không sẽ hỏi người dùng có thêm website hay không
@@ -160,18 +160,13 @@ echo "Thong tin database da duoc luu vao: /home/DBinfo.txt"
 fi
 
 # download code wordpress
-if [ "$1" = "wordpress" ] || [ "$1" = "woocommerce" ] || [ "$1" = "flatsome" ]; then
+if [ "$1" = "wordpress" ] || [ "$1" = "woocommerce" ]; then
 echo "TEST code wordpress"
 fi
 
 # download code woocommerce
 if [ "$1" = "woocommerce" ]; then
 echo "TEST code woocommerce"
-fi
-
-# download code flatsome
-if [ "$1" = "flatsome" ]; then
-echo "TEST code flatsome"
 fi
 
 #

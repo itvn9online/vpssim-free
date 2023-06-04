@@ -9,12 +9,15 @@ bash /root/git-clone
 
 
 # BEGIN update ECHBAY-VPSSIM main
-#rm -rf /etc/motd
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then
 yes | cp -rf /opt/echbay_vpssim/script/vpssim/motd /etc/motd
 
 yes | cp -rf /opt/echbay_vpssim/script/vpssim/calc /bin/calc && chmod +x /bin/calc
 
 yes | cp -rf /opt/echbay_vpssim/script/vpssim/vpssim /bin/vpssim && chmod +x /bin/vpssim
+else
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/centos9/vpssim /bin/vpssim && chmod +x /bin/vpssim
+fi
 # BEGIN update ECHBAY-VPSSIM main
 
 
@@ -41,12 +44,12 @@ sleep 1
 
 # enable auto update system
 if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then
-if [ -f /etc/vpssim/menu/auto-update-system ]; then
-clear && bash /etc/vpssim/menu/auto-update-system
-fi
+    if [ -f /etc/vpssim/menu/auto-update-system ]; then
+        clear && bash /etc/vpssim/menu/auto-update-system
+    fi
 else
-echo "Auto update system in CentOS 7 only"
-/etc/vpssim/menu/vpssim-update-upgrade-service-menu
+    echo "Auto update system in CentOS 7 only"
+    /etc/vpssim/menu/vpssim-update-upgrade-service-menu
 fi
 
 #exit

@@ -3,7 +3,7 @@ if [ ! -f /etc/cron.d/vpssim.code.cron ]; then
 touch /etc/cron.d/vpssim.code.cron
 fi
 prompt="Vui long chonj/ Please choose (0 - Backspace):"
-options=( "Add Website" "Add Wordpress website" "Add Wordpress Woocommerce" "Add Wordpress Woocommerce Flatsome" "List Website in Server")
+options=( "Add Website" "Add Wordpress website" "Add Wordpress Woocommerce" "List Website in Server")
 printf "=========================================================================\n"
 printf "                VPSSIM - Quan Ly VPS/ Server by EchBay.com \n"
 printf "=========================================================================\n"
@@ -18,8 +18,7 @@ select opt in "${options[@]}" ; do
     1) /etc/vpssim/menu/centos9/option/them-website;;
     2) /etc/vpssim/menu/centos9/option/them-wordpress-website;;
     3) /etc/vpssim/menu/centos9/option/them-wordpress-woocommerce;;
-	4) /etc/vpssim/menu/centos9/option/them-wordpress-woocommerce-flatsome;;
-    5) /etc/vpssim/menu/centos9/option/list-website-tren-vps;;
+    4) /etc/vpssim/menu/centos9/option/list-website-tren-vps;;
     0) clear && vpssim;;
     *) echo "Vui long chon theo danh sach/ Please choose from the list"; continue;;
 

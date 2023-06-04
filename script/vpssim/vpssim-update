@@ -3,12 +3,9 @@
 
 cd ~
 
-if [ ! -d /etc/vpssim/.tmp ]; then
 mkdir -p /etc/vpssim/.tmp
-fi
 
 
-#checkketnoi=$(curl -o /dev/null --silent --head --write-out '%{http_code}' "https://vpssim.vn/script/vpssim/vpssim.newversion" )
 checkketnoi=$(curl -o /dev/null --silent --head --write-out '%{http_code}' "https://raw.githubusercontent.com/itvn9online/vpssim-free/master/version" )
 #echo $checkketnoi
 if [[ "$checkketnoi" == "000" ]]; then
@@ -43,17 +40,8 @@ cat /var/log/yum.log | grep Updated
 #
 rm -rf /etc/vpssim/.tmp/vpssim-update-*
 
-# update glibc
-### Check GLIBC 2.17 tren centos6 - Fix loi ECHBAY-VPSSIM tu phien ban 4.2.0.8 tro ve cai dat san tren server
-if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then
-wget --no-check-certificate -q https://raw.githubusercontent.com/itvn9online/vpssim-free/master/script/vpssim/vpssim-update-glibc -O /etc/vpssim/.tmp/vpssim-update-glibc
-chmod +x /etc/vpssim/.tmp/vpssim-update-glibc
-bash /etc/vpssim/.tmp/vpssim-update-glibc
-fi
-
 
 ## Bat dau thuc hien update ECHBAY-VPSSIM
-#wget -q https://vpssim.vn/script/vpssim/vpssim-update-run -O /etc/vpssim/.tmp/vpssim-update-run && chmod +x /etc/vpssim/.tmp/vpssim-update-run
 wget --no-check-certificate -q https://raw.githubusercontent.com/itvn9online/vpssim-free/master/script/vpssim/vpssim-update-run -O /etc/vpssim/.tmp/vpssim-update-run
 chmod +x /etc/vpssim/.tmp/vpssim-update-run
 bash /etc/vpssim/.tmp/vpssim-update-run

@@ -14,7 +14,6 @@ fi
 maximumsize=10
 rm -rf /etc/vpssim/vpssim.newversion
 cd /etc/vpssim
-#timeout 3 wget -q http://hostingaz.vn/script/vpssim/vpssim.newversion
 timeout 3 wget --no-check-certificate -q https://raw.githubusercontent.com/itvn9online/vpssim-free/master/version -O /etc/vpssim/vpssim.newversion
 
 cd
@@ -84,7 +83,6 @@ echo "Chuan bi update ECHBAY-VPSSIM..... "
 sleep 1
 
 rm -rf /etc/vpssim/vpssim-update
-#wget -q http://hostingaz.vn/script/vpssim/vpssim-update -O /etc/vpssim/vpssim-update && chmod +x /etc/vpssim/vpssim-update
 wget --no-check-certificate -q https://raw.githubusercontent.com/itvn9online/vpssim-free/master/script/vpssim/vpssim-update -O /etc/vpssim/vpssim-update
 chmod +x /etc/vpssim/vpssim-update
 bash /etc/vpssim/vpssim-update
