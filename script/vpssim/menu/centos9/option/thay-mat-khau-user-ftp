@@ -1,11 +1,12 @@
 #!/bin/bash
 . /home/vpssim.conf
 
+#
+/etc/vpssim/menu/centos9/option/list-website-tren-vps-before
+
 if [ "$1" = "" ]; then
 echo "========================================================================="
 echo "Su dung chuc nang nay de thay mat khau tai khoan FTP cua website"
-echo "-------------------------------------------------------------------------"
-/etc/vpssim/menu/centos9/option/list-website-tren-vps-before
 echo "-------------------------------------------------------------------------"
 echo -n "Nhap ten website [ENTER]: " 
 read website

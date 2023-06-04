@@ -1,11 +1,5 @@
 #!/bin/bash
 
 #
-echo "========================================================================="
-echo "Danh sach website tren server"
-echo "-------------------------------------------------------------------------"
 /etc/vpssim/menu/centos9/option/list-website-tren-vps-before
-echo "-------------------------------------------------------------------------"
-
-#
 /etc/vpssim/menu/centos9/option/them-website-menu
