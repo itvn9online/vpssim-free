@@ -6,9 +6,7 @@
 
 #
 echo "========================================================================="
-echo "Xoa ten mien phu"
-echo "-------------------------------------------------------------------------"
-echo "Remove domain pointer"
+echo "Xoa ten mien phu/ Remove domain pointer"
 echo "-------------------------------------------------------------------------"
 
 echo -n "Nhap ten mien phu/ Enter domain pointer [ENTER]: " 

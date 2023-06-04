@@ -6,9 +6,7 @@
 
 #
 echo "========================================================================="
-echo "Chon ten mien chinh:"
-echo "-------------------------------------------------------------------------"
-echo "Choose primary domain:"
+echo "Chon ten mien chinh/ Choose primary domain:"
 echo "-------------------------------------------------------------------------"
 
 echo -n "Nhap ten mien chinh/ Enter primary domain [ENTER]: " 

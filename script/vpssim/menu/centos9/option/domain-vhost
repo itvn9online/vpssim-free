@@ -6,9 +6,7 @@
 
 #
 echo "========================================================================="
-echo "Cap nhat file vHost cho website"
-echo "-------------------------------------------------------------------------"
-echo "Update vHost for website"
+echo "Cap nhat file vHost cho website/ Update vHost for website"
 echo "-------------------------------------------------------------------------"
 
 echo -n "Nhap ten mien/ Enter domain [ENTER]: " 

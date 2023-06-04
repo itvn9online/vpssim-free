@@ -11,7 +11,7 @@ fi
 
 #
 prompt="Lua chon cua ban (0-Backspace):"
-options=("Tao Tai Khoan FTP Cho Website" "Thay Mat Khau Tai Khoan FTP" "Xem Thong Tin FTP Cua Website" )
+options=("Create FTP account" "Change FTP password" "View FTP password" )
 printf "=========================================================================\n"
 printf "                VPSSIM - Quan Ly VPS/ Server by EchBay.com \n"
 printf "=========================================================================\n"

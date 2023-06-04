@@ -6,9 +6,7 @@
 
 #
 echo "========================================================================="
-echo "Nhap vao ten mien se su dung database nay"
-echo "-------------------------------------------------------------------------"
-echo "Enter domain for this database"
+echo "Nhap vao ten mien su dung database nay/ Enter domain for this database"
 echo "-------------------------------------------------------------------------"
 
 echo -n "Nhap ten website [ENTER]: " 
