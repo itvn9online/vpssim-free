@@ -39,8 +39,8 @@ select opt in "${options[@]}" ; do
     6) clear && /etc/vpssim/menu/opcache/vpssim-before-opcache;;
     7) clear && /etc/vpssim/menu/memcache/vpssim-before-memcache-menu;;
     8) clear && /etc/vpssim/menu/vpssim-redis-befor-menu;;
-    9) clear &&/etc/vpssim/menu/vpssim-ftpserver-menu;;
-    10 )clear && /etc/vpssim/menu/swap/vpssim-them-xoa-swap-vps-menu;;
+    9) clear && /etc/vpssim/menu/vpssim-ftpserver-menu;;
+    10) clear && /etc/vpssim/menu/swap/vpssim-them-xoa-swap-vps-menu;;
     11) clear && /etc/vpssim/menu/crontab/vpssim-cronjob-menu;;
     12) clear && /etc/vpssim/menu/vpssim-eroor-menu;;
     13) clear && /etc/vpssim/menu/vpssim-befor-vpssim-config-php.ini-menu;;

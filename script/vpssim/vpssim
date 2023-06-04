@@ -6,6 +6,9 @@ if [ $(id -u) != "0" ]; then
     exit
 fi
 
+#
+clear
+
 #  sử dụng menu theo OS version
 if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then
 /etc/vpssim/menu/centos7/main-menu
