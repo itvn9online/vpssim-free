@@ -14,7 +14,7 @@ else
     echo "========================================================================="
     echo "Su dung chuc nang nay de tao FTP user cho  website"
     echo "-------------------------------------------------------------------------"
-    echo -n "Nhap website ban muon them FTP user [ENTER]: " 
+    echo -n "Nhap website ban muon tao tai khoan FTP/ Enter FTP website [ENTER]: " 
     read website
     website=`echo $website | tr '[A-Z]' '[a-z]'`
 
@@ -26,6 +26,7 @@ else
         if [ -f "/tmp/domain_number$website.txt" ]; then
         # có thì lấy tên miền trong file
         website=`cat /tmp/domain_number$website.txt`
+        echo "Ten mien/ Domain: "$website
         fi
     fi
 fi

@@ -16,11 +16,12 @@ website=`echo $website | tr '[A-Z]' '[a-z]'`
 re='^[0-9]+$'
 # nếu người dùng nhập vào là 1 số
 if [[ $website =~ $re ]] ; then
-# xem số này có chứa thông tin tên miền tương ứng không
-if [ -f "/tmp/domain_number$website.txt" ]; then
-# có thì lấy tên miền trong file
-website=`cat /tmp/domain_number$website.txt`
-fi
+    # xem số này có chứa thông tin tên miền tương ứng không
+    if [ -f "/tmp/domain_number$website.txt" ]; then
+    # có thì lấy tên miền trong file
+    website=`cat /tmp/domain_number$website.txt`
+    echo "Ten mien/ Domain: "$website
+    fi
 fi
 else
 website=$1

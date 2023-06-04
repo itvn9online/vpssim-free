@@ -21,6 +21,7 @@ if [[ $website =~ $re ]] ; then
     if [ -f "/tmp/domain_number$website.txt" ]; then
     # có thì lấy tên miền trong file
     website=`cat /tmp/domain_number$website.txt`
+    echo "Ten mien/ Domain: "$website
     fi
 fi
 

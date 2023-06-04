@@ -21,6 +21,7 @@ if [[ $website =~ $re ]] ; then
     if [ -f "/tmp/domain_number$website.txt" ]; then
     # có thì lấy tên miền trong file
     website=`cat /tmp/domain_number$website.txt`
+    echo "Ten mien chinh/ Primary domain: "$website
     fi
 fi
 
@@ -53,6 +54,13 @@ fi
 echo -n "Nhap ten mien phu/ Enter pointer domain [ENTER]: " 
 read pointer
 pointer=`echo $pointer | tr '[A-Z]' '[a-z]'`
+
+#
+if [ "$pointer" = "" ]; then
+clear
+/etc/vpssim/menu/centos9/option/them-website-menu
+exit
+fi
 
 # kiểm tra xem có website này không
 if [ -f /etc/nginx/conf.d/$pointer.conf ]; then

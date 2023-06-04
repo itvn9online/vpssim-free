@@ -8,7 +8,7 @@
 echo "========================================================================="
 echo "Su dung chuc nang nay de tao SSL Certificates Let's Encrypt cho website"
 echo "-------------------------------------------------------------------------"
-echo -n "Nhap website ban muon tao SSL [ENTER]: " 
+echo -n "Nhap website ban muon tao SSL/ Enter domain for create SSL [ENTER]: " 
 read website
 website=`echo $website | tr '[A-Z]' '[a-z]'`
 
@@ -25,6 +25,7 @@ if [[ $website =~ $re ]] ; then
     if [ -f "/tmp/domain_number$website.txt" ]; then
     # có thì lấy tên miền trong file
     website=`cat /tmp/domain_number$website.txt`
+    echo "Ten mien/ Domain: "$website
     fi
 fi
 
