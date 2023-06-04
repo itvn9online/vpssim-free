@@ -1,4 +1,5 @@
 #!/bin/bash
+. /home/vpssim.conf
 
 #
 website=$1
