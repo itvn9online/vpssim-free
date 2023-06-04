@@ -19,6 +19,11 @@ do
 			else
 				echo $stt". "$website" (ERROR: vHost not found)"
 			fi
+			
+			# lưu domain vào để người dùng có bấm số chọn thì sẽ lấy được luôn domain để xử lý
+			echo "$website" > "/tmp/domain_number$stt.txt"
+
+			#
 			let "stt+=1"
 		fi
 	fi
