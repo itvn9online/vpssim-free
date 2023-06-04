@@ -6,12 +6,20 @@ echo "Danh sach website tren server"
 echo "-------------------------------------------------------------------------"
 
 #
+stt=0
+
+#
 for get_d in /home/*
 do
 	if [ -d $get_d ]; then
-		pl_dir=$(basename $get_d)
-		if [ ! "$pl_dir" = "vpssim.demo" ]; then
-			echo $pl_dir
+		website=$(basename $get_d)
+		if [ ! "$website" = "vpssim.demo" ]; then
+			if [ -f "/etc/nginx/conf.d/$website.conf" ]; then
+				echo $stt". "$website
+			else
+				echo $stt". "$website" (ERROR: vHost not found)"
+			fi
+			let "stt+=1"
 		fi
 	fi
 done
