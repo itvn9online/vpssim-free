@@ -19,7 +19,7 @@ if [ ! -f /etc/nginx/conf.d/$website.conf ]; then
 clear
 echo "========================================================================="
 echo "Ten mien khong ton tai/ Domain not exist! "$website
-/etc/vpssim/menu/centos9/option/them-website-menu
+/etc/vpssim/menu/centos9/option/add-database-before
 exit
 fi
 
