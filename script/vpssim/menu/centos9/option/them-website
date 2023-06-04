@@ -22,7 +22,7 @@ if [ "$website" = "" ]; then
 clear
 echo "========================================================================="
 echo "Vui long nhap ten mien/ Please enter your domain!"
-/etc/vpssim/menu/centos9/option/them-website-menu
+/etc/vpssim/menu/centos9/option/them-website
 exit
 fi
 
@@ -34,7 +34,7 @@ echo "========================================================================="
 echo "$website khong dung dinh dang duoc ho tro/ Domain format error!!"
 echo "-------------------------------------------------------------------------"
 echo "Vui long thu lai/ Please try again!"
-/etc/vpssim/menu/centos9/option/them-website-menu
+/etc/vpssim/menu/centos9/option/them-website
 exit
 fi
 
@@ -42,7 +42,7 @@ if [ -f /etc/nginx/conf.d/$website.conf ]; then
 clear
 echo "========================================================================="
 echo "Ten mien da ton tai/ Domain exist! "$website
-/etc/vpssim/menu/centos9/option/them-website-menu
+/etc/vpssim/menu/centos9/option/them-website
 exit
 fi
 
