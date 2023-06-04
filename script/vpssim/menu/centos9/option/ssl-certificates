@@ -45,13 +45,31 @@ fi
 
 
 # bắt đầu cài đặt ssl
-echo "Mac dinh, chi cai dat non-www "$website
-echo -n "Ban co muon cai dat cho www.$website khong? (y/N) " 
-read www
-if [ "$www" = "y" ] || [ "$www" = "Y" ]; then
+prompt="Nhap lua chon cua ban/ Please choose: "
+options=( $website" and www."$website $website" only" "www."$website" only" "Cancel" )
+
+echo "=========================================================================="
+echo "Chon de cai dat/ Choose for insall: "
+echo "=========================================================================="
+
+PS3="$prompt"
+select opt in "${options[@]}"; do 
+case "$REPLY" in
+1) xacnhanthongtin="full"; break;;
+2) xacnhanthongtin="nonwww"; break;;
+3) xacnhanthongtin="www"; break;;
+*) xacnhanthongtin="cancel"; break;;
+esac  
+done
+
+if [ "$xacnhanthongtin" = "nonwww" ]; then
+certbot --nginx -d $website
+elif [ "$xacnhanthongtin" = "www" ]; then
+certbot --nginx -d www.$website
+elif [ "$xacnhanthongtin" = "www" ]; then
 certbot --nginx -d $website -d www.$website
 else
-certbot --nginx -d $website
+echo "Ban chon huy bo/ Cancel by user"
 fi
 
 
