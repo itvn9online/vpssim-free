@@ -19,7 +19,7 @@ select opt in "${options[@]}" ; do
     1) /etc/vpssim/menu/centos9/option/them-website;;
     2) /etc/vpssim/menu/centos9/option/add-database-before;;
     3) /etc/vpssim/menu/centos9/option/them-wordpress-website;;
-    4) /etc/vpssim/menu/centos9/option/them-wordpress-woocommerce;;
+    4) /etc/vpssim/menu/centos9/option/them-wordpress-demo;;
     5) /etc/vpssim/menu/centos9/option/list-website-tren-vps;;
     0) clear && vpssim;;
     *) echo "Vui long chon theo danh sach/ Please choose from the list"; continue;;

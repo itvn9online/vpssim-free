@@ -85,7 +85,7 @@ mkdir -p /home/$website/errorpage_html && cp -r /etc/vpssim/errorpage_html/*.htm
 
 
 # nếu là thêm wordpress website -> mặc định là sẽ thêm database
-if [ "$1" = "wordpress" ] || [ "$1" = "woocommerce" ]; then
+if [ "$1" = "wordpress" ] || [ "$1" = "demo" ]; then
 response="y"
 else
 # còn không sẽ hỏi người dùng có thêm website hay không
@@ -96,17 +96,14 @@ fi
 
 #
 if [ "$response" = "y" ] || [ "$response" = "Y" ] ; then
-/etc/vpssim/menu/centos9/inc/add-database $website
+/etc/vpssim/menu/centos9/inc/add-database $website "create_tmp"
 fi
 
 # download code wordpress
-if [ "$1" = "wordpress" ] || [ "$1" = "woocommerce" ]; then
-echo "TEST code wordpress"
-fi
-
-# download code woocommerce
-if [ "$1" = "woocommerce" ]; then
-echo "TEST code woocommerce"
+if [ "$1" = "wordpress" ]; then
+/etc/vpssim/menu/centos9/inc/download-wordpress $website
+elif [ "$1" = "demo" ]; then
+/etc/vpssim/menu/centos9/inc/download-wordpress $website "install_demo"
 fi
 
 

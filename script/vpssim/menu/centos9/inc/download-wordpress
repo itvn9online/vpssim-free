@@ -1,0 +1,82 @@
+#!/bin/bash
+. /home/vpssim.conf
+
+#
+website=$1
+installdemo=$2
+
+cd ~
+
+if [ "$website" = "" ]; then
+clear
+echo "========================================================================="
+echo "Khong xac dinh duoc website can cai dat!"
+/etc/vpssim/menu/centos9/option/them-website-menu
+exit
+fi
+
+if [ ! -d /home/$website ]; then
+clear
+echo "========================================================================="
+echo "Khong xac dinh duoc thu muc can cai dat!"
+/etc/vpssim/menu/centos9/option/them-website-menu
+exit
+fi
+
+# cài đặt wp-cli để cài đặt wordpress cho nó nhanh
+if [ ! -f /usr/local/bin/wp ]; then
+echo "========================================================================="
+echo "Installing  WP-CLI" ;
+wget -q --no-check-certificate https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+chmod +x wp-cli.phar
+mv wp-cli.phar /usr/local/bin/wp
+fi
+
+#
+cd /home/$website/public_html
+
+#
+if [ -f /tmp/lastdb.txt ]; then
+username=`cat /tmp/lastdb.txt`
+rm -f /tmp/lastdb.txt
+else
+username=""
+fi
+
+#
+if [ -f /tmp/lastpass.txt ]; then
+password=`cat /tmp/lastpass.txt`
+rm -f /tmp/lastpass.txt
+else
+password=""
+fi
+
+# sử dụng wp-cli để tải wordpress
+wp core download
+if [ ! "$username" = "" ] && [ ! "$password" = "" ]; then
+    # tạo file config luôn và ngay
+    wp core config --dbname=$username --dbuser=$username --dbpass=$password
+
+    if [ ! "$installdemo" = "" ]; then
+    admin_user="admindemo"
+    wp core install --url='http://'$website --title='Blog demo by ECHBAY-VPSSIM' --admin_user=$admin_user --admin_password=$password --admin_email='admin@'$website
+
+    #
+echo "=========================================================================="
+echo ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ."
+echo ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ."
+echo ". . . . . . . . . . . . Wordpress demo install. . . . . . . . . . . . . ."
+echo "Admin login URL: http://"$website"/wp-admin"
+echo "Admin account: "$admin_user
+echo "Admin passwordd: "$password
+echo "Please save this info and visit to website and login."
+echo ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ."
+echo ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ."
+echo "=========================================================================="
+    fi
+else
+yes | cp -rf wp-config-sample.php wp-config.php
+fi
+
+#
+cd ~
