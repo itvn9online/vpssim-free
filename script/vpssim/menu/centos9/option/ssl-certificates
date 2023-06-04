@@ -46,7 +46,7 @@ fi
 
 # bắt đầu cài đặt ssl
 prompt="Nhap lua chon cua ban/ Please choose: "
-options=( $website" and www."$website $website" only" "www."$website" only" "Cancel" )
+options=( "Full version" "non-www" "www only" "Cancel" )
 
 echo "=========================================================================="
 echo "Chon de cai dat/ Choose for insall: "
