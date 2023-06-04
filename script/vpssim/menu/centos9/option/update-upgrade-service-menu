@@ -1,7 +1,7 @@
 #!/bin/bash
 
 prompt="Vui long chon/ Please choose (0-Thoat):" 
-options=( "Update ECHBAY-VPSSIM" )
+options=( "Update ECHBAY-VPSSIM" "Update system" )
 printf "=========================================================================\n"
 printf "                VPSSIM - Quan Ly VPS/Server by WebGiaRe.org \n"
 printf "=========================================================================\n"
@@ -15,12 +15,10 @@ select opt in "${options[@]}" ; do
     case "$REPLY" in
 
 	1) clear && /etc/vpssim/menu/nang-cap-scripts;;
+    2) clear && /etc/vpssim/menu/centos9/option/update-system;;
 	0) clear && vpssim;;
 	*) echo "Ban nhap sai, vui long nhap theo so thu tu tren menu !";continue;;
 
     esac
 
 done
-
-
-

@@ -97,6 +97,10 @@ echo "Ban da huy bo update ECHBAY-VPSSIM"
 fi
 
 #
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then
 clear && /etc/vpssim/menu/vpssim-update-upgrade-service-menu
+else
+clear && /etc/vpssim/menu/centos9/option/update-upgrade-service-menu
+fi
 
 exit
