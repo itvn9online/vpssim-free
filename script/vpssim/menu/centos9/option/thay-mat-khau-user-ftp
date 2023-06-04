@@ -1,16 +1,6 @@
 #!/bin/bash
 . /home/vpssim.conf
 
-if [ ! -f /etc/pure-ftpd/pure-ftpd.conf ]; then
-clear
-echo "========================================================================= "
-echo "FTP Server chua duoc cai dat "
-echo "-------------------------------------------------------------------------"
-echo "Ban phai cai dat chuc nang Setup FTP Server truoc"
-/etc/vpssim/menu/vpssim-ftpserver-menu
-exit
-fi
-
 if [ "$1" = "" ]; then
 echo "========================================================================="
 echo "Su dung chuc nang nay de thay mat khau tai khoan FTP cua website"
@@ -21,41 +11,14 @@ else
 website=$1
 fi
 
-if [ "$website" = "" ]; then
-clear
-echo "========================================================================="
-echo "Ban nhap sai, vui long nhap lai!"
-/etc/vpssim/menu/vpssim-ftpserver-menu
-exit
-fi
-
-kiemtradomain3="^([[:alnum:]]([[:alnum:]\-]{0,61}[[:alnum:]])?\.)+[[:alpha:]]{2,14}$";
-if [[ ! "$website" =~ $kiemtradomain3 ]]; then
-website=`echo $website | tr '[A-Z]' '[a-z]'`
-clear
-echo "========================================================================="
-echo "$website co le khong phai la domain !!"
-echo "-------------------------------------------------------------------------"
-echo "Ban vui long nhap lai  !"
-/etc/vpssim/menu/vpssim-ftpserver-menu
-exit
-fi
-
-if [ ! -f /etc/nginx/conf.d/$website.conf ]; then
-clear
-echo "========================================================================="
-echo "Website $website khong ton tai tren he thong!"
-echo "-------------------------------------------------------------------------"
-echo "Ban hay nhap lai !"
-/etc/vpssim/menu/vpssim-ftpserver-menu
-exit
-fi
+#
+/etc/vpssim/menu/centos9/option/ftpserver-menu-validate $website
 
 if [ "$(pure-pw list | grep "/home/$website/")" == "" ]; then
 clear
 echo "========================================================================="
 echo "Website $website chua tao tai khoan FTP!"
-/etc/vpssim/menu/vpssim-ftpserver-menu
+/etc/vpssim/menu/centos9/option/ftpserver-menu
 fi
 
 echo "========================================================================="
@@ -96,4 +59,4 @@ echo "-------------------------------------------------------------------------"
 echo "User: $username | Password: $mkmoi"
 
 #
-/etc/vpssim/menu/vpssim-ftpserver-menu
+/etc/vpssim/menu/centos9/option/ftpserver-menu

@@ -1,0 +1,33 @@
+#!/bin/bash
+
+website=$1
+
+if [ "$website" = "" ]; then
+clear
+echo "========================================================================="
+echo "Ban nhap sai, vui long nhap lai!"
+/etc/vpssim/menu/centos9/option/ftpserver-menu
+exit
+fi
+
+if [ ! -f /etc/nginx/conf.d/$website.conf ]; then
+clear
+echo "========================================================================="
+echo "Website $website khong ton tai tren he thong!"
+echo "-------------------------------------------------------------------------"
+echo "Ban hay nhap lai !"
+/etc/vpssim/menu/centos9/option/ftpserver-menu
+exit
+fi
+
+kiemtradomain3="^([[:alnum:]]([[:alnum:]\-]{0,61}[[:alnum:]])?\.)+[[:alpha:]]{2,14}$";
+if [[ ! "$website" =~ $kiemtradomain3 ]]; then
+website=`echo $website | tr '[A-Z]' '[a-z]'`
+clear
+echo "========================================================================="
+echo "$website co le khong phai la domain !!"
+echo "-------------------------------------------------------------------------"
+echo "Ban vui long nhap lai  !"
+/etc/vpssim/menu/centos9/option/ftpserver-menu
+exit
+fi
