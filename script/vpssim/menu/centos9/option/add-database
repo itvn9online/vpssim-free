@@ -27,8 +27,8 @@ echo "-------------------------------------------------------------------------"
 echo "Please wait....";sleep 1 
 echo "$website" > /tmp/databasename.txt
 #echo $website | sed "s/\./_/" | sed "s/\-/_/" | cut -c1-14  > /tmp/databasename.txt  
-sed -i 's/\./_/g' /tmp/databasename.txt
-sed -i 's/\-/_/g' /tmp/databasename.txt
+sed -i 's/\.//g' /tmp/databasename.txt
+sed -i 's/\-//g' /tmp/databasename.txt
 random=`date |md5sum |cut -c '1-4'`
 dataname=`cat /tmp/databasename.txt | cut -c1-11`_$random
 #username=`cat /tmp/databasename.txt | sed "s/\_//" | sed "s/\_//" | sed "s/\_//" | sed "s/\_//" | cut -c1-10`$random
