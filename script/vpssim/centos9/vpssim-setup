@@ -219,7 +219,7 @@ sed -i '/auth_basic/d' /etc/nginx/conf.d/vpssim.demo.conf
 END
 chmod +x /tmp/vpssimSetConfigFile
 sh /tmp/vpssimSetConfigFile
-rm -f /tmp/vpssimSetConfigFile
+rm -rf /tmp/vpssimSetConfigFile
 
 
 # ghi đè file nginx.conf mặc định

@@ -60,18 +60,7 @@ chown -R nginx:nginx "/home/$website/public_html/"
 find "/home/$website/public_html/" -type d -exec chmod g+s {} \;
 
 #
-yes | cp /etc/vpssim/menu/centos9/tmp/domain_vhost.conf "/etc/nginx/conf.d/$website.conf"
-# thay domain trong file vhost
-cat > "/tmp/vpssimSetConfigFile" <<END
-#!/bin/bash 
-sed -i 's/\%website\%/$website/g' "/etc/nginx/conf.d/$website.conf"
-END
-chmod +x /tmp/vpssimSetConfigFile
-sh /tmp/vpssimSetConfigFile
-rm -f /tmp/vpssimSetConfigFile
-
-#
-systemctl reload nginx
+/etc/vpssim/menu/centos9/inc/add-vhost-after $website
 
 #
 if [ ! -d /etc/vpssim/errorpage_html ]; then

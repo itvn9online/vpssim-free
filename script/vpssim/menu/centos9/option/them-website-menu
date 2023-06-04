@@ -1,7 +1,7 @@
 #!/bin/bash
 
 prompt="Vui long chon/ Please choose (0-Backspace):"
-options=( "Add Website" "Add Wordpress website" "Add Wordpress demo" "SSL Certificates" "FTP Management" "Add Database" "Domain Pointers" )
+options=( "Add Website" "Add Wordpress website" "Add Wordpress demo" "SSL Certificates" "FTP Management" "Add Database" "Domain Pointers" "Remove Pointers" "Domain vHost" )
 
 printf "=========================================================================\n"
 printf "                            Website & Code\n"
@@ -19,6 +19,8 @@ select opt in "${options[@]}"; do
     5) clear && /etc/vpssim/menu/centos9/option/ftpserver-menu;;
     6) clear && /etc/vpssim/menu/centos9/option/add-database-before;;
     7) clear && /etc/vpssim/menu/centos9/option/domain-pointers;;
+    8) clear && /etc/vpssim/menu/centos9/option/remove-pointers;;
+    9) clear && /etc/vpssim/menu/centos9/option/domain-vhost;;
     0) clear && vpssim;;
     *) echo "Vui long chon theo danh sach/ Please choose from the list"; continue;;
 

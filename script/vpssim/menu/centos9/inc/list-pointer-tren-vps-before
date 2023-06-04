@@ -1,0 +1,34 @@
+#!/bin/bash
+
+#
+echo "========================================================================="
+echo "Danh sach domian pointer tren server"
+echo "-------------------------------------------------------------------------"
+
+#
+stt=0
+
+#
+for get_f in /etc/nginx/conf.d/*.conf
+do
+	if [ -f $get_f ]; then
+		website=$(basename $get_f .conf)
+		#echo $website
+		#website=$(echo "$website" | cut -f 1 -d '.conf')
+		if [ ! "$website" = "vpssim.demo" ] && [ ! "$website" = "php-fpm" ]; then
+			# tên miền phụ sẽ không có thư mục code
+			if [ ! -d "/home/$website" ]; then
+				echo $stt". "$website
+				
+				# lưu domain vào để người dùng có bấm số chọn thì sẽ lấy được luôn domain để xử lý
+				echo "$website" > "/tmp/domain_number$stt.txt"
+
+				#
+				let "stt+=1"
+			fi
+		fi
+	fi
+done
+
+#
+echo "-------------------------------------------------------------------------"

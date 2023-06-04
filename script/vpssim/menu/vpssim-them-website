@@ -56,7 +56,7 @@ sed -i 's/\%website\%/$website/g' "/etc/nginx/conf.d/$website.conf"
 END
 chmod +x /tmp/vpssimSetConfigFile
 sh /tmp/vpssimSetConfigFile
-rm -f /tmp/vpssimSetConfigFile
+rm -rf /tmp/vpssimSetConfigFile
 
 
 if [ ! -d /etc/vpssim/errorpage_html ]; then

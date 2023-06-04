@@ -455,7 +455,7 @@ sed -i 's/tmp_listen_svport/listen $svport/g' /etc/nginx/conf.d/vpssim.demo.conf
 END
 chmod +x /tmp/vpssimSetConfigFile
 sh /tmp/vpssimSetConfigFile
-rm -f /tmp/vpssimSetConfigFile
+rm -rf /tmp/vpssimSetConfigFile
 # cleanup
 vpssim_setup_cleanup_config_file "/etc/nginx/conf.d/vpssim.demo.conf"
 
@@ -519,7 +519,7 @@ sed -i 's/tmp_pmmaxrequests/$pmmaxrequests/g' /etc/php-fpm.d/www.conf
 END
 chmod +x /tmp/vpssimSetConfigFile
 sh /tmp/vpssimSetConfigFile
-rm -f /tmp/vpssimSetConfigFile
+rm -rf /tmp/vpssimSetConfigFile
 # cleanup
 vpssim_setup_cleanup_config_file "/etc/php-fpm.d/www.conf"
 
@@ -533,7 +533,7 @@ sed -i 's/tmp_memory_limit/$memory_limit/g' /etc/php.ini
 END
 chmod +x /tmp/vpssimSetConfigFile
 sh /tmp/vpssimSetConfigFile
-rm -f /tmp/vpssimSetConfigFile
+rm -rf /tmp/vpssimSetConfigFile
 # cleanup
 vpssim_setup_cleanup_config_file "/etc/php.ini"
 
@@ -773,7 +773,7 @@ sed -i 's/innodb_support_xa=/\#innodb_support_xa=/g' /etc/my.cnf.d/server.cnf
 END
 chmod +x /tmp/vpssimSetConfigFile
 sh /tmp/vpssimSetConfigFile
-rm -f /tmp/vpssimSetConfigFile
+rm -rf /tmp/vpssimSetConfigFile
 
 #
 cat >> "/etc/my.cnf.d/server.cnf" <<END

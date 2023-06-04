@@ -46,7 +46,7 @@ sed -i 's/tmp_listen_svport/listen $svport/g' /etc/nginx/conf.d/vpssim.demo.conf
 END
 chmod +x /tmp/vpssimSetConfigFile
 sh /tmp/vpssimSetConfigFile
-rm -f /tmp/vpssimSetConfigFile
+rm -rf /tmp/vpssimSetConfigFile
 service nginx restart
 else
 echo "Huy bo thao tac: go bo Varnish Cache..."

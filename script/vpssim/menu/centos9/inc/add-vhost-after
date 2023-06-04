@@ -1,0 +1,54 @@
+#!/bin/bash
+. /home/vpssim.conf
+
+#
+website=$1
+primarydomain=$2
+
+#
+if [ ! "$website" = "" ]; then
+
+cat > "/tmp/vpssimSetConfigFile" <<END
+#!/bin/bash 
+END
+
+    # có ssl thì sử dụng vhost ssl
+    if [ -d /etc/letsencrypt/live/$website ]; then
+    yes | cp /etc/vpssim/menu/centos9/tmp/domain_ssl_vhost.conf "/etc/nginx/conf.d/$website.conf"
+
+    # không có file pem thì xóa đoạn ssl.conf đi
+    if [ ! -f /etc/letsencrypt/ssl-dhparams.pem ]; then
+cat >> "/tmp/vpssimSetConfigFile" <<END
+sed -i '/ssl\.conf/d' /etc/nginx/conf.d/$website.conf
+END
+    fi
+
+    else
+    yes | cp /etc/vpssim/menu/centos9/tmp/domain_vhost.conf "/etc/nginx/conf.d/$website.conf"
+    fi
+
+    # thay domain trong file vhost
+if [ ! "$primarydomain" = "" ]; then
+
+# pointer tới cùng thư mục với tên miền chính
+cat >> "/tmp/vpssimSetConfigFile" <<END
+sed -i 's/home\/\%website\%/home\/$primarydomain/g' /etc/nginx/conf.d/$website.conf
+END
+
+fi
+
+#
+cat >> "/tmp/vpssimSetConfigFile" <<END
+sed -i 's/\%website\%/$website/g' /etc/nginx/conf.d/$website.conf
+END
+
+#
+chmod +x /tmp/vpssimSetConfigFile
+sh /tmp/vpssimSetConfigFile
+rm -rf /tmp/vpssimSetConfigFile
+
+#
+systemctl reload nginx
+
+fi
+

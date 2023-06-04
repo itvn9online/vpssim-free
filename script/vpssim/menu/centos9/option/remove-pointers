@@ -1,0 +1,63 @@
+#!/bin/bash
+
+
+#
+/etc/vpssim/menu/centos9/inc/list-pointer-tren-vps-before
+
+#
+echo "========================================================================="
+echo "Xoa ten mien phu"
+echo "-------------------------------------------------------------------------"
+echo "Remove domain pointer"
+echo "-------------------------------------------------------------------------"
+
+echo -n "Nhap ten mien phu/ Enter domain pointer [ENTER]: " 
+read website
+website=`echo $website | tr '[A-Z]' '[a-z]'`
+
+#
+re='^[0-9]+$'
+# nếu người dùng nhập vào là 1 số
+if [[ $website =~ $re ]] ; then
+    # xem số này có chứa thông tin tên miền tương ứng không
+    if [ -f "/tmp/domain_number$website.txt" ]; then
+    # có thì lấy tên miền trong file
+    website=`cat /tmp/domain_number$website.txt`
+    fi
+fi
+
+#
+if [ "$website" = "" ]; then
+clear
+echo "========================================================================="
+echo "Ten mien trong/ Domain is empty!"
+/etc/vpssim/menu/centos9/option/them-website-menu
+exit
+fi
+
+# kiểm tra xem có website này không
+if [ ! -f /etc/nginx/conf.d/$website.conf ]; then
+clear
+echo "========================================================================="
+echo "Ten mien khong ton tai/ Domain not exist (vHost)! "$website
+/etc/vpssim/menu/centos9/option/remove-pointers
+exit
+fi
+
+# kiểm tra xem có phải tên miền chính hay không
+if [ -d /home/$website ]; then
+clear
+echo "========================================================================="
+echo "Day la ten mien chinh/ This is primary domain (folder)! "$website
+/etc/vpssim/menu/centos9/option/remove-pointers
+exit
+fi
+
+#
+rm -rf /etc/nginx/conf.d/$website.conf
+
+#
+systemctl reload nginx
+
+#
+/etc/vpssim/menu/centos9/option/them-website-menu
