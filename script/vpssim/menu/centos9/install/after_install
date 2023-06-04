@@ -19,7 +19,8 @@ echo "sh /root/.info.sh" >> /root/.bash_profile
 
 #
 rm -rf /bin/vpssim
-yes | cp -rf /opt/echbay_vpssim/script/vpssim/centos9/vpssim /bin/vpssim && chmod +x /bin/vpssim
+#yes | cp -rf /opt/echbay_vpssim/script/vpssim/centos9/vpssim /bin/vpssim && chmod +x /bin/vpssim
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/vpssim /bin/vpssim && chmod +x /bin/vpssim
 
 
 

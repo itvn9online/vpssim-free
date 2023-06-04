@@ -8,10 +8,5 @@ echo "" >> /home/DBinfo.txt
 echo "" >> /home/DBinfo.txt
 fi
 
-# centos 8, 9
-if [ ! "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
-/etc/vpssim/menu/centos9/option/them-website-menu
-else
 # centos 6, 7
 /etc/vpssim/menu/vpssim-them-website-menu
-fi
