@@ -18,7 +18,7 @@ rm -rf /tmp/showthongbao
 
 #find /etc/vpssim/menu -type f -exec chmod 755 {} \;
 prompt="Nhap lua chon cua ban (0-Thoat):"
-options=("Website & Code" "Xoa website" "Backup & Restore Code" "Quan Ly Database" "Quan Ly phpMyAdmin" "Quan Ly Zend OPcache" "Quan Ly Memcached" "Quan Ly Redis Cache" "Quan Ly FTP Server" "Quan Ly Swap" "Quan Ly Cronjob"  "Quan Ly File Log" "Config Cau Hinh PHP" "Wordpress Blog Tools" "Quan Ly CSF Firewall" "Quan Ly IPtables Firewall" "Quan Ly BitTorrent Sync" "Quan Ly VPS Backup" "Linux Malware Detect" "Cai Dat File Manager" "Cai Dat Net2FTP" "Cai Dat NetData" "Cai Dat SSL (Let's Enctypt)" "Check & Block IP DOS" "Tien ich - Addons" "Update System" "Clear All Caches" "User & Password Mac Dinh" "Server Status")
+options=("Website & Code" "FTP Server" "Xoa website" "Backup & Restore Code" "Quan Ly Database" "Quan Ly phpMyAdmin" "Quan Ly Zend OPcache" "Quan Ly Memcached" "Quan Ly Redis Cache" "Quan Ly Swap" "Quan Ly Cronjob"  "Quan Ly File Log" "Config Cau Hinh PHP" "Wordpress Blog Tools" "Quan Ly CSF Firewall" "Quan Ly IPtables Firewall" "Quan Ly BitTorrent Sync" "Quan Ly VPS Backup" "Linux Malware Detect" "Cai Dat File Manager" "Cai Dat Net2FTP" "Cai Dat NetData" "Cai Dat SSL (Let's Enctypt)" "Check & Block IP DOS" "Tien ich - Addons" "Clear All Caches" "User & Password Mac Dinh" "Update System" "Server Status")
 
 echo "========================================================================="
 echo "      ECHBAY-VPSSIM - Quan Ly VPS/Server by WebGiaRe.org ($(cat /etc/vpssim/vpssim.version))                "
@@ -36,14 +36,14 @@ select opt in "${options[@]}" ; do
     case "$REPLY" in
 
 	1) clear && /etc/vpssim/menu/centos9/option/them-website-menu;;
-    2) clear && /etc/vpssim/menu/centos9/option/vpssim-befor-xoa-website;;
-    3) clear && /etc/vpssim/menu/centos9/option/vpssim-sao-luu;;
-    4) clear && /etc/vpssim/menu/centos9/option/vpssim-befor-them-xoa-database;;
-    5) clear && /etc/vpssim/menu/centos9/option/vpssim-phpmyadmin-menu;;
-    6) clear && /etc/vpssim/menu/centos9/option/opcache/vpssim-before-opcache;;
-    7) clear && /etc/vpssim/menu/centos9/option/memcache/vpssim-before-memcache-menu;;
-    8) clear && /etc/vpssim/menu/centos9/option/vpssim-redis-befor-menu;;
-    9) clear && /etc/vpssim/menu/centos9/option/ftpserver-menu;;
+    2) clear && /etc/vpssim/menu/centos9/option/ftpserver-menu;;
+    3) clear && /etc/vpssim/menu/centos9/option/vpssim-befor-xoa-website;;
+    4) clear && /etc/vpssim/menu/centos9/option/vpssim-sao-luu;;
+    5) clear && /etc/vpssim/menu/centos9/option/vpssim-befor-them-xoa-database;;
+    6) clear && /etc/vpssim/menu/centos9/option/vpssim-phpmyadmin-menu;;
+    7) clear && /etc/vpssim/menu/centos9/option/opcache/vpssim-before-opcache;;
+    8) clear && /etc/vpssim/menu/centos9/option/memcache/vpssim-before-memcache-menu;;
+    9) clear && /etc/vpssim/menu/centos9/option/vpssim-redis-befor-menu;;
     10) clear && /etc/vpssim/menu/centos9/option/swap/vpssim-them-xoa-swap-vps-menu;;
     11) clear && /etc/vpssim/menu/centos9/option/crontab/vpssim-cronjob-menu;;
     12) clear && /etc/vpssim/menu/centos9/option/vpssim-eroor-menu;;
@@ -60,9 +60,9 @@ select opt in "${options[@]}" ; do
     23) clear && /etc/vpssim/menu/centos9/option/vpssim-letsencrypt-menu;;
     24) clear && /etc/vpssim/menu/centos9/option/vpssim-kiem-tra-ddos;;
     25) clear && /etc/vpssim/menu/centos9/option/vpssim-tien-ich;;
-    26) clear && /etc/vpssim/menu/vpssim-update-upgrade-service-menu;;
-    27) /etc/vpssim/menu/centos9/option/vpssim-clear-cache-xoa-cache-server;;
-    28) /etc/vpssim/menu/centos9/option/dat-mat-khau-bao-ve-folder-mac-dinh;;
+    26) /etc/vpssim/menu/centos9/option/vpssim-clear-cache-xoa-cache-server;;
+    27) /etc/vpssim/menu/centos9/option/dat-mat-khau-bao-ve-folder-mac-dinh;;
+    28) clear && /etc/vpssim/menu/vpssim-update-upgrade-service-menu;;
     29) clear && /etc/vpssim/menu/centos9/option/vpssim-vps-info;;
 	0) clear && cat /etc/motd && killall -g vpssim;; 
     *) echo "Ban nhap sai, vui long nhap theo so thu tu tren menu !";continue;;

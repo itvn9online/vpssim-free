@@ -34,7 +34,6 @@ echo "-------------------------------------------------------------------------"
 echo "Bay gio VPSSIM se thay mat khau moi cho: $(grep "/home/$website/" /etc/vpssim/FTP-Account.info | awk 'NR==1 {print $7}')"
 echo "========================================================================="
 echo "Please wait ....."
-sleep 7
 
 # xác định ftp account trong file lưu trữ
 username=$(grep "/home/$website/" /etc/vpssim/FTP-Account.info | awk 'NR==1 {print $7}')
