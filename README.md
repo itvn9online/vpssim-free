@@ -5,7 +5,9 @@
 ECHBAY-VPSSIM là bản chỉnh sửa lại từ VPSSIM-3.8.1, đây là phiên bản cuối cùng của VPSSIM mà mình clone lại được trước khi VPSSIM tiến hành mã hóa và thương mại hóa.
 Cơ bản thì trong phiên bản ECHBAY-VPSSIM mình chủ yếu cập nhật lại một số phiên bản phần mềm trong cài đặt mặc định lên bản mới và ổn định nhất cho phù hợp với thời điểm 2020 và hỗ trợ các hệ điều hành mới hơn như CentOS 7 & 8 thay vì tập trung vào CentOS 6 như phiên bản gốc.
 
-### Lệnh Cài Đặt ECHBAY-VPSSIM Trên Centos 7 & 8 & 9 (Without SELinux):
+### Hỗ trợ OS `Centos 7` `Centos 8` `Centos 9` `AlmaLinux 8` `AlmaLinux 9` (Without SELinux):
+
+### Lệnh Cài Đặt ECHBAY-VPSSIM:
 
 ```
 bash <( curl -k https://raw.githubusercontent.com/itvn9online/vpssim-free/master/install )
@@ -33,9 +35,11 @@ bash <( curl -k https://raw.githubusercontent.com/itvn9online/vpssim-free/master
 
 ### Phiên bản hệ điều hành khuyên dùng:
 
-- [ ] `CentOS 9 x64` MỚI và đang thử nghiệm. Tương lai gần ECHBAY-VPSSIM cũng sẽ phát triển song song cả trên CentOS 9 x64, hiện tại mới đang thử nghiệm.
-- [ ] `CentOS 8 x64` MỚI và đang thử nghiệm. Tương lai gần ECHBAY-VPSSIM cũng sẽ phát triển song song cả trên CentOS 8 x64, hiện tại mới đang thử nghiệm.
-- [x] **`CentOS 7 x64` Khuyên dùng để cho hiệu suất tốt nhất. Mã nguồn ECHBAY-VPSSIM hiện tại đang phát triển chính trên CentOS 7 x64.**
+- [ ] `AlmaLinux 9 x64` Mã nguồn ECHBAY-VPSSIM hiện tại đang hỗ trợ cả `AlmaLinux 9 x64`.
+- [ ] `AlmaLinux 8 x64` Mã nguồn ECHBAY-VPSSIM hiện tại đang hỗ trợ cả `AlmaLinux 8 x64`.
+- [ ] **`CentOS 9 x64` Khuyên dùng để cho hiệu suất tốt nhất. Mã nguồn ECHBAY-VPSSIM hiện tại đang phát triển chính trên `CentOS 9 x64`.**
+- [ ] `CentOS 8 x64` Mã nguồn ECHBAY-VPSSIM hiện tại đang hỗ trợ cả `CentOS 8 x64`.
+- [x] `CentOS 7 x64` Tháng 06/2023 cơ bản sẽ dừng phát triển trên `CentOS 7`, tập trung cho các OS mới hơn.
 - [ ] ~~`CentOS 6 x64`~~ VPSSIM được phát triển trên phiên bản CentOS 6 x64, do ECHBAY-VPSSIM kế thừa mã nguồn của VPSSIM nên ECHBAY-VPSSIM cũng hoạt động tốt trên CentOS 6 x64, nên nếu có yêu cầu bắt buộc phải dùng CentOS 6 thì bạn có thể hoàn toàn yên tâm sử dụng, chỉ là về lâu dài thì các phiên bản cũ sẽ trờ nên lỗi thời, nên ECHBAY-VPSSIM chỉ phát triển từ CentOS 7 & 8.
 
 ---

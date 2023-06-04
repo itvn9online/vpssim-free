@@ -325,7 +325,7 @@ cat > "/home/VPSSIM-manage-info.txt" <<END
 
 Calling ECHBAY-VPSSIM: vpssim
 
-phpMyAdmin: http://$svip:$svport
+phpMyAdmin: http://$svip:$svport/phpmyadmin
 MySQL root password: $passrootmysql
 
 Zend Opcache: http://$svip:$svport/ocp.php
