@@ -1,0 +1,59 @@
+#!/bin/bash
+. /home/vpssim.conf
+
+#
+/etc/vpssim/menu/centos9/inc/list-website-tren-vps-before
+
+#
+echo "========================================================================="
+echo "Su dung chuc nang nay de tao SSL Certificates Let's Encrypt cho website"
+echo "-------------------------------------------------------------------------"
+echo -n "Nhap website ban muon tao SSL [ENTER]: " 
+read website
+website=`echo $website | tr '[A-Z]' '[a-z]'`
+
+#
+re='^[0-9]+$'
+# nếu người dùng nhập vào là 1 số
+if [[ $website =~ $re ]] ; then
+    # xem số này có chứa thông tin tên miền tương ứng không
+    if [ -f "/tmp/domain_number$website.txt" ]; then
+    # có thì lấy tên miền trong file
+    website=`cat /tmp/domain_number$website.txt`
+    fi
+fi
+
+#
+if [ ! -f /etc/nginx/conf.d/$website.conf ]; then
+clear
+echo "========================================================================="
+echo "Ten mien khong ton tai/ Domain not exist! "$website
+/etc/vpssim/menu/centos9/option/them-website-menu
+exit
+fi
+
+#
+if [ ! -d /home/$website ]; then
+clear
+echo "========================================================================="
+echo "Thu muc $website khong ton tai tren he thong!"
+echo "-------------------------------------------------------------------------"
+echo "Ban hay nhap lai !"
+/etc/vpssim/menu/centos9/option/them-website-menu
+exit
+fi
+
+
+# bắt đầu cài đặt ssl
+echo "Mac dinh, chi cai dat non-www "$website
+echo -n "Ban co muon cai dat cho www.$website khong? (y/N) " 
+read www
+if [ "$www" = "y" ] || [ "$www" = "Y" ]; then
+certbot --nginx -d $website -d www.$website
+else
+certbot --nginx -d $website
+fi
+
+
+#
+/etc/vpssim/menu/centos9/option/them-website-menu

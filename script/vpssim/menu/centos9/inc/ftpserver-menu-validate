@@ -14,7 +14,17 @@ fi
 if [ ! -f /etc/nginx/conf.d/$website.conf ]; then
 clear
 echo "========================================================================="
-echo "Website $website khong ton tai tren he thong!"
+echo "vHost $website khong ton tai tren he thong!"
+echo "-------------------------------------------------------------------------"
+echo "Ban hay nhap lai !"
+/etc/vpssim/menu/centos9/option/ftpserver-menu
+exit
+fi
+
+if [ ! -d /home/$website ]; then
+clear
+echo "========================================================================="
+echo "Thu muc $website khong ton tai tren he thong!"
 echo "-------------------------------------------------------------------------"
 echo "Ban hay nhap lai !"
 /etc/vpssim/menu/centos9/option/ftpserver-menu
