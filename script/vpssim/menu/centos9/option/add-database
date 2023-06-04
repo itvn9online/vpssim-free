@@ -1,0 +1,93 @@
+#!/bin/bash 
+. /home/vpssim.conf
+
+#
+if [ "$1" = "" ]; then
+clear
+echo "========================================================================="
+echo "Ten mien trong/ Domain is empty!"
+/etc/vpssim/menu/centos9/option/them-website-menu
+exit
+fi
+
+#
+website=$1
+
+# kiểm tra xem có website này không
+if [ ! -f /etc/nginx/conf.d/$website.conf ]; then
+clear
+echo "========================================================================="
+echo "Ten mien khong ton tai/ Domain not exist! "$website
+/etc/vpssim/menu/centos9/option/them-website-menu
+exit
+fi
+
+#
+echo "-------------------------------------------------------------------------"
+echo "Please wait....";sleep 1 
+echo "$website" > /tmp/databasename.txt
+#echo $website | sed "s/\./_/" | sed "s/\-/_/" | cut -c1-14  > /tmp/databasename.txt  
+sed -i 's/\./_/g' /tmp/databasename.txt
+sed -i 's/\-/_/g' /tmp/databasename.txt
+random=`date |md5sum |cut -c '1-4'`
+dataname=`cat /tmp/databasename.txt | cut -c1-11`_$random
+#username=`cat /tmp/databasename.txt | sed "s/\_//" | sed "s/\_//" | sed "s/\_//" | sed "s/\_//" | cut -c1-10`$random
+username=$dataname
+password=`date |md5sum |cut -c '14-29'`
+rm -rf /tmp/databasename.txt
+
+#
+cat > "/tmp/config.temp" <<END
+CREATE DATABASE $dataname COLLATE utf8_general_ci;
+END
+
+mysql -u root -p$mariadbpass < /tmp/config.temp
+rm -f /tmp/config.temp
+
+#
+cat > "/tmp/config.temp" <<END
+CREATE USER '$username'@'localhost' IDENTIFIED BY '$password';
+END
+
+mysql -u root -p$mariadbpass < /tmp/config.temp
+rm -f /tmp/config.temp
+
+#
+cat > "/tmp/config.temp" <<END
+GRANT ALL PRIVILEGES ON $dataname . * TO '$username'@'localhost';
+END
+
+mysql -u root -p$mariadbpass < /tmp/config.temp
+rm -f /tmp/config.temp
+
+#
+cat > "/tmp/config.temp" <<END
+FLUSH PRIVILEGES;
+END
+
+mysql -u root -p$mariadbpass < /tmp/config.temp
+rm -f /tmp/config.temp
+
+echo "=========================================================================" >> /home/DBinfo.txt
+echo "Database: $dataname - Created on: $(date +%d/%m/%Y) when add $website to VPS" >> /home/DBinfo.txt
+echo "=========================================================================" >> /home/DBinfo.txt
+echo "Data name: $dataname" >> /home/DBinfo.txt
+echo "Username: $username" >> /home/DBinfo.txt
+echo "password: $password" >> /home/DBinfo.txt
+echo "" >> /home/DBinfo.txt
+
+clear
+echo "========================================================================="
+echo "$website them thanh cong vao server"
+echo "-------------------------------------------------------------------------"
+echo "Vhost File: /etc/nginx/conf.d/$website.conf"
+echo "-------------------------------------------------------------------------"
+echo "Upload code vao /home/$website/public_html"
+echo "-------------------------------------------------------------------------"
+echo "Database duoc tao tu dong cho $website :"
+echo "-------------------------------------------------------------------------"
+echo "Ten Database: $dataname"
+echo "User name: $username" 
+echo "Mat khau: $password"
+echo "-------------------------------------------------------------------------"
+echo "Thong tin database da duoc luu vao: /home/DBinfo.txt"

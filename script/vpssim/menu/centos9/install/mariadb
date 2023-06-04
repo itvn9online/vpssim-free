@@ -10,8 +10,15 @@ echo "Install MariaDB with root password: "$DATABASE_PASS
 #sleep 2
 sudo yum install -y mariadb-server mariadb
 
+# Mặc định charaset trong file cấu hình mariadb-server.cnf là latin1. Ta sẽ thiết lập lại bằng cách thêm mã character-set-server=utf8 vào dòng 21 trong /etc/my.cnf.d/mariadb-server.cnf
+if [ -f /etc/my.cnf.d/mariadb-server.cnf ]; then
+sed -i '21i character-set-server=utf8' /etc/my.cnf.d/mariadb-server.cnf
+sed -i "21i init-connect='SET NAMES utf8'" /etc/my.cnf.d/mariadb-server.cnf
+sed -i '21i collation-server=utf8_unicode_ci' /etc/my.cnf.d/mariadb-server.cnf
+fi
+
 #
-systemctl start mariadb
+systemctl restart mariadb
 systemctl enable mariadb
 #systemctl status mariadb
 

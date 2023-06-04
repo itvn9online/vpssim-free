@@ -46,15 +46,15 @@ mkdir -p "/home/$website/logs"
 chmod 777 "/home/$website/logs"
 
 #
-yes | cp /etc/vpssim/menu/centos9/option/tmp/index.php "/home/$website/public_html/index.php"
-yes | cp /etc/vpssim/menu/centos9/option/tmp/robots.txt "/home/$website/public_html/index.php"
+yes | cp /etc/vpssim/menu/centos9/tmp/index.php "/home/$website/public_html/"
+yes | cp /etc/vpssim/menu/centos9/tmp/robots.txt "/home/$website/public_html/"
 
 #
 chown -R nginx:nginx "/home/$website/public_html/"
 find "/home/$website/public_html/" -type d -exec chmod g+s {} \;
 
 #
-yes | cp /etc/vpssim/menu/centos9/option/tmp/domain_vhost.txt "/etc/nginx/conf.d/$website.conf"
+yes | cp /etc/vpssim/menu/centos9/tmp/domain_vhost.conf "/etc/nginx/conf.d/$website.conf"
 # thay domain trong file vhost
 cat > "/tmp/vpssimSetConfigFile" <<END
 #!/bin/bash 
@@ -63,6 +63,9 @@ END
 chmod +x /tmp/vpssimSetConfigFile
 sh /tmp/vpssimSetConfigFile
 rm -f /tmp/vpssimSetConfigFile
+
+#
+systemctl reload nginx
 
 #
 if [ ! -d /etc/vpssim/errorpage_html ]; then
@@ -87,76 +90,7 @@ fi
 
 #
 if [ "$response" = "y" ] || [ "$response" = "Y" ] ; then
-echo "-------------------------------------------------------------------------"
-echo "Please wait....";sleep 1 
-echo "$website" > /tmp/databasename.txt
-#echo $website | sed "s/\./_/" | sed "s/\-/_/" | cut -c1-14  > /tmp/databasename.txt  
-sed -i 's/\./_/g' /tmp/databasename.txt
-sed -i 's/\-/_/g' /tmp/databasename.txt
-random=`date |md5sum |cut -c '1-4'`
-dataname=`cat /tmp/databasename.txt | cut -c1-11`_$random
-username=`cat /tmp/databasename.txt | sed "s/\_//" | sed "s/\_//" | sed "s/\_//" | sed "s/\_//" | cut -c1-10`$random
-password=`date |md5sum |cut -c '14-29'`
-rm -rf /tmp/databasename.txt
-
-#
-cat > "/tmp/config.temp" <<END
-CREATE DATABASE $dataname COLLATE utf8_general_ci;
-END
-
-mysql -u root -p$mariadbpass < /tmp/config.temp
-rm -f /tmp/config.temp
-
-#
-cat > "/tmp/config.temp" <<END
-CREATE USER '$username'@'localhost' IDENTIFIED BY '$password';
-END
-
-mysql -u root -p$mariadbpass < /tmp/config.temp
-rm -f /tmp/config.temp
-
-#
-cat > "/tmp/config.temp" <<END
-GRANT ALL PRIVILEGES ON $dataname . * TO '$username'@'localhost';
-END
-
-mysql -u root -p$mariadbpass < /tmp/config.temp
-rm -f /tmp/config.temp
-
-#
-cat > "/tmp/config.temp" <<END
-FLUSH PRIVILEGES;
-END
-
-mysql -u root -p$mariadbpass < /tmp/config.temp
-rm -f /tmp/config.temp
-
-echo "=========================================================================" >> /home/DBinfo.txt
-echo "Database: $dataname - Created on: $(date +%d/%m/%Y) when add $website to VPS" >> /home/DBinfo.txt
-echo "=========================================================================" >> /home/DBinfo.txt
-echo "Data name: $dataname" >> /home/DBinfo.txt
-echo "Username: $username" >> /home/DBinfo.txt
-echo "password: $password" >> /home/DBinfo.txt
-echo "" >> /home/DBinfo.txt
-
-#
-systemctl reload nginx
-
-clear
-echo "========================================================================="
-echo "$website them thanh cong vao server"
-echo "-------------------------------------------------------------------------"
-echo "Vhost File: /etc/nginx/conf.d/$website.conf"
-echo "-------------------------------------------------------------------------"
-echo "Upload code vao /home/$website/public_html"
-echo "-------------------------------------------------------------------------"
-echo "Database duoc tao tu dong cho $website :"
-echo "-------------------------------------------------------------------------"
-echo "Ten Database: $dataname"
-echo "User name: $username" 
-echo "Mat khau: $password"
-echo "-------------------------------------------------------------------------"
-echo "Thong tin database da duoc luu vao: /home/DBinfo.txt"
+/etc/vpssim/menu/centos9/option/add-database $website
 fi
 
 # download code wordpress

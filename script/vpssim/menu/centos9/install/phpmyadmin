@@ -11,12 +11,15 @@ cd ~
 
 #
 mkdir -p /home/vpssim.demo
-mkdir -p /home/vpssim.demo/private_html
-rm -rf /home/vpssim.demo/private_html/*
+mkdir -p /home/vpssim.demo/private_html/phpmyadmin
+rm -rf /home/vpssim.demo/private_html/phpmyadmin/*
 # tao thu muc cho phpmyadmin dung lam cache
-mkdir -p /home/vpssim.demo/private_html/tmp
-chmod 777 /home/vpssim.demo/private_html/tmp
-cd /home/vpssim.demo/private_html/
+mkdir -p /home/vpssim.demo/private_html/phpmyadmin/tmp
+chmod 777 /home/vpssim.demo/private_html/phpmyadmin/tmp
+cd /home/vpssim.demo/private_html/phpmyadmin/
+
+#
+yes | cp /etc/vpssim/menu/centos9/tmp/index.php /home/vpssim.demo/private_html/
 
 #
 wget --no-check-certificate https://files.phpmyadmin.net/phpMyAdmin/${phpmyadmin_version}/phpMyAdmin-${phpmyadmin_version}-all-languages.zip

@@ -1,0 +1,23 @@
+#!/bin/bash
+
+echo "========================================================================="
+echo "Nhap vao ten mien se su dung database nay"
+echo "-------------------------------------------------------------------------"
+echo "Enter domain for this database"
+echo "-------------------------------------------------------------------------"
+
+echo -n "Nhap ten website [ENTER]: " 
+read website
+website=`echo $website | tr '[A-Z]' '[a-z]'`
+
+#
+if [ "$website" = "" ]; then
+clear
+echo "========================================================================="
+echo "Ten mien trong/ Domain is empty!"
+/etc/vpssim/menu/centos9/option/add-database-before
+exit
+fi
+
+#
+/etc/vpssim/menu/centos9/option/add-database $website
