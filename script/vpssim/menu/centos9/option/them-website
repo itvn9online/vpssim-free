@@ -22,7 +22,7 @@ if [ "$website" = "" ]; then
 clear
 echo "========================================================================="
 echo "Vui long nhap ten mien/ Please enter your domain!"
-/etc/vpssim/menu/centos9/option/them-website
+/etc/vpssim/menu/centos9/option/them-website-menu
 exit
 fi
 

@@ -8,7 +8,7 @@ printf "                            Account Manager\n"
 printf "=========================================================================\n"
 
 PS3="$prompt"
-select opt in "${options[@]}" "Thoat"; do 
+select opt in "${options[@]}"; do 
 
     case "$REPLY" in
 

@@ -10,7 +10,7 @@ touch /etc/pure-ftpd/pureftpd.passwd
 fi
 
 #
-prompt="Lua chon cua ban (0-Thoat):"
+prompt="Lua chon cua ban (0-Backspace):"
 options=("Tao Tai Khoan FTP Cho Website" "Thay Mat Khau Tai Khoan FTP" "Xem Thong Tin FTP Cua Website" )
 printf "=========================================================================\n"
 printf "                VPSSIM - Quan Ly VPS/ Server by EchBay.com \n"

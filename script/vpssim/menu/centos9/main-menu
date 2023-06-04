@@ -21,7 +21,7 @@ rm -rf /tmp/showthongbao
 
 
 #find /etc/vpssim/menu -type f -exec chmod 755 {} \;
-prompt="Nhap lua chon cua ban (0-Thoat):"
+prompt="Nhap lua chon cua ban (0-Backspace):"
 options=( "Account Manager" "Update System" )
 
 echo "========================================================================="
@@ -33,7 +33,7 @@ echo "========================================================================="
 
 #
 PS3="$prompt"
-select opt in "${options[@]}" "Thoat"; do 
+select opt in "${options[@]}"; do 
 
     case "$REPLY" in
 
