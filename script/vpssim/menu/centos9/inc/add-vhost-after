@@ -8,6 +8,8 @@ primarydomain=$2
 #
 if [ ! "$website" = "" ]; then
 
+echo "vHost for domain: "$website
+
 cat > "/tmp/vpssimSetConfigFile" <<END
 #!/bin/bash 
 END
@@ -29,6 +31,8 @@ END
 
     # thay domain trong file vhost
 if [ ! "$primarydomain" = "" ]; then
+
+echo "vHost for domain: "$primarydomain
 
 # pointer tới cùng thư mục với tên miền chính
 cat >> "/tmp/vpssimSetConfigFile" <<END

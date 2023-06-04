@@ -6,7 +6,11 @@ echo "Danh sach website tren server"
 echo "-------------------------------------------------------------------------"
 
 #
+rm -rf /tmp/domain_number*
+
+#
 stt=0
+has_domain=""
 
 #
 for get_d in /home/*
@@ -25,9 +29,15 @@ do
 
 			#
 			let "stt+=1"
+			has_domain="yes"
 		fi
 	fi
 done
+
+#
+if [ "$has_domain" = "" ]; then
+echo "Khong co domain nao duoc tim thay"
+fi
 
 #
 echo "-------------------------------------------------------------------------"
