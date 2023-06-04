@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# kiểm tra dữ liệu đầu vào của chức năng FTP account
 website=$1
 
 if [ "$website" = "" ]; then

@@ -11,6 +11,9 @@ cd ~
 echo "========================================================================="
 echo "Su dung chuc nang nay de them website vao server"
 echo "-------------------------------------------------------------------------"
+/etc/vpssim/menu/centos9/option/list-website-tren-vps-before
+echo "-------------------------------------------------------------------------"
+
 echo -n "Nhap ten mien/ Enter your domain [ENTER]: " 
 read website
 website=`echo $website | tr '[A-Z]' '[a-z]'`

@@ -21,7 +21,7 @@ echo ""
 
 #
 PS3="$prompt"
-select opt in "${options[@]}" "Thoat"; do 
+select opt in "${options[@]}"; do 
 
     case "$REPLY" in
         1) /etc/vpssim/menu/centos9/option/tao-ftp-user-cho-domain;;
