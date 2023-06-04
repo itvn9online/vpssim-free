@@ -39,6 +39,7 @@ fi
 if [ -f /tmp/vpssim-lastftp.txt ]; then
 the_text=`cat /tmp/vpssim-lastftp.txt`
 echo ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ."
+echo "FTP IP: "$serverip
 echo "FTP account: "$the_text
 fi
 if [ -f /tmp/vpssim-lastpassftp.txt ]; then

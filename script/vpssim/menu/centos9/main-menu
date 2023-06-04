@@ -1,6 +1,10 @@
 #!/bin/sh 
 . /home/vpssim.conf
 
+#
+if [ ! -f /etc/cron.d/vpssim.code.cron ]; then
+touch /etc/cron.d/vpssim.code.cron
+fi
 
 # Check VPSSIM Update
 /etc/vpssim/menu/menucheck/check-vpssim-update
@@ -19,9 +23,8 @@ rm -rf /tmp/showthongbao
 #find /etc/vpssim/menu -type f -exec chmod 755 {} \;
 prompt="Nhap lua chon cua ban (0-Thoat):"
 options=("Website & Code" "FTP Server" "Xoa website" "Backup & Restore Code" "Quan Ly Database" "Quan Ly phpMyAdmin" "Quan Ly Zend OPcache" "Quan Ly Memcached" "Quan Ly Redis Cache" "Quan Ly Swap" "Quan Ly Cronjob"  "Quan Ly File Log" "Config Cau Hinh PHP" "Wordpress Blog Tools" "Quan Ly CSF Firewall" "Quan Ly IPtables Firewall" "Quan Ly BitTorrent Sync" "Quan Ly VPS Backup" "Linux Malware Detect" "Cai Dat File Manager" "Cai Dat Net2FTP" "Cai Dat NetData" "Cai Dat SSL (Let's Enctypt)" "Check & Block IP DOS" "Tien ich - Addons" "Clear All Caches" "User & Password Mac Dinh" "Update System" "Server Status")
+#options=("Website & Code" "Advanced Features" "System Info & Files" "Extra Features" "Support & Help")
 
-echo "========================================================================="
-echo "      ECHBAY-VPSSIM - Quan Ly VPS/Server by WebGiaRe.org ($(cat /etc/vpssim/vpssim.version))                "
 echo "========================================================================="
 echo "                          ECHBAY-VPSSIM Menu                             "
 echo "========================================================================="
@@ -31,12 +34,13 @@ echo "========================================================================="
 
 #
 PS3="$prompt"
-select opt in "${options[@]}" ; do 
+select opt in "${options[@]}" "Thoat"; do 
 
     case "$REPLY" in
 
 	1) clear && /etc/vpssim/menu/centos9/option/them-website-menu;;
     2) clear && /etc/vpssim/menu/centos9/option/ftpserver-menu;;
+    #2) clear && /etc/vpssim/menu/centos9/option/account-manager-menu;;
     3) clear && /etc/vpssim/menu/centos9/option/vpssim-befor-xoa-website;;
     4) clear && /etc/vpssim/menu/centos9/option/vpssim-sao-luu;;
     5) clear && /etc/vpssim/menu/centos9/option/vpssim-befor-them-xoa-database;;

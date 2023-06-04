@@ -4,7 +4,7 @@ prompt="Vui long chon/ Please choose (0-Backspace):"
 options=( "Add Website" "Add Database" "Add Wordpress website" "Add Wordpress demo" "List Website in Server")
 
 printf "=========================================================================\n"
-printf "                            Website & Code\n"
+printf "                            Account Manager\n"
 printf "=========================================================================\n"
 
 PS3="$prompt"

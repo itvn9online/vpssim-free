@@ -95,7 +95,7 @@ echo "-------------------------------------------------------------------------"
 echo "Thong tin database da duoc luu vao: /home/DBinfo.txt"
 
 # lưu thông tin database để quá trình tạo website wordpress có cái mà sử dụng luôn
-if [ "$create_tmp" = "" ]; then
+if [ ! "$create_tmp" = "" ]; then
 echo "$username" > /tmp/vpssim-lastdb.txt
 echo "$password" > /tmp/vpssim-lastpassdb.txt
 fi

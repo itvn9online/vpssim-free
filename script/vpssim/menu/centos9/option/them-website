@@ -114,7 +114,7 @@ fi
 
 
 # in ra thông tin sau khi cài đặt code
-/etc/vpssim/menu/centos9/inc/download-wordpress-after $website
+/etc/vpssim/menu/centos9/inc/them-website-after $website
 
 
 # dọn dẹp

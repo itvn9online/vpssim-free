@@ -64,7 +64,7 @@ echo "$admin_user" > /tmp/vpssim-lastadmin.txt
 echo "$password" > /tmp/vpssim-lastpassadmin.txt
 
     #
-/etc/vpssim/menu/centos9/inc/download-wordpress-after $website
+/etc/vpssim/menu/centos9/inc/them-website-after $website
 
     fi
 else
