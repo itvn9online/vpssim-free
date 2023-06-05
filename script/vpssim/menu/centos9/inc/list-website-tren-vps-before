@@ -20,16 +20,16 @@ do
 		if [ ! "$website" = "vpssim.demo" ]; then
 			if [ -f "/etc/nginx/conf.d/$website.conf" ]; then
 				echo $stt". "$website
-			else
-				echo $stt". "$website" (ERROR: vHost not found)"
-			fi
-			
-			# lưu domain vào để người dùng có bấm số chọn thì sẽ lấy được luôn domain để xử lý
-			echo "$website" > "/tmp/domain_number$stt.txt"
+				
+				# lưu domain vào để người dùng có bấm số chọn thì sẽ lấy được luôn domain để xử lý
+				echo "$website" > "/tmp/domain_number$stt.txt"
 
-			#
-			let "stt+=1"
-			has_domain="yes"
+				#
+				let "stt+=1"
+				has_domain="yes"
+			else
+				echo "ERROR! "$website" (ERROR: vHost not found)"
+			fi
 		fi
 	fi
 done
