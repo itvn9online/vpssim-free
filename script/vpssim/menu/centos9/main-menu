@@ -22,7 +22,7 @@ rm -rf /tmp/showthongbao
 
 #find /etc/vpssim/menu -type f -exec chmod 755 {} \;
 prompt="Nhap lua chon cua ban (0-Backspace):"
-options=( "Account Manager" "Advanced Features" "Extra Features" "Security/ Firewall" "Cache" "Update System" "Update System" "Site Summary / Statistics" )
+options=( "Account Manager" "Advanced Features" "Extra Features" "Security/ Firewall" "Cache" "Update System" "Site Summary / Statistics" )
 
 echo "========================================================================="
 echo "                          ECHBAY-VPSSIM Menu                             "
