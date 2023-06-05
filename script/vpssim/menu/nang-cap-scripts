@@ -33,7 +33,13 @@ printf "========================================================================
 echo "Khong the kiem tra phien ban update ECHBAY-VPSSIM"
 echo "-------------------------------------------------------------------------"
 echo "Ban vui long thu lai"
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then
 /etc/vpssim/menu/vpssim-update-upgrade-service-menu
+else
+/etc/vpssim/menu/centos9/option/update-upgrade-service-menu
+fi
+exit
+
 else
 LOCALVER=`cat /etc/vpssim/vpssim.version`
 REMOVER=`cat /etc/vpssim/vpssim.newversion`
@@ -56,8 +62,13 @@ echo "OK sir! tien trinh cap nhat se duoc tiep tuc..."
 sleep 3
 chuaCoBanMoi="y"
 else
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then
 /etc/vpssim/menu/vpssim-update-upgrade-service-menu
+else
+/etc/vpssim/menu/centos9/option/update-upgrade-service-menu
+fi
 exit
+
 fi
 fi
 
@@ -92,7 +103,12 @@ else
 clear
 printf "=========================================================================\n"
 echo "Ban da huy bo update ECHBAY-VPSSIM"
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then
 /etc/vpssim/menu/vpssim-update-upgrade-service-menu
+else
+/etc/vpssim/menu/centos9/option/update-upgrade-service-menu
+fi
+exit
 
 fi
 
@@ -102,5 +118,4 @@ clear && /etc/vpssim/menu/vpssim-update-upgrade-service-menu
 else
 clear && /etc/vpssim/menu/centos9/option/update-upgrade-service-menu
 fi
-
 exit
