@@ -22,7 +22,7 @@ rm -rf /tmp/showthongbao
 
 #find /etc/vpssim/menu -type f -exec chmod 755 {} \;
 prompt="Nhap lua chon cua ban (0-Backspace):"
-options=( "Account Manager" "Advanced Features" "Extra Features" "Security/ Firewall" "Cache" "Update System" "Site Summary / Statistics" )
+options=( "Account Manager" "Advanced Features" "Extra Features" "Security/ Firewall" "Cache" "Update System" "Site Summary / Statistics" "Help" )
 
 echo "========================================================================="
 echo "                          ECHBAY-VPSSIM Menu                             "
@@ -44,6 +44,7 @@ select opt in "${options[@]}"; do
     5) clear && /etc/vpssim/menu/centos9/option/cache-menu;;
     6) clear && /etc/vpssim/menu/centos9/option/update-upgrade-service-menu;;
     7) clear && /etc/vpssim/menu/centos9/option/site-summary-statistics;;
+    8) clear && /etc/vpssim/menu/centos9/option/Help;;
 	0) clear && cat /etc/motd && killall -g vpssim;; 
     *) echo "Ban nhap sai, vui long nhap theo so thu tu tren menu !";continue;;
 

@@ -1,0 +1,47 @@
+#!/bin/bash
+
+echo "========================================================================="
+echo "                       ECHBAY-VPSSIM sitemap                             "
+echo "========================================================================="
+
+
+#
+cat > "/home/help-sitemap.txt" <<END
+Account Manager
+    Website & Code
+        Add Website
+        Domain Pointers
+        Add Website + database
+        Remove Pointers
+        Add Wordpress website
+        Domain vHost
+        Add Wordpress demo
+    Add Database
+    SSL Certificates
+    List Website in Server
+    FTP Management
+Cache
+Advanced Features
+    Create/Restore Backups
+    Swap
+    Cron Jobs
+    Password Protected Directories
+Update System
+Extra Features
+    phpMyAdmin
+    Server Status
+    Imagick
+    Ioncube
+Site Summary / Statistics
+Security/ Firewall
+END
+
+
+#
+cat /home/help-sitemap.txt
+echo "========================================================================="
+
+
+#
+/etc/vpssim/menu/centos9/main-menu
+exit
