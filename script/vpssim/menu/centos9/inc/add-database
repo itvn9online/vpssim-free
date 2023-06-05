@@ -70,6 +70,11 @@ rm -f /tmp/config.temp
 #
 #echo "=========================================================================" >> /home/DBinfo.txt
 echo "Database: $dataname $username $password $website - Created on: $(date +%d/%m/%Y)" >> /home/DBinfo.txt
+# Xóa các dòng trống
+sed -i -e "/^$/d" /home/DBinfo.txt
+# Xóa tất cả các khoảng trắng ở cuối mỗi dòng.
+sed -i -e "s/ *$//" /home/DBinfo.txt
+#nano /home/DBinfo.txt
 echo "" >> /home/DBinfo.txt
 
 clear
