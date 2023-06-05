@@ -29,7 +29,7 @@ do
 				let "stt+=1"
 				has_domain="yes"
 			else
-				echo "ERROR! "$website" (ERROR: vHost not found)"
+				echo $website" (ERROR: vHost not found)"
 			fi
 		fi
 	fi
