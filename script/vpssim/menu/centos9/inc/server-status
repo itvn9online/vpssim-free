@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# chạy lệnh cập nhật URL xem status mới
+/etc/vpssim/menu/centos9/install/statusphp
+
+# hiển thị thông tin
+clear
+#echo "========================================================================="
+if [ -f /home/VPSSIM-manage-info.txt ]; then
+cat /home/VPSSIM-manage-info.txt
+fi
+
+#
+/etc/vpssim/menu/centos9/option/extra-features-menu

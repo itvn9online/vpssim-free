@@ -2,6 +2,7 @@
 . /home/vpssim.conf
 
 #
+cd ~
 echo "=========================================================================="
 echo "Tao Username & Password bao ve phpMyadmin, backup files... "
 echo "=========================================================================="
@@ -23,8 +24,23 @@ userdefault="$usernamebv"
 passdefault="$matkhaubv"
 END
 
+# tạo chuỗi ngẫu nhiên để tăng độ bảo mật cho URL này
+statusrandom=`date |md5sum |cut -c '1-8'`
+statusrandom="randlink-${statusrandom}-"
+
+# dọn dẹp dữ liệu cũ
+cd ~
+cd /home/vpssim.demo/public_html/
+rm -rf randlink-*
+cd ~
+cd /home/vpssim.demo/private_html/
+rm -rf randlink-*
+
 #
-yes | cp -rf /opt/echbay_vpssim/script/vpssim/Softwear/status.zip /home/vpssim.demo/public_html/status.php
+cd ~
+
+#
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/Softwear/status.zip /home/vpssim.demo/public_html/${statusrandom}status.php
 rm -rf /etc/vpssim/defaulpassword.php
 cat > "/etc/vpssim/defaulpassword.php" <<END
 <?php
@@ -33,7 +49,7 @@ define('ADMIN_PASSWORD','$matkhaubv');    // Admin Password
 END
 
 # thay đổi email trong status.php
-sed -i "s/vpssim@vpssim.com/${emailmanage}/g" /home/vpssim.demo/public_html/status.php
+sed -i "s/vpssim@vpssim.com/${emailmanage}/g" /home/vpssim.demo/public_html/${statusrandom}status.php
 
 # xóa thông tin cũ nếu có
 cat > "/tmp/vpssimSetConfigFile" <<END
@@ -50,3 +66,22 @@ cat >> "/home/vpssim.conf" <<END
 usernamebv="$usernamebv"
 matkhaubv="$matkhaubv"
 END
+
+
+#
+wget -q https://gist.githubusercontent.com/ck-on/4959032/raw/0b871b345fd6cfcd6d2be030c1f33d1ad6a475cb/ocp.php /home/vpssim.demo/private_html/${statusrandom}ocp.php
+
+
+#
+yes | cp /etc/vpssim/menu/centos9/tmp/index.php /home/vpssim.demo/private_html/
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/memcache.php.zip /home/vpssim.demo/private_html/${statusrandom}memcache.php
+
+
+# thay thông tin mới để người dùng truy cập vào xem status
+if [ -f /home/VPSSIM-manage-info.txt ]; then
+sed -i "s/Zend Opcache: .*/Zend Opcache: http:\/\/${serverip}:${priport}\/${statusrandom}ocp.php/g" /home/VPSSIM-manage-info.txt
+sed -i "s/Memcache Status: .*/Memcache Status: http:\/\/${serverip}:${priport}\/${statusrandom}memcache.php/g" /home/VPSSIM-manage-info.txt
+sed -i "s/Server Status: .*/Server Status: http:\/\/${serverip}\/${statusrandom}status.php/g" /home/VPSSIM-manage-info.txt
+sed -i "s/Username: .*/Username: ${usernamebv}/g" /home/VPSSIM-manage-info.txt
+sed -i "s/Password: .*/Password: ${matkhaubv}/g" /home/VPSSIM-manage-info.txt
+fi
