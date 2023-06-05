@@ -5,7 +5,7 @@
 cd ~
 
 # kiểm tra và cài đặt FTP trước khi tạo website -> để còn tạo tài khoản FTP cho domain
-/etc/vpssim/menu/centos9/inc/ftpserver-menu-before
+/etc/vpssim/menu/centos9/inc/ftpserver-menu-before "from_add_website"
 
 #
 /etc/vpssim/menu/centos9/inc/list-website-tren-vps-before

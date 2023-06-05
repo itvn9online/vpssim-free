@@ -12,5 +12,5 @@ fi
 
 # install pure-ftpd nếu chưa có
 if [ ! -f /etc/pure-ftpd/pure-ftpd.conf ]; then
-/etc/vpssim/menu/ftp-server-install
+/etc/vpssim/menu/ftp-server-install $1
 fi

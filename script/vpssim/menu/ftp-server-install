@@ -15,6 +15,9 @@ if [ -f /etc/pure-ftpd/pure-ftpd.conf ]; then
 fi
 
 #
+from_add_website=$1
+
+#
 clear
 echo "========================================================================= "
 echo "Chuan bi cai dat FTP Server... "
@@ -75,6 +78,8 @@ echo "Please wait ...."
 fi
 
 clear
+#
+if [ ! "$from_add_website" = "" ]; then
 echo "========================================================================= "
 echo "Cai dat FTP server thanh cong"
 
@@ -87,3 +92,4 @@ fi
 
 #
 exit
+fi
