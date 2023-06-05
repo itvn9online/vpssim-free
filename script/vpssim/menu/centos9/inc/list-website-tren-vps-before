@@ -19,11 +19,17 @@ do
 		website=$(basename $get_d)
 		if [ ! "$website" = "vpssim.demo" ]; then
 			# phải có vHost thì mới là 1 website hợp lệ
-			if [ -f "/etc/nginx/conf.d/$website.conf" ]; then
-				echo $stt". "$website
+			if [ -f "/etc/nginx/conf.d/${website}.conf" ]; then
+				has_sll=""
+				if [ -d /etc/letsencrypt/live/$website ]; then
+				has_sll=" (SSL)"
+				fi
+
+				#
+				echo ${stt}". "${website}${has_sll}
 				
 				# lưu domain vào để người dùng có bấm số chọn thì sẽ lấy được luôn domain để xử lý
-				echo "$website" > "/tmp/domain_number$stt.txt"
+				echo "$website" > "/tmp/domain_number${stt}.txt"
 
 				#
 				let "stt+=1"
