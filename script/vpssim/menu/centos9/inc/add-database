@@ -69,7 +69,7 @@ rm -f /tmp/config.temp
 
 #
 echo "=========================================================================" >> /home/DBinfo.txt
-echo "Database: $dataname $username $password $website Created on: $(date +%d/%m/%Y)" >> /home/DBinfo.txt
+echo "Database: $dataname $username $password $website - Created on: $(date +%d/%m/%Y)" >> /home/DBinfo.txt
 echo "" >> /home/DBinfo.txt
 
 clear
