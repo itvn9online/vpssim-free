@@ -36,8 +36,13 @@ rm -rf $file_save_content
 # bắt đầu nhập nội dung
 echo "date_server: "$(date) >> $file_save_content
 
+#
+echo "ip_server: "$(wget http://ipecho.net/plain -O - -q ; echo) >> $file_save_content
+
 # tổng dung lượng của cả server
-echo "server_disk_size: "$(df -h) >> $file_save_content
+#echo "server_disk_size: "$(df -h) >> $file_save_content
+echo "server_disk_size: "$( df -h | awk '/\/dev\/sda/ {print $2}' ) >> $file_save_content
+echo "server_disk_avail: "$( df -h | awk '/\/dev\/sda/ {print $4}' ) >> $file_save_content
 echo "server_os_version: "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release)) >> $file_save_content
 
 if [ -f /etc/yum/yum-cron.conf ]; then
@@ -47,14 +52,17 @@ echo "auto_update_system: off" >> $file_save_content
 fi
 
 # tổng dung lượng của swap
-echo "server_swap_size: "$(cat /proc/swaps) >> $file_save_content
+#echo "server_swap_size: "$(cat /proc/swaps) >> $file_save_content
+echo "server_swap_size: "$( free -m | awk '/Swap:/ {print $2}' ) >> $file_save_content
 
 # tổng dung lượng của RAM
-echo "server_ram_size: "$(free -m) >> $file_save_content
+echo "server_ram_size: "$( free -m | awk '/Mem:/ {print $2}' ) >> $file_save_content
 
-# Thông tin CPS
-echo "server_cpu_core: "$(nproc) >> $file_save_content
-echo "server_cpu_info: "$(lscpu) >> $file_save_content
+# Thông tin CPU
+echo "server_cpu_name: "$( awk -F: '/model name/ {name=$2} END {print name}' /proc/cpuinfo ) >> $file_save_content
+#echo "server_cpu_core: "$(nproc) >> $file_save_content
+echo "server_cpu_core: "$( awk -F: '/model name/ {core++} END {print core}' /proc/cpuinfo ) >> $file_save_content
+echo "server_cpu_freq: "$( awk -F: ' /cpu MHz/ {freq=$2} END {print freq}' /proc/cpuinfo ) >> $file_save_content
 
 # Phiên bản mysql (maria db)
 echo "mysql_db_version: "$(mysql -V) >> $file_save_content
@@ -63,6 +71,8 @@ echo "mysql_db_version: "$(mysql -V) >> $file_save_content
 echo "openssl_version: "$(openssl version) >> $file_save_content
 
 # Tổng dung lượng thư mục chứa code -> home
+echo "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -" >> $file_save_content
+echo "Home:" >> $file_save_content
 echo $(du -sh /home) >> $file_save_content
 
 # Tính dung lượng các thư mục con trong home
@@ -76,21 +86,29 @@ done
 
 # thư mục rác trong root
 if [ -d /root/thung_rac ]; then
+echo "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -" >> $file_save_content
+echo "Rac:" >> $file_save_content
 echo $(du -sh /root/thung_rac) >> $file_save_content
 fi
 
 #
 if [ -d /var/log ]; then
+echo "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -" >> $file_save_content
+echo "Logs:" >> $file_save_content
 echo $(du -sh /var/log) >> $file_save_content
 fi
 
 #
 if [ -d /usr ]; then
+echo "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -" >> $file_save_content
+echo "Usr:" >> $file_save_content
 echo $(du -sh /usr) >> $file_save_content
 fi
 
 #
 if [ -d /var/spool/mail ]; then
+echo "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -" >> $file_save_content
+echo "Mail:" >> $file_save_content
     for d in /var/spool/mail/*
     do
         if [ -f $d ]; then
@@ -101,6 +119,7 @@ fi
 
 # Tổng dung lượng thư mục chứa database -> mysql
 echo "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -" >> $file_save_content
+echo "MySQL:" >> $file_save_content
 echo $(du -sh /var/lib/mysql) >> $file_save_content
 
 # Tính dung lượng các thư mục con trong mysql
