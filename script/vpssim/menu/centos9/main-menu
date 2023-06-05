@@ -44,7 +44,7 @@ select opt in "${options[@]}"; do
     5) clear && /etc/vpssim/menu/centos9/option/cache-menu;;
     6) clear && /etc/vpssim/menu/centos9/option/update-upgrade-service-menu;;
     7) clear && /etc/vpssim/menu/centos9/option/site-summary-statistics;;
-    8) clear && /etc/vpssim/menu/centos9/option/Help;;
+    8) clear && /etc/vpssim/menu/centos9/option/help;;
 	0) clear && cat /etc/motd && killall -g vpssim;; 
     *) echo "Ban nhap sai, vui long nhap theo so thu tu tren menu !";continue;;
 
