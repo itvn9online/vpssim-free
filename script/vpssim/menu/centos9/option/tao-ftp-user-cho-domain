@@ -34,10 +34,12 @@ fi
 #
 /etc/vpssim/menu/centos9/inc/ftpserver-menu-validate $website
 
+#
 if [ ! -f /etc/pure-ftpd/pureftpd.passwd ]; then
 touch /etc/pure-ftpd/pureftpd.passwd
 fi
 
+#
 if [ ! "$(pure-pw list | grep "/home/$website/")" == "" ]; then
 clear
 echo "========================================================================="
@@ -50,10 +52,12 @@ echo "-------------------------------------------------------------------------"
 echo "User: $(grep "/home/$website/" /etc/vpssim/FTP-Account.info | awk 'NR==1 {print $7}') | Password: $(grep "/home/$website/" /etc/vpssim/FTP-Account.info | awk 'NR==1 {print $10}')"
 if [ ! "$create_tmp" = "" ]; then
 /etc/vpssim/menu/centos9/option/ftpserver-menu
+exit
 fi
 fi
 
 
+#
 echo "-------------------------------------------------------------------------"
 echo "Tim thay $website tren he thong"
 echo "-------------------------------------------------------------------------"
@@ -89,17 +93,8 @@ echo "========================================================================="
 echo "" >> /etc/vpssim/FTP-Account.info
 fi
 
-################
-echo "FTP Account for $website | Username: $username | Password: $password | dd /home/$website/ " >> /etc/vpssim/FTP-Account.info
-clear
-echo "=========================================================================" 
-echo "Tao tai khoan FTP cho $website thanh cong"
-echo "-------------------------------------------------------------------------"
-echo "Thong tin login:"
-echo "-------------------------------------------------------------------------"
-echo "IP: $serverip "
-echo "-------------------------------------------------------------------------"
-echo "User: $username | Password: $password"
+#
+/etc/vpssim/menu/centos9/inc/ftp-password-after $website $username $password
 
 # lưu thông tin database để quá trình tạo website wordpress có cái mà sử dụng luôn
 if [ ! "$create_tmp" = "" ]; then

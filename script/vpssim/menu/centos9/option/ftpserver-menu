@@ -11,7 +11,7 @@ fi
 
 #
 prompt="Lua chon cua ban (0-Backspace):"
-options=("Create FTP account" "Change FTP password" "View FTP password" )
+options=("Create FTP account" "Reset FTP password" "View FTP password" )
 printf "=========================================================================\n"
 printf "                VPSSIM - Quan Ly VPS/ Server by EchBay.com \n"
 printf "=========================================================================\n"
@@ -25,7 +25,7 @@ select opt in "${options[@]}"; do
 
     case "$REPLY" in
         1) /etc/vpssim/menu/centos9/option/tao-ftp-user-cho-domain;;
-        2) /etc/vpssim/menu/centos9/option/thay-mat-khau-user-ftp;;
+        2) /etc/vpssim/menu/centos9/option/reset-ftp-password;;
         3) /etc/vpssim/menu/centos9/option/view-userftp-password;;
         0) clear && /etc/vpssim/menu/centos9/option/account-manager-menu;;
         *) echo "Ban nhap sai, vui long nhap theo so thu tu tren menu !";continue;;
@@ -33,5 +33,3 @@ select opt in "${options[@]}"; do
     esac
 
 done
-
-
