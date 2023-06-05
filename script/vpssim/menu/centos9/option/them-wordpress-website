@@ -7,3 +7,4 @@ echo "Add website, download wordpress for custom install"
 
 #
 /etc/vpssim/menu/centos9/option/them-website "wordpress"
+exit

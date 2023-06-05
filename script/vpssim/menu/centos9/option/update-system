@@ -6,3 +6,4 @@ yum -y upgrade
 
 #
 /etc/vpssim/menu/centos9/option/update-upgrade-service-menu
+exit

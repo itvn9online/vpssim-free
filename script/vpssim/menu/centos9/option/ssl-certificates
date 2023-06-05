@@ -8,25 +8,29 @@
 echo "========================================================================="
 echo "Su dung chuc nang nay de tao SSL Certificates Let's Encrypt cho website"
 echo "-------------------------------------------------------------------------"
-echo -n "Nhap website ban muon tao SSL/ Enter domain for create SSL [ENTER]: " 
+echo -n "Chon website ban muon tao SSL/ Choose domain for create SSL [ENTER]: " 
 read website
 website=`echo $website | tr '[A-Z]' '[a-z]'`
 
 #
 if [ "$website" = "" ]; then
+clear
 /etc/vpssim/menu/centos9/option/account-manager-menu
+exit
 fi
 
-#
-re='^[0-9]+$'
-# nếu người dùng nhập vào là 1 số
-if [[ $website =~ $re ]] ; then
-    # xem số này có chứa thông tin tên miền tương ứng không
-    if [ -f "/tmp/domain_number$website.txt" ]; then
-    # có thì lấy tên miền trong file
-    website=`cat /tmp/domain_number$website.txt`
-    echo "Ten mien/ Domain: "$website
-    fi
+# xem số này có chứa thông tin tên miền tương ứng không
+if [ -f "/tmp/domain_number$website.txt" ]; then
+# có thì lấy tên miền trong file
+website=`cat /tmp/domain_number$website.txt`
+echo "Ten mien/ Domain: "$website
+else
+clear
+echo "========================================================================="
+echo "Vui long chon lai/ Please choose again!"
+echo "-------------------------------------------------------------------------"
+/etc/vpssim/menu/centos9/option/ssl-certificates
+exit
 fi
 
 #
@@ -86,3 +90,4 @@ fi
 
 #
 /etc/vpssim/menu/centos9/option/account-manager-menu
+exit

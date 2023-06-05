@@ -1,0 +1,43 @@
+#!/bin/bash
+
+#
+echo "========================================================================="
+echo "Chuc nang nay se tien hanh resize toan bo anh trong 1 thu muc nao do"
+echo "theo kich thuoc toi da ma ban da chi dinh"
+echo "-------------------------------------------------------------------------"
+
+copy_this_function_content_and_run_in_your_vps(){
+
+# BEGIN copy code
+cd ~
+cd "enter dir for resize image"
+set -e
+maxwidth="2048"  # in pixels, the widest image you want to allow.
+newwidth="1960"
+
+#find all .jpg in current dir and subdirectories
+FILES="$(find ./ -type f \( -iname \*.jpg -o -iname \*.png \))"
+
+for imagefile in $FILES
+do
+if [ -f "$imagefile" ]; then
+imgwidth=$(identify -format "%[fx:w]" $imagefile)
+imgheight=$(identify -format "%[fx:h]" $imagefile)
+if [ $imgwidth -gt $maxwidth ] || [ $imgheight -gt $maxwidth ]; then
+echo " - Image too big ${imgwidth}x${imgheight}. Resizing..."
+#echo $imagefile
+du -sh $imagefile
+mogrify -resize ${newwidth}x${newwidth} $imagefile
+du -sh $imagefile
+fi
+fi
+done
+cd ~
+# END copy code
+
+}
+#copy_this_function_content_and_run_in_your_vps
+
+#
+/etc/vpssim/menu/centos9/option/extra-features-menu
+exit

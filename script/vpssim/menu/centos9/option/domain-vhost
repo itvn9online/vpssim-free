@@ -9,26 +9,28 @@ echo "========================================================================="
 echo "Cap nhat file vHost cho website/ Update vHost for website"
 echo "-------------------------------------------------------------------------"
 
-echo -n "Nhap ten mien/ Enter domain [ENTER]: " 
+echo -n "Chon ten mien/ Choose domain [ENTER]: " 
 read website
 website=`echo $website | tr '[A-Z]' '[a-z]'`
-
-#
-re='^[0-9]+$'
-# nếu người dùng nhập vào là 1 số
-if [[ $website =~ $re ]] ; then
-    # xem số này có chứa thông tin tên miền tương ứng không
-    if [ -f "/tmp/domain_number$website.txt" ]; then
-    # có thì lấy tên miền trong file
-    website=`cat /tmp/domain_number$website.txt`
-    echo "Ten mien/ Domain: "$website
-    fi
-fi
 
 #
 if [ "$website" = "" ]; then
 clear
 /etc/vpssim/menu/centos9/option/them-website-menu
+exit
+fi
+
+# xem số này có chứa thông tin tên miền tương ứng không
+if [ -f "/tmp/domain_number$website.txt" ]; then
+# có thì lấy tên miền trong file
+website=`cat /tmp/domain_number$website.txt`
+echo "Ten mien/ Domain: "$website
+else
+clear
+echo "========================================================================="
+echo "Vui long chon lai/ Please choose again!"
+echo "-------------------------------------------------------------------------"
+/etc/vpssim/menu/centos9/option/domain-vhost
 exit
 fi
 
@@ -55,3 +57,4 @@ fi
 
 #
 /etc/vpssim/menu/centos9/option/them-website-menu
+exit

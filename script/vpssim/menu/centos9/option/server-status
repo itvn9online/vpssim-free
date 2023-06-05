@@ -12,3 +12,4 @@ fi
 
 #
 /etc/vpssim/menu/centos9/option/extra-features-menu
+exit

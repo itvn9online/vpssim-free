@@ -11,24 +11,35 @@ create_tmp=$2
 if [ ! "$1" = "" ]; then
 website=$1
 else
-    echo "========================================================================="
-    echo "Su dung chuc nang nay de tao FTP user cho  website"
-    echo "-------------------------------------------------------------------------"
-    echo -n "Nhap website ban muon tao tai khoan FTP/ Enter FTP website [ENTER]: " 
-    read website
-    website=`echo $website | tr '[A-Z]' '[a-z]'`
 
-    #
-    re='^[0-9]+$'
-    # nếu người dùng nhập vào là 1 số
-    if [[ $website =~ $re ]] ; then
-        # xem số này có chứa thông tin tên miền tương ứng không
-        if [ -f "/tmp/domain_number$website.txt" ]; then
-        # có thì lấy tên miền trong file
-        website=`cat /tmp/domain_number$website.txt`
-        echo "Ten mien/ Domain: "$website
-        fi
-    fi
+echo "========================================================================="
+echo "Su dung chuc nang nay de tao FTP user cho  website"
+echo "-------------------------------------------------------------------------"
+echo -n "Chon website ban muon tao tai khoan FTP/ Choose FTP website [ENTER]: " 
+read website
+website=`echo $website | tr '[A-Z]' '[a-z]'`
+
+#
+if [ "$website" = "" ]; then
+clear
+/etc/vpssim/menu/centos9/option/ftpserver-menu
+exit
+fi
+
+# xem số này có chứa thông tin tên miền tương ứng không
+if [ -f "/tmp/domain_number$website.txt" ]; then
+# có thì lấy tên miền trong file
+website=`cat /tmp/domain_number$website.txt`
+echo "Ten mien/ Domain: "$website
+else
+clear
+echo "========================================================================="
+echo "Vui long chon lai/ Please choose again!"
+echo "-------------------------------------------------------------------------"
+/etc/vpssim/menu/centos9/option/tao-ftp-user-cho-domain
+exit
+fi
+
 fi
 
 #
@@ -102,4 +113,5 @@ echo "$username" > /tmp/vpssim-lastftp.txt
 echo "$password" > /tmp/vpssim-lastpassftp.txt
 else
 /etc/vpssim/menu/centos9/option/ftpserver-menu
+exit
 fi

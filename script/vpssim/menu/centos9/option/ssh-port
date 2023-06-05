@@ -7,3 +7,4 @@ echo "-------------------------------------------------------------------------"
 
 #
 /etc/vpssim/menu/centos9/option/security-firewall-menu
+exit

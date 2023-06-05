@@ -20,8 +20,6 @@ website=`echo $website | tr '[A-Z]' '[a-z]'`
 
 if [ "$website" = "" ]; then
 clear
-echo "========================================================================="
-echo "Vui long nhap ten mien/ Please enter your domain!"
 /etc/vpssim/menu/centos9/option/them-website-menu
 exit
 fi
@@ -112,3 +110,4 @@ rm -f /tmp/vpssim-*
 
 #
 /etc/vpssim/menu/centos9/option/them-website-menu
+exit

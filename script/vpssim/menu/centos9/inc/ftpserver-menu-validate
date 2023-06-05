@@ -3,14 +3,6 @@
 # kiểm tra dữ liệu đầu vào của chức năng FTP account
 website=$1
 
-if [ "$website" = "" ]; then
-clear
-echo "========================================================================="
-echo "Ban nhap sai, vui long nhap lai!"
-/etc/vpssim/menu/centos9/option/ftpserver-menu
-exit
-fi
-
 if [ ! -f /etc/nginx/conf.d/$website.conf ]; then
 clear
 echo "========================================================================="
