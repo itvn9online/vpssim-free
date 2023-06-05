@@ -33,7 +33,7 @@ fi
 rm -rf $file_save_content
 
 # bắt đầu nhập nội dung
-echo "date_server: "$(date) >> $file_save_content
+echo "date_created: "$(date) >> $file_save_content
 
 #
 echo "ip_server: "$(wget http://ipecho.net/plain -O - -q ; echo) >> $file_save_content
