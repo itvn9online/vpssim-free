@@ -72,19 +72,32 @@ case "$REPLY" in
 esac  
 done
 
+#
+update_vhost=""
+
+#
 if [ "$xacnhanthongtin" = "nonwww" ]; then
 clear
 echo "Setup SSL free for "$website
 certbot --nginx -d $website
+update_vhost="yes"
 elif [ "$xacnhanthongtin" = "www" ]; then
 echo "Setup SSL free for www."$website
 certbot --nginx -d www.$website
+update_vhost="yes"
 elif [ "$xacnhanthongtin" = "full" ]; then
 echo "Setup SSL free for "$website" and www."$website
 certbot --nginx -d $website -d www.$website
+update_vhost="yes"
 else
 clear
 echo "Ban chon huy bo/ Cancel by user"
+fi
+
+
+#
+if [ ! "$update_vhost" = "" ]; then
+/etc/vpssim/menu/centos9/inc/add-vhost-after $website
 fi
 
 
