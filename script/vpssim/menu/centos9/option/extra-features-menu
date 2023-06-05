@@ -1,0 +1,23 @@
+#!/bin/bash
+
+prompt="Vui long chon/ Please choose (0-Backspace):"
+options=( "phpMyAdmin" "Imagick" "Ioncube" )
+
+printf "=========================================================================\n"
+printf "                            Extra Features\n"
+printf "=========================================================================\n"
+
+PS3="$prompt"
+select opt in "${options[@]}"; do 
+
+    case "$REPLY" in
+
+	1) clear && /etc/vpssim/menu/centos9/inc/view-phpmyadmin-info;;
+    2) clear && /etc/vpssim/menu/centos9/option/imagick;;
+    3) clear && /etc/vpssim/menu/centos9/option/ioncube;;
+    0) clear && vpssim;;
+    *) echo "Vui long chon theo danh sach/ Please choose from the list"; continue;;
+
+    esac
+
+done

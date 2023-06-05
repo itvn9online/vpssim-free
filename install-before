@@ -13,8 +13,7 @@ clear
 #
 echo "=========================================================================="
 echo "--------------------------------------------------------------------------"
-echo "Thiet lap thong tin cai dat:"
-echo "Setup installation information:"
+echo "Thiet lap thong tin cai dat/ Setup installation information:"
 echo "--------------------------------------------------------------------------"
 
 
@@ -22,11 +21,13 @@ echo "--------------------------------------------------------------------------
 echo -n "Enter phpMyAdmin Port number (1000 - 65535): " 
 read svport
 if [ "$svport" = "80" ] || [ "$svport" = "443" ] || [ "$svport" = "22" ] || [ "$svport" = "3306" ] || [ "$svport" = "25" ] || [ "$svport" = "465" ] || [ "$svport" = "587" ] || [ "$svport" = "21" ]; then
-	svport="1241"
-    echo "phpMyAdmin khong the trung voi port cua dich vu khac!"
-    echo "ECHBAY-VPSSIM dat phpMyAdmin port mac dinh la: "$svport
-    echo "phpMyAdmin cannot match the port of another service!"
-    echo "phpMyAdmin port default set is: "$svport
+svport="1241"
+echo "phpMyAdmin khong the trung voi port cua dich vu khac!"
+echo "ECHBAY-VPSSIM dat phpMyAdmin port mac dinh la: "$svport
+echo "--------------------------------------------------------------------------"
+echo "phpMyAdmin cannot match the port of another service!"
+echo "phpMyAdmin port default set is: "$svport
+sleep 5
 fi
 
 if [ "$svport" = "" ] ; then

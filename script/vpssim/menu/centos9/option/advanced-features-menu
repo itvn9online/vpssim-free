@@ -1,0 +1,24 @@
+#!/bin/bash
+
+prompt="Vui long chon/ Please choose (0-Backspace):"
+options=( "Create/Restore Backups" "Cron Jobs" "Swap" "Password Protected Directories" )
+
+printf "=========================================================================\n"
+printf "                            Advanced Features\n"
+printf "=========================================================================\n"
+
+PS3="$prompt"
+select opt in "${options[@]}"; do 
+
+    case "$REPLY" in
+
+	1) clear && /etc/vpssim/menu/centos9/option/site-backups;;
+    2) clear && /etc/vpssim/menu/centos9/option/cron-jobs;;
+    3) clear && /etc/vpssim/menu/centos9/option/swap;;
+    4) clear && /etc/vpssim/menu/centos9/option/password-protected-directories;;
+    0) clear && vpssim;;
+    *) echo "Vui long chon theo danh sach/ Please choose from the list"; continue;;
+
+    esac
+
+done

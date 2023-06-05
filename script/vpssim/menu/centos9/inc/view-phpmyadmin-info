@@ -1,0 +1,9 @@
+#!/bin/bash
+
+#
+if [ -f /home/VPSSIM-manage-info.txt ]; then
+cat /home/VPSSIM-manage-info.txt
+fi
+
+#
+/etc/vpssim/menu/centos9/option/extra-features-menu
