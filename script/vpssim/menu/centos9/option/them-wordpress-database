@@ -1,0 +1,10 @@
+#!/bin/bash 
+
+#
+echo "========================================================================="
+echo "Tao website va tu dong tao database tuong ung"
+echo "Add website and auto create database for this website"
+
+#
+/etc/vpssim/menu/centos9/option/them-website "database"
+exit

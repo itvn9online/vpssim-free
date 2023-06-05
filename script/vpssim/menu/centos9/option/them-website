@@ -2,6 +2,9 @@
 . /home/vpssim.conf
 
 #
+from_action=$1
+
+#
 cd ~
 
 # kiểm tra và cài đặt FTP trước khi tạo website -> để còn tạo tài khoản FTP cho domain
@@ -72,7 +75,7 @@ mkdir -p /home/$website/errorpage_html && cp -r /etc/vpssim/errorpage_html/*.htm
 
 
 # nếu là thêm wordpress website -> mặc định là sẽ thêm database
-if [ "$1" = "wordpress" ] || [ "$1" = "demo" ]; then
+if [ "$from_action" = "wordpress" ] || [ "$from_action" = "demo" ] || [ "$from_action" = "database" ]; then
 response="y"
 else
 # còn không sẽ hỏi người dùng có thêm website hay không
@@ -93,9 +96,9 @@ fi
 
 
 # download code wordpress
-if [ "$1" = "wordpress" ]; then
+if [ "$from_action" = "wordpress" ]; then
 /etc/vpssim/menu/centos9/inc/download-wordpress $website
-elif [ "$1" = "demo" ]; then
+elif [ "$from_action" = "demo" ]; then
 /etc/vpssim/menu/centos9/inc/download-wordpress $website "install_demo"
 fi
 
