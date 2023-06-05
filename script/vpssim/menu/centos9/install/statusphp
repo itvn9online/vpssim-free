@@ -69,10 +69,16 @@ END
 
 
 #
-wget -q https://gist.githubusercontent.com/ck-on/4959032/raw/0b871b345fd6cfcd6d2be030c1f33d1ad6a475cb/ocp.php /home/vpssim.demo/private_html/${statusrandom}ocp.php
+cd ~
+cd /home/vpssim.demo/private_html/
+wget --no-check-certificate https://gist.githubusercontent.com/ck-on/4959032/raw/0b871b345fd6cfcd6d2be030c1f33d1ad6a475cb/ocp.php
+mv ocp.php ${statusrandom}ocp.php
+#dir
+cd ~
 
 
 #
+cd ~
 yes | cp /etc/vpssim/menu/centos9/tmp/index.php /home/vpssim.demo/private_html/
 yes | cp -rf /opt/echbay_vpssim/script/vpssim/memcache.php.zip /home/vpssim.demo/private_html/${statusrandom}memcache.php
 
