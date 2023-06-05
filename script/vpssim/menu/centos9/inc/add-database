@@ -69,11 +69,7 @@ rm -f /tmp/config.temp
 
 #
 echo "=========================================================================" >> /home/DBinfo.txt
-echo "Database: $dataname - Created on: $(date +%d/%m/%Y) when add $website to VPS" >> /home/DBinfo.txt
-echo "=========================================================================" >> /home/DBinfo.txt
-echo "Data name: $dataname" >> /home/DBinfo.txt
-echo "Username: $username" >> /home/DBinfo.txt
-echo "password: $password" >> /home/DBinfo.txt
+echo "Database: $dataname $username $password $website Created on: $(date +%d/%m/%Y)" >> /home/DBinfo.txt
 echo "" >> /home/DBinfo.txt
 
 clear
