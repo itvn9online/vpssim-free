@@ -19,12 +19,23 @@ chmod 777 /home/vpssim.demo/private_html/phpmyadmin/tmp
 cd /home/vpssim.demo/private_html/phpmyadmin/
 
 #
-yes | cp /etc/vpssim/menu/centos9/tmp/index.php /home/vpssim.demo/private_html/
-
-#
 wget --no-check-certificate https://files.phpmyadmin.net/phpMyAdmin/${phpmyadmin_version}/phpMyAdmin-${phpmyadmin_version}-all-languages.zip
 unzip -q phpMyAdmin-*.zip
 yes | cp -rf phpMyAdmin-*/* .
 rm -rf phpMyAdmin-*
 randomblow=`date |md5sum |cut -c '1-32'`;
 sed -e "s|cfg\['blowfish_secret'\] = ''|cfg['blowfish_secret'] = '$randomblow'|" config.sample.inc.php > config.inc.php
+
+
+#
+cd /home/vpssim.demo/private_html/
+wget -q https://gist.githubusercontent.com/ck-on/4959032/raw/0b871b345fd6cfcd6d2be030c1f33d1ad6a475cb/ocp.php
+
+
+#
+cd ~
+yes | cp /etc/vpssim/menu/centos9/tmp/index.php /home/vpssim.demo/private_html/
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/memcache.php.zip /home/vpssim.demo/private_html/memcache.php
+
+#
+#/etc/vpssim/menu/centos9/install/statusphp

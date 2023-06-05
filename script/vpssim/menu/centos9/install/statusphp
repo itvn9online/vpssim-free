@@ -1,0 +1,28 @@
+#!/bin/bash
+. /home/vpssim.conf
+
+#
+echo "=========================================================================="
+echo "Tao Username & Password bao ve phpMyadmin, backup files  ... "
+echo "=========================================================================="
+cp -rf /etc/vpssim/menu/vpssim-tao-mat-khau-bao-ve-folder.py /usr/local/bin/htpasswd.py
+chmod 755 /usr/local/bin/htpasswd.py
+rm -rf /etc/nginx/.htpasswd
+matkhaubv=`date |md5sum |cut -c '1-6'`
+usernamebv=`echo "${emailmanage};" | sed 's/\([^@]*\)@\([^;.]*\)\.[^;]*;[ ]*/\1 \2\n/g' | awk 'NR==1 {print $1}'`
+htpasswd.py -c -b /etc/nginx/.htpasswd $usernamebv $matkhaubv
+chmod -R 644 /etc/nginx/.htpasswd
+cat > "/etc/vpssim/pwprotect.default" <<END
+userdefault="$usernamebv"
+passdefault="$matkhaubv"
+END
+
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/Softwear/status.zip /home/vpssim.demo/public_html/status.php
+rm -rf /etc/vpssim/defaulpassword.php
+cat > "/etc/vpssim/defaulpassword.php" <<END
+<?php
+define('ADMIN_USERNAME','$usernamebv');   // Admin Username
+define('ADMIN_PASSWORD','$matkhaubv');    // Admin Password
+?>
+END
+sed -i "s/vpssim@vpssim.com/${emailmanage}/g" /home/vpssim.demo/public_html/status.php
