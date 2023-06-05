@@ -1,0 +1,120 @@
+#!/bin/bash
+
+printf "=========================================================================\n"
+printf "                VPSSIM - Quan Ly VPS/Server by WebGiaRe.org \n"
+printf "=========================================================================\n"
+printf "                        Site Summary / Statistics \n"
+printf "=========================================================================\n"
+
+
+#
+file_save_content="/tmp/vpssim-statistics.txt"
+
+#
+if [ -f $file_save_content ]; then
+# lấy thời gian tạo file
+fileTime=$(date -r $file_save_content +%d%H)
+echo "fileTime: "$fileTime
+# thời gian hiện tại
+curTime=$(date +%d%H)
+echo "curTime: "$curTime
+
+# nếu 2 thời gian này bằng nhau -> hiển thị cache
+if [ "$fileTime" = "$curTime" ]; then
+clear
+printf "=========================================================================\n"
+cat $file_save_content
+printf "=========================================================================\n"
+/etc/vpssim/menu/centos9/main-menu
+exit
+fi
+fi
+
+# dọn dẹp file
+rm -rf $file_save_content
+
+# bắt đầu nhập nội dung
+echo "date_server: "$(date) >> $file_save_content
+
+# tổng dung lượng của cả server
+echo "server_disk_size: "$(df -h) >> $file_save_content
+echo "server_os_version: "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release)) >> $file_save_content
+
+if [ -f /etc/yum/yum-cron.conf ]; then
+echo "auto_update_system: on" >> $file_save_content
+else
+echo "auto_update_system: off" >> $file_save_content
+fi
+
+# tổng dung lượng của swap
+echo "server_swap_size: "$(cat /proc/swaps) >> $file_save_content
+
+# tổng dung lượng của RAM
+echo "server_ram_size: "$(free -m) >> $file_save_content
+
+# Thông tin CPS
+echo "server_cpu_core: "$(nproc) >> $file_save_content
+echo "server_cpu_info: "$(lscpu) >> $file_save_content
+
+# Phiên bản mysql (maria db)
+echo "mysql_db_version: "$(mysql -V) >> $file_save_content
+
+# phiên bản openssl
+echo "openssl_version: "$(openssl version) >> $file_save_content
+
+# Tổng dung lượng thư mục chứa code -> home
+echo $(du -sh /home) >> $file_save_content
+
+# Tính dung lượng các thư mục con trong home
+for d in /home/*
+do
+    if [ -d $d ]; then
+    #echo $(du -sh $d)
+    echo $(du -sh $d) >> $file_save_content
+    fi
+done
+
+# thư mục rác trong root
+if [ -d /root/thung_rac ]; then
+echo $(du -sh /root/thung_rac) >> $file_save_content
+fi
+
+#
+if [ -d /var/log ]; then
+echo $(du -sh /var/log) >> $file_save_content
+fi
+
+#
+if [ -d /usr ]; then
+echo $(du -sh /usr) >> $file_save_content
+fi
+
+#
+if [ -d /var/spool/mail ]; then
+    for d in /var/spool/mail/*
+    do
+        if [ -f $d ]; then
+        echo "clear_log: "$(date) > $d
+        fi
+    done
+fi
+
+# Tổng dung lượng thư mục chứa database -> mysql
+echo "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -" >> $file_save_content
+echo $(du -sh /var/lib/mysql) >> $file_save_content
+
+# Tính dung lượng các thư mục con trong mysql
+for d in /var/lib/mysql/*
+do
+    if [ -d $d ]; then
+    echo $(du -sh $d) >> $file_save_content
+    fi
+done
+
+#
+clear
+printf "=========================================================================\n"
+cat $file_save_content
+printf "=========================================================================\n"
+/etc/vpssim/menu/centos9/main-menu
+exit
