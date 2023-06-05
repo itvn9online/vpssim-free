@@ -1,7 +1,7 @@
 #!/bin/bash
 
 prompt="Vui long chon/ Please choose (0-Backspace):"
-options=( "CSF Firewall" "SSH Port" "phpMyAdmin Port" )
+options=( "CSF Firewall" "SSH Port" "phpMyAdmin Port" "Reset MySQL root password" )
 
 printf "=========================================================================\n"
 printf "                            Security Firewall\n"
@@ -15,6 +15,7 @@ select opt in "${options[@]}"; do
     1) clear && /etc/vpssim/menu/centos9/option/csf-firewall;;
     2) clear && /etc/vpssim/menu/centos9/option/ssh-port;;
     3) clear && /etc/vpssim/menu/centos9/option/phpmyadmin-port;;
+    4) clear && /etc/vpssim/menu/centos9/option/reset-mysql-root-password;;
     0) clear && vpssim;;
     *) echo "Vui long chon theo danh sach/ Please choose from the list"; continue;;
 
