@@ -25,6 +25,8 @@ systemctl enable nginx
 # Kiểm tra trạng thái web server
 #systemctl status nginx
 
+#
+if [ ! -f /etc/sysconfig/iptables ]; then
 # Cho phép các kết nối http
 firewall-cmd --permanent --zone=public --add-service=http 
 
@@ -33,6 +35,7 @@ firewall-cmd --permanent --zone=public --add-service=https
 
 # Khởi chạy lại firewall service
 firewall-cmd --reload
+fi
 
 #
 chown nginx:nginx /usr/share/nginx/html -R

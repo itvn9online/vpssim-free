@@ -140,6 +140,9 @@ END
 chmod +x /home/vpssim.conf
 
 
+# https://support.cpanel.net/hc/en-us/articles/4403298800663-Updates-are-failing-due-to-GetPageSpeed-repo
+yum remove getpagespeed-extras-release -y
+
 #
 yum -y update
 yum -y upgrade
