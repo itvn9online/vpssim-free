@@ -24,7 +24,6 @@ if [ "$fileTime" = "$curTime" ]; then
 clear
 printf "=========================================================================\n"
 cat $file_save_content
-printf "=========================================================================\n"
 /etc/vpssim/menu/centos9/main-menu
 exit
 fi
@@ -72,7 +71,6 @@ echo "openssl_version: "$(openssl version) >> $file_save_content
 
 # Tổng dung lượng thư mục chứa code -> home
 echo "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -" >> $file_save_content
-echo "Home:" >> $file_save_content
 echo $(du -sh /home) >> $file_save_content
 
 # Tính dung lượng các thư mục con trong home
@@ -87,28 +85,24 @@ done
 # thư mục rác trong root
 if [ -d /root/thung_rac ]; then
 echo "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -" >> $file_save_content
-echo "Rac:" >> $file_save_content
 echo $(du -sh /root/thung_rac) >> $file_save_content
 fi
 
 #
 if [ -d /var/log ]; then
 echo "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -" >> $file_save_content
-echo "Logs:" >> $file_save_content
 echo $(du -sh /var/log) >> $file_save_content
 fi
 
 #
 if [ -d /usr ]; then
 echo "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -" >> $file_save_content
-echo "Usr:" >> $file_save_content
 echo $(du -sh /usr) >> $file_save_content
 fi
 
 #
 if [ -d /var/spool/mail ]; then
 echo "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -" >> $file_save_content
-echo "Mail:" >> $file_save_content
     for d in /var/spool/mail/*
     do
         if [ -f $d ]; then
@@ -119,7 +113,6 @@ fi
 
 # Tổng dung lượng thư mục chứa database -> mysql
 echo "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -" >> $file_save_content
-echo "MySQL:" >> $file_save_content
 echo $(du -sh /var/lib/mysql) >> $file_save_content
 
 # Tính dung lượng các thư mục con trong mysql
@@ -134,6 +127,5 @@ done
 clear
 printf "=========================================================================\n"
 cat $file_save_content
-printf "=========================================================================\n"
 /etc/vpssim/menu/centos9/main-menu
 exit
