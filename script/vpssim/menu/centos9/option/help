@@ -20,6 +20,9 @@ Account Manager
     SSL Certificates
     List Website in Server
     FTP Management
+        Create FTP account
+        Reset FTP password
+        View FTP password
 Cache
 Advanced Features
     Create/Restore Backups
