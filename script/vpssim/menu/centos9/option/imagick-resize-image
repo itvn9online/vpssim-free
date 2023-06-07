@@ -6,11 +6,17 @@ echo "Chuc nang nay se tien hanh resize toan bo anh trong 1 thu muc nao do"
 echo "theo kich thuoc toi da ma ban da chi dinh"
 echo "-------------------------------------------------------------------------"
 
+# https://vietnamtutor.com/tu-dong-toi-uu-hoa-hinh-anh-jpeg-png-centos-6-x/
+yum -y install optipng jpegoptim
+
+#
 copy_this_function_content_and_run_in_your_vps(){
 
-# BEGIN copy code
+#
 cd ~
-cd "enter dir for resize image"
+#cd "vui long di chuyen den tu muc can rezie anh"
+
+# BEGIN copy code ====================================================
 set -e
 maxwidth="2048"  # in pixels, the widest image you want to allow.
 newwidth="1960"
@@ -21,19 +27,31 @@ FILES="$(find ./ -type f \( -iname \*.jpg -o -iname \*.png \))"
 for imagefile in $FILES
 do
 if [ -f "$imagefile" ]; then
+echo $imagefile
 imgwidth=$(identify -format "%[fx:w]" $imagefile)
 imgheight=$(identify -format "%[fx:h]" $imagefile)
 if [ $imgwidth -gt $maxwidth ] || [ $imgheight -gt $maxwidth ]; then
 echo " - Image too big ${imgwidth}x${imgheight}. Resizing..."
-#echo $imagefile
 du -sh $imagefile
 mogrify -resize ${newwidth}x${newwidth} $imagefile
 du -sh $imagefile
 fi
 fi
 done
+
+# compress jpg
+# -n, --noaction    don't really optimize files, just print results
+# -T<threshold>, --threshold=<threshold> keep old file if the gain is below a threshold (%)
+# -p, --preserve    preserve file timestamps
+#jpegoptim *.jpg --max=80 --strip-all -p --threshold=5 -n
+#
+jpegoptim *.jpg --max=80 --strip-all -p --threshold=5
+
+# compress png
+#optipng *.png -o7 -preserve
+
 cd ~
-# END copy code
+# END copy code ====================================================
 
 }
 #copy_this_function_content_and_run_in_your_vps
