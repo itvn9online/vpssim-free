@@ -16,6 +16,10 @@ copy_this_function_content_and_run_in_your_vps(){
 cd ~
 #cd "vui long di chuyen den tu muc can rezie anh"
 
+
+
+
+
 # BEGIN copy code ====================================================
 set -e
 maxwidth="2048"  # in pixels, the widest image you want to allow.
@@ -43,15 +47,18 @@ done
 # -n, --noaction    don't really optimize files, just print results
 # -T<threshold>, --threshold=<threshold> keep old file if the gain is below a threshold (%)
 # -p, --preserve    preserve file timestamps
-#jpegoptim *.jpg --max=80 --strip-all -p --threshold=5 -n
+#jpegoptim *.jpg --max=80 --strip-all -p --threshold=2 -n
 #
-jpegoptim *.jpg --max=80 --strip-all -p --threshold=5
+jpegoptim *.jpg --max=80 --strip-all -p --threshold=2
 
 # compress png
 #optipng *.png -o7 -preserve
 
 cd ~
 # END copy code ====================================================
+
+
+
 
 }
 #copy_this_function_content_and_run_in_your_vps
