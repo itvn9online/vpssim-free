@@ -7,8 +7,8 @@ fi
 
 # chuc nang cap nhat wordress cho toan bo website tren server
 for_classic_editor="classic-editor.1.6.3"
-for_yoast_seo="wordpress-seo.20.8"
-for_elementor="elementor.3.13.3"
+for_yoast_seo="wordpress-seo.20.9"
+for_elementor="elementor.3.14.0"
 
 
 echoY() {
