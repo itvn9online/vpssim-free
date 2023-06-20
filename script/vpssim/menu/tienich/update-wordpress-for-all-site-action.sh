@@ -689,6 +689,11 @@ if [ $2 -lt $3 ]; then
 						fi
 					fi
 
+					# dọn dẹp ebcache -> 1 số web cache lưu nặng vãi chưởng
+					if [ -d "$get_d/wp-content/uploads/ebcache" ]; then
+					rm -rf $get_d/wp-content/uploads/ebcache/*
+					fi
+
 					# dọn dẹp code dư thừa của backup
 					echoY "Cleanup EB update code..."
 					rm -rf $get_d/wp-content/echbaydotcom-*
