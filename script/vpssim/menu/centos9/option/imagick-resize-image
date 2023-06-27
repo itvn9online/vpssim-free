@@ -26,8 +26,8 @@ cd ~
 # BEGIN copy code ====================================================
 set -e
 # in pixels, the widest image you want to allow.
-maxwidth="2048"
-newwidth="1920"
+maxwidth="2100"
+newwidth="2048"
 
 #find all .jpg in current dir and subdirectories
 for_mogrify_resize_image(){
