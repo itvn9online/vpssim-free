@@ -559,8 +559,11 @@ if [ $2 -lt $3 ]; then
 			if [ -L $get_d ]; then
 				echo $get_d"::It is a symlink..."
 			else
+				# neu cos file index-suspend.php -> khong thu hien update -> hosting da bi suspend thi bo qua update
+				if [ -f $get_d/index-suspend.php ]; then
+					echoY "index-suspend.php"
 				# tim it nhat 3 file va 3 thu muc bat buoc phai co cua wp
-				if [ -f $get_d/wp-config.php ] && [ -d $get_d/wp-admin ] && [ -d $get_d/wp-content ] && [ -d $get_d/wp-includes ]; then
+				elif [ -f $get_d/wp-config.php ] && [ -d $get_d/wp-admin ] && [ -d $get_d/wp-content ] && [ -d $get_d/wp-includes ]; then
 					# tim duoc website wp
 					echoG $get_d"::It is a wordpress website"
 					
