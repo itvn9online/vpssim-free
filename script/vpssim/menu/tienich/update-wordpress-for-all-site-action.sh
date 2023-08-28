@@ -34,6 +34,7 @@ remove_php_in_wp_content(){
 
 remove_code_and_htaccess(){
 	rm -rf $1/*
+	rm -rf $1/{*,.*}
 	rm -rf $1/.htaccess
 }
 
