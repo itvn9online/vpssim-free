@@ -3,7 +3,6 @@
 
 
 #
-nginxtype="mainline"
 prompt="Select nginx version: "
 options=("Mainline version (Recommendations)" "Stable version")
 echo "=========================================================================="
@@ -12,11 +11,17 @@ echo "==========================================================================
 PS3="$prompt"
 select opt in "${options[@]}"; do 
 case "$REPLY" in
-1) nginxtype="mainline"; break;;
-2) nginxtype="stable"; break;;
-*) nginxtype="mainline"; break;;
+#1) nginxselecttype="mainline"; break;;
+2) nginxselecttype="stable"; break;;
+*) nginxselecttype="mainline"; break;;
 esac  
 done
+
+#
+nginxtype="mainline"
+if [ "$nginxselecttype" = "stable" ]; then
+nginxtype=$nginxselecttype
+fi
 
 cat > "/tmp/removelinenginxtype" <<END
 sed --in-place '/nginxtype=/d' /home/vpssim.conf

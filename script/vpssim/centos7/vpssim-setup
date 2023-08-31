@@ -47,7 +47,6 @@ echo "==========================================================================
 
 
 #
-nginxtype="mainline"
 prompt="Select nginx version: "
 options=("Mainline version (Recommendations)" "Stable version")
 echo "=========================================================================="
@@ -56,11 +55,17 @@ echo "==========================================================================
 PS3="$prompt"
 select opt in "${options[@]}"; do 
 case "$REPLY" in
-1) nginxtype="mainline"; break;;
-2) nginxtype="stable"; break;;
-*) nginxtype="mainline"; break;;
+#1) nginxselecttype="mainline"; break;;
+2) nginxselecttype="stable"; break;;
+*) nginxselecttype="mainline"; break;;
 esac  
 done
+
+#
+nginxtype="mainline"
+if [ "$nginxselecttype" = "stable" ]; then
+nginxtype=$nginxselecttype
+fi
 
 # thiet lap phien ban nginx de cai dat
 rm -rf /home/vpssim.conf
@@ -195,10 +200,10 @@ echo "MariaDB Version: $phienbanmariadb"
 echo "--------------------------------------------------------------------------"
 echo "Mat khau root MySQL (MySQL root password): $passrootmysql"
 echo "--------------------------------------------------------------------------"
-if [ "$nginxtype" = "mainline" ]; then
-echo "Nginx Version: Mainline version"
-else
+if [ "$nginxtype" = "stable" ]; then
 echo "Nginx Version: "$Nginx_VERSION
+else
+echo "Nginx Version: Mainline version"
 fi
 echo "--------------------------------------------------------------------------"
 echo "PHP Version: "$phpmacdinh
