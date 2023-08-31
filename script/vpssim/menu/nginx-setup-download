@@ -67,6 +67,7 @@ if [ -f /opt/echbay_vpssim/script/vpssim/module-nginx/${zlibversion}.tar.gz ]; t
 yes | cp -rf /opt/echbay_vpssim/script/vpssim/module-nginx/${zlibversion}.tar.gz ${zlibversion}.tar.gz
 elif [ -f /opt/echbay_vpssim/script/vpssim/module-nginx/zlib.tar.gz ]; then
 yes | cp -rf /opt/echbay_vpssim/script/vpssim/module-nginx/zlib.tar.gz zlib.tar.gz
+zlibversion="zlib"
 else
 wget -q --no-check-certificate https://www.zlib.net/${zlibversion}.tar.gz
 fi
