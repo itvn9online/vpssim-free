@@ -206,7 +206,7 @@ echo "user:memcached" >> /etc/csf/csf.pignore
 ###
 # CSF.IGNORE: a list of IP's and CIDR addresses that lfd should ignore and not block if detected
 ###
-#serverip=$(wget http://ipecho.net/plain -O - -q ; echo)
+#serverip=$(wget https://cloud.echbay.com/plains/ip -O - -q ; echo)
  echo "$serverip" >> /etc/csf/csf.ignore
  Gateway=$(ip route show default | awk '/default/ {print $3}')  #route -n | awk '{if($4=="UG")print $2}'
             echo "$Gateway # Gateway (do not remove)" >> /etc/csf/csf.ignore

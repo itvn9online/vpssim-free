@@ -36,7 +36,7 @@ rm -rf $file_save_content
 echo "date_created: "$(date) >> $file_save_content
 
 #
-echo "ip_server: "$(wget http://ipecho.net/plain -O - -q ; echo) >> $file_save_content
+echo "ip_server: "$(wget https://cloud.echbay.com/plains/ip -O - -q ; echo) >> $file_save_content
 
 # tổng dung lượng của cả server
 #echo "server_disk_size: "$(df -h) >> $file_save_content
