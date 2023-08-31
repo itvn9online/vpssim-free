@@ -1,5 +1,5 @@
 #!/bin/bash
-if [ -f /home/vpssim.conf ] then
+if [ -f /home/vpssim.conf ]; then
 . /home/vpssim.conf
 else
 nginxtype="mainline"
