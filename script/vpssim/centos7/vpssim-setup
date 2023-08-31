@@ -46,6 +46,29 @@ echo "IP: $svip"
 echo "=========================================================================="
 
 
+#
+nginxtype="mainline"
+prompt="Select nginx version: "
+options=("Mainline version (Recommendations)" "Stable version")
+echo "=========================================================================="
+echo "Select nginx version "
+echo "=========================================================================="
+PS3="$prompt"
+select opt in "${options[@]}"; do 
+case "$REPLY" in
+1) nginxtype="mainline"; break;;
+2) nginxtype="stable"; break;;
+*) nginxtype="mainline"; break;;
+esac  
+done
+
+# thiet lap phien ban nginx de cai dat
+rm -rf /home/vpssim.conf
+cat > "/home/vpssim.conf" <<END
+nginxtype="$nginxtype"
+END
+
+
 prompt="Nhap lua chon cua ban: "
 options=("MariaDB 10.3 (Recommendations)" "MariaDB 10.4" "MariaDB 10.5")
 echo "=========================================================================="
@@ -172,15 +195,18 @@ echo "MariaDB Version: $phienbanmariadb"
 echo "--------------------------------------------------------------------------"
 echo "Mat khau root MySQL (MySQL root password): $passrootmysql"
 echo "--------------------------------------------------------------------------"
+if [ "$nginxtype" = "mainline" ]; then
+echo "Nginx Version: Mainline version"
+else
 echo "Nginx Version: "$Nginx_VERSION
-#echo "Nginx Version: Mainline version"
+fi
 echo "--------------------------------------------------------------------------"
 echo "PHP Version: "$phpmacdinh
 echo "--------------------------------------------------------------------------"
 echo "ECHBAY-VPSSIM Version: $vpssim_version"
 echo "=========================================================================="
 prompt="Nhap lua chon cua ban (Please select): "
-options=( "Dong Y (I agree)" "Khong Dong Y (disagree)")
+options=( "Dong Y (agree)" "Khong Dong Y (disagree)")
 PS3="$prompt"
 select opt in "${options[@]}"; do 
     case "$REPLY" in
@@ -506,7 +532,7 @@ fi
 
 
 
-rm -f /etc/php-fpm.d/www.conf
+rm -rf /etc/php-fpm.d/www.conf
 yes | cp -rf /opt/echbay_vpssim/script/vpssim/conf-webserver/www.txt /etc/php-fpm.d/www.conf
 # config
 cat > "/tmp/vpssimSetConfigFile" <<END
@@ -627,7 +653,7 @@ if ! [[ $cpucores =~ $checktruenumber ]] ; then
 cpucores=1
 fi 
 
-rm -f /etc/my.cnf.d/server.cnf
+rm -rf /etc/my.cnf.d/server.cnf
     cat > "/etc/my.cnf.d/server.cnf" <<END
 
 [mysqld]
@@ -829,22 +855,23 @@ LC_ALL=en_US.utf-8
 END
 fi
 
-rm -f /home/vpssim.conf
+rm -rf /home/vpssim.conf
 cat > "/home/vpssim.conf" <<END
 mainsite="vpssim.demo"
 priport="$svport"
 serverip="$svip"
+nginxtype="$nginxtype"
 END
 
-rm -f /var/lib/mysql/ib_logfile0
-rm -f /var/lib/mysql/ib_logfile1
-rm -f /var/lib/mysql/ibdata1
+rm -rf /var/lib/mysql/ib_logfile0
+rm -rf /var/lib/mysql/ib_logfile1
+rm -rf /var/lib/mysql/ibdata1
 if [ "$phienbanmariadb" = "10.4" ] ; then
 sudo systemctl enable --now mariadb
 fi
 service mysql start
 # Download mysql_secure_installation
-rm -f /bin/mysql_secure_installation
+rm -rf /bin/mysql_secure_installation
 download_mysql_secure_installation () {
 #wget --no-check-certificate -q https://hostingaz.vn/script/vpssim/mysql_secure_installation -O /bin/mysql_secure_installation && chmod +x /bin/mysql_secure_installation
 yes | cp -rf /opt/echbay_vpssim/script/vpssim/mysql_secure_installation /bin/mysql_secure_installation && chmod +x /bin/mysql_secure_installation
@@ -1114,7 +1141,7 @@ ECHBAY-VPSSIM by Dao Quoc Dai - https://echbay.com' | exim  $vpssimemail
 END
 chmod +x /tmp/finishedemail.sh
 /tmp/finishedemail.sh
-rm -f /tmp/finishedemail.sh
+rm -rf /tmp/finishedemail.sh
 
 
 

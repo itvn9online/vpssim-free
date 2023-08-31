@@ -1,7 +1,14 @@
 #!/bin/bash
+if [ -f /home/vpssim.conf ] then
+. /home/vpssim.conf
+else
+nginxtype="mainline"
+fi
 
-# install nginx mainline version
-#/opt/echbay_vpssim/script/vpssim/menu/nginx-setup7-mainline
-
+if [ "$nginxtype" = "stable" ]; then
 # install nginx stable version
 /opt/echbay_vpssim/script/vpssim/menu/nginx-setup7-stable
+else
+# install nginx mainline version
+/opt/echbay_vpssim/script/vpssim/menu/nginx-setup7-mainline
+fi

@@ -1,6 +1,33 @@
 #!/bin/bash
 . /home/vpssim.conf
 
+
+#
+nginxtype="mainline"
+prompt="Select nginx version: "
+options=("Mainline version (Recommendations)" "Stable version")
+echo "=========================================================================="
+echo "Select nginx version "
+echo "=========================================================================="
+PS3="$prompt"
+select opt in "${options[@]}"; do 
+case "$REPLY" in
+1) nginxtype="mainline"; break;;
+2) nginxtype="stable"; break;;
+*) nginxtype="mainline"; break;;
+esac  
+done
+
+cat > "/tmp/removelinenginxtype" <<END
+sed --in-place '/nginxtype=/d' /home/vpssim.conf
+END
+chmod +x /tmp/removelinenginxtype
+/tmp/removelinenginxtype 
+cat >> "/home/vpssim.conf" <<END
+nginxtype="$nginxtype"
+END
+
+
 # them lenh kiem tra neu co git roi thi thoi khong tai lai nua
 okResetGit="y"
 if [ -d /opt/echbay_vpssim ]; then
