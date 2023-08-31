@@ -66,7 +66,6 @@ cd /usr/local/vpssim/nginx-${Nginx_VERSION}
 --add-module=$moduledir/ngx_devel_kit-master \
 --add-module=$moduledir/set-misc-nginx-module-master \
 --add-module=$moduledir/ngx_http_substitutions_filter_module-master \
---add-module=$moduledir/headers-more-nginx-module-master \
 --add-module=$moduledir/redis2-nginx-module-master \
 --add-module=$moduledir/echo-nginx-module-master \
 --add-module=$moduledir/memc-nginx-module-master \
@@ -79,6 +78,7 @@ cd /usr/local/vpssim/nginx-${Nginx_VERSION}
 #--add-module=$moduledir/ngx_brotli-master \
 #--with-openssl-opt=$withopensslopt \
 #--add-module=$moduledir/srcache-nginx-module-master \
+#--add-module=$moduledir/headers-more-nginx-module-master \
 #
 
 #
