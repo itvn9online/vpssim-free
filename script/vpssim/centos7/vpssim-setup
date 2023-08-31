@@ -206,7 +206,7 @@ echo "--------------------------------------------------------------------------
 echo "ECHBAY-VPSSIM Version: $vpssim_version"
 echo "=========================================================================="
 prompt="Nhap lua chon cua ban (Please select): "
-options=( "Dong Y (agree)" "Khong Dong Y (disagree)")
+options=( "Dong Y (I agree)" "Khong Dong Y (disagree)")
 PS3="$prompt"
 select opt in "${options[@]}"; do 
     case "$REPLY" in

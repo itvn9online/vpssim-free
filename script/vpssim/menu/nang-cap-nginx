@@ -59,7 +59,13 @@ cd /tmp
 rm -rf 00-all-nginx-version.txt
 yes | cp -rf /opt/echbay_vpssim/script/vpssim/00-all-nginx-version.txt 00-all-nginx-version.txt
 
+#
+cd ~
 nginx -V
+
+
+#
+if [ "$nginxtype" = "stable" ]; then
 
 . /opt/echbay_vpssim/script/vpssim/nginx-setup.conf
 echo "========================================================================="
@@ -74,6 +80,16 @@ echo -n "Ban that su muon thay doi sang phien ban "${Nginx_VERSION}" ? [y/N] "
 read selectNginxVersion
 fi
 
+else
+
+Nginx_VERSION="Mainline version"
+echo "Nginx Version: "$Nginx_VERSION
+selectNginxVersion="y"
+
+fi
+
+
+#
 if [ "$selectNginxVersion" = "y" ]; then
 echo "Ok ! please wait install nginx-"${Nginx_VERSION}" ...."
 sleep 1
@@ -81,6 +97,7 @@ else
 /etc/vpssim/menu/vpssim-update-upgrade-service-menu
 exit
 fi
+
 
 echo "OS Version: "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))
 if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then
