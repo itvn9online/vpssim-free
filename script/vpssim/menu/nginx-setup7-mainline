@@ -5,12 +5,27 @@
 echo "Install after 3s"
 sleep 3
 
+# https://www.linuxbabe.com/nginx/install-nginx-mainline-version-centos7
+cat > "/etc/yum.repos.d/nginx.repo" <<END
+[nginx.org]
+name=nginx.org repo
+baseurl=http://nginx.org/packages/centos/7/\$basearch/
+gpgcheck=1
+enabled=1
+END
+
+#
+wget http://nginx.org/keys/nginx_signing.key
+sudo rpm --import nginx_signing.key
+yum -y update
+
 # install nginx Mainline version
 sudo yum -y install nginx
 sudo systemctl start nginx
 sudo systemctl status nginx
 sudo systemctl enable nginx
 nginx -V
+nginx -v
 sleep 6
 
 #
