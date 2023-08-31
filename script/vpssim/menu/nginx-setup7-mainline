@@ -20,7 +20,7 @@ sudo rpm --import nginx_signing.key
 yum -y update
 
 #
-/opt/echbay_vpssim/script/vpssim/menu/nang-cap-openssl-before
+#/opt/echbay_vpssim/script/vpssim/menu/nang-cap-openssl-before
 
 # install nginx Mainline version
 sudo yum -y install nginx
