@@ -34,8 +34,17 @@ remove_php_in_wp_content(){
 
 remove_code_and_htaccess(){
 	rm -rf $1/*
-	rm -rf $1/{*,.*}
+	#rm -rf $1/{*,.*}
 	rm -rf $1/.htaccess
+
+	#
+	for tep in $1/*
+	do
+		if [ -f $tep ]; then
+			echo $tep
+			rm -rf $tep
+		fi
+	done
 }
 
 
@@ -622,6 +631,9 @@ if [ $2 -lt $3 ]; then
 							echoG "Disable Xmlrpc..."
 							echo "Hello world..." > $get_d/xmlrpc.php
 						fi
+
+						#
+						rm -rf $get_d/wp-config-sample.php
 
 					fi
 
