@@ -27,24 +27,27 @@ echoR()
 remove_php_in_wp_content(){
 	if [ -d $1 ]; then
 		rm -rf $1/*.php
+		#rm -rf $1/{*,.*}
 		rm -rf $1/.htaccess
 		echo "No money... No love..." > $1/index.php
 	fi
 }
 
 remove_code_and_htaccess(){
-	rm -rf $1/*
-	#rm -rf $1/{*,.*}
-	rm -rf $1/.htaccess
+	if [ -d $1 ]; then
+		rm -rf $1/*
+		#rm -rf $1/{*,.*}
+		rm -rf $1/.htaccess
 
-	#
-	for tep in $1/*
-	do
-		echo $tep
-		if [ -f $tep ]; then
-			rm -rf $tep
-		fi
-	done
+		#
+		for tep in $1/*
+		do
+			echo $tep
+			if [ -f $tep ]; then
+				rm -rf $tep
+			fi
+		done
+	fi
 }
 
 
@@ -706,9 +709,10 @@ if [ $2 -lt $3 ]; then
 					fi
 
 					# dọn dẹp ebcache -> 1 số web cache lưu nặng vãi chưởng
-					if [ -d "$get_d/wp-content/uploads/ebcache" ]; then
+					#if [ -d "$get_d/wp-content/uploads/ebcache" ]; then
+					echoR "Cleanup ebcache..."
 					rm -rf $get_d/wp-content/uploads/ebcache/*
-					fi
+					#fi
 
 					# dọn dẹp code dư thừa của backup
 					echoY "Cleanup EB update code..."
