@@ -40,8 +40,8 @@ remove_code_and_htaccess(){
 	#
 	for tep in $1/*
 	do
+		echo $tep
 		if [ -f $tep ]; then
-			echo $tep
 			rm -rf $tep
 		fi
 	done
