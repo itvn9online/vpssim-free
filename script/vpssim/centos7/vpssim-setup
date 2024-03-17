@@ -887,8 +887,8 @@ if [ -z "$checkmysql_secure_installation" ]; then
 download_mysql_secure_installation
 fi
 
-#wget --no-check-certificate -q https://vpssim.com/script/vpssim/Softwear/wp-cli.phar
-#yes | cp -rf /opt/echbay_vpssim/script/vpssim/Softwear/wp-cli.phar wp-cli.phar
+#wget --no-check-certificate -q https://vpssim.com/script/vpssim/Software/wp-cli.phar
+#yes | cp -rf /opt/echbay_vpssim/script/vpssim/Software/wp-cli.phar wp-cli.phar
 wget -q --no-check-certificate https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 chmod +x wp-cli.phar
 mv wp-cli.phar /usr/local/bin/wp
@@ -987,7 +987,7 @@ sleep 3
 cp -r /etc/vpssim/menu/vpssim-tao-mat-khau-bao-ve-folder.py /usr/local/bin/htpasswd.py
 chmod 755 /usr/local/bin/htpasswd.py
 rm -rf /etc/nginx/.htpasswd
-matkhaubv=`date |md5sum |cut -c '1-6'`
+matkhaubv=`date |md5sum |cut -c '1-12'`
 usernamebv=`echo "${vpssimemail};" | sed 's/\([^@]*\)@\([^;.]*\)\.[^;]*;[ ]*/\1 \2\n/g' | awk 'NR==1 {print $1}'`
 htpasswd.py -c -b /etc/nginx/.htpasswd $usernamebv $matkhaubv
 chmod -R 644 /etc/nginx/.htpasswd
@@ -995,8 +995,8 @@ cat > "/etc/vpssim/pwprotect.default" <<END
 userdefault="$usernamebv"
 passdefault="$matkhaubv"
 END
-#wget --no-check-certificate -q https://vpssim.com/script/vpssim/Softwear/status.zip -O /home/vpssim.demo/public_html/status.php
-yes | cp -rf /opt/echbay_vpssim/script/vpssim/Softwear/status.zip /home/vpssim.demo/public_html/status.php
+#wget --no-check-certificate -q https://vpssim.com/script/vpssim/Software/status.php -O /home/vpssim.demo/public_html/status.php
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/Software/status.php /home/vpssim.demo/public_html/status.php
 rm -rf /etc/vpssim/defaulpassword.php
 cat > "/etc/vpssim/defaulpassword.php" <<END
 <?php

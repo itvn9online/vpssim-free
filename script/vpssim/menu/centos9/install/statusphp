@@ -13,7 +13,7 @@ chmod 755 /usr/local/bin/htpasswd.py
 
 #
 rm -rf /etc/nginx/.htpasswd
-matkhaubv=`date |md5sum |cut -c '1-6'`
+matkhaubv=`date |md5sum |cut -c '1-12'`
 usernamebv=`echo "${emailmanage};" | sed 's/\([^@]*\)@\([^;.]*\)\.[^;]*;[ ]*/\1 \2\n/g' | awk 'NR==1 {print $1}'`
 htpasswd.py -c -b /etc/nginx/.htpasswd $usernamebv $matkhaubv
 chmod -R 644 /etc/nginx/.htpasswd
@@ -40,7 +40,7 @@ rm -rf randlink-*
 cd ~
 
 #
-yes | cp -rf /opt/echbay_vpssim/script/vpssim/Softwear/status.zip /home/vpssim.demo/public_html/${statusrandom}status.php
+yes | cp -rf /opt/echbay_vpssim/script/vpssim/Software/status.php /home/vpssim.demo/public_html/${statusrandom}status.php
 rm -rf /etc/vpssim/defaulpassword.php
 cat > "/etc/vpssim/defaulpassword.php" <<END
 <?php

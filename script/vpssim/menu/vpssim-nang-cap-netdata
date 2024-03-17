@@ -15,8 +15,8 @@ fi
 rm -rf /tmp/checktmp
 echo "-------------------------------------------------------------------------"
 echo "VPSSIM dang kiem tra. Please wait ..."
-#checkketnoi=$(curl -o /dev/null --silent --head --write-out '%{http_code}' "https://vpssim.com/script/vpssim/Softwear/00-all-netdata-version.txt" )
-checkketnoi=$(curl -o /dev/null --silent --head --write-out '%{http_code}' "https://raw.githubusercontent.com/itvn9online/vpssim-free/master/script/vpssim/Softwear/00-all-netdata-version.txt" )
+#checkketnoi=$(curl -o /dev/null --silent --head --write-out '%{http_code}' "https://vpssim.com/script/vpssim/Software/00-all-netdata-version.txt" )
+checkketnoi=$(curl -o /dev/null --silent --head --write-out '%{http_code}' "https://raw.githubusercontent.com/itvn9online/vpssim-free/master/script/vpssim/Software/00-all-netdata-version.txt" )
 if [[ "$checkketnoi" == "000" ]]; then
 clear
 echo "========================================================================="
@@ -32,8 +32,8 @@ fi
 rm -rf /tmp/00-all-netdata*
 cd /tmp
 download_version_netdata () {
-#wget --no-check-certificate -q https://vpssim.com/script/vpssim/Softwear/00-all-netdata-version.txt
-wget --no-check-certificate -q https://raw.githubusercontent.com/itvn9online/vpssim-free/master/script/vpssim/Softwear/00-all-netdata-version.txt
+#wget --no-check-certificate -q https://vpssim.com/script/vpssim/Software/00-all-netdata-version.txt
+wget --no-check-certificate -q https://raw.githubusercontent.com/itvn9online/vpssim-free/master/script/vpssim/Software/00-all-netdata-version.txt
 }
 download_version_netdata
 checkdownload_version_netdata=`cat /tmp/00-all-netdata-version.txt`
@@ -77,7 +77,7 @@ sleep 1
 killall netdata
 cd /usr/local/vpssim
 rm -rf netdata
-#wget --no-check-certificate -q https://vpssim.com/script/vpssim/Softwear/netdata_$REMOVER.zip
+#wget --no-check-certificate -q https://vpssim.com/script/vpssim/Software/netdata_$REMOVER.zip
 wget --no-check-certificate -q https://github.com/itvn9online/echbay-vpssim-software/raw/master/netdata_$REMOVER.zip
 unzip -o -q netdata_$REMOVER.zip
 rm -rf /usr/local/vpssim/netdata_$REMOVER.zip

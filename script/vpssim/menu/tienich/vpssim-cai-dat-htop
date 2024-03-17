@@ -30,7 +30,7 @@ case $response in
     echo "Please wait ...";sleep 1
 yum -y install ncurses ncurses-devel
 cd /tmp
-#wget -q --no-check-certificate https://vpssim.com/script/vpssim/Softwear/htop-2.0.0.tar.gz
+#wget -q --no-check-certificate https://vpssim.com/script/vpssim/Software/htop-2.0.0.tar.gz
 wget -q --no-check-certificate https://github.com/itvn9online/echbay-vpssim-software/raw/master/htop-2.0.0.tar.gz
 tar xvfvz htop-2.0.0.tar.gz
 cd /tmp/htop-2.0.0

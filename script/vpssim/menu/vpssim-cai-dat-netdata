@@ -14,8 +14,8 @@ echo "va truy cap domain nay tren trinh duyet de su dung NetData"
 exit
 fi
 
-#checkketnoi=$(curl -o /dev/null --silent --head --write-out '%{http_code}' "https://vpssim.com/script/vpssim/Softwear/00-all-netdata-version.txt" )
-checkketnoi=$(curl -o /dev/null --silent --head --write-out '%{http_code}' "https://raw.githubusercontent.com/itvn9online/vpssim-free/master/script/vpssim/Softwear/00-all-netdata-version.txt" )
+#checkketnoi=$(curl -o /dev/null --silent --head --write-out '%{http_code}' "https://vpssim.com/script/vpssim/Software/00-all-netdata-version.txt" )
+checkketnoi=$(curl -o /dev/null --silent --head --write-out '%{http_code}' "https://raw.githubusercontent.com/itvn9online/vpssim-free/master/script/vpssim/Software/00-all-netdata-version.txt" )
 if [[ "$checkketnoi" == "000" ]]; then
 clear
 echo "========================================================================="
@@ -28,8 +28,8 @@ fi
 
 cd /tmp
 download_version_netdata () {
-#wget --no-check-certificate -q https://vpssim.com/script/vpssim/Softwear/00-all-netdata-version.txt
-wget --no-check-certificate -q https://raw.githubusercontent.com/itvn9online/vpssim-free/master/script/vpssim/Softwear/00-all-netdata-version.txt
+#wget --no-check-certificate -q https://vpssim.com/script/vpssim/Software/00-all-netdata-version.txt
+wget --no-check-certificate -q https://raw.githubusercontent.com/itvn9online/vpssim-free/master/script/vpssim/Software/00-all-netdata-version.txt
 }
 download_version_netdata
 checkdownload_version_netdata=`cat /tmp/00-all-netdata-version.txt`
@@ -89,7 +89,7 @@ echo "please wait... "; sleep 8
 yum -y install libuuid-devel uuid-dev zlib-devel zlib1g-dev autoconf automake pkg-config
 cd /usr/local/vpssim
 rm -rf netdata
-#wget --no-check-certificate -q https://vpssim.com/script/vpssim/Softwear/netdata_$NetData_VERSION.zip
+#wget --no-check-certificate -q https://vpssim.com/script/vpssim/Software/netdata_$NetData_VERSION.zip
 wget --no-check-certificate -q https://github.com/itvn9online/echbay-vpssim-software/raw/master/netdata_$NetData_VERSION.zip
 unzip -o -q netdata_$NetData_VERSION.zip
 rm -rf /usr/local/vpssim/netdata_$NetData_VERSION.zip
