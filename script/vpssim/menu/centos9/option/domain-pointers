@@ -6,11 +6,18 @@
 
 #
 echo "========================================================================="
-echo "Chon ten mien chinh/ Choose primary domain:"
-echo "-------------------------------------------------------------------------"
+# echo "Chon ten mien chinh/ Choose primary domain:"
+# echo "-------------------------------------------------------------------------"
 
+domain_number=$1
+if [ "$domain_number" = "" ]; then
 echo -n "Chon ten mien chinh/ Choose primary domain [ENTER]: " 
 read website
+else
+website=$domain_number
+# echo $website
+# exit
+fi
 website=`echo $website | tr '[A-Z]' '[a-z]'`
 
 #
@@ -53,8 +60,15 @@ exit
 fi
 
 #
+domain_pointer=$2
+if [ "$domain_pointer" = "" ]; then
 echo -n "Nhap ten mien phu/ Enter pointer domain [ENTER]: " 
 read pointer
+else
+pointer=$domain_pointer
+# echo $pointer
+# exit
+fi
 pointer=`echo $pointer | tr '[A-Z]' '[a-z]'`
 
 #
