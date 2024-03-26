@@ -17,7 +17,7 @@ for get_d in /home/*
 do
 	if [ -d $get_d ]; then
 		website=$(basename $get_d)
-		if [ ! "$website" = "vpssim.demo" ]; then
+		if [ ! "$website" = "vpssim.demo" ] && [ ! "$website" = "linuxuser" ]; then
 			# phải có vHost thì mới là 1 website hợp lệ
 			if [ -f "/etc/nginx/conf.d/${website}.conf" ]; then
 				has_sll=""

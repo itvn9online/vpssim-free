@@ -100,5 +100,9 @@ fi
 /etc/vpssim/menu/centos9/inc/add-vhost-after $pointer $website
 
 #
+if [ "$domain_pointer" = "" ]; then
 /etc/vpssim/menu/centos9/option/them-website-menu
+else
+echo "Domain pointer added: "$domain_pointer
+fi
 exit
