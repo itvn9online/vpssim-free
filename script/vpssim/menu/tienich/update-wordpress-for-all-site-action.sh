@@ -791,20 +791,22 @@ if [ $2 -lt $3 ]; then
 							
 							# voi DirectAdmin -> chuyen quyen cho user
 							if [ -f /etc/init.d/directadmin ]; then
-								chown -R $4:$4 $get_d
-								# chown -R $4:$4 $get_d/*
+								echo "chown $4 "$get_d
+								# chown -R $4:$4 $get_d
+								chown -R $4:$4 $get_d/*
 							else
 								if [ "$chmodAllUser" == "www" ]; then
 									echo "chown $chmodAllUser "$get_d
-									chown -R $chmodAllUser:$chmodAllUser $get_d
-									# chown -R $chmodAllUser:$chmodAllUser $get_d/*
+									# chown -R $chmodAllUser:$chmodAllUser $get_d
+									chown -R $chmodAllUser:$chmodAllUser $get_d/*
 								elif [ "$chmodAllUser" == "nginx" ]; then
 									echo "chown $chmodAllUser "$get_d
-									chown -R $4:$chmodAllUser $get_d
-									# chown -R $4:$chmodAllUser $get_d/*
+									# chown -R $4:$chmodAllUser $get_d
+									chown -R $4:$chmodAllUser $get_d/*
 								else
-									chown -R $4:$4 $get_d
-									# chown -R $4:$4 $get_d/*
+									echo "chown $4 "$get_d
+									# chown -R $4:$4 $get_d
+									chown -R $4:$4 $get_d/*
 								fi
 							fi
 						else
@@ -812,8 +814,8 @@ if [ $2 -lt $3 ]; then
 						fi
 					elif [ "$chmodAllUser" == "www" ]; then
 						echo "chown $chmodAllUser "$get_d
-						chown -R $chmodAllUser:$chmodAllUser $get_d
-						# chown -R $chmodAllUser:$chmodAllUser $get_d/*
+						# chown -R $chmodAllUser:$chmodAllUser $get_d
+						chown -R $chmodAllUser:$chmodAllUser $get_d/*
 					fi
 					
 					echo "Rsync all DONE..."
