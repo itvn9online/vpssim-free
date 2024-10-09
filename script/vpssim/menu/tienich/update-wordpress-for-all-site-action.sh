@@ -769,14 +769,21 @@ if [ $2 -lt $3 ]; then
 								chown -R $4:$4 $get_d
 								chown -R $4:$4 $get_d/*
 							else
-								# voi VPSSIM, HOCVPS -> phan quyen cho user va nginx
-								id -u nginx
+								# voi aaPanel -> phan quyen cho user www
+								id -u www
 								if [ $? -eq 0 ]; then
-									chown -R $4:nginx $get_d
-									chown -R $4:nginx $get_d/*
+									chown -R www:www $get_d
+									chown -R www:www $get_d/*
 								else
-									chown -R $4:$4 $get_d
-									chown -R $4:$4 $get_d/*
+									# voi VPSSIM, HOCVPS -> phan quyen cho user va nginx
+									id -u nginx
+									if [ $? -eq 0 ]; then
+										chown -R $4:nginx $get_d
+										chown -R $4:nginx $get_d/*
+									else
+										chown -R $4:$4 $get_d
+										chown -R $4:$4 $get_d/*
+									fi
 								fi
 							fi
 						else
