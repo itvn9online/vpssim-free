@@ -75,10 +75,14 @@ echo "= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = ="
 echo "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
 
 # con lai se cho nguoi dung nhap path
-echo -n "Enter folder for check and update (default /home): "
+echo "if using aaPanel please enter: www"
+echo "if using cPanel or DirectAdmin please leave blank or enter: home"
+echo -n "Enter folder for check and update ( default /home ): "
 read root_dir
-if [ "$root_dir" == "" ]; then
+if [ "$root_dir" == "" ] || [ "$root_dir" == "home" ]; then
 	root_dir="/home"
+elif [ "$root_dir" == "www" ] || [ "$root_dir" == "aapanel" ]; then
+	root_dir="/www/wwwroot"
 else
 	# xac dinh user dung de chmod
 	if [ ! "$root_dir" == "/home" ] && [[ ! "$root_dir" == *"$home_path"* ]]; then
@@ -86,6 +90,8 @@ else
 		read chmodUser
 	fi
 fi
+
+#
 if [ ! -d $root_dir ]; then
 	echoR $root_dir" not exist..."
 	exit
@@ -165,7 +171,7 @@ rm -rf $1
 fi
 fi
 
-# kiem tra xem file download wordress co chua
+# kiem tra xem file download lau chua
 if [ -f $1 ]; then
 #fileTime2=$(date -r $1 +%d)
 fileTime2=$(date -r $1 +%d%H)
@@ -236,7 +242,9 @@ exit
 fi
 
 # thay doi thoi gian tao file cung voi server, de con kiem tra cap nhat lai code
-echo "Set timestamp: "$2 ; touch -d "$(date)" $2
+echo "Set timestamp: "$2
+# touch -d "$(date)" $2
+touch -m $2
 
 # giai nen
 unzip -o $2 > /dev/null 2>&1
@@ -347,7 +355,7 @@ elif [ ! "$3" == "no" ]; then
 		#ketnoi=$(curl -o /dev/null --silent --head --write-out '%{http_code}' "https://downloads.wordpress.org/plugin/"$1".zip")
 		#echo $ketnoi
 		# neu co thi download ve de cap nhat cho website
-		if [ "$ketnoi" == "200" ]; then
+		if [ "$ketnoi" == "200" ] || [ "$ketnoi" == "301" ] || [ "$ketnoi" == "302" ]; then
 			download_wordpress_plugin $download_version $1
 			sleep 1
 			rsync_wp_plugin $1 $2 "no"
@@ -398,7 +406,8 @@ rm -rf /root/wp-all-update/echbaydotcom-master/.gitattributes
 rm -rf /root/wp-all-update/echbaydotcom-master/.gitignore
 # chinh lai thoi gian cap nhat
 if [ -f /root/wp-all-update/echbaydotcom-master/readme.txt ]; then
-	touch -d "$(date)" /root/wp-all-update/echbaydotcom-master/readme.txt
+	# touch -d "$(date)" /root/wp-all-update/echbaydotcom-master/readme.txt
+	touch -m /root/wp-all-update/echbaydotcom-master/readme.txt
 fi
 
 # unzip code trong outsource cua echbaydotcom
@@ -422,7 +431,8 @@ rm -rf /root/wp-all-update/webgiareorg-main/.gitattributes
 rm -rf /root/wp-all-update/webgiareorg-main/.gitignore
 # chinh lai thoi gian cap nhat
 if [ -f /root/wp-all-update/webgiareorg-main/README.md ]; then
-	touch -d "$(date)" /root/wp-all-update/webgiareorg-main/README.md
+	# touch -d "$(date)" /root/wp-all-update/webgiareorg-main/README.md
+	touch -m /root/wp-all-update/webgiareorg-main/README.md
 fi
 
 # unzip code trong public thirdparty cua webgiareorg
@@ -446,7 +456,8 @@ rm -rf /root/wp-all-update/echbaytwo-master/.gitattributes
 rm -rf /root/wp-all-update/echbaytwo-master/.gitignore
 # chinh lai thoi gian cap nhat
 if [ -f /root/wp-all-update/echbaytwo-master/index.php ]; then
-	touch -d "$(date)" /root/wp-all-update/echbaytwo-master/index.php
+	# touch -d "$(date)" /root/wp-all-update/echbaytwo-master/index.php
+	touch -m /root/wp-all-update/echbaytwo-master/index.php
 fi
 
 # unzip code trong outsource cua echbaytwo
