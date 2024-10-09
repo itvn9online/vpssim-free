@@ -74,12 +74,23 @@ clear
 echo "= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = ="
 echo "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
 
+# 
+if [ -d "/www/wwwroot" ]; then
+# default dir for aaPanel
+root_default_dir="/www/wwwroot"
+echo "if using aaPanel please leave blank or Enter: www"
+else
+# default dir for cPanel or DirectAdmin
+root_default_dir="/home"
+echo "if using cPanel or DirectAdmin please leave blank or Enter: home"
+fi
+
 # con lai se cho nguoi dung nhap path
-echo "if using aaPanel please enter: www"
-echo "if using cPanel or DirectAdmin please leave blank or enter: home"
-echo -n "Enter folder for check and update ( default /home ): "
+echo -n "Enter folder for check and update ( default $root_default_dir ): "
 read root_dir
-if [ "$root_dir" == "" ] || [ "$root_dir" == "home" ]; then
+if [ "$root_dir" == "" ]; then
+	root_dir=$root_default_dir
+elif [ "$root_dir" == "home" ]; then
 	root_dir="/home"
 elif [ "$root_dir" == "www" ] || [ "$root_dir" == "aapanel" ]; then
 	root_dir="/www/wwwroot"
