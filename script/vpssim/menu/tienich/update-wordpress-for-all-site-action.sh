@@ -58,6 +58,7 @@ echo $(date) > /root/update-wordpress-for-all-site-log.txt
 #
 checkWgrCode=0
 chmodUser=""
+chmodAllUser=""
 home_path="/home/"
 DisableXmlrpc=0
 for_rebuild="no"
@@ -76,13 +77,25 @@ echo "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
 
 # 
 if [ -d "/www/wwwroot" ]; then
-# default dir for aaPanel
-root_default_dir="/www/wwwroot"
-echo "if using aaPanel please leave blank or Enter: www"
+	echo "if using aaPanel please leave blank or Enter: www"
+
+	# default dir for aaPanel
+	root_default_dir="/www/wwwroot"
+	
+	id -u www
+	if [ $? -eq 0 ]; then
+		chmodAllUser="www"
+	fi
 else
-# default dir for cPanel or DirectAdmin
-root_default_dir="/home"
-echo "if using cPanel or DirectAdmin please leave blank or Enter: home"
+	echo "if using cPanel or DirectAdmin please leave blank or Enter: home"
+
+	# default dir for cPanel or DirectAdmin
+	root_default_dir="/home"
+
+	id -u nginx
+	if [ $? -eq 0 ]; then
+		chmodAllUser="nginx"
+	fi
 fi
 
 # con lai se cho nguoi dung nhap path
@@ -94,6 +107,11 @@ elif [ "$root_dir" == "home" ]; then
 	root_dir="/home"
 elif [ "$root_dir" == "www" ] || [ "$root_dir" == "aapanel" ]; then
 	root_dir="/www/wwwroot"
+	
+	id -u www
+	if [ $? -eq 0 ]; then
+		chmodAllUser="www"
+	fi
 else
 	# xac dinh user dung de chmod
 	if [ ! "$root_dir" == "/home" ] && [[ ! "$root_dir" == *"$home_path"* ]]; then
@@ -264,6 +282,13 @@ unzip -o $2 > /dev/null 2>&1
 #echo $2" exist"
 fi
 
+#
+if [ ! "$chmodAllUser" == "" ]; then
+	echo "chown $chmodAllUser wp-all-update"
+	chown -R $chmodAllUser:$chmodAllUser /root/wp-all-update
+fi
+
+#
 cd ~
 
 }
@@ -488,16 +513,9 @@ fi
 # END unzip echbaytwo
 
 # phan quyen cho nginx quan ly
-id -u www
-if [ $? -eq 0 ]; then
-	echo "chown www wp-all-update"
-	chown -R www:www /root/wp-all-update
-else
-	id -u nginx
-	if [ $? -eq 0 ]; then
-		echo "chown nginx wp-all-update"
-		chown -R nginx:nginx /root/wp-all-update
-	fi
+if [ ! "$chmodAllUser" == "" ]; then
+	echo "chown $chmodAllUser wp-all-update"
+	chown -R $chmodAllUser:$chmodAllUser /root/wp-all-update
 fi
 
 
@@ -774,37 +792,28 @@ if [ $2 -lt $3 ]; then
 							# voi DirectAdmin -> chuyen quyen cho user
 							if [ -f /etc/init.d/directadmin ]; then
 								chown -R $4:$4 $get_d
-								chown -R $4:$4 $get_d/*
+								# chown -R $4:$4 $get_d/*
 							else
-								# voi aaPanel -> phan quyen cho user www
-								id -u www
-								if [ $? -eq 0 ]; then
-									echo "chown www "$get_d
-									chown -R www:www $get_d
-									chown -R www:www $get_d/*
+								if [ "$chmodAllUser" == "www" ]; then
+									echo "chown $chmodAllUser $get_d"
+									chown -R $chmodAllUser:$chmodAllUser $get_d
+									# chown -R $chmodAllUser:$chmodAllUser $get_d/*
+								elif [ "$chmodAllUser" == "nginx" ]; then
+									echo "chown $chmodAllUser $get_d"
+									chown -R $4:$chmodAllUser $get_d
+									# chown -R $4:$chmodAllUser $get_d/*
 								else
-									# voi VPSSIM, HOCVPS -> phan quyen cho user va nginx
-									id -u nginx
-									if [ $? -eq 0 ]; then
-										echo "chown nginx "$get_d
-										chown -R $4:nginx $get_d
-										chown -R $4:nginx $get_d/*
-									else
-										chown -R $4:$4 $get_d
-										chown -R $4:$4 $get_d/*
-									fi
+									chown -R $4:$4 $get_d
+									# chown -R $4:$4 $get_d/*
 								fi
 							fi
 						else
 							echo "user "$4" not exist"
 						fi
-					else
-						id -u www
-						if [ $? -eq 0 ]; then
-							echo "chown www "$get_d
-							chown -R www:www $get_d
-							chown -R www:www $get_d/*
-						fi
+					elif [ "$chmodAllUser" == "www" ]; then
+						echo "chown $chmodAllUser $get_d"
+						chown -R $chmodAllUser:$chmodAllUser $get_d
+						# chown -R $chmodAllUser:$chmodAllUser $get_d/*
 					fi
 					
 					echo "Rsync all DONE..."
