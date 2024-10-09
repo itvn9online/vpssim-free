@@ -488,9 +488,16 @@ fi
 # END unzip echbaytwo
 
 # phan quyen cho nginx quan ly
-id -u nginx
+id -u www
 if [ $? -eq 0 ]; then
-	chown -R nginx:nginx /root/wp-all-update
+	echo "chown www wp-all-update"
+	chown -R www:www /root/wp-all-update
+else
+	id -u nginx
+	if [ $? -eq 0 ]; then
+		echo "chown nginx wp-all-update"
+		chown -R nginx:nginx /root/wp-all-update
+	fi
 fi
 
 
@@ -772,12 +779,14 @@ if [ $2 -lt $3 ]; then
 								# voi aaPanel -> phan quyen cho user www
 								id -u www
 								if [ $? -eq 0 ]; then
+									echo "chown www "$get_d
 									chown -R www:www $get_d
 									chown -R www:www $get_d/*
 								else
 									# voi VPSSIM, HOCVPS -> phan quyen cho user va nginx
 									id -u nginx
 									if [ $? -eq 0 ]; then
+										echo "chown nginx "$get_d
 										chown -R $4:nginx $get_d
 										chown -R $4:nginx $get_d/*
 									else
@@ -788,6 +797,13 @@ if [ $2 -lt $3 ]; then
 							fi
 						else
 							echo "user "$4" not exist"
+						fi
+					else
+						id -u www
+						if [ $? -eq 0 ]; then
+							echo "chown www "$get_d
+							chown -R www:www $get_d
+							chown -R www:www $get_d/*
 						fi
 					fi
 					
