@@ -284,7 +284,7 @@ fi
 
 #
 if [ ! "$chmodAllUser" == "" ]; then
-	echo "chown $chmodAllUser wp-all-update"
+	echo "chown $chmodAllUser wp-all-update"$3
 	chown -R $chmodAllUser:$chmodAllUser /root/wp-all-update
 fi
 
@@ -795,11 +795,11 @@ if [ $2 -lt $3 ]; then
 								# chown -R $4:$4 $get_d/*
 							else
 								if [ "$chmodAllUser" == "www" ]; then
-									echo "chown $chmodAllUser $get_d"
+									echo "chown $chmodAllUser "$get_d
 									chown -R $chmodAllUser:$chmodAllUser $get_d
 									# chown -R $chmodAllUser:$chmodAllUser $get_d/*
 								elif [ "$chmodAllUser" == "nginx" ]; then
-									echo "chown $chmodAllUser $get_d"
+									echo "chown $chmodAllUser "$get_d
 									chown -R $4:$chmodAllUser $get_d
 									# chown -R $4:$chmodAllUser $get_d/*
 								else
@@ -811,7 +811,7 @@ if [ $2 -lt $3 ]; then
 							echo "user "$4" not exist"
 						fi
 					elif [ "$chmodAllUser" == "www" ]; then
-						echo "chown $chmodAllUser $get_d"
+						echo "chown $chmodAllUser "$get_d
 						chown -R $chmodAllUser:$chmodAllUser $get_d
 						# chown -R $chmodAllUser:$chmodAllUser $get_d/*
 					fi
