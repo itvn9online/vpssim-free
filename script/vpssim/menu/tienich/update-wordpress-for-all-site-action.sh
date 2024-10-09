@@ -103,6 +103,7 @@ else
 fi
 
 #
+echoG "Scan in dir: "$root_dir
 if [ ! -d $root_dir ]; then
 	echoR $root_dir" not exist..."
 	exit
