@@ -12,7 +12,8 @@ fi
 #
 cd ~
 cd /etc/vpssim/menu/tienich
-curl -sO https://raw.githubusercontent.com/itvn9online/vpssim-free/master/script/vpssim/menu/tienich/update-wordpress-for-all-site-action.sh
+# curl -sO https://raw.githubusercontent.com/itvn9online/vpssim-free/master/script/vpssim/menu/tienich/update-wordpress-for-all-site-action.sh
+curl -sO https://raw.echbay.com/itvn9online/vpssim-free/master/script/vpssim/menu/tienich/update-wordpress-for-all-site-action.sh
 cd ~
 
 #

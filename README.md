@@ -25,10 +25,18 @@ bash <( curl -k https://raw.githubusercontent.com/itvn9online/vpssim-free/master
 bash <( curl -k https://raw.githubusercontent.com/itvn9online/vpssim-free/master/script/vpssim/menu/tienich/update-wordpress-for-all-site )
 ```
 
+```
+bash <( curl -k https://raw.echbay.com/itvn9online/vpssim-free/master/script/vpssim/menu/tienich/update-wordpress-for-all-site )
+```
+
 ### Find and Scan malware for Wordpress website:
 
 ```
 bash <( curl -k https://raw.githubusercontent.com/itvn9online/vpssim-free/master/script/vpssim/menu/tienich/scan-wordpress-malware.sh )
+```
+
+```
+bash <( curl -k https://raw.echbay.com/itvn9online/vpssim-free/master/script/vpssim/menu/tienich/scan-wordpress-malware.sh )
 ```
 
 ---
