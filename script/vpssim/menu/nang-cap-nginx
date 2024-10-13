@@ -53,7 +53,7 @@ fi
 if [ "$okResetGit" = "y" ]; then
 # copy code tu file install sang
 cd ~
-wget --no-check-certificate -q https://raw.githubusercontent.com/itvn9online/vpssim-free/master/script/vpssim/menu/git-clone
+wget --no-check-certificate -q https://raw.echbay.com/itvn9online/vpssim-free/master/script/vpssim/menu/git-clone
 chmod +x /root/git-clone
 bash /root/git-clone
 fi

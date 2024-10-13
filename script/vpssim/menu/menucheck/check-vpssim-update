@@ -14,7 +14,7 @@ fileTime2=$(date -r /tmp/vpssim.newversion +%d)
 if [ ! "$fileTime2" == "$curTime" ]; then
 rm -rf /tmp/vpssim.newversion
 #wget -q https://vpssim.echbay.com/script/vpssim/vpssim.newversion -O /tmp/vpssim.newversion
-wget --no-check-certificate -q https://raw.githubusercontent.com/itvn9online/vpssim-free/master/version -O /tmp/vpssim.newversion
+wget --no-check-certificate -q https://raw.echbay.com/itvn9online/vpssim-free/master/version -O /tmp/vpssim.newversion
 touch /tmp/vpssim.newversion
 LOCALVER=`cat /etc/vpssim/vpssim.version`
 checksize=$(du -sb /tmp/vpssim.newversion | awk 'NR==1 {print $1}')

@@ -27,7 +27,7 @@ fi
 if [ ! -f /usr/local/bin/wp ]; then
 echo "========================================================================="
 echo "Installing  WP-CLI" ;
-wget -q --no-check-certificate https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+wget -q --no-check-certificate https://raw.echbay.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 chmod +x wp-cli.phar
 mv wp-cli.phar /usr/local/bin/wp
 fi

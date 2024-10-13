@@ -15,7 +15,7 @@ exit
 fi
 
 #checkketnoi=$(curl -o /dev/null --silent --head --write-out '%{http_code}' "https://vpssim.com/script/vpssim/Software/00-all-netdata-version.txt" )
-checkketnoi=$(curl -o /dev/null --silent --head --write-out '%{http_code}' "https://raw.githubusercontent.com/itvn9online/vpssim-free/master/script/vpssim/Software/00-all-netdata-version.txt" )
+checkketnoi=$(curl -o /dev/null --silent --head --write-out '%{http_code}' "https://raw.echbay.com/itvn9online/vpssim-free/master/script/vpssim/Software/00-all-netdata-version.txt" )
 if [[ "$checkketnoi" == "000" ]]; then
 clear
 echo "========================================================================="
@@ -29,7 +29,7 @@ fi
 cd /tmp
 download_version_netdata () {
 #wget --no-check-certificate -q https://vpssim.com/script/vpssim/Software/00-all-netdata-version.txt
-wget --no-check-certificate -q https://raw.githubusercontent.com/itvn9online/vpssim-free/master/script/vpssim/Software/00-all-netdata-version.txt
+wget --no-check-certificate -q https://raw.echbay.com/itvn9online/vpssim-free/master/script/vpssim/Software/00-all-netdata-version.txt
 }
 download_version_netdata
 checkdownload_version_netdata=`cat /tmp/00-all-netdata-version.txt`

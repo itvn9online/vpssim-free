@@ -6,7 +6,7 @@ cd ~
 mkdir -p /etc/vpssim/.tmp
 
 
-checkketnoi=$(curl -o /dev/null --silent --head --write-out '%{http_code}' "https://raw.githubusercontent.com/itvn9online/vpssim-free/master/version" )
+checkketnoi=$(curl -o /dev/null --silent --head --write-out '%{http_code}' "https://raw.echbay.com/itvn9online/vpssim-free/master/version" )
 #echo $checkketnoi
 if [[ "$checkketnoi" == "000" ]]; then
 clear
@@ -42,7 +42,7 @@ rm -rf /etc/vpssim/.tmp/vpssim-update-*
 
 
 ## Bat dau thuc hien update ECHBAY-VPSSIM
-wget --no-check-certificate -q https://raw.githubusercontent.com/itvn9online/vpssim-free/master/script/vpssim/vpssim-update-run -O /etc/vpssim/.tmp/vpssim-update-run
+wget --no-check-certificate -q https://raw.echbay.com/itvn9online/vpssim-free/master/script/vpssim/vpssim-update-run -O /etc/vpssim/.tmp/vpssim-update-run
 chmod +x /etc/vpssim/.tmp/vpssim-update-run
 bash /etc/vpssim/.tmp/vpssim-update-run
 

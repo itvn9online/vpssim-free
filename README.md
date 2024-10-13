@@ -8,7 +8,7 @@ Cơ bản thì trong phiên bản ECHBAY-VPSSIM mình chủ yếu cập nhật l
 ### Lệnh Cài Đặt ECHBAY-VPSSIM:
 
 ```
-bash <( curl -k https://raw.githubusercontent.com/itvn9online/vpssim-free/master/install )
+bash <( curl -k https://raw.echbay.com/itvn9online/vpssim-free/master/install )
 ```
 
 #### OS Hỗ trợ: `CentOS 7` `CentOS 8` `CentOS 9` `AlmaLinux 8` `AlmaLinux 9` (Without SELinux):
@@ -16,24 +16,16 @@ bash <( curl -k https://raw.githubusercontent.com/itvn9online/vpssim-free/master
 ### Lệnh Cài Đặt yum-cron (auto update system):
 
 ```
-bash <( curl -k https://raw.githubusercontent.com/itvn9online/vpssim-free/master/script/yum-cron-setup )
+bash <( curl -k https://raw.echbay.com/itvn9online/vpssim-free/master/script/yum-cron-setup )
 ```
 
 ### Find and update plugin and Wordpress core for Wordpress website:
-
-```
-bash <( curl -k https://raw.githubusercontent.com/itvn9online/vpssim-free/master/script/vpssim/menu/tienich/update-wordpress-for-all-site )
-```
 
 ```
 bash <( curl -k https://raw.echbay.com/itvn9online/vpssim-free/master/script/vpssim/menu/tienich/update-wordpress-for-all-site )
 ```
 
 ### Find and Scan malware for Wordpress website:
-
-```
-bash <( curl -k https://raw.githubusercontent.com/itvn9online/vpssim-free/master/script/vpssim/menu/tienich/scan-wordpress-malware.sh )
-```
 
 ```
 bash <( curl -k https://raw.echbay.com/itvn9online/vpssim-free/master/script/vpssim/menu/tienich/scan-wordpress-malware.sh )
