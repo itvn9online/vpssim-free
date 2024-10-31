@@ -9,6 +9,7 @@ fi
 for_classic_editor="classic-editor.1.6.5"
 for_yoast_seo="wordpress-seo.23.7"
 for_elementor="elementor.3.25.3"
+for_woocommerce="woocommerce.9.3.3"
 
 
 echoY() {
@@ -384,6 +385,8 @@ elif [ ! "$3" == "no" ]; then
 			download_version=$for_classic_editor
 		elif [ "$1" == "elementor" ]; then
 			download_version=$for_elementor
+		elif [ "$1" == "woocommerce" ]; then
+			download_version=$for_woocommerce
 		fi
 
 		# kiem tra xem plugin nay co tren wordpress khong
