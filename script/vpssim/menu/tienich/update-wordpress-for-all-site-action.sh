@@ -7,9 +7,10 @@ fi
 
 # chuc nang cap nhat wordress cho toan bo website tren server
 for_classic_editor="classic-editor.1.6.7"
-for_elementor="elementor.3.27.2"
-for_woocommerce="woocommerce.9.6.0"
-for_yoast_seo="wordpress-seo.24.3"
+for_elementor="elementor.3.27.3"
+for_rankmath="seo-by-rank-math.1.0.237"
+for_woocommerce="woocommerce.9.6.1"
+for_yoast_seo="wordpress-seo.24.4"
 
 
 echoY() {
@@ -387,6 +388,8 @@ elif [ ! "$3" == "no" ]; then
 			download_version=$for_elementor
 		elif [ "$1" == "woocommerce" ]; then
 			download_version=$for_woocommerce
+		elif [ "$1" == "seo-by-rank-math" ]; then
+			download_version=$for_rankmath
 		fi
 
 		# kiem tra xem plugin nay co tren wordpress khong
