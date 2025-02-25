@@ -9,7 +9,7 @@ fi
 for_classic_editor="classic-editor.1.6.7"
 for_elementor="elementor.3.27.6"
 for_rankmath="seo-by-rank-math.1.0.238"
-for_woocommerce="woocommerce.9.6.2"
+for_woocommerce="woocommerce.9.7.0"
 for_yoast_seo="wordpress-seo.24.5"
 
 
