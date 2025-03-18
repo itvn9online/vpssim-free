@@ -7,7 +7,7 @@ fi
 
 # chuc nang cap nhat wordress cho toan bo website tren server
 for_classic_editor="classic-editor.1.6.7"
-for_elementor="elementor.3.27.7"
+for_elementor="elementor.3.28.0"
 for_rankmath="seo-by-rank-math.1.0.240"
 for_woocommerce="woocommerce.9.7.1"
 for_yoast_seo="wordpress-seo.24.6"
@@ -55,7 +55,8 @@ remove_code_and_htaccess(){
 
 #
 cd ~
-echo $(date) > /root/update-wordpress-for-all-site-log.txt
+echo $(date) > /root/update-wordpress-for-all-site.log
+echo $(date) > /root/update-wordpress-for-all-site-plugins-404.log
 
 #
 checkWgrCode=0
@@ -596,9 +597,11 @@ fi
 }
 
 send_warning_via_telegram(){
-	#wget --no-check-certificate -O /dev/null "https://cloud.echbay.com/backups/has_malware?source="$2"&path="$1
-	curl --data "source="$2"&path="$1 https://cloud.echbay.com/backups/has_malware
-	echoY $2
+	# wget --no-check-certificate -O /dev/null "https://cloud.echbay.com/backups/has_malware?source="$2"&path="$1
+	# curl --data "source="$2"&path="$1 https://cloud.echbay.com/backups/has_malware
+	# echoY $2
+
+	echo $1" "$2 >> /root/update-wordpress-for-all-site-plugins-404.log
 }
 
 # cap nhat lai file htaccess theo tieu chuan neu co yeu cau
@@ -713,7 +716,7 @@ if [ $2 -lt $3 ]; then
 						# nếu tồn tại cả thư mục webgiareorg -> cảnh báo ngay
 						if [ -d "$get_d/wp-content/webgiareorg" ]; then
 							echoR "echbaydotcom AND webgiareorg EXIST..."
-							echo $get_d >> /root/update-wordpress-for-all-site-log.txt
+							echo $get_d >> /root/update-wordpress-for-all-site.log
 							#sleep 30;
 						fi
 						
@@ -908,7 +911,7 @@ fi
 
 #
 cd ~
-echo $(date) >> /root/update-wordpress-for-all-site-log.txt
+echo $(date) >> /root/update-wordpress-for-all-site.log
 
 #
 if [ ! -f /tmp/server_wp_all_update ] && [ -f /home/vpssim.conf ]; then
