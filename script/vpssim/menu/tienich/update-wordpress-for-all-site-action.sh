@@ -373,6 +373,7 @@ if [ -d "$2/wp-content/plugins/$1" ] && [ -d "/root/wp-all-update/plugins/$1" ];
 	remove_code_and_htaccess $2/wp-content/plugins/$1
 	# sau do moi rsync
 	echoG "rsync - - - "$1
+	# -avzh --delete
 	rsync -ah /root/wp-all-update/plugins/$1/* $2/wp-content/plugins/$1/ > /dev/null 2>&1
 # chua duoc tai thi download ve
 elif [ ! "$3" == "no" ]; then
@@ -410,7 +411,7 @@ elif [ ! "$3" == "no" ]; then
 			echo $ketnoi > $file404
 
 			#
-			send_warning_via_telegram $2"/"$1 "plugins_404"
+			send_warning_via_telegram $2"/wp-content/plugins/"$1 "plugins_404"
 		else
 			# neu khong thi bao loi, thuong thi nhung plugin pro se khong co tren wordpress
 			echoY "- - - - - - - - - WARNING... plugin connect error "$ketnoi": "$1
