@@ -7,7 +7,7 @@ fi
 
 # chuc nang cap nhat wordress cho toan bo website tren server
 for_classic_editor="classic-editor.1.6.7"
-for_elementor="elementor.3.28.1"
+for_elementor="elementor.3.28.2"
 for_rankmath="seo-by-rank-math.1.0.241"
 for_woocommerce="woocommerce.9.7.1"
 for_yoast_seo="wordpress-seo.24.7"
