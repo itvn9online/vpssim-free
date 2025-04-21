@@ -80,4 +80,4 @@ else
     /usr/bin/echo "ERROR_etc_vpssim_menu_tienich"
 fi
 
-/usr/bin/rm -rf /tmp/server_wp_all_update
+# /usr/bin/rm -rf /tmp/server_wp_all_update
