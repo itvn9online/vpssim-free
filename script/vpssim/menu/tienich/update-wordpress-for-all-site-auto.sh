@@ -56,7 +56,7 @@ if [ -d /etc/vpssim/menu/tienich ]; then
 
         f="/etc/vpssim/menu/tienich/update-wordpress-for-all-site"
         # Xóa tất cả các khoảng trắng ở đầu mỗi dòng.
-        /usr/bin/sed -i -e \'s/^[ \\\t]*//\' $f
+        /usr/bin/sed -i -e \'s/^[ \t]*//\' $f
 
         # Xóa tất cả các khoảng trắng ở cuối mỗi dòng.
         /usr/bin/sed -i -e \'s/ *$//\' $f
@@ -65,7 +65,7 @@ if [ -d /etc/vpssim/menu/tienich ]; then
         /usr/bin/sed -i -e \'/^$/d\' $f
         
         #
-        /usr/bin/sed -i \'s/\\\r//\' $f
+        /usr/bin/sed -i \'s/\r//\' $f
 
         /usr/bin/bash /etc/vpssim/menu/tienich/update-wordpress-for-all-site
         
