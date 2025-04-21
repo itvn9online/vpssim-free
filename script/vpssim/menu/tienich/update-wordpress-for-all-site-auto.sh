@@ -69,19 +69,15 @@ if [ -d /etc/vpssim/menu/tienich ]; then
 
         /usr/bin/bash /etc/vpssim/menu/tienich/update-wordpress-for-all-site
         
-        remoteMesage="server_wp_all_update"
-        
-        if [ -f /etc/init.d/php-fpm ]; then
-            /sbin/service php-fpm restart
-        fi
+        /usr/bin/echo "server_wp_all_update"
     else
-        remoteMesage="ERROR_update_wordpress_for_all_site"
+        /usr/bin/echo "ERROR_update_wordpress_for_all_site"
     fi
     
     cd ~
 
 else
-    remoteMesage="ERROR_etc_vpssim_menu_tienich"
+    /usr/bin/echo "ERROR_etc_vpssim_menu_tienich"
 fi
 
 /usr/bin/rm -rf /tmp/server_wp_all_update
