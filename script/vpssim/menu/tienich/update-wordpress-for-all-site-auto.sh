@@ -7,8 +7,8 @@ fi
 cd ~
 
 /usr/bin/echo "# create file" > /tmp/server_wp_all_update
-/usr/bin/echo "root_dir=\"www\"" >> /tmp/server_wp_all_update
-# /usr/bin/echo "MaxCheck=3" >> /tmp/server_wp_all_update
+/usr/bin/echo "root_dir=\"/www/wwwroot\"" >> /tmp/server_wp_all_update
+/usr/bin/echo "MaxCheck=3" >> /tmp/server_wp_all_update
 # kiem tra da dung file htaccess cua WGR chua -> chi danh cho code cua WGR
 /usr/bin/echo "checkWgrCode=0" >> /tmp/server_wp_all_update
 # tắt xmlrpc để nhẹ web và tăng bảo mật
