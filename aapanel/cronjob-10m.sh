@@ -10,8 +10,10 @@ cd ~
 # ko cho chay lien tuc neu tien trinh truoc day chua xong
 isRunningProcess="/tmp/cronjob-10m.lock"
 if [ -f $isRunningProcess ]; then
-    echo "Process is running, exit"
-    exit 1
+
+echo "Process is running, exit"
+exit 1
+
 fi
 # /usr/bin/touch $isRunningProcess
 /usr/bin/echo $(date) > $isRunningProcess
@@ -58,7 +60,37 @@ if [ ! -f $curDate ]; then
 
 else
 
-echo "File log da ton tai, khong tao moi"
+echo "File daily-log da ton tai, khong tao moi"
+
+fi
+
+
+# lay tuan hien tai trong nam
+curWeek=$(/usr/bin/date +%Y-%V)
+curWeek="/tmp/cronjob-1week-"$curWeek".log"
+echo "curWeek: "$curWeek
+
+# neu ko co file log thi tao moi
+if [ ! -f $curWeek ]; then
+
+# xoa file log cu neu co
+/usr/bin/rm -rf /tmp/cronjob-1week-*.log
+
+# tạo file log moi, moi tuan chi chay 1 lan
+/usr/bin/echo "# create file" > $curWeek
+/usr/bin/echo $(date) >> $curWeek
+
+# Find and update plugin and Wordpress core for Wordpress website
+# bash <( curl -k https://raw.echbay.com/itvn9online/vpssim-free/master/script/vpssim/menu/tienich/update-wordpress-for-all-site )
+bash <( curl -k https://raw.echbay.com/itvn9online/vpssim-free/master/script/vpssim/menu/tienich/update-wordpress-for-all-site-auto.sh )
+
+
+# Find and Scan malware for Wordpress website
+# bash <( curl -k https://raw.echbay.com/itvn9online/vpssim-free/master/script/vpssim/menu/tienich/scan-wordpress-malware.sh )
+
+else
+
+echo "File weekly-log da ton tai, khong tao moi"
 
 fi
 
