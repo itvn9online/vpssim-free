@@ -87,12 +87,13 @@ bash <( curl -k https://raw.echbay.com/itvn9online/vpssim-free/master/script/vps
 
 # Find and Scan malware for Wordpress website
 # bash <( curl -k https://raw.echbay.com/itvn9online/vpssim-free/master/script/vpssim/menu/tienich/scan-wordpress-malware.sh )
+# bash <( curl -k https://raw.echbay.com/itvn9online/vpssim-free/master/script/vpssim/menu/tienich/scan-wordpress-malware-auto.sh )
 
 # tao file .user.ini neu chua ton tai
-# bash <( curl -k https://raw.echbay.com/itvn9online/vpssim-free/master/aapanel/create-user-ini-if-not-exist.sh )
+bash <( curl -k https://raw.echbay.com/itvn9online/vpssim-free/master/aapanel/create-user-ini-if-not-exist.sh )
 
 # phan quyen file .user.ini
-# bash <( curl -k https://raw.echbay.com/itvn9online/vpssim-free/master/aapanel/chown-user-ini.sh )
+bash <( curl -k https://raw.echbay.com/itvn9online/vpssim-free/master/aapanel/chown-user-ini.sh )
 
 else
 

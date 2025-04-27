@@ -22,7 +22,7 @@ continue
 fi
 
 dirname=$(basename -- "$db_dir")
-/usr/bin/echo "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"$dirname
+/usr/bin/echo "- - - - - - - - - - - - create user ini - - - - - - - - - - - - -"$dirname
 
 # tao file .user.ini
 /usr/bin/cat > "/tmp/wwwroot-user-ini/.user.ini" <<END
