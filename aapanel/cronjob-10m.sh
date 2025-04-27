@@ -7,6 +7,16 @@
 cd ~
 
 
+# ko cho chay lien tuc neu tien trinh truoc day chua xong
+isRunningProcess="/tmp/cronjob-10m.lock"
+if [ -f $isRunningProcess ]; then
+    echo "Process is running, exit"
+    exit 1
+fi
+# /usr/bin/touch $isRunningProcess
+/usr/bin/echo $(date) > $isRunningProcess
+
+
 # Memcached Daemon
 btpython /www/server/panel/script/restart_services.py memcached
 
@@ -51,3 +61,7 @@ else
 echo "File log da ton tai, khong tao moi"
 
 fi
+
+
+# xoa file lock
+/usr/bin/rm -rf $isRunningProcess
