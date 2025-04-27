@@ -70,8 +70,15 @@ curWeek=$(/usr/bin/date +%Y-%V)
 curWeek="/tmp/cronjob-1week-"$curWeek".log"
 echo "curWeek: "$curWeek
 
+
+# lay ngay trong tuan
+toDay=$(/usr/bin/date +%u)
+echo "toDay: "$toDay
+
+
+# neu toDay = 1 (thu 2)
 # neu ko co file log thi tao moi
-if [ ! -f $curWeek ]; then
+if [ $toDay -eq 1 ] && [ ! -f $curWeek ]; then
 
 # xoa file log cu neu co
 /usr/bin/rm -rf /tmp/cronjob-1week-*.log
