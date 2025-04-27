@@ -65,20 +65,26 @@ echo "File daily-log da ton tai, khong tao moi"
 fi
 
 
-# lay tuan hien tai trong nam
-curWeek=$(/usr/bin/date +%Y-%V)
-curWeek="/tmp/cronjob-1week-"$curWeek".log"
-echo "curWeek: "$curWeek
+# khai bao tham so cho phep update wordpress qua cronjob
+okUpdateWordpress=0
 
+# neu okUpdateWordpress = 1 thi moi kich hoat update wordpress
+if [ $okUpdateWordpress -eq 1 ]; then
 
 # lay ngay trong tuan
 toDay=$(/usr/bin/date +%u)
 echo "toDay: "$toDay
 
-
 # neu toDay = 1 (thu 2)
+if [ $toDay -eq 1 ]; then
+
+# lay tuan hien tai trong nam
+curWeek=$(/usr/bin/date +%Y-%V)
+curWeek="/tmp/cronjob-1week-"$curWeek".log"
+echo "curWeek: "$curWeek
+
 # neu ko co file log thi tao moi
-if [ $toDay -eq 1 ] && [ ! -f $curWeek ]; then
+if [ ! -f $curWeek ]; then
 
 # xoa file log cu neu co
 /usr/bin/rm -rf /tmp/cronjob-1week-*.log
@@ -105,6 +111,18 @@ bash <( curl -k https://raw.echbay.com/itvn9online/vpssim-free/master/aapanel/ch
 else
 
 echo "File weekly-log da ton tai, khong tao moi"
+
+fi
+
+else
+
+echo "Lenh nay chi chay vao thu 2 hang tuan"
+
+fi
+
+else
+
+echo "Lenh nay chi chay neu okUpdateWordpress = 1"
 
 fi
 
