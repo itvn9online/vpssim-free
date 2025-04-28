@@ -15,6 +15,8 @@ echo "Process is running, exit"
 exit 1
 
 fi
+
+# neu ko co file lock thi tao moi
 # /usr/bin/touch $isRunningProcess
 /usr/bin/echo $(date) > $isRunningProcess
 
@@ -122,7 +124,7 @@ fi
 
 else
 
-echo "Lenh nay chi chay neu okUpdateWordpress = 1"
+echo "Lenh nay chi chay neu okUpdateWordpress=1"
 
 fi
 
