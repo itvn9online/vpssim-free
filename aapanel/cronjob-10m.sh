@@ -68,7 +68,7 @@ fi
 
 
 # khai bao tham so cho phep update wordpress qua cronjob
-okUpdateWordpress=0
+okUpdateWordpress=1
 
 # neu okUpdateWordpress = 1 thi moi kich hoat update wordpress
 if [ $okUpdateWordpress -eq 1 ]; then
