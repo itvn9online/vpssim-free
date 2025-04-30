@@ -70,7 +70,7 @@ dungLuong=$(/usr/bin/echo $dungLuong | cut -d "." -f 1)
 if [ $dungLuong -gt 10 ]; then
 
 # gui post request den server bao gom ten file va dung luong
-/usr/bin/curl -k -X POST -d "f=$tep&dl=$dungLuong" https://echbay.com/?act=daily_domain_access
+/usr/bin/curl -k -X POST -d "f=$tep&dl=$dungLuong" https://api.echbay.com/?act=daily_domain_access
 
 # xoa file log
 /usr/bin/echo "Xoa file log "$tep
