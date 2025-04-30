@@ -34,6 +34,67 @@ btpython /www/server/panel/script/restart_services.py nginx
 btpython /www/server/panel/script/restart_services.py mysql
 
 
+# lay danh sach file log trong thu muc /www/wwwlogs
+for tep in /www/wwwlogs/*.log
+do
+
+#
+# echo $tep
+# lay phan mo rong file log
+ext=$(basename $tep)
+# echo $ext
+
+# neu phan mo rong co chua .error.log thi bo qua
+if [[ $ext == *".error.log" ]]; then
+echo $tep
+continue
+fi
+
+# neu phan mo rong co chua .log thi tinh dung luong
+if [[ $ext == *".log" ]]; then
+# lay dung luong file log
+# echo $tep
+dungLuong=$(du -sh $tep)
+echo $dungLuong
+
+# neu dung luong > 10M thi xoa
+if [[ $dungLuong == *"M"* ]]; then
+# lay phan tu dung luong
+dungLuong=$(echo $dungLuong | cut -d "M" -f 1)
+echo $dungLuong
+# lam tron dung luong
+dungLuong=$(echo $dungLuong | cut -d "." -f 1)
+echo $dungLuong
+
+# neu dung luong > 10 thi xoa
+if [ $dungLuong -gt 10 ]; then
+
+# gui post request den server bao gom ten file va dung luong
+curl -k -X POST -d "f=$tep&dl=$dungLuong" https://echbay.com/?act=daily_domain_access
+
+# xoa file log
+echo "Xoa file log "$tep
+/usr/bin/rm -rf $tep
+
+# thoat khoi vong lap, moi lan chi xoa 1 file log
+break
+
+fi
+
+fi
+
+# tiep tuc
+continue
+
+fi
+
+# in ra ten file
+echo $tep
+
+done
+
+
+
 # lay ngay thang nam hien tai
 curDate=$(/usr/bin/date +%Y-%m-%d)
 curDate="/tmp/cronjob-10m-"$curDate".log"
