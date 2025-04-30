@@ -11,7 +11,7 @@ cd ~
 isRunningProcess="/tmp/cronjob-10m.lock"
 if [ -f $isRunningProcess ]; then
 
-echo "Process is running, exit"
+/usr/bin/echo "Process is running, exit"
 exit 1
 
 fi
@@ -39,42 +39,43 @@ for tep in /www/wwwlogs/*.log
 do
 
 #
-# echo $tep
+# /usr/bin/echo $tep
 # lay phan mo rong file log
 ext=$(basename $tep)
-# echo $ext
+# /usr/bin/echo $ext
 
 # neu phan mo rong co chua .error.log thi bo qua
 if [[ $ext == *".error.log" ]]; then
-echo $tep
+/usr/bin/echo $tep
 continue
 fi
 
 # neu phan mo rong co chua .log thi tinh dung luong
 if [[ $ext == *".log" ]]; then
 # lay dung luong file log
-# echo $tep
+# /usr/bin/echo $tep
 dungLuong=$(du -sh $tep)
-echo $dungLuong
+/usr/bin/echo $dungLuong
 
 # neu dung luong > 10M thi xoa
 if [[ $dungLuong == *"M"* ]]; then
 # lay phan tu dung luong
-dungLuong=$(echo $dungLuong | cut -d "M" -f 1)
-echo $dungLuong
+dungLuong=$(/usr/bin/echo $dungLuong | cut -d "M" -f 1)
+/usr/bin/echo $dungLuong
 # lam tron dung luong
-dungLuong=$(echo $dungLuong | cut -d "." -f 1)
-echo $dungLuong
+dungLuong=$(/usr/bin/echo $dungLuong | cut -d "." -f 1)
+/usr/bin/echo $dungLuong
 
 # neu dung luong > 10 thi xoa
 if [ $dungLuong -gt 10 ]; then
 
 # gui post request den server bao gom ten file va dung luong
-curl -k -X POST -d "f=$tep&dl=$dungLuong" https://echbay.com/?act=daily_domain_access
+/usr/bin/curl -k -X POST -d "f=$tep&dl=$dungLuong" https://echbay.com/?act=daily_domain_access
 
 # xoa file log
-echo "Xoa file log "$tep
-/usr/bin/rm -rf $tep
+/usr/bin/echo "Xoa file log "$tep
+# /usr/bin/rm -rf $tep
+/usr/bin/echo $(date) > $tep
 
 # thoat khoi vong lap, moi lan chi xoa 1 file log
 break
@@ -89,7 +90,7 @@ continue
 fi
 
 # in ra ten file
-echo $tep
+/usr/bin/echo $tep
 
 done
 
@@ -98,12 +99,12 @@ done
 # lay ngay thang nam hien tai
 curDate=$(/usr/bin/date +%Y-%m-%d)
 curDate="/tmp/cronjob-10m-"$curDate".log"
-echo "curDate: "$curDate
+/usr/bin/echo "curDate: "$curDate
 
 # lay ngay thang nam hom qua
 # yesterdayDate=$(/usr/bin/date -d "1 days ago" +%Y-%m-%d)
 # yesterdayDate="/tmp/cronjob-10m-"$yesterdayDate".log"
-# echo "yesterdayDate: "$yesterdayDate
+# /usr/bin/echo "yesterdayDate: "$yesterdayDate
 
 # nếu ko có file log thì tạo mới
 if [ ! -f $curDate ]; then
@@ -123,7 +124,7 @@ if [ ! -f $curDate ]; then
 
 else
 
-echo "File daily-log da ton tai, khong tao moi"
+/usr/bin/echo "File daily-log da ton tai, khong tao moi"
 
 fi
 
@@ -136,7 +137,7 @@ if [ $okUpdateWordpress -eq 1 ]; then
 
 # lay ngay trong tuan
 toDay=$(/usr/bin/date +%u)
-echo "toDay: "$toDay
+/usr/bin/echo "toDay: "$toDay
 
 # neu toDay = 1 (thu 2)
 if [ $toDay -eq 1 ]; then
@@ -144,7 +145,7 @@ if [ $toDay -eq 1 ]; then
 # lay tuan hien tai trong nam
 curWeek=$(/usr/bin/date +%Y-%V)
 curWeek="/tmp/cronjob-1week-"$curWeek".log"
-echo "curWeek: "$curWeek
+/usr/bin/echo "curWeek: "$curWeek
 
 # neu ko co file log thi tao moi
 if [ ! -f $curWeek ]; then
@@ -157,35 +158,35 @@ if [ ! -f $curWeek ]; then
 /usr/bin/echo $(date) >> $curWeek
 
 # Find and update plugin and Wordpress core for Wordpress website
-# bash <( curl -k https://raw.echbay.com/itvn9online/vpssim-free/master/script/vpssim/menu/tienich/update-wordpress-for-all-site )
-bash <( curl -k https://raw.echbay.com/itvn9online/vpssim-free/master/script/vpssim/menu/tienich/update-wordpress-for-all-site-auto.sh )
+# /usr/bin/bash <( curl -k https://raw.echbay.com/itvn9online/vpssim-free/master/script/vpssim/menu/tienich/update-wordpress-for-all-site )
+/usr/bin/bash <( curl -k https://raw.echbay.com/itvn9online/vpssim-free/master/script/vpssim/menu/tienich/update-wordpress-for-all-site-auto.sh )
 
 
 # Find and Scan malware for Wordpress website
-# bash <( curl -k https://raw.echbay.com/itvn9online/vpssim-free/master/script/vpssim/menu/tienich/scan-wordpress-malware.sh )
-# bash <( curl -k https://raw.echbay.com/itvn9online/vpssim-free/master/script/vpssim/menu/tienich/scan-wordpress-malware-auto.sh )
+# /usr/bin/bash <( curl -k https://raw.echbay.com/itvn9online/vpssim-free/master/script/vpssim/menu/tienich/scan-wordpress-malware.sh )
+# /usr/bin/bash <( curl -k https://raw.echbay.com/itvn9online/vpssim-free/master/script/vpssim/menu/tienich/scan-wordpress-malware-auto.sh )
 
 # tao file .user.ini neu chua ton tai
-bash <( curl -k https://raw.echbay.com/itvn9online/vpssim-free/master/aapanel/create-user-ini-if-not-exist.sh )
+/usr/bin/bash <( curl -k https://raw.echbay.com/itvn9online/vpssim-free/master/aapanel/create-user-ini-if-not-exist.sh )
 
 # phan quyen file .user.ini
-bash <( curl -k https://raw.echbay.com/itvn9online/vpssim-free/master/aapanel/chown-user-ini.sh )
+/usr/bin/bash <( curl -k https://raw.echbay.com/itvn9online/vpssim-free/master/aapanel/chown-user-ini.sh )
 
 else
 
-echo "File weekly-log da ton tai, khong tao moi"
+/usr/bin/echo "File weekly-log da ton tai, khong tao moi"
 
 fi
 
 else
 
-echo "Lenh nay chi chay vao thu 2 hang tuan"
+/usr/bin/echo "Lenh nay chi chay vao thu 2 hang tuan"
 
 fi
 
 else
 
-echo "Lenh nay chi chay neu okUpdateWordpress=1"
+/usr/bin/echo "Lenh nay chi chay neu okUpdateWordpress=1"
 
 fi
 
