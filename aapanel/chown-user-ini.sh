@@ -17,4 +17,6 @@ cd /www/wwwroot
 /usr/bin/find . -type f -name '*.user.ini' -exec /usr/bin/chmod 644 {} \;
 /usr/bin/find . -type f -name '*.user.ini' -exec /usr/bin/chown root:root {} \;
 
+cd ~
+
 fi
