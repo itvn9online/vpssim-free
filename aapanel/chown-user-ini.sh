@@ -14,8 +14,10 @@ cd ~
 /usr/bin/chown root:root /www/wwwroot/
 
 cd /www/wwwroot
-# /usr/bin/find . -type f -name '*.user.ini' -exec /usr/bin/chmod 644 {} \;
-# /usr/bin/find . -type f -name '*.user.ini' -exec /usr/bin/chown root:root {} \;
+/usr/bin/find . -type f -name '*.user.ini' -exec /usr/bin/chmod 644 {} \;
+/usr/bin/find . -type f -name '*.user.ini' -exec /usr/bin/chown root:root {} \;
+
+#
 cd ~
 
 for db_dir in /www/wwwroot/*
