@@ -27,8 +27,6 @@ if [ ! -d $db_dir ]; then
 continue
 fi
 
-/usr/bin/chown -R www:www /www/wwwroot/$db_dir/
-
 if [ -f $db_dir/.user.ini ]; then
 /usr/bin/echo $db_dir/.user.ini
 /usr/bin/chmod 644 $db_dir/.user.ini
@@ -36,12 +34,14 @@ if [ -f $db_dir/.user.ini ]; then
 fi
 
 if [ -f $db_dir/public_html/.user.ini ]; then
+/usr/bin/chown -R www:www /www/wwwroot/$db_dir/public_html/
 /usr/bin/echo $db_dir/public_html/.user.ini
 /usr/bin/chmod 644 $db_dir/public_html/.user.ini
 /usr/bin/chown root:root $db_dir/public_html/.user.ini
 fi
 
 if [ -f $db_dir/public/.user.ini ]; then
+/usr/bin/chown -R www:www /www/wwwroot/$db_dir/public/
 /usr/bin/echo $db_dir/public/.user.ini
 /usr/bin/chmod 644 $db_dir/public/.user.ini
 /usr/bin/chown root:root $db_dir/public/.user.ini
