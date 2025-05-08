@@ -10,8 +10,8 @@ cd ~
 if [ -d /www/wwwroot ]; then
 
 cd ~
-/usr/bin/chown -R www:www /www/wwwroot/
-/usr/bin/chown root:root /www/wwwroot/
+# /usr/bin/chown -R www:www /www/wwwroot/
+# /usr/bin/chown root:root /www/wwwroot/
 
 cd /www/wwwroot
 /usr/bin/find . -type f -name '*.user.ini' -exec /usr/bin/chmod 644 {} \;
@@ -26,6 +26,8 @@ do
 if [ ! -d $db_dir ]; then
 continue
 fi
+
+/usr/bin/chown -R www:www /www/wwwroot/$db_dir/
 
 if [ -f $db_dir/.user.ini ]; then
 /usr/bin/echo $db_dir/.user.ini
