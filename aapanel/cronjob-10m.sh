@@ -34,6 +34,26 @@ btpython /www/server/panel/script/restart_services.py nginx
 btpython /www/server/panel/script/restart_services.py mysql
 
 
+
+
+# count access log
+cd ~
+
+# lay ngay thang nam hien tai
+curHour=$(/usr/bin/date +%Y-%m-%d)
+curHour="/tmp/cronjob-1hrs-"$curHour".log"
+/usr/bin/echo "curHour: "$curHour
+
+# nếu ko có file log thì tạo mới
+if [ ! -f $curHour ]; then
+
+# xoa file log cu neu co
+/usr/bin/rm -rf /tmp/cronjob-1hrs-*.log
+
+# tạo file log moi, moi ngay chi chay 1 lan
+/usr/bin/echo "# create file" > $curHour
+/usr/bin/echo $(date) >> $curHour
+
 # lay danh sach file log trong thu muc /www/wwwlogs
 for tep in /www/wwwlogs/*.log
 do
@@ -93,6 +113,14 @@ fi
 /usr/bin/echo $tep
 
 done
+
+else
+
+/usr/bin/echo "File hour-log da ton tai, khong tao moi"
+
+fi
+
+# END count access log
 
 
 
