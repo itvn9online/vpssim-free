@@ -208,7 +208,7 @@ fi
 
 else
 
-/usr/bin/echo "Lenh nay chi chay vao thu 2 hang tuan"
+/usr/bin/echo "Lenh nay chi chay vao Thu Hai hang tuan. toDay = 1"
 
 fi
 
