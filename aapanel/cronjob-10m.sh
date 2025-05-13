@@ -35,6 +35,40 @@ btpython /www/server/panel/script/restart_services.py mysql
 
 
 
+# tao lai file access log neu chua co
+create_file_access_log(){
+
+cd ~
+okChmodAccessLog=0
+
+for db_dir in /www/wwwroot/*
+do
+
+if [ -d $db_dir ]; then
+ext=$(/usr/bin/basename $db_dir)
+# /usr/bin/echo $ext
+if [ -f "/www/wwwlogs/"$ext".error.log" ] && [ ! -f "/www/wwwlogs/"$ext".log" ]; then
+# /usr/bin/echo "/www/wwwlogs/"$ext".error.log"
+/usr/bin/echo "/www/wwwlogs/"$ext".log"
+/usr/bin/echo $(/usr/bin/date) > "/www/wwwlogs/"$ext".log"
+okChmodAccessLog=0
+fi
+
+fi
+
+done
+
+if [ $okChmodAccessLog -eq 1 ]; then
+cd /www/wwwlogs
+/usr/bin/find . -type f -name '*.log' -exec /usr/bin/chmod 644 {} \;
+/usr/bin/find . -type f -name '*.log' -exec /usr/bin/chown www:www {} \;
+cd ~
+fi
+
+}
+create_file_access_log
+
+
 
 # count access log
 cd ~
@@ -52,7 +86,7 @@ if [ ! -f $curHour ]; then
 
 # tạo file log moi, moi ngay chi chay 1 lan
 /usr/bin/echo "# create file" > $curHour
-/usr/bin/echo $(date) >> $curHour
+/usr/bin/echo $(/usr/bin/date) >> $curHour
 
 # lay danh sach file log trong thu muc /www/wwwlogs
 for tep in /www/wwwlogs/*.log
