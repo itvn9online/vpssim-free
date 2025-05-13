@@ -182,7 +182,7 @@ if [ ! -f $curDate ]; then
 /www/server/panel/pyenv/bin/python3 -u /www/server/panel/class/acme_v2.py --renew_v3=1
 
 # Renew Let's Encrypt Certificate
-# /www/server/panel/pyenv/bin/python3 -u /www/server/panel/class/acme_v2.py --renew_v3=1
+/www/server/panel/pyenv/bin/python3 -u /www/server/panel/class/acme_v2.py --renew_v2=1
 
 else
 
