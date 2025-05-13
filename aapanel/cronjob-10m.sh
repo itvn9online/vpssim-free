@@ -66,7 +66,7 @@ cd ~
 fi
 
 }
-create_file_access_log
+# create_file_access_log
 
 
 
