@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # file nay duoc luu lai code cua echbay.com
-# /echbay.com/bash-script/create-user-ini-if-not-exist.sh
+# /echbay.com/bash-script/cronjob-10m.sh
 
 # chuyen ve root truoc khi chay lenh
 cd ~
