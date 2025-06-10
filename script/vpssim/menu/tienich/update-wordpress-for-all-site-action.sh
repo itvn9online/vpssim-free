@@ -9,7 +9,7 @@ fi
 for_classic_editor="classic-editor.1.6.7"
 for_elementor="elementor.3.29.2"
 for_rankmath="seo-by-rank-math.1.0.246"
-for_woocommerce="woocommerce.9.8.5"
+for_woocommerce="woocommerce.9.9.3"
 for_yoast_seo="wordpress-seo.25.2"
 
 
@@ -29,7 +29,7 @@ echoR()
 remove_php_in_wp_content(){
 	if [ -d $1 ]; then
 		rm -rf $1/*.php
-		#rm -rf $1/{*,.*}
+		# rm -rf $1/{*,.*}
 		rm -rf $1/.htaccess
 		echo "No money... No love..." > $1/index.php
 	fi
