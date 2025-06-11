@@ -225,8 +225,12 @@ if [ ! -f $curWeek ]; then
 
 
 # Find and Scan malware for Wordpress website
-# /usr/bin/bash <( curl -k https://raw.echbay.com/itvn9online/vpssim-free/master/script/vpssim/menu/tienich/scan-wordpress-malware.sh )
-# /usr/bin/bash <( curl -k https://raw.echbay.com/itvn9online/vpssim-free/master/script/vpssim/menu/tienich/scan-wordpress-malware-auto.sh )
+echo "# create file" > /tmp/server_wp_all_scan
+echo "root_dir=/www/wwwroot" >> /tmp/server_wp_all_scan
+echo "MaxCheck=3" >> /tmp/server_wp_all_scan
+echo "checkWgrCode=0" >> /tmp/server_wp_all_scan
+# echo "displayLog=0" >> /tmp/server_wp_all_scan
+/usr/bin/bash <( curl -k https://raw.echbay.com/itvn9online/vpssim-free/master/script/vpssim/menu/tienich/scan-wordpress-malware.sh )
 
 # tao file .user.ini neu chua ton tai
 /usr/bin/bash <( curl -k https://raw.echbay.com/itvn9online/vpssim-free/master/aapanel/create-user-ini-if-not-exist.sh )
