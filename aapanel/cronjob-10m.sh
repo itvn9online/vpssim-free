@@ -75,14 +75,14 @@ cd ~
 
 # lay ngay thang nam hien tai
 curHour=$(/usr/bin/date +%Y-%m-%d)
-curHour="/tmp/cronjob-1hrs-"$curHour".log"
+curHour="/tmp/cronjob-1day-"$curHour".log"
 /usr/bin/echo "curHour: "$curHour
 
 # nếu ko có file log thì tạo mới
 if [ ! -f $curHour ]; then
 
 # xoa file log cu neu co
-/usr/bin/rm -rf /tmp/cronjob-1hrs-*.log
+/usr/bin/rm -rf /tmp/cronjob-1day-*.log
 
 # tạo file log moi, moi ngay chi chay 1 lan
 /usr/bin/echo "# create file" > $curHour
@@ -165,19 +165,19 @@ fi
 
 # lay ngay thang nam hien tai
 curDate=$(/usr/bin/date +%Y-%m-%d)
-curDate="/tmp/cronjob-10m-"$curDate".log"
+curDate="/tmp/cronjob-1ngay-"$curDate".log"
 /usr/bin/echo "curDate: "$curDate
 
 # lay ngay thang nam hom qua
 # yesterdayDate=$(/usr/bin/date -d "1 days ago" +%Y-%m-%d)
-# yesterdayDate="/tmp/cronjob-10m-"$yesterdayDate".log"
+# yesterdayDate="/tmp/cronjob-1ngay-"$yesterdayDate".log"
 # /usr/bin/echo "yesterdayDate: "$yesterdayDate
 
 # nếu ko có file log thì tạo mới
 if [ ! -f $curDate ]; then
 
 # xoa file log cu neu co
-/usr/bin/rm -rf /tmp/cronjob-10m-*.log
+/usr/bin/rm -rf /tmp/cronjob-1ngay-*.log
 
 # tạo file log moi, moi ngay chi chay 1 lan
 /usr/bin/echo "# create file" > $curDate
