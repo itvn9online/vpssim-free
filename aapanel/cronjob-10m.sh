@@ -21,9 +21,9 @@ fi
 /usr/bin/echo $(date) > $isRunningProcess
 
 # 
-/usr/bin/rm -rf /tmp/cronjob-10m-*.log
-/usr/bin/rm -rf /tmp/cronjob-1hrs-*.log
-/usr/bin/rm -rf /tmp/cronjob-1ngay-*.log
+# /usr/bin/rm -rf /tmp/cronjob-10m-*.log
+# /usr/bin/rm -rf /tmp/cronjob-1hrs-*.log
+# /usr/bin/rm -rf /tmp/cronjob-1ngay-*.log
 
 # Memcached Daemon
 btpython /www/server/panel/script/restart_services.py memcached
