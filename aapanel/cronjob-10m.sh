@@ -98,6 +98,9 @@ do
 ext=$(basename $tep)
 # /usr/bin/echo $ext
 
+# 
+/usr/bin/echo $tep >> $curHour
+
 # neu phan mo rong co chua .error.log thi bo qua
 if [[ $ext == *".error.log" ]]; then
 /usr/bin/echo $tep
@@ -110,6 +113,7 @@ if [[ $ext == *".log" ]]; then
 # /usr/bin/echo $tep
 dungLuong=$(du -sh $tep)
 /usr/bin/echo $dungLuong
+/usr/bin/echo $dungLuong >> $curHour
 
 # neu dung luong > 10M thi xoa
 if [[ $dungLuong == *"M"* ]]; then
@@ -119,6 +123,7 @@ dungLuong=$(/usr/bin/echo $dungLuong | cut -d "M" -f 1)
 # lam tron dung luong
 dungLuong=$(/usr/bin/echo $dungLuong | cut -d "." -f 1)
 /usr/bin/echo $dungLuong
+/usr/bin/echo $dungLuong >> $curHour
 
 # neu dung luong > 10 thi xoa
 if [ $dungLuong -gt 10 ]; then
