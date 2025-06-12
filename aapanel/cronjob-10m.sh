@@ -20,6 +20,9 @@ fi
 # /usr/bin/touch $isRunningProcess
 /usr/bin/echo $(date) > $isRunningProcess
 
+# 
+/usr/bin/rm -rf /tmp/cronjob-10m-*.log
+/usr/bin/rm -rf /tmp/cronjob-1hrs-*.log
 
 # Memcached Daemon
 btpython /www/server/panel/script/restart_services.py memcached
@@ -99,11 +102,11 @@ ext=$(basename $tep)
 # /usr/bin/echo $ext
 
 # 
+/usr/bin/echo $tep
 /usr/bin/echo $tep >> $curHour
 
 # neu phan mo rong co chua .error.log thi bo qua
 if [[ $ext == *".error.log" ]]; then
-/usr/bin/echo $tep
 continue
 fi
 
@@ -136,6 +139,9 @@ if [ $dungLuong -gt 10 ]; then
 # /usr/bin/rm -rf $tep
 /usr/bin/echo $(date) > $tep
 
+# xoa file log nay de vong lap sau tiep tuc luon
+/usr/bin/rm -rf /tmp/cronjob-1day-*.log
+
 # thoat khoi vong lap, moi lan chi xoa 1 file log
 break
 
@@ -149,7 +155,7 @@ continue
 fi
 
 # in ra ten file
-/usr/bin/echo $tep
+# /usr/bin/echo $tep
 
 done
 
@@ -165,19 +171,19 @@ fi
 
 # lay ngay thang nam hien tai
 curDate=$(/usr/bin/date +%Y-%m-%d)
-curDate="/tmp/cronjob-1ngay-"$curDate".log"
+curDate="/tmp/cronjob-daily-"$curDate".log"
 /usr/bin/echo "curDate: "$curDate
 
 # lay ngay thang nam hom qua
 # yesterdayDate=$(/usr/bin/date -d "1 days ago" +%Y-%m-%d)
-# yesterdayDate="/tmp/cronjob-1ngay-"$yesterdayDate".log"
+# yesterdayDate="/tmp/cronjob-daily-"$yesterdayDate".log"
 # /usr/bin/echo "yesterdayDate: "$yesterdayDate
 
 # nếu ko có file log thì tạo mới
 if [ ! -f $curDate ]; then
 
 # xoa file log cu neu co
-/usr/bin/rm -rf /tmp/cronjob-1ngay-*.log
+/usr/bin/rm -rf /tmp/cronjob-daily-*.log
 
 # tạo file log moi, moi ngay chi chay 1 lan
 /usr/bin/echo "# create file" > $curDate
