@@ -103,11 +103,11 @@ ext=$(basename $tep)
 # /usr/bin/echo $ext
 
 # 
-/usr/bin/echo $tep
 /usr/bin/echo $tep >> $curHour
 
 # neu phan mo rong co chua .error.log thi bo qua
 if [[ $ext == *".error.log" ]]; then
+/usr/bin/echo $tep
 continue
 fi
 
@@ -159,7 +159,7 @@ continue
 fi
 
 # in ra ten file
-# /usr/bin/echo $tep
+/usr/bin/echo $tep
 
 done
 
