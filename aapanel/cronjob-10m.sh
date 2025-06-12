@@ -143,6 +143,9 @@ if [ $dungLuong -gt 10 ]; then
 # xoa file log nay de vong lap sau tiep tuc luon
 /usr/bin/rm -rf /tmp/cronjob-1day-*.log
 
+# 
+/usr/bin/echo "for break"
+
 # thoat khoi vong lap, moi lan chi xoa 1 file log
 break
 
