@@ -7,10 +7,10 @@ fi
 
 # chuc nang cap nhat wordress cho toan bo website tren server
 for_classic_editor="classic-editor.1.6.7"
-for_elementor="elementor.3.30.0"
+for_elementor="elementor.3.30.1"
 for_rankmath="seo-by-rank-math.1.0.248"
 for_woocommerce="woocommerce.9.9.5"
-for_yoast_seo="wordpress-seo.25.3.1"
+for_yoast_seo="wordpress-seo.25.4"
 
 
 echoY() {
