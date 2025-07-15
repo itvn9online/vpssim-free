@@ -9,8 +9,8 @@ fi
 for_classic_editor="classic-editor.1.6.7"
 for_elementor="elementor.3.30.2"
 for_rankmath="seo-by-rank-math.1.0.248"
-for_woocommerce="woocommerce.9.9.5"
-for_yoast_seo="wordpress-seo.25.4"
+for_woocommerce="woocommerce.10.0.2"
+for_yoast_seo="wordpress-seo.25.5"
 
 
 echoY() {
