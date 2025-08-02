@@ -8,10 +8,20 @@ fi
 # chuc nang cap nhat wordress cho toan bo website tren server
 for_classic_editor="classic-editor.1.6.7"
 for_elementor="elementor.3.30.2"
-for_rankmath="seo-by-rank-math.1.0.249"
+for_rankmath="seo-by-rank-math.1.0.250"
 for_woocommerce="woocommerce.10.0.4"
 for_yoast_seo="wordpress-seo.25.5"
 
+# download file https://webgiare.org/api/v1/?action=plugins-version&token=a7K9vT2xQf8NcY1LmWz4RpJhX3oBdE6u và lưu vào /tmp/webgiare-plugins-version.conf
+curl -s "https://webgiare.org/api/v1/?action=plugins-version&token=a7K9vT2xQf8NcY1LmWz4RpJhX3oBdE6u" -o /tmp/webgiare-plugins-version.conf
+if [ -f /tmp/webgiare-plugins-version.conf ]; then
+	. /tmp/webgiare-plugins-version.conf
+fi
+echo "for_classic_editor: $for_classic_editor"
+echo "for_elementor: $for_elementor"
+echo "for_rankmath: $for_rankmath"
+echo "for_woocommerce: $for_woocommerce"
+echo "for_yoast_seo: $for_yoast_seo"
 
 echoY() {
     echo -e "\033[38;5;148m${1}\033[39m"
@@ -392,6 +402,11 @@ elif [ ! "$3" == "no" ]; then
 			download_version=$for_woocommerce
 		elif [ "$1" == "seo-by-rank-math" ]; then
 			download_version=$for_rankmath
+		fi
+
+		# nếu download_version rỗng thì sử dụng $1
+		if [ -z "$download_version" ]; then
+			download_version=$1
 		fi
 
 		# kiem tra xem plugin nay co tren wordpress khong
