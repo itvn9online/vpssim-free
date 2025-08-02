@@ -15,13 +15,13 @@ for_yoast_seo="wordpress-seo.25.5"
 # download file https://webgiare.org/api/v1/?action=plugins-version&token=a7K9vT2xQf8NcY1LmWz4RpJhX3oBdE6u và lưu vào /tmp/webgiare-plugins-version.conf
 curl -s "https://webgiare.org/api/v1/?action=plugins-version&token=a7K9vT2xQf8NcY1LmWz4RpJhX3oBdE6u" -o /tmp/webgiare-plugins-version.conf
 if [ -f /tmp/webgiare-plugins-version.conf ]; then
-	. /tmp/webgiare-plugins-version.conf
-fi
+. /tmp/webgiare-plugins-version.conf
 echo "for_classic_editor: $for_classic_editor"
 echo "for_elementor: $for_elementor"
 echo "for_rankmath: $for_rankmath"
 echo "for_woocommerce: $for_woocommerce"
 echo "for_yoast_seo: $for_yoast_seo"
+fi
 
 echoY() {
     echo -e "\033[38;5;148m${1}\033[39m"
