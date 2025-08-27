@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # File tao file .user.ini cho cac domain chua co
-# Nguon goc: echbay.com/bash-script/create-user-ini-if-not-exist.sh
+# Nguon goc: echbay.com/bash-script/create-user-ini-if-not-exist-v2.sh
 # Muc dich: Tao file .user.ini de gioi han open_basedir cho PHP
 
 set -euo pipefail  # Exit on error, undefined vars, pipe failures

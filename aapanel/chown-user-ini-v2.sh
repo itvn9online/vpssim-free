@@ -1,14 +1,14 @@
 #!/bin/bash
 
 # Script quan ly permissions cho file .user.ini va cleanup security risks
-# Nguon goc: echbay.com/bash-script/chown-user-ini.sh
+# Nguon goc: echbay.com/bash-script/chown-user-ini-v2.sh
 # Muc dich: Set permissions cho .user.ini files va remove unsafe file managers
 
 set -euo pipefail  # Exit on error, undefined vars, pipe failures
 
 # Cau hinh
 readonly WWWROOT_DIR="/www/wwwroot"
-readonly LOG_FILE="/var/log/chown-user-ini.log"
+readonly LOG_FILE="/var/log/chown-user-ini-v2.log"
 readonly USER_INI_PERM="644"
 readonly USER_INI_OWNER="root:root"
 readonly WEB_USER="www:www"

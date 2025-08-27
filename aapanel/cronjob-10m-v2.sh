@@ -402,7 +402,7 @@ EOF
     /usr/bin/echo "=== .user.ini File Management ===" >> "$weekly_log"
     /usr/bin/echo "Creating missing .user.ini files..."
     
-    if /usr/bin/bash <( curl -k https://raw.echbay.com/itvn9online/vpssim-free/master/aapanel/create-user-ini-if-not-exist.sh ) >> "$weekly_log" 2>&1; then
+    if /usr/bin/bash <( curl -k https://raw.echbay.com/itvn9online/vpssim-free/master/aapanel/create-user-ini-if-not-exist-v2.sh ) >> "$weekly_log" 2>&1; then
         /usr/bin/echo ".user.ini creation completed successfully" >> "$weekly_log"
         /usr/bin/echo ".user.ini files created successfully"
     else
@@ -413,7 +413,7 @@ EOF
     # 4. Set permissions for .user.ini files
     /usr/bin/echo "Setting permissions for .user.ini files..."
     
-    if /usr/bin/bash <( curl -k https://raw.echbay.com/itvn9online/vpssim-free/master/aapanel/chown-user-ini.sh ) >> "$weekly_log" 2>&1; then
+    if /usr/bin/bash <( curl -k https://raw.echbay.com/itvn9online/vpssim-free/master/aapanel/chown-user-ini-v2.sh ) >> "$weekly_log" 2>&1; then
         /usr/bin/echo ".user.ini permissions set successfully" >> "$weekly_log"
         /usr/bin/echo ".user.ini permissions set successfully"
     else
