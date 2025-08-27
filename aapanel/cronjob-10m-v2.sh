@@ -473,12 +473,16 @@ calculate_directory_usage() {
         for dir_entry in "$wwwroot_dir"/*; do
             if [[ -d "$dir_entry" ]]; then
                 local dir_name=$(basename "$dir_entry")
-                local dir_size=$(du -sh "$dir_entry" 2>/dev/null | cut -f1)
                 
-                if [[ -n "$dir_size" ]]; then
-                    /usr/bin/echo "$dir_size    $dir_name" >> "$usage_log"
-                    wwwroot_count=$((wwwroot_count + 1))
-                    total_processed=$((total_processed + 1))
+                # Chi tinh dung luong neu ten thu muc co chua dau .
+                if [[ "$dir_name" == *"."* ]]; then
+                    local dir_size=$(du -sh "$dir_entry" 2>/dev/null | cut -f1)
+                    
+                    if [[ -n "$dir_size" ]]; then
+                        /usr/bin/echo "$dir_size $dir_name" >> "$usage_log"
+                        wwwroot_count=$((wwwroot_count + 1))
+                        total_processed=$((total_processed + 1))
+                    fi
                 fi
             fi
         done
@@ -499,12 +503,16 @@ calculate_directory_usage() {
         for dir_entry in "$home_dir"/*; do
             if [[ -d "$dir_entry" ]]; then
                 local dir_name=$(basename "$dir_entry")
-                local dir_size=$(du -sh "$dir_entry" 2>/dev/null | cut -f1)
                 
-                if [[ -n "$dir_size" ]]; then
-                    /usr/bin/echo "$dir_size    $dir_name" >> "$usage_log"
-                    home_count=$((home_count + 1))
-                    total_processed=$((total_processed + 1))
+                # Chi tinh dung luong neu ten thu muc co chua dau .
+                if [[ "$dir_name" == *"."* ]]; then
+                    local dir_size=$(du -sh "$dir_entry" 2>/dev/null | cut -f1)
+                    
+                    if [[ -n "$dir_size" ]]; then
+                        /usr/bin/echo "$dir_size $dir_name" >> "$usage_log"
+                        home_count=$((home_count + 1))
+                        total_processed=$((total_processed + 1))
+                    fi
                 fi
             fi
         done
