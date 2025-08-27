@@ -435,15 +435,22 @@ EOF
 manage_wordpress_weekly_tasks
 
 
-# Tinh dung luong cac thu muc con trong /www/wwwroot va /home (chay moi ngay 1 lan)
+# Tinh dung luong cac thu muc con trong /www/wwwroot va /home (chay moi ngay 1 lan, chi trong khung gio 0-7h)
 calculate_directory_usage() {
     local today_date=$(/usr/bin/date +%Y-%m-%d)
+    local current_hour=$(/usr/bin/date +%H)
     local usage_log="/tmp/disk_usage.log"
     local daily_check_log="/tmp/cronjob-disk-usage-$today_date.log"
     local wwwroot_dir="/www/wwwroot"
     local home_dir="/home"
     
     /usr/bin/echo "Starting directory usage calculation..."
+    
+    # Kiem tra thoi gian: chi chay tu 0h den 7h
+    if [ "$current_hour" -lt 0 ] || [ "$current_hour" -gt 7 ]; then
+        /usr/bin/echo "Directory usage calculation only runs between 00:00-07:00. Current time: ${current_hour}:xx"
+        return 0
+    fi
     
     # Kiem tra xem hom nay da tinh dung luong chua
     if [ -f "$daily_check_log" ]; then
