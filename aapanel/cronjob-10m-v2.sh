@@ -435,4 +435,106 @@ EOF
 manage_wordpress_weekly_tasks
 
 
-# Script ket thuc, lock se duoc tu dong giai phong boi trap
+# Tinh dung luong cac thu muc con trong /www/wwwroot va /home (chay moi ngay 1 lan)
+calculate_directory_usage() {
+    local today_date=$(/usr/bin/date +%Y-%m-%d)
+    local usage_log="/tmp/disk_usage.log"
+    local daily_check_log="/tmp/cronjob-disk-usage-$today_date.log"
+    local wwwroot_dir="/www/wwwroot"
+    local home_dir="/home"
+    
+    /usr/bin/echo "Starting directory usage calculation..."
+    
+    # Kiem tra xem hom nay da tinh dung luong chua
+    if [ -f "$daily_check_log" ]; then
+        /usr/bin/echo "Directory usage already calculated today, skipping..."
+        return 0
+    fi
+    
+    # Xoa cac file log cu
+    /usr/bin/rm -rf /tmp/cronjob-disk-usage-*.log
+    
+    # Tao file log daily check
+    /usr/bin/echo "# Directory usage calculation started on $(/usr/bin/date)" > "$daily_check_log"
+    
+    # Tao file log moi va ghi header
+    /usr/bin/echo "# Directory Usage Report - $today_date" > "$usage_log"
+    /usr/bin/echo "" >> "$usage_log"
+    
+    local total_processed=0
+    local wwwroot_count=0
+    local home_count=0
+    
+    # 1. Tinh dung luong thu muc con trong /www/wwwroot
+    if [[ -d "$wwwroot_dir" ]]; then
+        /usr/bin/echo "=== WWW Root Directories ===" >> "$usage_log"
+        /usr/bin/echo "Calculating WWW root subdirectories..."
+        
+        for dir_entry in "$wwwroot_dir"/*; do
+            if [[ -d "$dir_entry" ]]; then
+                local dir_name=$(basename "$dir_entry")
+                local dir_size=$(du -sh "$dir_entry" 2>/dev/null | cut -f1)
+                
+                if [[ -n "$dir_size" ]]; then
+                    /usr/bin/echo "$dir_size    $dir_name" >> "$usage_log"
+                    wwwroot_count=$((wwwroot_count + 1))
+                    total_processed=$((total_processed + 1))
+                fi
+            fi
+        done
+        
+        /usr/bin/echo "" >> "$usage_log"
+        /usr/bin/echo "WWW Root: $wwwroot_count directories"
+    else
+        /usr/bin/echo "=== WWW Root Not Found ===" >> "$usage_log"
+        /usr/bin/echo "" >> "$usage_log"
+        /usr/bin/echo "Warning: WWW root directory not found"
+    fi
+    
+    # 2. Tinh dung luong thu muc con trong /home
+    if [[ -d "$home_dir" ]]; then
+        /usr/bin/echo "=== Home Directories ===" >> "$usage_log"
+        /usr/bin/echo "Calculating home subdirectories..."
+        
+        for dir_entry in "$home_dir"/*; do
+            if [[ -d "$dir_entry" ]]; then
+                local dir_name=$(basename "$dir_entry")
+                local dir_size=$(du -sh "$dir_entry" 2>/dev/null | cut -f1)
+                
+                if [[ -n "$dir_size" ]]; then
+                    /usr/bin/echo "$dir_size    $dir_name" >> "$usage_log"
+                    home_count=$((home_count + 1))
+                    total_processed=$((total_processed + 1))
+                fi
+            fi
+        done
+        
+        /usr/bin/echo "" >> "$usage_log"
+        /usr/bin/echo "Home: $home_count directories"
+    else
+        /usr/bin/echo "=== Home Directory Not Found ===" >> "$usage_log"
+        /usr/bin/echo "" >> "$usage_log"
+        /usr/bin/echo "Warning: Home directory not found"
+    fi
+    
+    # 3. Ghi summary
+    /usr/bin/echo "=== Summary ===" >> "$usage_log"
+    /usr/bin/echo "WWW: $wwwroot_count | Home: $home_count | Total: $total_processed" >> "$usage_log"
+    /usr/bin/echo "Generated: $(/usr/bin/date)" >> "$usage_log"
+    
+    # Set permissions cho log file
+    /usr/bin/chmod 644 "$usage_log" 2>/dev/null
+    
+    # Ghi ket qua vao daily check log
+    /usr/bin/echo "WWW: $wwwroot_count | Home: $home_count | Total: $total_processed" >> "$daily_check_log"
+    /usr/bin/echo "# Completed at $(/usr/bin/date)" >> "$daily_check_log"
+    
+    /usr/bin/echo "Directory usage calculation completed."
+    /usr/bin/echo "Summary: WWW($wwwroot_count) + Home($home_count) = $total_processed directories"
+    /usr/bin/echo "Results saved to: $usage_log"
+    
+    return 0
+}
+
+# Chay tinh toan dung luong thu muc
+calculate_directory_usage
