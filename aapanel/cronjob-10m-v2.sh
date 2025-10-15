@@ -496,6 +496,11 @@ calculate_directory_usage() {
         done
         
         /usr/bin/echo "" >> "$usage_log"
+        # tổng dung lượng thư mục cha
+        local total_wwwroot_size=$(du -sh "$wwwroot_dir" 2>/dev/null | cut -f1)
+        /usr/bin/echo "Total WWW Root Size: $total_wwwroot_size" >> "$usage_log"
+        # END
+        /usr/bin/echo "" >> "$usage_log"
         /usr/bin/echo "WWW Root: $wwwroot_count directories"
     else
         /usr/bin/echo "=== WWW Root Not Found ===" >> "$usage_log"
@@ -525,6 +530,11 @@ calculate_directory_usage() {
             fi
         done
         
+        /usr/bin/echo "" >> "$usage_log"
+        # tổng dung lượng thư mục cha
+        local total_home_size=$(du -sh "$home_dir" 2>/dev/null | cut -f1)
+        /usr/bin/echo "Total Home Size: $total_home_size" >> "$usage_log"
+        # END
         /usr/bin/echo "" >> "$usage_log"
         /usr/bin/echo "Home: $home_count directories"
     else
