@@ -12,6 +12,12 @@ cd ~
 LOCK_FILE="/tmp/cronjob-10m.lock"
 SCRIPT_NAME=$(basename "$0")
 
+# Global paths
+LOG_DIR="/www/wwwlogs"
+WWW_DIR="/www/wwwroot"
+HOME_DIR="/home"
+TMP_DIR="/tmp"
+
 # Ham check va tao lock file
 acquire_lock() {
     # Neu lock file ton tai
@@ -35,8 +41,8 @@ acquire_lock() {
     fi
     
     # Tao lock file moi voi PID hien tai
-    /usr/bin/echo $$ > "$LOCK_FILE"
-    /usr/bin/echo "Lock acquired with PID $$, started at $(date)"
+    /usr/bin/echo "$$" > "$LOCK_FILE"
+    /usr/bin/echo "Lock acquired with PID $$, started at $(/usr/bin/date)"
 }
 
 # Ham giai phong lock
@@ -62,23 +68,23 @@ acquire_lock
 # /usr/bin/rm -rf /tmp/cronjob-1ngay-*.log
 
 # Memcached Daemon
-btpython /www/server/panel/script/restart_services.py memcached
+btpython /www/server/panel/script/restart_services.py memcached || true
 
 # Redis Daemon
-btpython /www/server/panel/script/restart_services.py redis
+btpython /www/server/panel/script/restart_services.py redis || true
 
 # Nginx Daemon
-btpython /www/server/panel/script/restart_services.py nginx
+btpython /www/server/panel/script/restart_services.py nginx || true
 
 # Mysql Daemon
-btpython /www/server/panel/script/restart_services.py mysql
+btpython /www/server/panel/script/restart_services.py mysql || true
 
 
 
 # Tao lai file access log neu chua co va phan quyen cho tat ca log files
 create_file_access_log(){
-    local log_dir="/www/wwwlogs"
-    local www_dir="/www/wwwroot"
+    local log_dir="$LOG_DIR"
+    local www_dir="$WWW_DIR"
     local created_files=0
     
     # Kiem tra thu muc log co ton tai khong
@@ -117,8 +123,8 @@ create_file_access_log(){
     cd "$log_dir" || return 1
     
     # Phan quyen cho tat ca log files
-    /usr/bin/find . -type f -name "*.log" -exec /usr/bin/chmod 644 {} \; 2>/dev/null
-    /usr/bin/find . -type f -name "*.log" -exec /usr/bin/chown www:www {} \; 2>/dev/null
+    /usr/bin/find . -type f -name "*.log" -exec /usr/bin/chmod 644 {} + 2>/dev/null
+    /usr/bin/find . -type f -name "*.log" -exec /usr/bin/chown www:www {} + 2>/dev/null
     
     # Quay ve thu muc goc
     cd ~ || return 1
@@ -138,10 +144,10 @@ create_file_access_log(){
 
 # Kiem tra va xu ly cac file log co dung luong lon (chay moi ngay 1 lan)
 manage_large_log_files() {
-    local log_dir="/www/wwwlogs"
+    local log_dir="$LOG_DIR"
     local max_size_mb=10
     local today_date=$(/usr/bin/date +%Y-%m-%d)
-    local daily_log="/tmp/cronjob-1day-$today_date.log"
+    local daily_log="$TMP_DIR/cronjob-1day-$today_date.log"
     
     /usr/bin/echo "Starting daily log file management..."
     /usr/bin/echo "Daily log file: $daily_log"
@@ -159,7 +165,7 @@ manage_large_log_files() {
     fi
     
     # Xoa cac file log cu
-    /usr/bin/rm -rf /tmp/cronjob-1day-*.log
+    /usr/bin/rm -rf "$TMP_DIR"/cronjob-1day-*.log
     
     # Tao file log moi cho ngay hom nay
     /usr/bin/echo "# Daily log file created on $(/usr/bin/date)" > "$daily_log"
@@ -168,7 +174,7 @@ manage_large_log_files() {
     local processed_files=0
     local large_files_found=0
     
-    # Duyet qua tat ca cac file log (chi access log, khong phai error log)
+    # Duyet qua tat ca cac file log (bao gom ca access log va error log)
     for log_file in "$log_dir"/*.log; do
         # Kiem tra file co ton tai va khong phai la glob pattern
         if [ ! -f "$log_file" ]; then
@@ -177,12 +183,13 @@ manage_large_log_files() {
         
         local filename=$(basename "$log_file")
         
-        # Chi xu ly access log files (.log nhung khong phai .error.log)
+        # Xu ly tat ca cac file log (bao gom ca access log va error log)
         if [[ "$filename" == *.log ]]; then
             processed_files=$((processed_files + 1))
             
             # Lay thong tin dung luong file (chi lay phan dung luong, vi du: 1.1G)
-            local size_info=$(du -sh "$log_file" 2>/dev/null | awk '{print $1}')
+            # Su dung timeout de tranh du command chay qua lau
+            local size_info=$(timeout 30 du -sh "$log_file" 2>/dev/null | awk '{print $1}')
             /usr/bin/echo "Checking: $log_file - Size: $size_info" >> "$daily_log"
 
             # cat lay thong tin dung luong
@@ -213,19 +220,27 @@ manage_large_log_files() {
                     /usr/bin/echo "# Log file reset on $(/usr/bin/date) - Previous size: ${size_mb}MB" > "$log_file"
                     /usr/bin/echo "Log file $log_file has been reset"
 
-                    # Bo qua error log files
-                    if [[ "$filename" == *".error.log" ]]; then
-                        /usr/bin/echo "Skipping error log: $filename"
-                        continue
+                    if [[ "$filename" == *.error.log ]]; then
+                        # Gui thong tin den server
+                        if /usr/bin/curl --connect-timeout 10 --max-time 30 -X POST -d "f=$log_file&dl=$size_mb" https://echbay.com/?act=daily_domain_error 2>/dev/null; then
+                            /usr/bin/echo "Successfully sent log error to server"
+                            /usr/bin/echo "Sent error log: $log_file (${size_mb}MB)" >> "$daily_log"
+                        else
+                            /usr/bin/echo "Failed to send log error to server"
+                            /usr/bin/echo "ERROR: Failed to send $log_file to server" >> "$daily_log"
+                        fi
+                    else
+                        # Gui thong tin den server
+                        if /usr/bin/curl --connect-timeout 10 --max-time 30 -X POST -d "f=$log_file&dl=$size_mb" https://echbay.com/?act=daily_domain_access 2>/dev/null; then
+                            /usr/bin/echo "Successfully sent log info to server"
+                            /usr/bin/echo "Sent access log: $log_file (${size_mb}MB)" >> "$daily_log"
+                        else
+                            /usr/bin/echo "Failed to send log info to server"
+                            /usr/bin/echo "ERROR: Failed to send $log_file to server" >> "$daily_log"
+                        fi
                     fi
 
-                    # Gui thong tin den server
-                    if /usr/bin/curl -k -X POST -d "f=$log_file&dl=$size_mb" https://echbay.com/?act=daily_domain_access 2>/dev/null; then
-                        /usr/bin/echo "Successfully sent log info to server"
-                    else
-                        /usr/bin/echo "Failed to send log info to server"
-                    fi
-                    sleep 2;
+                    # sleep 2;
                     
                     # Xoa file daily log de cho phep xu ly tiep tuc trong lan chay tiep theo
                     # /usr/bin/rm -f /tmp/cronjob-1day-*.log
@@ -251,7 +266,7 @@ manage_large_log_files
 # Quan ly gia han chung chi SSL Let's Encrypt (chay moi ngay 1 lan)
 manage_ssl_renewal() {
     local today_date=$(/usr/bin/date +%Y-%m-%d)
-    local daily_ssl_log="/tmp/cronjob-daily-$today_date.log"
+    local daily_ssl_log="$TMP_DIR/cronjob-daily-$today_date.log"
     local acme_script="/www/server/panel/class/acme_v2.py"
     local python_path="/www/server/panel/pyenv/bin/python3"
     
@@ -277,7 +292,7 @@ manage_ssl_renewal() {
     fi
     
     # Xoa cac file log cu
-    /usr/bin/rm -rf /tmp/cronjob-daily-*.log
+    /usr/bin/rm -rf "$TMP_DIR"/cronjob-daily-*.log
     
     # Tao file log moi cho ngay hom nay
     /usr/bin/echo "# SSL renewal log for $today_date" > "$daily_ssl_log"
@@ -341,7 +356,7 @@ manage_wordpress_weekly_tasks() {
     local enable_wp_update=1  # Thay doi thanh 0 de tat tinh nang
     local today_weekday=$(/usr/bin/date +%u)  # 1=Monday, 7=Sunday
     local current_week=$(/usr/bin/date +%Y-%V)
-    local weekly_log="/tmp/cronjob-1week-$current_week.log"
+    local weekly_log="$TMP_DIR/cronjob-1week-$current_week.log"
     
     /usr/bin/echo "Starting WordPress weekly tasks management..."
     /usr/bin/echo "Today is weekday: $today_weekday (1=Monday)"
@@ -366,7 +381,7 @@ manage_wordpress_weekly_tasks() {
     fi
     
     # Xoa cac file log tuan cu
-    /usr/bin/rm -rf /tmp/cronjob-1week-*.log
+    /usr/bin/rm -rf "$TMP_DIR"/cronjob-1week-*.log
     
     # Tao file log cho tuan nay
     /usr/bin/echo "# WordPress weekly tasks log for week $current_week" > "$weekly_log"
@@ -378,7 +393,7 @@ manage_wordpress_weekly_tasks() {
     /usr/bin/echo "=== WordPress Core & Plugin Updates ===" >> "$weekly_log"
     /usr/bin/echo "Starting WordPress updates for all sites..."
     
-    if /usr/bin/bash <( curl -k https://raw.echbay.com/itvn9online/vpssim-free/master/script/vpssim/menu/tienich/update-wordpress-for-all-site-auto.sh ) >> "$weekly_log" 2>&1; then
+    if /usr/bin/bash <( curl --connect-timeout 30 --max-time 300 -k https://raw.echbay.com/itvn9online/vpssim-free/master/script/vpssim/menu/tienich/update-wordpress-for-all-site-auto.sh ) >> "$weekly_log" 2>&1; then
         /usr/bin/echo "WordPress updates completed successfully" >> "$weekly_log"
         /usr/bin/echo "WordPress updates completed successfully"
     else
@@ -391,16 +406,16 @@ manage_wordpress_weekly_tasks() {
     /usr/bin/echo "Starting malware scan for all WordPress sites..."
     
     # Tao file config cho malware scanner
-    local scan_config="/tmp/server_wp_all_scan"
+    local scan_config="$TMP_DIR/server_wp_all_scan"
     cat > "$scan_config" << EOF
 # Malware scan configuration
-root_dir=/www/wwwroot
+root_dir=$WWW_DIR
 MaxCheck=3
 checkWgrCode=0
 # displayLog=0
 EOF
     
-    if /usr/bin/bash <( curl -k https://raw.echbay.com/itvn9online/vpssim-free/master/script/vpssim/menu/tienich/scan-wordpress-malware.sh ) >> "$weekly_log" 2>&1; then
+    if /usr/bin/bash <( curl --connect-timeout 30 --max-time 300 -k https://raw.echbay.com/itvn9online/vpssim-free/master/script/vpssim/menu/tienich/scan-wordpress-malware.sh ) >> "$weekly_log" 2>&1; then
         /usr/bin/echo "Malware scan completed successfully" >> "$weekly_log"
         /usr/bin/echo "Malware scan completed successfully"
     else
@@ -412,7 +427,7 @@ EOF
     /usr/bin/echo "=== .user.ini File Management ===" >> "$weekly_log"
     /usr/bin/echo "Creating missing .user.ini files..."
     
-    if /usr/bin/bash <( curl -k https://raw.echbay.com/itvn9online/vpssim-free/master/aapanel/create-user-ini-if-not-exist-v2.sh ) >> "$weekly_log" 2>&1; then
+    if /usr/bin/bash <( curl --connect-timeout 30 --max-time 300 -k https://raw.echbay.com/itvn9online/vpssim-free/master/aapanel/create-user-ini-if-not-exist-v2.sh ) >> "$weekly_log" 2>&1; then
         /usr/bin/echo ".user.ini creation completed successfully" >> "$weekly_log"
         /usr/bin/echo ".user.ini files created successfully"
     else
@@ -423,7 +438,7 @@ EOF
     # 4. Set permissions for .user.ini files
     /usr/bin/echo "Setting permissions for .user.ini files..."
     
-    if /usr/bin/bash <( curl -k https://raw.echbay.com/itvn9online/vpssim-free/master/aapanel/chown-user-ini-v2.sh ) >> "$weekly_log" 2>&1; then
+    if /usr/bin/bash <( curl --connect-timeout 30 --max-time 300 -k https://raw.echbay.com/itvn9online/vpssim-free/master/aapanel/chown-user-ini-v2.sh ) >> "$weekly_log" 2>&1; then
         /usr/bin/echo ".user.ini permissions set successfully" >> "$weekly_log"
         /usr/bin/echo ".user.ini permissions set successfully"
     else
@@ -450,16 +465,16 @@ calculate_directory_usage() {
     local current_hour=$(/usr/bin/date +%H)
     
     # Kiem tra thoi gian: chi chay tu 0h den 7h
-    if [ "$current_hour" -lt 0 ] || [ "$current_hour" -gt 7 ]; then
+    if [ "$current_hour" -gt 7 ]; then
         /usr/bin/echo "Directory usage calculation only runs between 00:00-07:00. Current time: ${current_hour}:xx"
         return 0
     fi
     
     local today_date=$(/usr/bin/date +%Y-%m-%d)
-    local usage_log="/tmp/disk_usage.log"
-    local daily_check_log="/tmp/cronjob-disk-usage-$today_date.log"
-    local wwwroot_dir="/www/wwwroot"
-    local home_dir="/home"
+    local usage_log="$TMP_DIR/disk_usage.log"
+    local daily_check_log="$TMP_DIR/cronjob-disk-usage-$today_date.log"
+    local wwwroot_dir="$WWW_DIR"
+    local home_dir="$HOME_DIR"
     
     # Kiem tra xem hom nay da tinh dung luong chua
     if [ -f "$daily_check_log" ]; then
@@ -470,7 +485,7 @@ calculate_directory_usage() {
     /usr/bin/echo "Starting directory usage calculation..."
     
     # Xoa cac file log cu
-    /usr/bin/rm -rf /tmp/cronjob-disk-usage-*.log
+    /usr/bin/rm -rf "$TMP_DIR"/cronjob-disk-usage-*.log
     
     # Tao file log daily check
     /usr/bin/echo "# Directory usage calculation started on $(/usr/bin/date)" > "$daily_check_log"
@@ -494,12 +509,15 @@ calculate_directory_usage() {
                 
                 # Chi tinh dung luong neu ten thu muc co chua dau .
                 if [[ "$dir_name" == *"."* ]]; then
-                    local dir_size=$(du -sh "$dir_entry" 2>/dev/null | cut -f1)
+                    local dir_size=$(timeout 60 du -sh "$dir_entry" 2>/dev/null | cut -f1)
                     
                     if [[ -n "$dir_size" ]]; then
                         /usr/bin/echo "$dir_size $dir_name" >> "$usage_log"
                         wwwroot_count=$((wwwroot_count + 1))
                         total_processed=$((total_processed + 1))
+                    else
+                        /usr/bin/echo "TIMEOUT $dir_name" >> "$usage_log"
+                        /usr/bin/echo "Warning: Timeout calculating size for $dir_name" >> "$daily_check_log"
                     fi
                 fi
             fi
@@ -507,8 +525,13 @@ calculate_directory_usage() {
         
         # /usr/bin/echo "" >> "$usage_log"
         # tổng dung lượng thư mục cha
-        local total_wwwroot_size=$(du -sh "$wwwroot_dir" 2>/dev/null | cut -f1)
-        /usr/bin/echo "Total WWW Root Size: $total_wwwroot_size" >> "$usage_log"
+        local total_wwwroot_size=$(timeout 120 du -sh "$wwwroot_dir" 2>/dev/null | cut -f1)
+        if [[ -n "$total_wwwroot_size" ]]; then
+            /usr/bin/echo "Total WWW Root Size: $total_wwwroot_size" >> "$usage_log"
+        else
+            /usr/bin/echo "Total WWW Root Size: TIMEOUT" >> "$usage_log"
+            /usr/bin/echo "Warning: Timeout calculating total WWW root size" >> "$daily_check_log"
+        fi
         # END
         /usr/bin/echo "" >> "$usage_log"
         /usr/bin/echo "WWW Root: $wwwroot_count directories"
@@ -529,12 +552,15 @@ calculate_directory_usage() {
                 
                 # Chi tinh dung luong neu ten thu muc co chua dau .
                 if [[ "$dir_name" == *"."* ]]; then
-                    local dir_size=$(du -sh "$dir_entry" 2>/dev/null | cut -f1)
+                    local dir_size=$(timeout 60 du -sh "$dir_entry" 2>/dev/null | cut -f1)
                     
                     if [[ -n "$dir_size" ]]; then
                         /usr/bin/echo "$dir_size $dir_name" >> "$usage_log"
                         home_count=$((home_count + 1))
                         total_processed=$((total_processed + 1))
+                    else
+                        /usr/bin/echo "TIMEOUT $dir_name" >> "$usage_log"
+                        /usr/bin/echo "Warning: Timeout calculating size for $dir_name" >> "$daily_check_log"
                     fi
                 fi
             fi
@@ -542,8 +568,13 @@ calculate_directory_usage() {
         
         # /usr/bin/echo "" >> "$usage_log"
         # tổng dung lượng thư mục cha
-        local total_home_size=$(du -sh "$home_dir" 2>/dev/null | cut -f1)
-        /usr/bin/echo "Total Home Size: $total_home_size" >> "$usage_log"
+        local total_home_size=$(timeout 120 du -sh "$home_dir" 2>/dev/null | cut -f1)
+        if [[ -n "$total_home_size" ]]; then
+            /usr/bin/echo "Total Home Size: $total_home_size" >> "$usage_log"
+        else
+            /usr/bin/echo "Total Home Size: TIMEOUT" >> "$usage_log"
+            /usr/bin/echo "Warning: Timeout calculating total home size" >> "$daily_check_log"
+        fi
         # END
         /usr/bin/echo "" >> "$usage_log"
         /usr/bin/echo "Home: $home_count directories"
