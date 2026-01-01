@@ -204,13 +204,11 @@ manage_large_log_files() {
             
             # Kiem tra neu file co dung luong lon hon 10MB
             if [[ "$size_info" == *"M"* ]]; then
-                # Tach so MB tu output cua du command
+                # Tach so MB tu output cua du command (giu nguyen float)
                 local size_mb=$(echo "$size_info" | grep -oE '[0-9]+\.?[0-9]*' | head -1)
                 
-                # Lam tron xuong (chi lay phan nguyen)
-                # size_mb=${size_mb%.*}
-                
-                if [ -n "$size_mb" ] && [ "$size_mb" -gt "$max_size_mb" ]; then
+                # So sanh float bang awk
+                if [ -n "$size_mb" ] && awk -v size="$size_mb" -v max="$max_size_mb" 'BEGIN { exit !(size > max) }'; then
                     large_files_found=$((large_files_found + 1))
                     
                     /usr/bin/echo "Found large log file: $log_file (${size_mb}MB)" >> "$daily_log"
