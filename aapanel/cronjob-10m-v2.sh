@@ -208,7 +208,7 @@ manage_large_log_files() {
                 local size_mb=$(echo "$size_info" | grep -oE '[0-9]+\.?[0-9]*' | head -1)
                 
                 # Lam tron xuong (chi lay phan nguyen)
-                size_mb=${size_mb%.*}
+                # size_mb=${size_mb%.*}
                 
                 if [ -n "$size_mb" ] && [ "$size_mb" -gt "$max_size_mb" ]; then
                     large_files_found=$((large_files_found + 1))
