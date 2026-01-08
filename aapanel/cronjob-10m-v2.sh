@@ -16,8 +16,8 @@ SCRIPT_NAME=$(basename "$0")
 LOG_DIR="/www/wwwlogs"
 WWW_DIR="/www/wwwroot"
 HOME_DIR="/home"
-# TMP_DIR="/tmp"
-TMP_DIR="/root"
+TMP_DIR="/tmp"
+# TMP_DIR="/root"
 
 # Ham check va tao lock file
 acquire_lock() {
