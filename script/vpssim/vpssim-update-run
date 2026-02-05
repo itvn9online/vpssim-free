@@ -3,16 +3,16 @@
 
 # copy code tu file install sang
 cd ~
-wget --no-check-certificate -q https://raw.echbay.com/itvn9online/vpssim-free/master/script/vpssim/menu/git-clone
+wget --no-check-certificate -q https://raw.githubusercontent.com/itvn9online/vpssim-free/master/script/vpssim/menu/git-clone
 chmod +x /root/git-clone
 bash /root/git-clone
 
 
 # BEGIN update ECHBAY-VPSSIM main
 if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then
-yes | cp -rf /opt/echbay_vpssim/script/vpssim/motd /etc/motd
-
-yes | cp -rf /opt/echbay_vpssim/script/vpssim/calc /bin/calc && chmod +x /bin/calc
+  yes | cp -rf /opt/echbay_vpssim/script/vpssim/motd /etc/motd
+  
+  yes | cp -rf /opt/echbay_vpssim/script/vpssim/calc /bin/calc && chmod +x /bin/calc
 fi
 yes | cp -rf /opt/echbay_vpssim/script/vpssim/vpssim /bin/vpssim && chmod +x /bin/vpssim
 # BEGIN update ECHBAY-VPSSIM main
@@ -41,13 +41,13 @@ sleep 1
 
 # enable auto update system
 if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then
-    if [ -f /etc/vpssim/menu/auto-update-system ]; then
-        clear && bash /etc/vpssim/menu/auto-update-system
-    fi
+  if [ -f /etc/vpssim/menu/auto-update-system ]; then
+    clear && bash /etc/vpssim/menu/auto-update-system
+  fi
 else
-echo "Auto update system in CentOS 7 only"
-#/etc/vpssim/menu/vpssim-update-upgrade-service-menu
-/etc/vpssim/menu/centos9/option/update-upgrade-service-menu
+  echo "Auto update system in CentOS 7 only"
+  #/etc/vpssim/menu/vpssim-update-upgrade-service-menu
+  /etc/vpssim/menu/centos9/option/update-upgrade-service-menu
 fi
 
 #exit

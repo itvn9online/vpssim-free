@@ -9,25 +9,25 @@ echo "==========================================================================
 echo "Select nginx version "
 echo "=========================================================================="
 PS3="$prompt"
-select opt in "${options[@]}"; do 
-case "$REPLY" in
-#1) nginxselecttype="mainline"; break;;
-2) nginxselecttype="stable"; break;;
-*) nginxselecttype="mainline"; break;;
-esac  
+select opt in "${options[@]}"; do
+  case "$REPLY" in
+    #1) nginxselecttype="mainline"; break;;
+    2) nginxselecttype="stable"; break;;
+    *) nginxselecttype="mainline"; break;;
+  esac
 done
 
 #
 nginxtype="mainline"
 if [ "$nginxselecttype" = "stable" ]; then
-nginxtype=$nginxselecttype
+  nginxtype=$nginxselecttype
 fi
 
 cat > "/tmp/removelinenginxtype" <<END
 sed --in-place '/nginxtype=/d' /home/vpssim.conf
 END
 chmod +x /tmp/removelinenginxtype
-/tmp/removelinenginxtype 
+/tmp/removelinenginxtype
 cat >> "/home/vpssim.conf" <<END
 nginxtype="$nginxtype"
 END
@@ -36,26 +36,26 @@ END
 # them lenh kiem tra neu co git roi thi thoi khong tai lai nua
 okResetGit="y"
 if [ -d /opt/echbay_vpssim ]; then
-echo "========================================================================="
-echo "========================================================================="
-echo "========================================================================="
-echo -n "Ban co muon cap nhat lai git code moi khong? [y/N] "
-read resetGit
-if [ "$resetGit" = "y" ]; then
-okResetGit="y"
-echo "Ok ok! Chuan bi cap nhat lai code tu github..."
-sleep 3
-else
-okResetGit="n"
-fi
+  echo "========================================================================="
+  echo "========================================================================="
+  echo "========================================================================="
+  echo -n "Ban co muon cap nhat lai git code moi khong? [y/N] "
+  read resetGit
+  if [ "$resetGit" = "y" ]; then
+    okResetGit="y"
+    echo "Ok ok! Chuan bi cap nhat lai code tu github..."
+    sleep 3
+  else
+    okResetGit="n"
+  fi
 fi
 
 if [ "$okResetGit" = "y" ]; then
-# copy code tu file install sang
-cd ~
-wget --no-check-certificate -q https://raw.echbay.com/itvn9online/vpssim-free/master/script/vpssim/menu/git-clone
-chmod +x /root/git-clone
-bash /root/git-clone
+  # copy code tu file install sang
+  cd ~
+  wget --no-check-certificate -q https://raw.githubusercontent.com/itvn9online/vpssim-free/master/script/vpssim/menu/git-clone
+  chmod +x /root/git-clone
+  bash /root/git-clone
 fi
 
 #
@@ -71,62 +71,62 @@ nginx -V
 
 #
 if [ "$nginxtype" = "stable" ]; then
-
-. /opt/echbay_vpssim/script/vpssim/nginx-setup.conf
-echo "========================================================================="
-echo "NEW nginx version: "${Nginx_VERSION}
-echo "========================================================================="
-
-# neu truoc do hoi nguoi dung ve viec cap nhat git, nguoi dung chon y roi thi o buoc nay dat y luon, do phai hoi lai
-if [ "$okResetGit" = "y" ]; then
-selectNginxVersion="y"
+  
+  . /opt/echbay_vpssim/script/vpssim/nginx-setup.conf
+  echo "========================================================================="
+  echo "NEW nginx version: "${Nginx_VERSION}
+  echo "========================================================================="
+  
+  # neu truoc do hoi nguoi dung ve viec cap nhat git, nguoi dung chon y roi thi o buoc nay dat y luon, do phai hoi lai
+  if [ "$okResetGit" = "y" ]; then
+    selectNginxVersion="y"
+  else
+    echo -n "Ban that su muon thay doi sang phien ban "${Nginx_VERSION}" ? [y/N] "
+    read selectNginxVersion
+  fi
+  
 else
-echo -n "Ban that su muon thay doi sang phien ban "${Nginx_VERSION}" ? [y/N] "
-read selectNginxVersion
-fi
-
-else
-
-Nginx_VERSION="Mainline version"
-echo "Nginx Version: "$Nginx_VERSION
-selectNginxVersion="y"
-
+  
+  Nginx_VERSION="Mainline version"
+  echo "Nginx Version: "$Nginx_VERSION
+  selectNginxVersion="y"
+  
 fi
 
 
 #
 if [ "$selectNginxVersion" = "y" ]; then
-echo "Ok ! please wait install nginx-"${Nginx_VERSION}" ...."
-sleep 1
+  echo "Ok ! please wait install nginx-"${Nginx_VERSION}" ...."
+  sleep 1
 else
-/etc/vpssim/menu/vpssim-update-upgrade-service-menu
-exit
+  /etc/vpssim/menu/vpssim-update-upgrade-service-menu
+  exit
 fi
 
 
 echo "OS Version: "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))
 if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then
-/opt/echbay_vpssim/script/vpssim/menu/nginx-setup6
-elif [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then
-/opt/echbay_vpssim/script/vpssim/menu/nginx-setup7
+  /opt/echbay_vpssim/script/vpssim/menu/nginx-setup6
+  elif [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then
+  /opt/echbay_vpssim/script/vpssim/menu/nginx-setup7
 else
-/opt/echbay_vpssim/script/vpssim/menu/nginx-setup8
+  /opt/echbay_vpssim/script/vpssim/menu/nginx-setup8
 fi
 
 cd ~
 
 check_spdy_http2 () {
-if [ ! "$(grep spdy /etc/nginx/conf.d/*.conf)" == "" ]; then 
-sed -i 's/spdy/http2/g' /etc/nginx/conf.d/*.conf
-fi
+  if [ ! "$(grep spdy /etc/nginx/conf.d/*.conf)" == "" ]; then
+    sed -i 's/spdy/http2/g' /etc/nginx/conf.d/*.conf
+  fi
 }
 check_spdy_http2
 
-#if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then 
-if [ ! "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
-systemctl restart nginx.service
+#if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "7" ]; then
+if [ ! "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then
+  systemctl restart nginx.service
 else
-service nginx restart
+  service nginx restart
 fi
 
 #rm -rf /opt/echbay_vpssim/*

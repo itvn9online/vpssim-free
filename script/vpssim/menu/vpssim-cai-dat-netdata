@@ -1,40 +1,40 @@
-#!/bin/bash 
+#!/bin/bash
 . /home/vpssim.conf
 if [ -f /etc/vpssim/netdatasite.info ]; then
-clear
-echo "========================================================================="
-echo "Ban da cai dat Netdata cho server !"
-echo "-------------------------------------------------------------------------"
-echo "Domain Netdata la: $(cat /etc/vpssim/netdatasite.info)"
-echo "-------------------------------------------------------------------------"
-echo "Hay tro $(cat /etc/vpssim/netdatasite.info) toi $serverip"
-echo "-------------------------------------------------------------------------"
-echo "va truy cap domain nay tren trinh duyet de su dung NetData"
-/etc/vpssim/menu/vpssim-netdata-menu
-exit
+  clear
+  echo "========================================================================="
+  echo "Ban da cai dat Netdata cho server !"
+  echo "-------------------------------------------------------------------------"
+  echo "Domain Netdata la: $(cat /etc/vpssim/netdatasite.info)"
+  echo "-------------------------------------------------------------------------"
+  echo "Hay tro $(cat /etc/vpssim/netdatasite.info) toi $serverip"
+  echo "-------------------------------------------------------------------------"
+  echo "va truy cap domain nay tren trinh duyet de su dung NetData"
+  /etc/vpssim/menu/vpssim-netdata-menu
+  exit
 fi
 
 #checkketnoi=$(curl -o /dev/null --silent --head --write-out '%{http_code}' "https://vpssim.com/script/vpssim/Software/00-all-netdata-version.txt" )
-checkketnoi=$(curl -o /dev/null --silent --head --write-out '%{http_code}' "https://raw.echbay.com/itvn9online/vpssim-free/master/script/vpssim/Software/00-all-netdata-version.txt" )
+checkketnoi=$(curl -o /dev/null --silent --head --write-out '%{http_code}' "https://raw.githubusercontent.com/itvn9online/vpssim-free/master/script/vpssim/Software/00-all-netdata-version.txt" )
 if [[ "$checkketnoi" == "000" ]]; then
-clear
-echo "========================================================================="
-echo "Can not check NetData version"
-echo "-------------------------------------------------------------------------"
-echo "Please try again !"
-/etc/vpssim/menu/vpssim-netdata-menu
-exit
+  clear
+  echo "========================================================================="
+  echo "Can not check NetData version"
+  echo "-------------------------------------------------------------------------"
+  echo "Please try again !"
+  /etc/vpssim/menu/vpssim-netdata-menu
+  exit
 fi
 
 cd /tmp
 download_version_netdata () {
-#wget --no-check-certificate -q https://vpssim.com/script/vpssim/Software/00-all-netdata-version.txt
-wget --no-check-certificate -q https://raw.echbay.com/itvn9online/vpssim-free/master/script/vpssim/Software/00-all-netdata-version.txt
+  #wget --no-check-certificate -q https://vpssim.com/script/vpssim/Software/00-all-netdata-version.txt
+  wget --no-check-certificate -q https://raw.githubusercontent.com/itvn9online/vpssim-free/master/script/vpssim/Software/00-all-netdata-version.txt
 }
 download_version_netdata
 checkdownload_version_netdata=`cat /tmp/00-all-netdata-version.txt`
 if [ -z "$checkdownload_version_netdata" ]; then
-download_version_netdata
+  download_version_netdata
 fi
 cd
 NetData_VERSION=`cat /tmp/00-all-netdata-version.txt | awk 'NR==2 {print $1}' | sed 's/|//' | sed 's/|//'`
@@ -45,41 +45,41 @@ echo "Domain cho NetData phai la domain moi, chua duoc add vao he thong"
 echo "-------------------------------------------------------------------------"
 echo "Ban nen su dung Sub-domain cho NetData."
 echo "-------------------------------------------------------------------------"
-echo -n "Nhap ten Domain [ENTER]: " 
+echo -n "Nhap ten Domain [ENTER]: "
 read website
 website=`echo $website | tr '[A-Z]' '[a-z]'`
 if [ "$website" = "" ]; then
-clear
-echo "========================================================================="
-echo "Ban nhap sai, vui long nhap lai!"
-/etc/vpssim/menu/vpssim-netdata-menu
-exit
+  clear
+  echo "========================================================================="
+  echo "Ban nhap sai, vui long nhap lai!"
+  /etc/vpssim/menu/vpssim-netdata-menu
+  exit
 fi
 
 kiemtradomain3="^([[:alnum:]]([[:alnum:]\-]{0,61}[[:alnum:]])?\.)+[[:alpha:]]{2,12}$";
 if [[ ! "$website" =~ $kiemtradomain3 ]]; then
-	website=`echo $website | tr '[A-Z]' '[a-z]'`
-clear
-echo "========================================================================="
-echo "$website co le khong phai la domain !!"
-echo "-------------------------------------------------------------------------"
-echo "Ban vui long thu lai  !"
-/etc/vpssim/menu/vpssim-netdata-menu
-exit
+  website=`echo $website | tr '[A-Z]' '[a-z]'`
+  clear
+  echo "========================================================================="
+  echo "$website co le khong phai la domain !!"
+  echo "-------------------------------------------------------------------------"
+  echo "Ban vui long thu lai  !"
+  /etc/vpssim/menu/vpssim-netdata-menu
+  exit
 fi
 
 if [ -f /etc/nginx/conf.d/$website.conf ]; then
-clear
-echo "========================================================================="
-echo "Phat hien $website da ton tai tren he thong!"
-/etc/vpssim/menu/vpssim-netdata-menu
-exit
+  clear
+  echo "========================================================================="
+  echo "Phat hien $website da ton tai tren he thong!"
+  /etc/vpssim/menu/vpssim-netdata-menu
+  exit
 fi
 backend=vpssim-`date |md5sum |cut -c '1-12'`
 echo "========================================================================="
 echo "Chuan bi cai dat NetData cho $website"
 echo "-------------------------------------------------------------------------"
-echo "De bao mat, cac Search Engine se bi chan khi ket noi toi $website" 
+echo "De bao mat, cac Search Engine se bi chan khi ket noi toi $website"
 echo "-------------------------------------------------------------------------"
 echo "$website se khong xuat hien tren Google, bing..."
 echo "-------------------------------------------------------------------------"
@@ -103,7 +103,7 @@ upstream $backend {
     server 127.0.0.1:19999;
     keepalive 64;
 }
- 
+
 server {
     server_name $website;
     location / {
@@ -125,34 +125,34 @@ error_page 502  /502.html;
 
 END
 echo "<br><br><br><br><br><br><br><b><center> Please enable NetData to view this page !</center></b>" > /etc/netdata/502.html
-if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then 
-# stop netdata
-killall netdata
-# copy netdata to init.d
-cp /usr/local/vpssim/netdata/system/netdata-init-d /etc/init.d/netdata && chmod +x /etc/init.d/netdata
-# enable netdata at boot
-chkconfig --add netdata
-chkconfig --levels 235 netdata on
-# start netdata
-service netdata start
-service netdata restart
-# reload nginx
-service nginx reload
-else 
-# stop netdata
-killall netdata
-# copy netdata.service to systemd
-cp /usr/local/vpssim/netdata/system/netdata.service /etc/systemd/system/ && chmod +x /etc/systemd/system/netdata.service
-# let systemd know there is a new service
-systemctl daemon-reload
-# enable netdata at boot
-systemctl enable netdata
-# start netdata
-systemctl start netdata
-service netdata start
-service netdata restart
-# reload nginx
-systemctl reload nginx
+if [ "$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))" == "6" ]; then
+  # stop netdata
+  killall netdata
+  # copy netdata to init.d
+  cp /usr/local/vpssim/netdata/system/netdata-init-d /etc/init.d/netdata && chmod +x /etc/init.d/netdata
+  # enable netdata at boot
+  chkconfig --add netdata
+  chkconfig --levels 235 netdata on
+  # start netdata
+  service netdata start
+  service netdata restart
+  # reload nginx
+  service nginx reload
+else
+  # stop netdata
+  killall netdata
+  # copy netdata.service to systemd
+  cp /usr/local/vpssim/netdata/system/netdata.service /etc/systemd/system/ && chmod +x /etc/systemd/system/netdata.service
+  # let systemd know there is a new service
+  systemctl daemon-reload
+  # enable netdata at boot
+  systemctl enable netdata
+  # start netdata
+  systemctl start netdata
+  service netdata start
+  service netdata restart
+  # reload nginx
+  systemctl reload nginx
 fi
 echo "$website" > /etc/vpssim/netdatasite.info
 echo "$NetData_VERSION" > /etc/vpssim/netdata.version

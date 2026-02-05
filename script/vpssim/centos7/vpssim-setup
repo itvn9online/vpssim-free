@@ -3,18 +3,18 @@
 #
 cd ~
 if [ ! -f /tmp/vpssim.conf ]; then
-cd /opt/echbay_vpssim
-chmod +x install-before
-bash install-before
-cd ~
+  cd /opt/echbay_vpssim
+  chmod +x install-before
+  bash install-before
+  cd ~
 fi
 . /tmp/vpssim.conf
 
 #
 if [ "$vpssimemail" = "" ] || [ "$svport" = "" ]; then
-clear
-echo "ERROR include custom config!"
-exit
+  clear
+  echo "ERROR include custom config!"
+  exit
 fi
 
 #
@@ -53,18 +53,18 @@ echo "==========================================================================
 echo "Select nginx version "
 echo "=========================================================================="
 PS3="$prompt"
-select opt in "${options[@]}"; do 
-case "$REPLY" in
-#1) nginxselecttype="mainline"; break;;
-2) nginxselecttype="stable"; break;;
-*) nginxselecttype="mainline"; break;;
-esac  
+select opt in "${options[@]}"; do
+  case "$REPLY" in
+    #1) nginxselecttype="mainline"; break;;
+    2) nginxselecttype="stable"; break;;
+    *) nginxselecttype="mainline"; break;;
+  esac
 done
 
 #
 nginxtype="mainline"
 if [ "$nginxselecttype" = "stable" ]; then
-nginxtype=$nginxselecttype
+  nginxtype=$nginxselecttype
 fi
 
 # thiet lap phien ban nginx de cai dat
@@ -80,22 +80,22 @@ echo "==========================================================================
 echo "Lua Chon Cai Dat Phien Ban MariaDB  "
 echo "=========================================================================="
 PS3="$prompt"
-select opt in "${options[@]}"; do 
-case "$REPLY" in
-1) mariadbversion="10.3"; break;;
-2) mariadbversion="10.4"; break;;
-3) mariadbversion="10.5"; break;;
-*) mariadbversion="10.3"; break;;
-#*) echo "Ban nhap sai ! Ban vui long chon so trong danh sach";continue;;
-esac  
+select opt in "${options[@]}"; do
+  case "$REPLY" in
+    1) mariadbversion="10.3"; break;;
+    2) mariadbversion="10.4"; break;;
+    3) mariadbversion="10.5"; break;;
+    *) mariadbversion="10.3"; break;;
+    #*) echo "Ban nhap sai ! Ban vui long chon so trong danh sach";continue;;
+  esac
 done
 
 if [ "$mariadbversion" = "10.4" ]; then
-phienbanmariadb=10.4
-elif [ "$mariadbversion" = "10.5" ]; then
-phienbanmariadb=10.5
+  phienbanmariadb=10.4
+  elif [ "$mariadbversion" = "10.5" ]; then
+  phienbanmariadb=10.5
 else
-phienbanmariadb=10.3
+  phienbanmariadb=10.3
 fi
 
 # auto mysql root password
@@ -106,7 +106,7 @@ passrootmysql=`date |md5sum |cut -c '1-12'`
 #echo "-------------------------------------------------------------------------"
 #echo "Mat khau root MySQL toi thieu 8 ki tu va chi su dung chu cai va so."
 #echo "-------------------------------------------------------------------------"
-#echo -n "Nhap mat khau root MySQL [ENTER]: " 
+#echo -n "Nhap mat khau root MySQL [ENTER]: "
 #read passrootmysql
 #if [[ ! ${#passrootmysql} -ge 8 ]]; then
 #clear
@@ -119,7 +119,7 @@ passrootmysql=`date |md5sum |cut -c '1-12'`
 #clear
 #bash /root/vpssim-setup
 #exit
-#fi  
+#fi
 
 #checkpass="^[a-zA-Z0-9_][-a-zA-Z0-9_]{0,61}[a-zA-Z0-9_]$";
 #if [[ ! "$passrootmysql" =~ $checkpass ]]; then
@@ -133,7 +133,7 @@ passrootmysql=`date |md5sum |cut -c '1-12'`
 #clear
 #bash /root/vpssim-setup
 #exit
-#fi  
+#fi
 echo "$passrootmysql" > /tmp/vpssim-mysqlrootpass
 
 ###############################################################################
@@ -144,33 +144,33 @@ rm -rf vpssim.newversion
 rm -rf 00-all-phpmyadmin-version.txt
 ###########################
 download_version_nginx () {
-#wget --no-check-certificate -q https://hostingaz.vn/script/vpssim/00-all-nginx-version.txt
-yes | cp -rf /opt/echbay_vpssim/script/vpssim/00-all-nginx-version.txt 00-all-nginx-version.txt
+  #wget --no-check-certificate -q https://hostingaz.vn/script/vpssim/00-all-nginx-version.txt
+  yes | cp -rf /opt/echbay_vpssim/script/vpssim/00-all-nginx-version.txt 00-all-nginx-version.txt
 }
 download_version_nginx
 checkdownload_version_nginx=`cat /tmp/00-all-nginx-version.txt`
 if [ -z "$checkdownload_version_nginx" ]; then
-download_version_nginx
+  download_version_nginx
 fi
 ###########################
 download_version_phpmyadmin () {
-#wget --no-check-certificate -q https://hostingaz.vn/script/vpssim/00-all-phpmyadmin-version.txt
-yes | cp -rf /opt/echbay_vpssim/script/vpssim/00-all-phpmyadmin-version.txt 00-all-phpmyadmin-version.txt
+  #wget --no-check-certificate -q https://hostingaz.vn/script/vpssim/00-all-phpmyadmin-version.txt
+  yes | cp -rf /opt/echbay_vpssim/script/vpssim/00-all-phpmyadmin-version.txt 00-all-phpmyadmin-version.txt
 }
 download_version_phpmyadmin
 checkdownload_version_phpmyadmin=`cat /tmp/00-all-phpmyadmin-version.txt`
 if [ -z "$checkdownload_version_phpmyadmin" ]; then
-download_version_phpmyadmin
+  download_version_phpmyadmin
 fi
 ###########################
 download_version_vpssim () {
-#wget -q --no-check-certificate https://hostingaz.vn/script/vpssim/vpssim.newversion
-yes | cp -rf /opt/echbay_vpssim/script/vpssim/vpssim.newversion vpssim.newversion
+  #wget -q --no-check-certificate https://hostingaz.vn/script/vpssim/vpssim.newversion
+  yes | cp -rf /opt/echbay_vpssim/script/vpssim/vpssim.newversion vpssim.newversion
 }
 download_version_vpssim
 checkdownload_version_vpssim=`cat /tmp/vpssim.newversion`
 if [ -z "$checkdownload_version_vpssim" ]; then
-download_version_vpssim
+  download_version_vpssim
 fi
 ###########################
 cd
@@ -201,9 +201,9 @@ echo "--------------------------------------------------------------------------
 echo "Mat khau root MySQL (MySQL root password): $passrootmysql"
 echo "--------------------------------------------------------------------------"
 if [ "$nginxtype" = "stable" ]; then
-echo "Nginx Version: "$Nginx_VERSION
+  echo "Nginx Version: "$Nginx_VERSION
 else
-echo "Nginx Version: Mainline version"
+  echo "Nginx Version: Mainline version"
 fi
 echo "--------------------------------------------------------------------------"
 echo "PHP Version: "$phpmacdinh
@@ -213,33 +213,33 @@ echo "==========================================================================
 prompt="Nhap lua chon cua ban (Please select): "
 options=( "Dong Y (I agree)" "Khong Dong Y (disagree)")
 PS3="$prompt"
-select opt in "${options[@]}"; do 
-    case "$REPLY" in
+select opt in "${options[@]}"; do
+  case "$REPLY" in
     1) xacnhanthongtin="dongy"; break;;
     2) xacnhanthongtin="khongdongy"; break;;
     *) echo "Ban nhap sai ! Ban vui long chon so trong danh sach";continue;;
-    esac  
+  esac
 done
 
 if [ "$xacnhanthongtin" = "dongy" ]; then
-echo "--------------------------------------------------------------------------"
-echo "Chuan Bi Cai Dat ECHBAY-VPSSIM ..."
-sleep 2
-else 
-clear
-rm -rf /root/install && bash /root/vpssim-setup
-exit
+  echo "--------------------------------------------------------------------------"
+  echo "Chuan Bi Cai Dat ECHBAY-VPSSIM ..."
+  sleep 2
+else
+  clear
+  rm -rf /root/install && bash /root/vpssim-setup
+  exit
 fi
 
 
 download_nginx_conf () {
-#wget --no-check-certificate -q https://hostingaz.vn/script/vpssim/nginx.conf -O /tmp/nginx.conf
-yes | cp -rf /opt/echbay_vpssim/script/vpssim/nginx.conf /tmp/nginx.conf
+  #wget --no-check-certificate -q https://hostingaz.vn/script/vpssim/nginx.conf -O /tmp/nginx.conf
+  yes | cp -rf /opt/echbay_vpssim/script/vpssim/nginx.conf /tmp/nginx.conf
 }
 download_nginx_conf
 checkdownload_nginx_conf=`cat /tmp/nginx.conf`
 if [ -z "$checkdownload_nginx_conf" ]; then
-download_nginx_conf
+  download_nginx_conf
 fi
 
 cat >> "/root/.bash_profile" <<END
@@ -256,7 +256,7 @@ echo "$svport" > /tmp/priport.txt
 
 rpm -Uvh http://rpms.famillecollet.com/enterprise/remi-release-7.rpm
 if [ -f /etc/yum.repos.d/epel.repo ]; then
-sudo sed -i "s/mirrorlist=https/mirrorlist=http/" /etc/yum.repos.d/epel.repo
+  sudo sed -i "s/mirrorlist=https/mirrorlist=http/" /etc/yum.repos.d/epel.repo
 fi
 
 
@@ -290,7 +290,7 @@ enabled = 1
 END
 else
 cat > "/etc/yum.repos.d/mariadb.repo" <<END
-# MariaDB $phienbanmariadb CentOS repository list 
+# MariaDB $phienbanmariadb CentOS repository list
 # http://downloads.mariadb.org/mariadb/repositories/
 [mariadb]
 name = MariaDB
@@ -302,15 +302,15 @@ fi
 
 systemctl mask firewalld
 systemctl stop firewalld
-#systemctl stop sendmail.service 
+#systemctl stop sendmail.service
 systemctl stop xinetd.service
-systemctl stop saslauthd.service 
-systemctl stop rsyslog.service 
+systemctl stop saslauthd.service
+systemctl stop rsyslog.service
 systemctl stop postfix.service
 #systemctl disable sendmail.service
-systemctl disable xinetd.service 
-systemctl disable saslauthd.service 
-systemctl disable rsyslog.service 
+systemctl disable xinetd.service
+systemctl disable saslauthd.service
+systemctl disable rsyslog.service
 systemctl disable postfix.service
 sudo yum -y remove mysql*
 sudo yum -y remove php*
@@ -388,21 +388,21 @@ yum-config-manager --enable remi-php$numPHPmacdinh
 #sudo yum -y install php php-curl php-soap php-cli php-snmp php-pspell redis php-pecl-redis php-gmp php-ldap php-bcmath php-intl php-imap perl-libwww-perl perl-LWP-Protocol-https php-pear-Net-SMTP php-enchant php-common php-fpm php-gd php-devel php-mysql php-pear php-pecl-memcached php-pecl-memcache php-opcache php-pdo php-zlib php-xml php-mbstring php-mcrypt php-xmlrpc php-tidy
 #sudo yum -y install php php-curl php-pecl-zip php-zip php-soap php-cli php-snmp php-pspell php-pecl-redis php-gmp php-ldap php-bcmath php-intl php-imap perl-libwww-perl perl-LWP-Protocol-https php-pear-Net-SMTP php-enchant php-common php-fpm php-gd php-devel php-mysql php-pear php-pecl-memcached php-pecl-memcache php-opcache php-pdo php-zlib php-xml php-mbstring php-mcrypt php-xmlrpc php-tidy
 if [ -f /etc/vpssim/menu/nangcap-php/install-php ]; then
-/etc/vpssim/menu/nangcap-php/install-php
+  /etc/vpssim/menu/nangcap-php/install-php
 else
-echo "Install php module..."
-sudo yum -y install php php-curl php-pecl-zip php-zip php-soap php-cli php-snmp php-pspell php-gmp php-ldap php-bcmath php-intl php-imap perl-libwww-perl perl-LWP-Protocol-https php-pear-Net-SMTP php-enchant php-common php-fpm php-gd php-devel php-mysql php-pear php-opcache php-pdo php-zlib php-xml php-mbstring php-mcrypt php-xmlrpc php-tidy
+  echo "Install php module..."
+  sudo yum -y install php php-curl php-pecl-zip php-zip php-soap php-cli php-snmp php-pspell php-gmp php-ldap php-bcmath php-intl php-imap perl-libwww-perl perl-LWP-Protocol-https php-pear-Net-SMTP php-enchant php-common php-fpm php-gd php-devel php-mysql php-pear php-opcache php-pdo php-zlib php-xml php-mbstring php-mcrypt php-xmlrpc php-tidy
 fi
 
 #sudo yum -y install memcached
 
-sudo yum -y install ImageMagick ImageMagick-devel ImageMagick-c++ ImageMagick-c++-devel 
+sudo yum -y install ImageMagick ImageMagick-devel ImageMagick-c++ ImageMagick-c++-devel
 yes "" | pecl install imagick
 # neu cai dat thanh cong imagick -> include vao
 if [ -f /usr/lib64/php/modules/imagick.so ]; then
-echo "extension=imagick.so" > /etc/php.d/imagick.ini
+  echo "extension=imagick.so" > /etc/php.d/imagick.ini
 else
-rm -rf /etc/php.d/imagick.ini
+  rm -rf /etc/php.d/imagick.ini
 fi
 
 clear
@@ -410,24 +410,24 @@ echo "==========================================================================
 echo "Cai Dat Hoan Tat, Bat Dau Qua Trinh Cau Hinh...... "
 echo "=========================================================================="
 sleep 3
-	ramformariadb=$(calc $svram/10*6)
-	ramforphpnginx=$(calc $svram-$ramformariadb)
-	max_children=$(calc $ramforphpnginx/30)
-	memory_limit=$(calc $ramforphpnginx/5*3)M
-	mem_apc=$(calc $ramforphpnginx/5)M
-	buff_size=$(calc $ramformariadb/10*8)M
-	log_size=$(calc $ramformariadb/10*2)M
-systemctl enable exim.service 
+ramformariadb=$(calc $svram/10*6)
+ramforphpnginx=$(calc $svram-$ramformariadb)
+max_children=$(calc $ramforphpnginx/30)
+memory_limit=$(calc $ramforphpnginx/5*3)M
+mem_apc=$(calc $ramforphpnginx/5)M
+buff_size=$(calc $ramformariadb/10*8)M
+log_size=$(calc $ramformariadb/10*2)M
+systemctl enable exim.service
 systemctl enable syslog-ng.service
-systemctl start exim.service 
+systemctl start exim.service
 systemctl start syslog-ng.service
 systemctl disable httpd.service
-systemctl enable nginx.service 
-systemctl start nginx.service 
-systemctl enable php-fpm.service 
+systemctl enable nginx.service
+systemctl start nginx.service
+systemctl enable php-fpm.service
 systemctl start php-fpm.service
 #systemctl enable mariadb.service
-#systemctl start mariadb.service 
+#systemctl start mariadb.service
 chkconfig --add mysql
 chkconfig --levels 235 mysql on
 systemctl enable mysql
@@ -465,15 +465,15 @@ OPTIONS=""
 END
 
 vpssim_setup_cleanup_config_file () {
-# remove blank in last line
-sed -i -e "s/\s*$//" $1
-# remove blank in first line
-sed -i -e "s/^\s*//" $1
-# remove blank line
-sed -i -e "/^$/d" $1
-sed -i -e '/^\s*$/d' $1
-# remove comment line
-sed -i -e '/^\s*#.*$/d' $1
+  # remove blank in last line
+  sed -i -e "s/\s*$//" $1
+  # remove blank in first line
+  sed -i -e "s/^\s*//" $1
+  # remove blank line
+  sed -i -e "/^$/d" $1
+  sed -i -e '/^\s*$/d' $1
+  # remove comment line
+  sed -i -e '/^\s*#.*$/d' $1
 }
 
 rm -rf /etc/nginx/conf.d
@@ -481,7 +481,7 @@ mkdir -p /etc/nginx/conf.d
 yes | cp -rf /opt/echbay_vpssim/script/vpssim/conf-webserver/vpssim.demo.txt /etc/nginx/conf.d/vpssim.demo.conf
 # config
 cat > "/tmp/vpssimSetConfigFile" <<END
-#!/bin/bash 
+#!/bin/bash
 sed -i 's/tmp_listen_svport/listen $svport/g' /etc/nginx/conf.d/vpssim.demo.conf
 END
 chmod +x /tmp/vpssimSetConfigFile
@@ -491,48 +491,48 @@ rm -rf /tmp/vpssimSetConfigFile
 vpssim_setup_cleanup_config_file "/etc/nginx/conf.d/vpssim.demo.conf"
 
 
-if [[ $svram -ge 32 && $svram -le 449  ]] ; then 
-pmmaxchildren=4
-pmstartservers=2
-pmminspareservers=1
-pmmaxspareservers=3
-pmmaxrequests=150
-###############################################
-elif [[ $svram -ge 450 && $svram -le 1300  ]] ; then
-pmmaxchildren=10
-pmstartservers=3
-pmminspareservers=2
-pmmaxspareservers=6
-pmmaxrequests=400
-###############################################
-elif [[ $svram -ge 1302 && $svram -le 1800  ]] ; then
-pmmaxchildren=15
-pmstartservers=3
-pmminspareservers=2
-pmmaxspareservers=6
-pmmaxrequests=500
-###############################################
-elif [[ $svram -ge 1801 && $svram -le 2800  ]] ; then
-pmmaxchildren=20
-pmstartservers=3
-pmminspareservers=2
-pmmaxspareservers=6
-pmmaxrequests=500
-###############################################
-elif [[ $svram -ge 2801 && $svram -le 5000  ]] ; then
-pmmaxchildren=33
-pmstartservers=3
-pmminspareservers=2
-pmmaxspareservers=6
-pmmaxrequests=500
-
-###############################################
+if [[ $svram -ge 32 && $svram -le 449  ]] ; then
+  pmmaxchildren=4
+  pmstartservers=2
+  pmminspareservers=1
+  pmmaxspareservers=3
+  pmmaxrequests=150
+  ###############################################
+  elif [[ $svram -ge 450 && $svram -le 1300  ]] ; then
+  pmmaxchildren=10
+  pmstartservers=3
+  pmminspareservers=2
+  pmmaxspareservers=6
+  pmmaxrequests=400
+  ###############################################
+  elif [[ $svram -ge 1302 && $svram -le 1800  ]] ; then
+  pmmaxchildren=15
+  pmstartservers=3
+  pmminspareservers=2
+  pmmaxspareservers=6
+  pmmaxrequests=500
+  ###############################################
+  elif [[ $svram -ge 1801 && $svram -le 2800  ]] ; then
+  pmmaxchildren=20
+  pmstartservers=3
+  pmminspareservers=2
+  pmmaxspareservers=6
+  pmmaxrequests=500
+  ###############################################
+  elif [[ $svram -ge 2801 && $svram -le 5000  ]] ; then
+  pmmaxchildren=33
+  pmstartservers=3
+  pmminspareservers=2
+  pmmaxspareservers=6
+  pmmaxrequests=500
+  
+  ###############################################
 else
-pmmaxchildren=50
-pmstartservers=3
-pmminspareservers=2
-pmmaxspareservers=6
-pmmaxrequests=500
+  pmmaxchildren=50
+  pmstartservers=3
+  pmminspareservers=2
+  pmmaxspareservers=6
+  pmmaxrequests=500
 fi
 
 
@@ -541,7 +541,7 @@ rm -rf /etc/php-fpm.d/www.conf
 yes | cp -rf /opt/echbay_vpssim/script/vpssim/conf-webserver/www.txt /etc/php-fpm.d/www.conf
 # config
 cat > "/tmp/vpssimSetConfigFile" <<END
-#!/bin/bash 
+#!/bin/bash
 sed -i 's/tmp_pmmaxchildren/$pmmaxchildren/g' /etc/php-fpm.d/www.conf
 sed -i 's/tmp_pmstartservers/$pmstartservers/g' /etc/php-fpm.d/www.conf
 sed -i 's/tmp_pmminspareservers/$pmminspareservers/g' /etc/php-fpm.d/www.conf
@@ -559,7 +559,7 @@ rm -rf /etc/php.ini
 yes | cp -rf /opt/echbay_vpssim/script/vpssim/conf-webserver/php.ini /etc/php.ini
 # config
 cat > "/tmp/vpssimSetConfigFile" <<END
-#!/bin/bash 
+#!/bin/bash
 sed -i 's/tmp_memory_limit/$memory_limit/g' /etc/php.ini
 END
 chmod +x /tmp/vpssimSetConfigFile
@@ -570,14 +570,14 @@ vpssim_setup_cleanup_config_file "/etc/php.ini"
 
 
 if [ ! -d /home/0-VPSSIM-SHORTCUT ];then
-#wget --no-check-certificate -q https://vpssim.com/script/vpssim/check-imagick.php.zip -O /home/vpssim.demo/private_html/check-imagick.php
-yes | cp -rf /opt/echbay_vpssim/script/vpssim/check-imagick.php.zip /home/vpssim.demo/private_html/check-imagick.php
-mkdir -p /home/0-VPSSIM-SHORTCUT
-mkdir -p /home/vpssim.demo/private_html/backup
-ln -s /home/vpssim.demo/private_html/backup /home/0-VPSSIM-SHORTCUT/Backup\ \(Website\ +\ Database\)
-ln -s /etc/nginx/conf.d /home/0-VPSSIM-SHORTCUT/Vhost\ \(Vitual\ Host\)
-echo "This is shortcut to Backup ( Code & Database ) and Vitual Host in VPS" > /home/0-VPSSIM-SHORTCUT/readme.txt
-echo "Please do not delete it" >>  /home/0-VPSSIM-SHORTCUT/readme.txt
+  #wget --no-check-certificate -q https://vpssim.com/script/vpssim/check-imagick.php.zip -O /home/vpssim.demo/private_html/check-imagick.php
+  yes | cp -rf /opt/echbay_vpssim/script/vpssim/check-imagick.php.zip /home/vpssim.demo/private_html/check-imagick.php
+  mkdir -p /home/0-VPSSIM-SHORTCUT
+  mkdir -p /home/vpssim.demo/private_html/backup
+  ln -s /home/vpssim.demo/private_html/backup /home/0-VPSSIM-SHORTCUT/Backup\ \(Website\ +\ Database\)
+  ln -s /etc/nginx/conf.d /home/0-VPSSIM-SHORTCUT/Vhost\ \(Vitual\ Host\)
+  echo "This is shortcut to Backup ( Code & Database ) and Vitual Host in VPS" > /home/0-VPSSIM-SHORTCUT/readme.txt
+  echo "Please do not delete it" >>  /home/0-VPSSIM-SHORTCUT/readme.txt
 fi
 
 rm -rf /etc/php.d/*opcache*
@@ -598,65 +598,65 @@ yes | cp -rf /opt/echbay_vpssim/script/vpssim/conf-webserver/php-fpm.txt /etc/ph
 vpssim_setup_cleanup_config_file "/etc/php-fpm.conf"
 
 
-if [[ $svram -ge 32 && $svram -le 449  ]] ; then 
-heso1=1
-elif [[ $svram -ge 450 && $svram -le 1099  ]] ; then
-heso1=1
-elif [[ $svram -ge 1100 && $svram -le 1999  ]] ; then
-heso1=3
-elif [[ $svram -ge 2000 && $svram -le 2999  ]] ; then
-heso1=6
-elif [[ $svram -ge 3000 && $svram -le 5000  ]] ; then
-heso1=8
+if [[ $svram -ge 32 && $svram -le 449  ]] ; then
+  heso1=1
+  elif [[ $svram -ge 450 && $svram -le 1099  ]] ; then
+  heso1=1
+  elif [[ $svram -ge 1100 && $svram -le 1999  ]] ; then
+  heso1=3
+  elif [[ $svram -ge 2000 && $svram -le 2999  ]] ; then
+  heso1=6
+  elif [[ $svram -ge 3000 && $svram -le 5000  ]] ; then
+  heso1=8
 else
-heso1=10
+  heso1=10
 fi
 
-if [[ $svram -ge 32 && $svram -le 449  ]] ; then 
-heso2=1
-elif [[ $svram -ge 450 && $svram -le 1099  ]] ; then
-heso2=2
-elif [[ $svram -ge 1100 && $svram -le 1999  ]] ; then
-heso2=3
-elif [[ $svram -ge 2000 && $svram -le 2999  ]] ; then
-heso2=4
-elif [[ $svram -ge 3000 && $svram -le 5000  ]] ; then
-heso2=6
+if [[ $svram -ge 32 && $svram -le 449  ]] ; then
+  heso2=1
+  elif [[ $svram -ge 450 && $svram -le 1099  ]] ; then
+  heso2=2
+  elif [[ $svram -ge 1100 && $svram -le 1999  ]] ; then
+  heso2=3
+  elif [[ $svram -ge 2000 && $svram -le 2999  ]] ; then
+  heso2=4
+  elif [[ $svram -ge 3000 && $svram -le 5000  ]] ; then
+  heso2=6
 else
-heso2=10
+  heso2=10
 fi
 
-if [[ $svram -ge 32 && $svram -le 449  ]] ; then 
-heso3=1
-elif [[ $svram -ge 450 && $svram -le 1099  ]] ; then
-heso3=2
-elif [[ $svram -ge 1100 && $svram -le 1999  ]] ; then
-heso3=3
-elif [[ $svram -ge 2000 && $svram -le 2999  ]] ; then
-heso3=4
-elif [[ $svram -ge 3000 && $svram -le 5000  ]] ; then
-heso3=5
+if [[ $svram -ge 32 && $svram -le 449  ]] ; then
+  heso3=1
+  elif [[ $svram -ge 450 && $svram -le 1099  ]] ; then
+  heso3=2
+  elif [[ $svram -ge 1100 && $svram -le 1999  ]] ; then
+  heso3=3
+  elif [[ $svram -ge 2000 && $svram -le 2999  ]] ; then
+  heso3=4
+  elif [[ $svram -ge 3000 && $svram -le 5000  ]] ; then
+  heso3=5
 else
-heso3=6
+  heso3=6
 fi
 
-if [[ $svram -ge 32 && $svram -le 449  ]] ; then 
-heso4=1
-elif [[ $svram -ge 450 && $svram -le 1099  ]] ; then
-heso4=1
-elif [[ $svram -ge 1100 && $svram -le 1999  ]] ; then
-heso4=2
-elif [[ $svram -ge 2000 && $svram -le 2999  ]] ; then
-heso4=2
-elif [[ $svram -ge 3000 && $svram -le 5000  ]] ; then
-heso4=3
+if [[ $svram -ge 32 && $svram -le 449  ]] ; then
+  heso4=1
+  elif [[ $svram -ge 450 && $svram -le 1099  ]] ; then
+  heso4=1
+  elif [[ $svram -ge 1100 && $svram -le 1999  ]] ; then
+  heso4=2
+  elif [[ $svram -ge 2000 && $svram -le 2999  ]] ; then
+  heso4=2
+  elif [[ $svram -ge 3000 && $svram -le 5000  ]] ; then
+  heso4=3
 else
-heso4=4
+  heso4=4
 fi
 
 if ! [[ $cpucores =~ $checktruenumber ]] ; then
-cpucores=1
-fi 
+  cpucores=1
+fi
 
 rm -rf /etc/my.cnf.d/server.cnf
     cat > "/etc/my.cnf.d/server.cnf" <<END
@@ -683,9 +683,9 @@ max_connections = $(calc 22*$heso2)
 key_buffer_size = 32M
 myisam_recover = FORCE,BACKUP
 myisam_sort_buffer_size = $(calc 32*$heso1)M
-join_buffer_size = $(calc 32*$heso2)K  
-read_buffer_size = $(calc 32*$heso2)K 
-sort_buffer_size = $(calc 64*$heso2)K 
+join_buffer_size = $(calc 32*$heso2)K
+read_buffer_size = $(calc 32*$heso2)K
+sort_buffer_size = $(calc 64*$heso2)K
 table_definition_cache = 2048
 table_open_cache = 2048
 thread_cache_size = $(calc 8*$heso2)K
@@ -752,7 +752,7 @@ userstat = 0
 aria_group_commit = none
 aria_group_commit_interval = 0
 aria_log_file_size = $(calc 11*$heso2)M
-aria_log_purge_type = immediate 
+aria_log_purge_type = immediate
 aria_pagecache_buffer_size = 1M
 aria_sort_buffer_size = 1M
 
@@ -768,7 +768,7 @@ innodb_log_block_size = 512
 
 log_slow_filter =admin,filesort,filesort_on_disk,full_join,full_scan,query_cache,query_cache_miss,tmp_table,tmp_table_on_disk
 
-[mysqld_safe] 
+[mysqld_safe]
 socket=/var/lib/mysql/mysql.sock
 log-error=/home/vpssim.demo/logs/mysql.log
 #nice = -5
@@ -796,17 +796,17 @@ END
 
 
 if [ "$phienbanmariadb" = "10.3" ] || [ "$phienbanmariadb" = "10.4" ] || [ "$phienbanmariadb" = "10.5" ] ; then
-
-# https://mariadb.com/kb/en/upgrading-from-mariadb-102-to-mariadb-103/
+  
+  # https://mariadb.com/kb/en/upgrading-from-mariadb-102-to-mariadb-103/
 cat > "/tmp/vpssimSetConfigFile" <<END
-#!/bin/bash 
+#!/bin/bash
 sed -i 's/innodb_support_xa=/\#innodb_support_xa=/g' /etc/my.cnf.d/server.cnf
 END
-chmod +x /tmp/vpssimSetConfigFile
-sh /tmp/vpssimSetConfigFile
-rm -rf /tmp/vpssimSetConfigFile
-
-#
+  chmod +x /tmp/vpssimSetConfigFile
+  sh /tmp/vpssimSetConfigFile
+  rm -rf /tmp/vpssimSetConfigFile
+  
+  #
 cat >> "/etc/my.cnf.d/server.cnf" <<END
 
 [mariadb-$phienbanmariadb]
@@ -820,7 +820,7 @@ query_cache_strip_comments=0
 log_slow_filter =admin,filesort,filesort_on_disk,full_join,full_scan,query_cache,query_cache_miss,tmp_table,tmp_table_on_disk
 
 END
-
+  
 fi
 
 
@@ -829,7 +829,7 @@ cat >> "/etc/security/limits.conf" <<END
 * hard nofile 65536
 nginx soft nofile 65536
 nginx hard nofile 65536
-* soft core 0 
+* soft core 0
 * hard core 0
 END
 
@@ -872,24 +872,24 @@ rm -rf /var/lib/mysql/ib_logfile0
 rm -rf /var/lib/mysql/ib_logfile1
 rm -rf /var/lib/mysql/ibdata1
 if [ "$phienbanmariadb" = "10.4" ] ; then
-sudo systemctl enable --now mariadb
+  sudo systemctl enable --now mariadb
 fi
 service mysql start
 # Download mysql_secure_installation
 rm -rf /bin/mysql_secure_installation
 download_mysql_secure_installation () {
-#wget --no-check-certificate -q https://hostingaz.vn/script/vpssim/mysql_secure_installation -O /bin/mysql_secure_installation && chmod +x /bin/mysql_secure_installation
-yes | cp -rf /opt/echbay_vpssim/script/vpssim/mysql_secure_installation /bin/mysql_secure_installation && chmod +x /bin/mysql_secure_installation
+  #wget --no-check-certificate -q https://hostingaz.vn/script/vpssim/mysql_secure_installation -O /bin/mysql_secure_installation && chmod +x /bin/mysql_secure_installation
+  yes | cp -rf /opt/echbay_vpssim/script/vpssim/mysql_secure_installation /bin/mysql_secure_installation && chmod +x /bin/mysql_secure_installation
 }
 download_mysql_secure_installation
 checkmysql_secure_installation=`cat /bin/mysql_secure_installation`
 if [ -z "$checkmysql_secure_installation" ]; then
-download_mysql_secure_installation
+  download_mysql_secure_installation
 fi
 
 #wget --no-check-certificate -q https://vpssim.com/script/vpssim/Software/wp-cli.phar
 #yes | cp -rf /opt/echbay_vpssim/script/vpssim/Software/wp-cli.phar wp-cli.phar
-wget -q --no-check-certificate https://raw.echbay.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+wget -q --no-check-certificate https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 chmod +x wp-cli.phar
 mv wp-cli.phar /usr/local/bin/wp
 #clear
@@ -934,13 +934,13 @@ yes | cp -rf /opt/echbay_vpssim/script/vpssim/motd /etc/motd
 
 # Download vpssim_main_menu
 download_vpssim_main_menu () {
-#wget --no-check-certificate -q https://hostingaz.vn/script/vpssim/vpssim -O /bin/vpssim && chmod +x /bin/vpssim
-yes | cp -rf /opt/echbay_vpssim/script/vpssim/vpssim /bin/vpssim && chmod +x /bin/vpssim
+  #wget --no-check-certificate -q https://hostingaz.vn/script/vpssim/vpssim -O /bin/vpssim && chmod +x /bin/vpssim
+  yes | cp -rf /opt/echbay_vpssim/script/vpssim/vpssim /bin/vpssim && chmod +x /bin/vpssim
 }
 download_vpssim_main_menu
 checkvpssim_main_menu=`cat /bin/vpssim`
 if [ -z "$checkvpssim_main_menu" ]; then
-download_vpssim_main_menu
+  download_vpssim_main_menu
 fi
 
 
@@ -949,12 +949,12 @@ cd /etc/vpssim/
 
 # Download ECHBAY-VPSSIM data
 download_vpssim_data () {
-#rm -rf menu.zip
-#wget --no-check-certificate -q https://hostingaz.vn/script/vpssim/menu.zip
-#unzip -q menu.zip
-#rm -rf menu.zip
-mkdir -p /etc/vpssim/menu ; chmod 755 /etc/vpssim/menu
-yes | cp -rf /opt/echbay_vpssim/script/vpssim/menu/. /etc/vpssim/menu/
+  #rm -rf menu.zip
+  #wget --no-check-certificate -q https://hostingaz.vn/script/vpssim/menu.zip
+  #unzip -q menu.zip
+  #rm -rf menu.zip
+  mkdir -p /etc/vpssim/menu ; chmod 755 /etc/vpssim/menu
+  yes | cp -rf /opt/echbay_vpssim/script/vpssim/menu/. /etc/vpssim/menu/
 }
 #download_vpssim_data
 #if [ ! -f /etc/vpssim/menu/vpssim-tien-ich ]; then
@@ -1008,41 +1008,41 @@ sed -i "s/vpssim@vpssim.com/${vpssimemail}/g" /home/vpssim.demo/public_html/stat
 ###################################################
 
 if [ -f /etc/sysconfig/iptables ]; then
-systemctl enable iptables 
-systemctl enable ip6tables
-systemctl start iptables
-systemctl start ip6tables
-systemctl start iptables.service
-
-#iptables -I INPUT -p tcp --dport 80 -j ACCEPT
-#iptables -I INPUT -p tcp --dport 22 -j ACCEPT
-#iptables -I INPUT -p tcp --dport 21 -j ACCEPT
-#iptables -I INPUT -p tcp --dport 25 -j ACCEPT
-#iptables -I INPUT -p tcp --dport 443 -j ACCEPT
-#iptables -I INPUT -p tcp --dport 465 -j ACCEPT
-#iptables -I INPUT -p tcp --dport 587 -j ACCEPT
-#iptables -I INPUT -p tcp --dport $svport -j ACCEPT
-#iptables -I INPUT -p tcp --dport 11211 -j ACCEPT
-
-FIREWALLLIST="21 22 25 80 443 465 587 $svport 11211"
-#echo $FIREWALLLIST
-for PORT in ${FIREWALLLIST}; do
-	if [ ! "$(iptables -L -n | grep :$PORT | awk 'NR==1 {print $1}')" == "ACCEPT" ]; then
-		iptables -I INPUT -p tcp --dport ${PORT} -j ACCEPT
-		iptables -I INPUT -p udp --dport ${PORT} -j ACCEPT
-	else
-		echo $PORT
-	fi
-done 
-
-# add ca ssh port hien tai neu no khong phai port 22
-current_ssh_port=${SSH_CLIENT##* }
-echo "current_ssh_port: "$current_ssh_port
-if [ ! "$current_ssh_port" = "22" ]; then
-iptables -I INPUT -p tcp --dport $current_ssh_port -j ACCEPT
-fi
-
-service iptables save
+  systemctl enable iptables
+  systemctl enable ip6tables
+  systemctl start iptables
+  systemctl start ip6tables
+  systemctl start iptables.service
+  
+  #iptables -I INPUT -p tcp --dport 80 -j ACCEPT
+  #iptables -I INPUT -p tcp --dport 22 -j ACCEPT
+  #iptables -I INPUT -p tcp --dport 21 -j ACCEPT
+  #iptables -I INPUT -p tcp --dport 25 -j ACCEPT
+  #iptables -I INPUT -p tcp --dport 443 -j ACCEPT
+  #iptables -I INPUT -p tcp --dport 465 -j ACCEPT
+  #iptables -I INPUT -p tcp --dport 587 -j ACCEPT
+  #iptables -I INPUT -p tcp --dport $svport -j ACCEPT
+  #iptables -I INPUT -p tcp --dport 11211 -j ACCEPT
+  
+  FIREWALLLIST="21 22 25 80 443 465 587 $svport 11211"
+  #echo $FIREWALLLIST
+  for PORT in ${FIREWALLLIST}; do
+    if [ ! "$(iptables -L -n | grep :$PORT | awk 'NR==1 {print $1}')" == "ACCEPT" ]; then
+      iptables -I INPUT -p tcp --dport ${PORT} -j ACCEPT
+      iptables -I INPUT -p udp --dport ${PORT} -j ACCEPT
+    else
+      echo $PORT
+    fi
+  done
+  
+  # add ca ssh port hien tai neu no khong phai port 22
+  current_ssh_port=${SSH_CLIENT##* }
+  echo "current_ssh_port: "$current_ssh_port
+  if [ ! "$current_ssh_port" = "22" ]; then
+    iptables -I INPUT -p tcp --dport $current_ssh_port -j ACCEPT
+  fi
+  
+  service iptables save
 fi
 
 
@@ -1060,7 +1060,7 @@ clear
 sleep 3
 #/etc/vpssim/menu/cai-csf-firewall-cai-dat-CSF-FIREWALL
 #systemctl start memcached.service
-#systemctl enable memcached.service 
+#systemctl enable memcached.service
 rm -rf /root/install* && rm -rf /tmp/install*
 rm -rf /root/vpssim-setup
 
@@ -1068,7 +1068,7 @@ rm -rf /root/vpssim-setup
 #
 cat > "/home/VPSSIM-manage-info.txt" <<END
 =========================================================================
-                           VPS MANAGE INFOMATION                         
+                           VPS MANAGE INFOMATION
 =========================================================================
 
 phpMyAdmin: http://$svip:$svport
@@ -1084,24 +1084,24 @@ Xem Server Status: http://$svip/status.php
 Thong tin dang nhap phpMyadmin, quan ly Zend Opcache, status.php, download backup files ...
 
 Username: $usernamebv
-Password: $matkhaubv 
+Password: $matkhaubv
 
 Lenh truy cap ECHBAY-VPSSIM: vpssim
 
-LUU Y: 
+LUU Y:
 
-De VPS co hieu suat tot nhat - Hay bat: Zend Opcache, Memcached, 
-va su dung cac Plugin cache(wp super cache....) cho website. 
+De VPS co hieu suat tot nhat - Hay bat: Zend Opcache, Memcached,
+va su dung cac Plugin cache(wp super cache....) cho website.
 
-Neu VPS dang bat Zend Opcache, khi edit file PHP, do cac file php duoc cache vao RAM  
-nen ban can clear Zend Opcache de thay doi duoc cap nhat. 
+Neu VPS dang bat Zend Opcache, khi edit file PHP, do cac file php duoc cache vao RAM
+nen ban can clear Zend Opcache de thay doi duoc cap nhat.
 
 Chuc ban se thanh cong cung ECHBAY-VPSSIM .
 END
 # increase SSH login speed
-if [ -f /etc/ssh/sshd_config ]; then 
-sed -i 's/GSSAPIAuthentication yes/GSSAPIAuthentication no/g' /etc/ssh/sshd_config
-sed -i 's/#UseDNS yes/UseDNS no/g' /etc/ssh/sshd_config
+if [ -f /etc/ssh/sshd_config ]; then
+  sed -i 's/GSSAPIAuthentication yes/GSSAPIAuthentication no/g' /etc/ssh/sshd_config
+  sed -i 's/#UseDNS yes/UseDNS no/g' /etc/ssh/sshd_config
 fi
 #Change default folder ssh login
 #if [ -f /root/.bash_profile ]; then
@@ -1110,7 +1110,7 @@ fi
 
 
 cat > "/tmp/finishedemail.sh" <<END
-#!/bin/bash 
+#!/bin/bash
 echo -e 'Subject: ECHBAY-VPSSIM - Chuc mung cai dat thanh cong $svip!
 
 Chao ban!
@@ -1123,25 +1123,25 @@ Sau day la thong tin quan ly server cua ban:
 + Quan Ly Zend Opcache: http://$svip:$svport/ocp.php
 + Quan Ly Memcached: http://$svip:$svport/memcache.php
 + Xem Server Status: http://$svip/status.php
-+ Thong tin dang nhap quan ly phpMyadmin,ocp.php, memcache.php, status.php, download backup files ... : 
-Username: $usernamebv  
-Password: $matkhaubv 
++ Thong tin dang nhap quan ly phpMyadmin,ocp.php, memcache.php, status.php, download backup files ... :
+Username: $usernamebv
+Password: $matkhaubv
 
 Luu Y:
 
 + Sau khi cai dat xong, neu server chua tao SWAP (RAM ao), ban tao them SWAP bang chuc nang [ Quan Ly Swap ] (Bat buoc).
 + De dat mat khau bao mat phpMyAdmin, backup files, ...: dung chuc nang [ BAT/TAT Bao Ve phpMyAdmin ] trong [ Quan Ly phpMyAdmin ]
-+ De cai dat File Manager: Dung chuc nang [ Cai Dat File Manager ] 
++ De cai dat File Manager: Dung chuc nang [ Cai Dat File Manager ]
 + Sau khi them website vao server, cai dat FTP server va tao tai khoan FTP cho tung website tren server bang chuc nang [ Quan Ly FTP Server ].
   Mac dinh ban khong the dang nhap FTP vao server bang tai khoan root. Neu muon dang nhap, ban phai dung sFTP voi thong tin dang nhap:
   Host: sftp://$svip  - User: root - Password: Your_password - Port: 22 (hoac port SSH ban da thay)
 + Neu server Timezone khong trung voi gio cua ban, cai dat lai time zone cho Server bang chuc nang [ Cai Dat Server Timezone ] trong [ Tien Ich - Addons ]
-+ Sau khi Upload code len server. Ban phai chay chuc nang [ Fix Loi Chmod, Chown ] trong [ Tien Ich - Addons ] de thiet lap phan quyen cho website. 
++ Sau khi Upload code len server. Ban phai chay chuc nang [ Fix Loi Chmod, Chown ] trong [ Tien Ich - Addons ] de thiet lap phan quyen cho website.
   Neu website su dung code wordpress, thiet lap phan quyen cho website bang chuc nang [ Fix loi Permission ] trong [ Wordpress Blog Tools ]
 + Tuy theo so luong website, dung luong code ma ban cau hinh lai Zend Opcache, Memcached, Redis Cache bang chuc nang [ Quan Ly Memcached ], [ Quan Ly Zend Opcache ] , [ Quan Ly Redis Cache ] cho phu hop.
 + De bao mat, moi khi co dang nhap SSH va Server, ECHBAY-VPSSIM se gui email thong bao toi dia chi email $vpssimemail .
-  Thay email hoac tat chuc nang nay bang [ BAT/TAT Email Thong Bao Login ] trong [ Tien ich - Addons ].  
-  
+  Thay email hoac tat chuc nang nay bang [ BAT/TAT Email Thong Bao Login ] trong [ Tien ich - Addons ].
+
 ECHBAY-VPSSIM by Dao Quoc Dai - https://echbay.com' | exim  $vpssimemail
 END
 chmod +x /tmp/finishedemail.sh
