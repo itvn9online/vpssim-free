@@ -69,16 +69,16 @@ acquire_lock
 # /usr/bin/rm -rf /tmp/cronjob-1ngay-*.log
 
 # Memcached Daemon
-btpython /www/server/panel/script/restart_services.py memcached || true
+# btpython /www/server/panel/script/restart_services.py memcached || true
 
 # Redis Daemon
-btpython /www/server/panel/script/restart_services.py redis || true
+# btpython /www/server/panel/script/restart_services.py redis || true
 
 # Nginx Daemon
-btpython /www/server/panel/script/restart_services.py nginx || true
+# btpython /www/server/panel/script/restart_services.py nginx || true
 
 # Mysql Daemon
-btpython /www/server/panel/script/restart_services.py mysql || true
+# btpython /www/server/panel/script/restart_services.py mysql || true
 
 
 
