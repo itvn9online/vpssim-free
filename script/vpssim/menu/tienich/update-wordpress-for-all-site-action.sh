@@ -11,6 +11,7 @@ for_elementor="elementor.3.34.1"
 for_rankmath="seo-by-rank-math.1.0.262"
 for_woocommerce="woocommerce.10.4.3"
 for_yoast_seo="wordpress-seo.26.7"
+for_code_snippets=""
 
 # download file https://webgiare.org/api/v1/?action=plugins-version&token=a7K9vT2xQf8NcY1LmWz4RpJhX3oBdE6u và lưu vào /tmp/webgiare-plugins-version.conf
 curl -s "https://webgiare.org/api/v1/?action=plugins-version&token=a7K9vT2xQf8NcY1LmWz4RpJhX3oBdE6u" -o /tmp/webgiare-plugins-version.conf
@@ -355,6 +356,24 @@ remove_single_comment_line "/root/wp-all-update/echbaytwo-master/javascript"
 remove_single_comment_line "/root/wp-all-update/echbaytwo-master/css"
 #exit
 
+# lay ban on dinh moi nhat tu wordpress.org (tranh trunk/beta), chi request 1 lan roi cache vao bien $2
+get_wp_plugin_stable_version(){
+  # $1 -> plugin slug
+  # $2 -> ten bien cache (vi du: for_code_snippets)
+  eval "wp_plugin_cached=\$$2"
+  if [ -z "$wp_plugin_cached" ]; then
+    wp_plugin_ver=$(curl -s "https://api.wordpress.org/plugins/info/1.2/?action=plugin_information&slug="$1 | grep -o '"version":"[0-9][^"]*"' | head -1 | cut -d'"' -f4)
+    if [ ! -z "$wp_plugin_ver" ]; then
+      wp_plugin_cached=$1"."$wp_plugin_ver
+    else
+      wp_plugin_cached=$1
+    fi
+    eval $2=\"\$wp_plugin_cached\"
+    echoG $1" latest stable: "$wp_plugin_cached
+  fi
+  download_version=$wp_plugin_cached
+}
+
 # download wordpress plugin hay dung nhat -> moi cap nhat chuc nang tim va download tu dong -> khong can phai thiet lap thu cong nua
 download_wordpress_plugin(){
   echoY "- - - - - - - - - Download new plugin: "$1" save to "$2
@@ -402,6 +421,8 @@ rsync_wp_plugin(){
         download_version=$for_woocommerce
         elif [ "$1" == "seo-by-rank-math" ]; then
         download_version=$for_rankmath
+        elif [ "$1" == "code-snippets" ]; then
+        get_wp_plugin_stable_version $1 for_code_snippets
       fi
       
       # nếu download_version rỗng thì sử dụng $1
