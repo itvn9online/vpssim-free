@@ -12,6 +12,7 @@ for_rankmath="seo-by-rank-math.1.0.262"
 for_woocommerce="woocommerce.10.4.3"
 for_yoast_seo="wordpress-seo.26.7"
 for_code_snippets=""
+for_akismet=""
 
 # download file https://webgiare.org/api/v1/?action=plugins-version&token=a7K9vT2xQf8NcY1LmWz4RpJhX3oBdE6u và lưu vào /tmp/webgiare-plugins-version.conf
 curl -s "https://webgiare.org/api/v1/?action=plugins-version&token=a7K9vT2xQf8NcY1LmWz4RpJhX3oBdE6u" -o /tmp/webgiare-plugins-version.conf
@@ -423,6 +424,8 @@ rsync_wp_plugin(){
         download_version=$for_rankmath
         elif [ "$1" == "code-snippets" ]; then
         get_wp_plugin_stable_version $1 for_code_snippets
+        elif [ "$1" == "akismet" ]; then
+        get_wp_plugin_stable_version $1 for_akismet
       fi
       
       # nếu download_version rỗng thì sử dụng $1
